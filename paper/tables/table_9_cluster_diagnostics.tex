@@ -1,0 +1,21 @@
+\begin{table}[!tbp]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.12}
+\caption{Outbreak-cluster concentration diagnostics across the 12 common-support cells and standard error comparison between stacked M-estimation sandwich estimators (HC0, HC1) and outbreak-level bootstrap (2,000 replicates).}
+\label{tab:cluster_diag}
+\begin{tabular}{>{\raggedright\arraybackslash}p{1.9cm}>{\raggedleft\arraybackslash}p{2.0cm}>{\raggedleft\arraybackslash}p{1.8cm}>{\raggedleft\arraybackslash}p{1.2cm}>{\raggedleft\arraybackslash}p{1.3cm}>{\raggedleft\arraybackslash}p{2.5cm}>{\raggedleft\arraybackslash}p{2.5cm}}
+\toprule
+Group & Min / Med / Max n & Mean / Max HHI & Min N eff & Max share (\%) & SE(L) HC0 / HC1 / Boot (pp) & SE(U) HC0 / HC1 / Boot (pp) \\
+\midrule
+STEC & 3 / 22 / 40 & 0.176 / 0.479 & 2.09 & 63.3 & 1.54 / 1.63 / 1.93 & 2.17 / 2.26 / 2.47 \\
+Salmonella & 31 / 85 / 274 & 0.061 / 0.133 & 7.49 & 33.0 & 0.65 / 0.66 / 0.66 & 1.96 / 1.98 / 1.86 \\
+Campylobacter & 3 / 18 / 45 & 0.175 / 0.491 & 2.04 & 65.5 & 0.81 / 0.84 / 0.86 & 2.63 / 2.75 / 2.62 \\
+Norovirus GII & 16 / 30 / 301 & 0.076 / 0.218 & 4.58 & 43.4 & 0.14 / 0.14 / 0.14 & 2.07 / 2.10 / 2.02 \\
+C. perfringens & 4 / 10 / 32 & 0.257 / 0.501 & 2.00 & 69.2 & 0.14 / 0.15 / 0.18 & 4.09 / 4.33 / 4.99 \\
+Norovirus GI & 3 / 9 / 66 & 0.219 / 0.508 & 1.97 & 62.1 & 0.10 / 0.11 / 0.11 & 3.73 / 3.97 / 3.87 \\
+\bottomrule
+\end{tabular}
+\par\smallskip\parbox{0.97\linewidth}{\footnotesize HHI is the Herfindahl--Hirschman index of case shares within a group $\times$ cell stratum; N eff = 1/HHI is the effective cluster count; Max share is the largest single outbreak's share of cases in any cell. Analytic IF and central-difference sandwich covariances match to 1.40e-12.}
+\end{table}

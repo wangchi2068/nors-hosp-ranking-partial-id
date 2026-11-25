@@ -1,0 +1,141 @@
+{
+  "rebuilt": "results_rebuilt.json",
+  "reference": "data/analysis_tables (delivered)",
+  "tables": {
+    "table_10_voi_masking.csv": {
+      "byte_identical": true,
+      "same_shape": true,
+      "same_header": true,
+      "non_bootstrap_cells": 160,
+      "non_bootstrap_cells_differing": 0,
+      "bootstrap_columns": [],
+      "bootstrap_cells": 0,
+      "bootstrap_cells_differing": 0,
+      "bootstrap_differences": []
+    },
+    "table_1_group_bounds.csv": {
+      "byte_identical": true,
+      "same_shape": true,
+      "same_header": true,
+      "non_bootstrap_cells": 42,
+      "non_bootstrap_cells_differing": 0,
+      "bootstrap_columns": [
+        "Bootstrap range of lower bound (%)",
+        "Bootstrap range of upper bound (%)"
+      ],
+      "bootstrap_cells": 12,
+      "bootstrap_cells_differing": 0,
+      "bootstrap_differences": []
+    },
+    "table_2_pairwise.csv": {
+      "byte_identical": true,
+      "same_shape": true,
+      "same_header": true,
+      "non_bootstrap_cells": 105,
+      "non_bootstrap_cells_differing": 0,
+      "bootstrap_columns": [
+        "Bootstrap, worst-case verdict reproduced (%)",
+        "Bootstrap, δ = 5 verdict reproduced (%)"
+      ],
+      "bootstrap_cells": 30,
+      "bootstrap_cells_differing": 0,
+      "bootstrap_differences": []
+    },
+    "table_3_robustness.csv": {
+      "byte_identical": true,
+      "same_shape": true,
+      "same_header": true,
+      "non_bootstrap_cells": 112,
+      "non_bootstrap_cells_differing": 0,
+      "bootstrap_columns": [],
+      "bootstrap_cells": 0,
+      "bootstrap_cells_differing": 0,
+      "bootstrap_differences": []
+    },
+    "table_4_retention.csv": {
+      "byte_identical": true,
+      "same_shape": true,
+      "same_header": true,
+      "non_bootstrap_cells": 54,
+      "non_bootstrap_cells_differing": 0,
+      "bootstrap_columns": [],
+      "bootstrap_cells": 0,
+      "bootstrap_cells_differing": 0,
+      "bootstrap_differences": []
+    },
+    "table_5_audit.csv": {
+      "byte_identical": true,
+      "same_shape": true,
+      "same_header": true,
+      "non_bootstrap_cells": 60,
+      "non_bootstrap_cells_differing": 0,
+      "bootstrap_columns": [],
+      "bootstrap_cells": 0,
+      "bootstrap_cells_differing": 0,
+      "bootstrap_differences": []
+    },
+    "table_6_bootstrap.csv": {
+      "byte_identical": true,
+      "same_shape": true,
+      "same_header": true,
+      "non_bootstrap_cells": 15,
+      "non_bootstrap_cells_differing": 0,
+      "bootstrap_columns": [
+        "Same δ = 0 direction (%)",
+        "Worst case, higher group > lower (%)",
+        "Worst case, undetermined (%)",
+        "Determined at δ = 5 (%)",
+        "δ* 2.5th–97.5th percentile (points)"
+      ],
+      "bootstrap_cells": 75,
+      "bootstrap_cells_differing": 0,
+      "bootstrap_differences": []
+    },
+    "table_7_width_decomposition.csv": {
+      "byte_identical": true,
+      "same_shape": true,
+      "same_header": true,
+      "non_bootstrap_cells": 33,
+      "non_bootstrap_cells_differing": 0,
+      "bootstrap_columns": [],
+      "bootstrap_cells": 0,
+      "bootstrap_cells_differing": 0,
+      "bootstrap_differences": []
+    },
+    "table_8_joint_inference.csv": {
+      "byte_identical": true,
+      "same_shape": true,
+      "same_header": true,
+      "non_bootstrap_cells": 120,
+      "non_bootstrap_cells_differing": 0,
+      "bootstrap_columns": [],
+      "bootstrap_cells": 0,
+      "bootstrap_cells_differing": 0,
+      "bootstrap_differences": []
+    },
+    "table_9_cluster_diagnostics.csv": {
+      "byte_identical": true,
+      "same_shape": true,
+      "same_header": true,
+      "non_bootstrap_cells": 42,
+      "non_bootstrap_cells_differing": 0,
+      "bootstrap_columns": [],
+      "bootstrap_cells": 0,
+      "bootstrap_cells_differing": 0,
+      "bootstrap_differences": []
+    }
+  },
+  "all_non_bootstrap_cells_identical": true,
+  "tables_byte_identical": [
+    "table_10_voi_masking.csv",
+    "table_1_group_bounds.csv",
+    "table_2_pairwise.csv",
+    "table_3_robustness.csv",
+    "table_4_retention.csv",
+    "table_5_audit.csv",
+    "table_6_bootstrap.csv",
+    "table_7_width_decomposition.csv",
+    "table_8_joint_inference.csv",
+    "table_9_cluster_diagnostics.csv"
+  ]
+}

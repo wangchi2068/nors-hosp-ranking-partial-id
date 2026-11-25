@@ -1,0 +1,16 @@
+Ordering at δ = 0,Worst case,δ* (points),δ = 1,δ = 2,δ = 5,δ = 10,"Bootstrap, worst-case verdict reproduced (%)","Bootstrap, δ = 5 verdict reproduced (%)"
+STEC > CAMP,determined,∞,yes,yes,yes,yes,97.0,100.0
+STEC > CPERF,determined,∞,yes,yes,yes,yes,91.6,100.0
+STEC > NoV GI,determined,∞,yes,yes,yes,yes,93.6,100.0
+STEC > NoV GII,determined,∞,yes,yes,yes,yes,100.0,100.0
+SAL > NoV GII,undetermined,81.6,yes,yes,yes,yes,85.8,100.0
+SAL > NoV GI,undetermined,76.5,yes,yes,yes,yes,85.5,100.0
+SAL > CPERF,undetermined,72.1,yes,yes,yes,yes,75.2,100.0
+SAL > CAMP,undetermined,51.1,yes,yes,yes,yes,95.8,100.0
+STEC > SAL,undetermined,41.3,yes,yes,yes,yes,99.4,100.0
+CAMP > NoV GI,undetermined,37.8,yes,yes,yes,yes,99.9,98.4
+CAMP > NoV GII,undetermined,37.1,yes,yes,yes,yes,100.0,100.0
+CAMP > CPERF,undetermined,35.5,yes,yes,yes,yes,98.2,100.0
+NoV GII > NoV GI,undetermined,4.2,yes,yes,no,no,100.0,64.8
+NoV GII > CPERF,undetermined,3.7,yes,yes,no,no,100.0,67.0
+CPERF > NoV GI,undetermined,0.19,no,no,no,no,100.0,100.0

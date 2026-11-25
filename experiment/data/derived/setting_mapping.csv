@@ -1,0 +1,35 @@
+setting_token,n_food_2009_2023,setting_group
+Restaurant: Sit-down dining,4813,Restaurant
+Private home/residence,1391,Private home
+Restaurant: Fast-food (drive up service or pay at counter),1025,Restaurant
+Caterer,971,Catering/banquet
+Restaurant: Other,520,Restaurant
+Other,486,Other
+Unknown,453,(ignored: Unknown)
+Banquet Facility (food prepared and served on-site),440,Catering/banquet
+Grocery store/bakery/deli/convenience store,367,Other
+Restaurant: Buffet,147,Restaurant
+School/college/university,146,Institution
+Long-term care/nursing home/assisted living facility,141,Institution
+Correctional/detention facility,136,Institution
+Festival/fair,93,Other
+Religious facility,90,Other
+Farm/dairy/agricultural setting,88,Other
+Residence - Single-family home,82,Private home
+Camp,53,Institution
+Office/indoor workplace,52,Institution
+Hospital,37,Institution
+Hotel/motel,36,Other
+Child daycare/preschool,14,Institution
+Food truck/street vendor,12,Restaurant
+Event space,8,Catering/banquet
+Residence - Multi-unit housing,5,Private home
+Other healthcare facility,4,Institution
+Ship/boat,4,Other
+Commissary/rental kitchen,3,Other
+Park/outdoor area,3,Other
+Soup kitchen/meal center,3,Institution
+Fairground,2,Other
+Campground,1,Other
+<blank>,781,Unknown (if no other token)
+<multi-token>,,drop Unknown tokens; one group -> it; >=2 groups -> Multiple; none -> Unknown

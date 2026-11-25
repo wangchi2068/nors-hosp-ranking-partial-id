@@ -1,0 +1,12 @@
+Ordering at δ = 0,Worst-case overlap (points),"Largest contributions to interval width (group, cell, points)"
+SAL > NoV GII,2.7,SAL Other | 2009-2013 (3.0); NoV GII Restaurant | 2014-2018 (2.5); NoV GII Other | 2009-2013 (2.4)
+SAL > NoV GI,4.2,NoV GI Unknown | 2009-2013 (4.4); NoV GI Restaurant | 2009-2013 (3.3); SAL Other | 2009-2013 (3.0)
+SAL > CPERF,5.2,CPERF Unknown | 2009-2013 (5.2); CPERF Other | 2009-2013 (3.0); SAL Other | 2009-2013 (3.0)
+SAL > CAMP,4.7,SAL Other | 2009-2013 (3.0); SAL Restaurant | 2009-2013 (2.3); CAMP Unknown | 2009-2013 (2.3)
+STEC > SAL,7.0,SAL Other | 2009-2013 (3.0); STEC Unknown | 2009-2013 (2.5); SAL Restaurant | 2009-2013 (2.3)
+CAMP > NoV GI,11.2,NoV GI Unknown | 2009-2013 (4.4); NoV GI Restaurant | 2009-2013 (3.3); NoV GI Restaurant | 2014-2018 (2.3)
+CAMP > NoV GII,9.7,NoV GII Restaurant | 2014-2018 (2.5); NoV GII Other | 2009-2013 (2.4); NoV GII Restaurant | 2009-2013 (2.3)
+CAMP > CPERF,12.2,CPERF Unknown | 2009-2013 (5.2); CPERF Other | 2009-2013 (3.0); CPERF Private home | 2009-2013 (2.7)
+NoV GII > NoV GI,17.4,NoV GI Unknown | 2009-2013 (4.4); NoV GI Restaurant | 2009-2013 (3.3); NoV GII Restaurant | 2014-2018 (2.5)
+NoV GII > CPERF,18.4,CPERF Unknown | 2009-2013 (5.2); CPERF Other | 2009-2013 (3.0); CPERF Private home | 2009-2013 (2.7)
+CPERF > NoV GI,18.3,CPERF Unknown | 2009-2013 (5.2); NoV GI Unknown | 2009-2013 (4.4); NoV GI Restaurant | 2009-2013 (3.3)

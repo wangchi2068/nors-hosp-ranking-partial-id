@@ -1,0 +1,143 @@
+% =================================================================
+% SUPPLEMENTARY MATERIAL (STANDALONE DOCUMENT)
+% =================================================================
+\documentclass[11pt,a4paper]{article}
+\usepackage{iftex}
+\ifXeTeX\else
+  \PackageError{paper-template}{XeLaTeX is required}{Run xelatex; fontspec requires XeLaTeX.}
+\fi
+\usepackage{fontspec}
+\IfFontExistsTF{Liberation Serif}{\setmainfont{Liberation Serif}}{\setmainfont{Times New Roman}}
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{setspace}
+\setstretch{1.12}
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{xurl}
+\usepackage[hidelinks,unicode=true]{hyperref}
+\urlstyle{same}
+\usepackage{caption}
+\usepackage{placeins}
+\captionsetup{
+  font=small,
+  labelfont=bf,
+  textfont=normalfont,
+  labelsep=period,
+  justification=justified,
+  singlelinecheck=true,
+  skip=6pt
+}
+
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\theequation}{S\arabic{equation}}
+
+\usepackage{fancyhdr}
+\setlength{\headheight}{14pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small Supplementary Material --- NORS Pathogen Hospitalization Orderings}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[C]{\small\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+}
+
+\usepackage{newunicodechar}
+\newunicodechar{δ}{\ensuremath{\delta}}
+
+\title{\textbf{Supplementary Material}\\[0.4em]
+\large Hospitalization Orderings among Six Pathogen Groups in Foodborne Outbreaks with Incompletely Recorded Outcomes, United States, 2009--2023}
+\author{Apevon Science}
+\date{\today}
+
+\begin{document}
+\maketitle
+\normalfont\mdseries
+
+\section{Study Population, Settings and Reference Weights}\label{sec:s-population}
+
+Of 11,358 foodborne outbreaks reported to NORS for 2009--2023, 4,133 met the primary eligibility criteria: 3,908 listed a single confirmed etiology entry and 225 listed multiple serotype or genotype entries mapping to a single study group with at least one confirmed entry. Confirmed norovirus outbreaks lacking genogroup specification (304 outbreaks) and outbreaks combining entries across study groups or with non-study agents (300 outbreaks; 104 containing at least one confirmed study-group entry) were excluded because outcome counts cannot be attributed to a single study group. Across the 4,133 eligible outbreaks, record auditing identified 3,976 complete and consistent records, 52 records with blank $K_i$, 28 with blank $H_i$ and $K_i = 0$, 23 with blank $H_i$ and $K_i > 0$, and 54 with both fields blank, with zero count contradictions (Table~\ref{tab:audit}). After retaining all 157 incomplete records under logical bounds, 19.4\% of eligible cases had unrecorded hospitalization status.
+
+Raw NORS food-preparation setting tokens were harmonized into seven mutually exclusive categories: \textit{Restaurant} (sit-down, fast-food, buffet, other restaurant, food truck/street vendor), \textit{Catering or banquet} (caterer, banquet facility, event space), \textit{Private home} (private home/residence, single-family or multi-unit housing), \textit{Institution} (school/college/university, long-term care/nursing home, correctional facility, hospital, other healthcare facility, child daycare/preschool, camp, office/workplace, soup kitchen), \textit{Other} (grocery/bakery/deli, festival/fair, religious facility, farm/dairy, hotel/motel, ship/boat, park, campground, commissary, other), \textit{Multiple} (entries spanning two or more named categories after ignoring ``Unknown'' tokens when paired with a known setting) and \textit{Unknown} (only ``Unknown'' or blank).
+
+Crossing the seven setting categories with three five-year periods (2009--2013, 2014--2018 and 2019--2023) yielded 21 candidate cells, of which 12 contained at least 3 outbreaks for all six groups. Their pooled-case reference weights $w_s$ were: restaurant in 2009--2013 (16.1\%), 2014--2018 (17.7\%) and 2019--2023 (9.6\%); catering or banquet in 2014--2018 (8.6\%); private home in 2009--2013 (5.8\%) and 2014--2018 (4.2\%); institution in 2009--2013 (5.3\%) and 2014--2018 (6.5\%); other in 2009--2013 (5.8\%) and 2014--2018 (5.4\%); multiple in 2014--2018 (7.5\%); and unknown in 2009--2013 (7.5\%). No cell in 2019--2023 outside restaurants met the 3-outbreak support requirement across all six groups. Group-specific retention is detailed in Table~\ref{tab:retention} and Figure~\ref{fig:s-retention}.
+
+\section{Critical Deviations, Stacked M-Estimation Influence Functions and VoI Protocol}\label{sec:s-deltastar}
+
+\subsection*{Exact Piecewise-Linear Solution for $\delta^{*}_{hl}$}
+For a pair ordered at $\delta = 0$ as $\theta_h(0) > \theta_l(0)$, the gap function
+\begin{equation}
+  g(\delta) = L_h(\delta) - U_l(\delta)
+  = \sum_s w_s \frac{H_{hs} + M_{hs}\max(0,\, p_{hs} - \delta)}{C_{hs}}
+  - \sum_s w_s \frac{H_{ls} + M_{ls}\min(1,\, p_{ls} + \delta)}{C_{ls}}
+  \label{eq:s-gap}
+\end{equation}
+is continuous, monotonically non-increasing on $[0, 1]$ and piecewise linear with breakpoints at $\delta \in \{p_{hs}\}_s \cup \{1 - p_{ls}\}_s$ inside $(0, 1)$. When $g(1) > 0$, the ordering holds under worst-case bounds ($\delta^{*}_{hl} = \infty$). Otherwise, $\delta^{*}_{hl}$ was computed analytically by evaluating $g$ across sorted breakpoints and linearly interpolating within the unique interval $[\delta_k, \delta_{k+1}]$ where $g(\delta_k) > 0 \ge g(\delta_{k+1})$. Bisection agreed within $1.4 \times 10^{-14}$ points.
+
+\subsection*{Closed-Form Influence Functions under Coupled Reference Weights}
+Let $C_{\cdot} = \sum_{k=1}^{G}\sum_{t=1}^{K} C_{kt}$ denote total retained cases across the common support so that $w_t = C_{\cdot t}/C_{\cdot}$. For an arbitrary group $j$ and worst-case ratio $r^{L}_{jt} = H_{jt}/C_{jt}$ with standardized lower bound $\bar{L}_j = \sum_t w_t r^{L}_{jt}$, an outbreak $i$ in stratum $(k, s)$ perturbs $\bar{L}_j$ through two channels: (i) the shared reference-weight channel present for every $j \in \{1,\dots,G\}$, and (ii) the cell-rate channel present when $k = j$. Differentiating $\bar{L}_j(\mu)$ with respect to outbreak counts $(C_i, H_i, M_i)$ in $(k, s)$ gives the outbreak-level influence function:
+\begin{equation}
+  \psi^{L}_{j,i} = \frac{r^{L}_{js} - \bar{L}_j}{C_{\cdot}}(C_i - \bar{C}_{ks})
+  + \mathbf{1}\{k = j\}\, \frac{w_s}{C_{js}} \left[(H_i - \bar{H}_{js}) - r^{L}_{js}(C_i - \bar{C}_{js})\right],
+  \label{eq:s-if}
+\end{equation}
+with analogous expression $\psi^{U}_{j,i}$ replacing $H_i$ by $H_i + M_i$ and $r^{L}_{js}$ by $r^{U}_{js} = (H_{js} + M_{js})/C_{js}$. Writing $\psi_i = (\psi^{L}_{1,i},\dots,\psi^{L}_{G,i}, \psi^{U}_{1,i},\dots,\psi^{U}_{G,i})^{\top}$, summing $\frac{n_{ks}}{n_{ks}-1} \sum_{i \in (k,s)} \psi_i \psi_i^{\top}$ over all $(k,s)$ strata reproduces the central-difference stacked M-estimator sandwich covariance $\widehat{V}(1)$ to machine precision ($1.40 \times 10^{-12}$; Table~\ref{tab:cluster_diag}). For the 2,000-replicate bootstrap (seeded per replicate with seed pair \texttt{[20261125, b]}), if any resampled cell lacked recorded counts ($K_{\text{rec}} = 0$), that cell retained its worst-case bounds at all $\delta$, the $\delta = 0$ ordering direction was taken from the interval midpoint, and $\delta^{*}$ was set to $0$ whenever $g(0) \le 0$.
+
+\subsection*{Retrospective Masking Protocol}
+From the 3,176 common-support outbreaks, all 2,414 outbreaks with complete hospitalization records ($U_i = 0$; 45,249 cases) formed the ground-truth cohort. In each of 200 Monte Carlo trials (seed 20261125), outbreaks were masked independently with empirical cell-group incomplete probabilities bounded to $[0.12, 0.45]$, ensuring at least one unmasked outbreak per $(g, s)$ cell. Masked outbreaks were ranked by each of the four allocation rules using only the masked state, and outcomes were revealed sequentially up to follow-up budgets $B \in \{250, 500, 1000, 1500, 2000, 3500, 5000\}$ cases (Table~\ref{tab:voi_masking}).
+
+\section{Supplementary Tables and Figures}\label{sec:s-tables}
+
+% Table order S1..S7 and Figures S1..S3 matching main text citations:
+% S1: table_5_audit
+% S2: table_4_retention
+% S3: table_3_robustness
+% S4: table_6_bootstrap
+% S5: table_9_cluster_diagnostics
+% S6: table_7_width_decomposition
+% S7: table_10_voi_masking
+
+\input{tables/table_5_audit}
+\input{tables/table_4_retention}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{figures/fig_s1_retention_recording.pdf}
+  \caption{Common-support case retention and hospitalization outcome recording by pathogen group, NORS foodborne outbreaks, United States, 2009--2023. Panel (a) shows the percentage of eligible cases retained in the 12 common-support cells. Panel (b) partitions retained cases by recording status.}
+  \label{fig:s-retention}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figures/fig_s3_delta_2d.pdf}
+  \caption{Two-dimensional tipping-point sensitivity analysis across all 15 pathogen pairs (higher group at $\delta = 0$ listed first). Shaded regions denote combinations of group-specific allowed deviations $(\delta_h, \delta_l)$ over 0--20 percentage points under which the ordering remains guaranteed; dark blue panels hold with no assumption ($\delta^{*} = \infty$).}
+  \label{fig:s-delta2d}
+\end{figure}
+
+\FloatBarrier
+\input{tables/table_3_robustness}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.95\linewidth]{figures/fig_s2_robustness.pdf}
+  \caption{Pairwise ordering verdicts across the main analysis and 12 six-group robustness specifications (columns R1a--R6c; descriptions and combined norovirus variant R7 in Table~\ref{tab:robustness}). Numbers beneath each column code indicate determined pairs under worst-case bounds and at $\delta = 5$ percentage points.}
+  \label{fig:s-robust}
+\end{figure}
+
+\FloatBarrier
+\input{tables/table_6_bootstrap}
+\input{tables/table_9_cluster_diagnostics}
+\input{tables/table_7_width_decomposition}
+\input{tables/table_10_voi_masking}
+
+\end{document}

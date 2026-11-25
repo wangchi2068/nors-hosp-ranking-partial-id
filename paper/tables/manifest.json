@@ -1,0 +1,145 @@
+{
+ "schema_version": 1,
+ "tables": [
+  {
+   "id": "tab:group_bounds",
+   "path": "table_1_group_bounds.tex",
+   "csv": "table_1_group_bounds.csv",
+   "sha256": "915e1c27fcfdc9bfba684b64df45b48735d60bacc070175c2a6afec6116f9191",
+   "generator": "code/make_outputs.py",
+   "data_sources": [
+    "analysis/results.json"
+   ],
+   "display": "raw",
+   "n_seeds": 1,
+   "std_ddof": 0,
+   "caption": "Standardized hospitalization proportion among reported outbreak cases, by pathogen group (12 common-support setting × period cells, pooled-case reference weights). Worst-case intervals are identification intervals, not confidence intervals; bootstrap ranges are the 2.5th–97.5th percentiles of each bound over 2,000 outbreak-level resamples."
+  },
+  {
+   "id": "tab:pairwise",
+   "path": "table_2_pairwise.tex",
+   "csv": "table_2_pairwise.csv",
+   "sha256": "81471ed1178beaf408482003952f341838de276da782029240cceb8eac03b7e6",
+   "generator": "code/make_outputs.py",
+   "data_sources": [
+    "analysis/results.json"
+   ],
+   "display": "raw",
+   "n_seeds": 1,
+   "std_ddof": 0,
+   "caption": "Pairwise orderings with their verdict under worst-case bounds and the critical deviation δ*. δ* is the smallest deviation of the unrecorded-status hospitalization rate from the recorded rate at which the δ = 0 ordering is no longer guaranteed (∞, holds with no assumption). Further columns show whether the ordering is determined at δ = 1, 2, 5 and 10 points and the share of bootstrap replicates reproducing the main verdicts."
+  },
+  {
+   "id": "tab:robustness",
+   "path": "table_3_robustness.tex",
+   "csv": "table_3_robustness.csv",
+   "sha256": "2a7d78519033372d083b0f9fb93f06675929cc41d38c42b98e5e12e6f6f17fba",
+   "generator": "code/make_outputs.py",
+   "data_sources": [
+    "analysis/results.json"
+   ],
+   "display": "raw",
+   "n_seeds": 1,
+   "std_ddof": 0,
+   "caption": "Robustness analyses, with the number of common-support cells, the number of determined pairwise orderings under worst-case bounds and at δ = 5 points, and changes relative to the main analysis."
+  },
+  {
+   "id": "tab:retention",
+   "path": "table_4_retention.tex",
+   "csv": "table_4_retention.csv",
+   "sha256": "21b4670c016a600ea55c38fd9c0f5e2f9413d7cfd2d0df841030726771ebbac1",
+   "generator": "code/make_outputs.py",
+   "data_sources": [
+    "analysis/results.json"
+   ],
+   "display": "raw",
+   "n_seeds": 1,
+   "std_ddof": 0,
+   "caption": "Common-support retention by pathogen group, with eligible and retained outbreaks and cases, the settings and periods losing most cases, and crude (unstandardized) proportions before and after the restriction."
+  },
+  {
+   "id": "tab:audit",
+   "path": "table_5_audit.tex",
+   "csv": "table_5_audit.csv",
+   "sha256": "74b6edd50e4ea65097ba68e8e23941e84d7e80cdf7cbdf0e622b2dceab8bfad8",
+   "generator": "code/make_outputs.py",
+   "data_sources": [
+    "analysis/results.json"
+   ],
+   "display": "raw",
+   "n_seeds": 1,
+   "std_ddof": 0,
+   "caption": "Record audit of outbreak outcome fields (C reported cases, H hospitalized, K cases with known hospitalization status), with category counts and handling. No record had a count contradiction."
+  },
+  {
+   "id": "tab:bootstrap",
+   "path": "table_6_bootstrap.tex",
+   "csv": "table_6_bootstrap.csv",
+   "sha256": "b3966aae38a85a25689e29e61fe8cbac2bdebb9b71c44aa0222b0ce7e93bd4d6",
+   "generator": "code/make_outputs.py",
+   "data_sources": [
+    "analysis/results.json"
+   ],
+   "display": "raw",
+   "n_seeds": 1,
+   "std_ddof": 0,
+   "caption": "Outbreak-level bootstrap (2,000 replicates, seed 20261125; outbreaks resampled within group × common-support cell, reference weights recomputed), with the share of replicates giving each verdict and the percentile range of δ* for the main-analysis direction. These describe sampling variability and are not confidence intervals."
+  },
+  {
+   "id": "tab:width",
+   "path": "table_7_width_decomposition.tex",
+   "csv": "table_7_width_decomposition.csv",
+   "sha256": "8244f27ef4c7b503c29e65abc546d30332fd4a63c4600f6981d6f3477194b0b5",
+   "generator": "code/make_outputs.py",
+   "data_sources": [
+    "analysis/results.json"
+   ],
+   "display": "raw",
+   "n_seeds": 1,
+   "std_ddof": 0,
+   "caption": "Undetermined pairs under worst-case bounds, with the overlap of the two intervals and the group × cell combinations whose unrecorded-status cases contribute most to the interval widths. The decomposition is descriptive and indicates where more complete hospitalization records would narrow the intervals most."
+  },
+  {
+   "id": "tab:joint_inference",
+   "path": "table_8_joint_inference.tex",
+   "csv": "table_8_joint_inference.csv",
+   "sha256": "15fc5e22d8f767daf20a0acb7ab75dba85de3aca07568e10b61cb673c8b56fea",
+   "generator": "code/make_outputs.py",
+   "data_sources": [
+    "analysis/results.json"
+   ],
+   "display": "raw",
+   "n_seeds": 1,
+   "std_ddof": 0,
+   "caption": "Joint M-estimation statistical inference for the 15 pairwise standardized differences, combining outbreak-cluster HC1 sandwich variance, Imbens–Manski 95% confidence intervals, Gaussian multiplier Max-T stepdown FWER p-values (c = 2.492 worst case; 2.526 at δ = 5 points), and 95% confidence tipping points."
+  },
+  {
+   "id": "tab:cluster_diag",
+   "path": "table_9_cluster_diagnostics.tex",
+   "csv": "table_9_cluster_diagnostics.csv",
+   "sha256": "4413fc037e6b698f384d933a5d9158a973bacc6322b12bf41b933fc340fa61a2",
+   "generator": "code/make_outputs.py",
+   "data_sources": [
+    "analysis/results.json"
+   ],
+   "display": "raw",
+   "n_seeds": 1,
+   "std_ddof": 0,
+   "caption": "Outbreak-cluster concentration diagnostics across the 12 common-support cells and standard error comparison between stacked M-estimation sandwich estimators (HC0, HC1) and outbreak-level bootstrap (2,000 replicates)."
+  },
+  {
+   "id": "tab:voi_masking",
+   "path": "table_10_voi_masking.tex",
+   "csv": "table_10_voi_masking.csv",
+   "sha256": "bdec15336ebe1970807176283e1c94ad2d17c5995b8fbc35f066ad0e75554618",
+   "generator": "code/make_outputs.py",
+   "data_sources": [
+    "analysis/results.json"
+   ],
+   "display": "raw",
+   "n_seeds": 1,
+   "std_ddof": 0,
+   "caption": "Retrospective masking experiment across 200 Monte Carlo trials on all 2,414 complete-status outbreaks (45,249 cases) in the common support. Values are means (SD) across trials by follow-up case budget."
+  }
+ ]
+}

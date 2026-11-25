@@ -1,0 +1,1569 @@
+{
+  "id" : "5xkq-dg7x",
+  "name" : "NORS",
+  "assetType" : "dataset",
+  "attribution" : "Centers for Disease Control and Prevention",
+  "attributionLink" : "https://www.cdc.gov/ncezid/dfwed/BEAM-dashboard.html",
+  "averageRating" : 0,
+  "category" : "Foodborne, Waterborne, and Related Diseases",
+  "createdAt" : 1720550097,
+  "description" : "The National Outbreak Reporting System (NORS) is a web-based platform designed to support reporting to CDC by local, state, and territorial health departments in the United States of all waterborne disease outbreaks and enteric disease outbreaks transmitted by food, contact with environmental sources, infected persons or animals, or unknown modes of transmission.",
+  "diciBackend" : false,
+  "displayType" : "table",
+  "downloadCount" : 14369,
+  "hideFromCatalog" : false,
+  "hideFromDataJson" : false,
+  "licenseId" : "USGOV_WORKS",
+  "locked" : false,
+  "newBackend" : true,
+  "numberOfComments" : 0,
+  "oid" : 40673116,
+  "provenance" : "official",
+  "publicationAppendEnabled" : false,
+  "publicationDate" : 1722269255,
+  "publicationGroup" : 19574055,
+  "publicationStage" : "published",
+  "rowsUpdatedAt" : 1734724660,
+  "tableId" : 19574055,
+  "totalTimesRated" : 0,
+  "viewCount" : 44413,
+  "viewLastModified" : 1790119020,
+  "viewType" : "tabular",
+  "approvals" : [ {
+    "reviewedAt" : 1722269256,
+    "reviewedAutomatically" : true,
+    "state" : "approved",
+    "submissionId" : 6476375,
+    "submissionObject" : "public_audience_request",
+    "submissionOutcome" : "change_audience",
+    "submittedAt" : 1722269256,
+    "targetAudience" : "public",
+    "workflowId" : 2100,
+    "submissionDetails" : {
+      "permissionType" : "READ"
+    },
+    "submissionOutcomeApplication" : {
+      "endedAt" : 1722269256,
+      "failureCount" : 0,
+      "startedAt" : 1722269256,
+      "status" : "success"
+    },
+    "submitter" : {
+      "id" : "ggqg-y8ec",
+      "displayName" : "Mary Wikswo"
+    }
+  } ],
+  "clientContext" : {
+    "clientContextVariables" : [ ],
+    "inheritedVariables" : { }
+  },
+  "columns" : [ {
+    "id" : 597163226,
+    "name" : "Year",
+    "dataTypeName" : "number",
+    "description" : "Year of earliest date of reported illness onset",
+    "fieldName" : "year",
+    "position" : 2,
+    "renderTypeName" : "number",
+    "tableColumnId" : 154013904,
+    "cachedContents" : {
+      "non_null" : "66713",
+      "largest" : "2023",
+      "null" : "0",
+      "top" : [ {
+        "item" : "2016",
+        "count" : "4331"
+      }, {
+        "item" : "2015",
+        "count" : "4214"
+      }, {
+        "item" : "2019",
+        "count" : "4199"
+      }, {
+        "item" : "2018",
+        "count" : "4171"
+      }, {
+        "item" : "2017",
+        "count" : "4148"
+      }, {
+        "item" : "2013",
+        "count" : "3975"
+      }, {
+        "item" : "2014",
+        "count" : "3934"
+      }, {
+        "item" : "2012",
+        "count" : "3915"
+      }, {
+        "item" : "2023",
+        "count" : "3842"
+      }, {
+        "item" : "2011",
+        "count" : "3084"
+      }, {
+        "item" : "2010",
+        "count" : "3034"
+      }, {
+        "item" : "2022",
+        "count" : "2945"
+      }, {
+        "item" : "2009",
+        "count" : "2242"
+      }, {
+        "item" : "2021",
+        "count" : "2018"
+      }, {
+        "item" : "2020",
+        "count" : "1642"
+      }, {
+        "item" : "2000",
+        "count" : "1465"
+      }, {
+        "item" : "2004",
+        "count" : "1382"
+      }, {
+        "item" : "1999",
+        "count" : "1376"
+      }, {
+        "item" : "2002",
+        "count" : "1372"
+      }, {
+        "item" : "1998",
+        "count" : "1354"
+      } ],
+      "smallest" : "1971",
+      "count" : "66713",
+      "cardinality" : "53"
+    },
+    "format" : {
+      "noCommas" : "true"
+    }
+  }, {
+    "id" : 597163225,
+    "name" : "Month",
+    "dataTypeName" : "number",
+    "description" : "Month of earliest date of reported illness onset",
+    "fieldName" : "month",
+    "position" : 3,
+    "renderTypeName" : "number",
+    "tableColumnId" : 154013903,
+    "cachedContents" : {
+      "non_null" : "66713",
+      "largest" : "12",
+      "null" : "0",
+      "top" : [ {
+        "item" : "1",
+        "count" : "8883"
+      }, {
+        "item" : "2",
+        "count" : "8491"
+      }, {
+        "item" : "3",
+        "count" : "8398"
+      }, {
+        "item" : "12",
+        "count" : "7235"
+      }, {
+        "item" : "4",
+        "count" : "6220"
+      }, {
+        "item" : "5",
+        "count" : "4806"
+      }, {
+        "item" : "11",
+        "count" : "4490"
+      }, {
+        "item" : "6",
+        "count" : "4075"
+      }, {
+        "item" : "7",
+        "count" : "3866"
+      }, {
+        "item" : "8",
+        "count" : "3623"
+      }, {
+        "item" : "10",
+        "count" : "3422"
+      }, {
+        "item" : "9",
+        "count" : "3204"
+      } ],
+      "smallest" : "1",
+      "count" : "66713",
+      "cardinality" : "12"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 597163224,
+    "name" : "State",
+    "dataTypeName" : "text",
+    "description" : "The state where the exposure occurred. For a single state of exposure, the state will be listed. For multiple states of exposure, \"Multistate\" will be listed.",
+    "fieldName" : "state",
+    "position" : 4,
+    "renderTypeName" : "text",
+    "tableColumnId" : 154013902,
+    "cachedContents" : {
+      "non_null" : "66713",
+      "largest" : "Wyoming",
+      "null" : "0",
+      "top" : [ {
+        "item" : "Wisconsin",
+        "count" : "3912"
+      }, {
+        "item" : "Ohio",
+        "count" : "3757"
+      }, {
+        "item" : "Illinois",
+        "count" : "3481"
+      }, {
+        "item" : "New York",
+        "count" : "3306"
+      }, {
+        "item" : "Minnesota",
+        "count" : "3229"
+      }, {
+        "item" : "Michigan",
+        "count" : "3137"
+      }, {
+        "item" : "Pennsylvania",
+        "count" : "3120"
+      }, {
+        "item" : "Florida",
+        "count" : "3077"
+      }, {
+        "item" : "California",
+        "count" : "2987"
+      }, {
+        "item" : "Virginia",
+        "count" : "2917"
+      }, {
+        "item" : "Oregon",
+        "count" : "2664"
+      }, {
+        "item" : "Massachusetts",
+        "count" : "2450"
+      }, {
+        "item" : "Colorado",
+        "count" : "2020"
+      }, {
+        "item" : "Texas",
+        "count" : "1589"
+      }, {
+        "item" : "Washington",
+        "count" : "1453"
+      }, {
+        "item" : "North Carolina",
+        "count" : "1334"
+      }, {
+        "item" : "South Carolina",
+        "count" : "1251"
+      }, {
+        "item" : "Arizona",
+        "count" : "1225"
+      }, {
+        "item" : "Maryland",
+        "count" : "1076"
+      }, {
+        "item" : "Multistate",
+        "count" : "1069"
+      } ],
+      "smallest" : "Alabama",
+      "count" : "66713",
+      "cardinality" : "58"
+    },
+    "format" : { }
+  }, {
+    "id" : 597163223,
+    "name" : "Primary Mode",
+    "dataTypeName" : "text",
+    "description" : "Primary mode of transmission.",
+    "fieldName" : "primary_mode",
+    "position" : 5,
+    "renderTypeName" : "text",
+    "tableColumnId" : 154013901,
+    "cachedContents" : {
+      "non_null" : "66713",
+      "largest" : "Water",
+      "null" : "0",
+      "top" : [ {
+        "item" : "Person-to-person",
+        "count" : "32414"
+      }, {
+        "item" : "Food",
+        "count" : "24729"
+      }, {
+        "item" : "Indeterminate/unknown",
+        "count" : "5677"
+      }, {
+        "item" : "Water",
+        "count" : "3106"
+      }, {
+        "item" : "Animal contact",
+        "count" : "655"
+      }, {
+        "item" : "Environmental contamination other than food/water",
+        "count" : "132"
+      } ],
+      "smallest" : "Animal contact",
+      "count" : "66713",
+      "cardinality" : "6"
+    },
+    "format" : { }
+  }, {
+    "id" : 597163222,
+    "name" : "Etiology",
+    "dataTypeName" : "text",
+    "description" : "Genus and species of identified etiology.  Multiple reported etiologies are separated by a semicolon.",
+    "fieldName" : "etiology",
+    "position" : 6,
+    "renderTypeName" : "text",
+    "tableColumnId" : 154013900,
+    "cachedContents" : {
+      "non_null" : "50375",
+      "largest" : "Yersinia unknown;Norovirus unknown",
+      "null" : "16338",
+      "top" : [ {
+        "item" : "Norovirus",
+        "count" : "9668"
+      }, {
+        "item" : "Norovirus Genogroup II",
+        "count" : "9178"
+      }, {
+        "item" : "Norovirus unknown",
+        "count" : "8769"
+      }, {
+        "item" : "Salmonella enterica",
+        "count" : "4124"
+      }, {
+        "item" : "Norovirus Genogroup I",
+        "count" : "4108"
+      }, {
+        "item" : "Escherichia coli, Shiga toxin-producing",
+        "count" : "1219"
+      }, {
+        "item" : "Shigella sonnei",
+        "count" : "1172"
+      }, {
+        "item" : "Clostridium perfringens",
+        "count" : "926"
+      }, {
+        "item" : "Legionella pneumophila",
+        "count" : "763"
+      }, {
+        "item" : "Staphylococcus aureus",
+        "count" : "626"
+      }, {
+        "item" : "Campylobacter jejuni",
+        "count" : "604"
+      }, {
+        "item" : "Scombroid toxin",
+        "count" : "497"
+      }, {
+        "item" : "Norovirus Genogroup II;Norovirus Genogroup II",
+        "count" : "487"
+      }, {
+        "item" : "Unknown",
+        "count" : "426"
+      }, {
+        "item" : "Cryptosporidium unknown",
+        "count" : "414"
+      }, {
+        "item" : "Bacillus cereus",
+        "count" : "402"
+      }, {
+        "item" : "Ciguatoxin",
+        "count" : "381"
+      }, {
+        "item" : "Campylobacter unknown",
+        "count" : "298"
+      }, {
+        "item" : "Bacillus cereus;Clostridium perfringens",
+        "count" : "259"
+      }, {
+        "item" : "Giardia duodenalis",
+        "count" : "250"
+      } ],
+      "smallest" : "Acanthamoeba unknown",
+      "count" : "66713",
+      "cardinality" : "787"
+    },
+    "format" : { }
+  }, {
+    "id" : 597163221,
+    "name" : "Serotype or Genotype",
+    "dataTypeName" : "text",
+    "description" : "Serotype or genotype of identified etiology.  Multiple reported etiologies are separated by a semicolon.",
+    "fieldName" : "serotype_or_genotype",
+    "position" : 7,
+    "renderTypeName" : "text",
+    "tableColumnId" : 154013899,
+    "cachedContents" : {
+      "non_null" : "16470",
+      "largest" : "Wimborne",
+      "null" : "50243",
+      "top" : [ {
+        "item" : "unknown",
+        "count" : "4534"
+      }, {
+        "item" : "GII.4 Sydney",
+        "count" : "1081"
+      }, {
+        "item" : "Enteritidis",
+        "count" : "1074"
+      }, {
+        "item" : "O157:H7",
+        "count" : "828"
+      }, {
+        "item" : "GII.P16 GII.4 Sydney",
+        "count" : "676"
+      }, {
+        "item" : "serogroup 1",
+        "count" : "656"
+      }, {
+        "item" : "Typhimurium",
+        "count" : "557"
+      }, {
+        "item" : "GII.4 New Orleans",
+        "count" : "475"
+      }, {
+        "item" : "Newport",
+        "count" : "313"
+      }, {
+        "item" : "GII.4 untypeable",
+        "count" : "258"
+      }, {
+        "item" : "subgroup D",
+        "count" : "200"
+      }, {
+        "item" : "Heidelberg",
+        "count" : "191"
+      }, {
+        "item" : "GI.3",
+        "count" : "179"
+      }, {
+        "item" : "I 4,[5],12:i:-",
+        "count" : "164"
+      }, {
+        "item" : "Javiana",
+        "count" : "157"
+      }, {
+        "item" : "GII.6",
+        "count" : "156"
+      }, {
+        "item" : "GII.2",
+        "count" : "150"
+      }, {
+        "item" : "other",
+        "count" : "139"
+      }, {
+        "item" : "unknown;GII.P16 GII.4 Sydney",
+        "count" : "122"
+      }, {
+        "item" : "Braenderup",
+        "count" : "117"
+      } ],
+      "smallest" : "1",
+      "count" : "66713",
+      "cardinality" : "765"
+    },
+    "format" : { }
+  }, {
+    "id" : 597163220,
+    "name" : "Etiology Status",
+    "dataTypeName" : "text",
+    "description" : "Indicates whether or not the identified etiology is laboratory 'Confirmed' or 'Suspected'.   Multiple reported etiologies are separated by a semicolon.",
+    "fieldName" : "etiology_status",
+    "position" : 8,
+    "renderTypeName" : "text",
+    "tableColumnId" : 154013898,
+    "cachedContents" : {
+      "non_null" : "50375",
+      "largest" : "Suspected;Suspected;Suspected;Suspected;Suspected",
+      "null" : "16338",
+      "top" : [ {
+        "item" : "Confirmed",
+        "count" : "24889"
+      }, {
+        "item" : "Suspected",
+        "count" : "22970"
+      }, {
+        "item" : "Suspected;Suspected",
+        "count" : "791"
+      }, {
+        "item" : "Confirmed;Confirmed",
+        "count" : "739"
+      }, {
+        "item" : "Confirmed;Suspected",
+        "count" : "316"
+      }, {
+        "item" : "Suspected;Confirmed",
+        "count" : "302"
+      }, {
+        "item" : "Confirmed;Confirmed;Confirmed",
+        "count" : "77"
+      }, {
+        "item" : "Suspected;Suspected;Suspected",
+        "count" : "61"
+      }, {
+        "item" : "Confirmed;Confirmed;Suspected",
+        "count" : "32"
+      }, {
+        "item" : "Suspected;Suspected;Confirmed",
+        "count" : "30"
+      }, {
+        "item" : "Confirmed;Suspected;Suspected",
+        "count" : "25"
+      }, {
+        "item" : "Suspected;Confirmed;Confirmed",
+        "count" : "20"
+      }, {
+        "item" : "Confirmed;Confirmed;Confirmed;Confirmed",
+        "count" : "19"
+      }, {
+        "item" : "Confirmed;Suspected;Confirmed",
+        "count" : "14"
+      }, {
+        "item" : "Suspected;Confirmed;Suspected",
+        "count" : "14"
+      }, {
+        "item" : "Suspected;Suspected;Suspected;Suspected",
+        "count" : "7"
+      }, {
+        "item" : "Confirmed;Confirmed;Confirmed;Confirmed;Confirmed",
+        "count" : "6"
+      }, {
+        "item" : "Confirmed;Confirmed;Confirmed;Confirmed;Confirmed;Confirmed",
+        "count" : "4"
+      }, {
+        "item" : "Suspected;Suspected;Confirmed;Suspected",
+        "count" : "4"
+      }, {
+        "item" : "Suspected;Suspected;Confirmed;Confirmed",
+        "count" : "3"
+      } ],
+      "smallest" : "Confirmed",
+      "count" : "66713",
+      "cardinality" : "57"
+    },
+    "format" : { }
+  }, {
+    "id" : 597163219,
+    "name" : "Setting",
+    "dataTypeName" : "text",
+    "description" : "Setting(s) where exposure occurred.  For foodborne outbreaks, the setting used is the location where the food was prepared.",
+    "fieldName" : "setting",
+    "position" : 9,
+    "renderTypeName" : "text",
+    "tableColumnId" : 154013897,
+    "cachedContents" : {
+      "non_null" : "60804",
+      "largest" : "Zoo or animal exhibit;Petting zoo;Festival/Fair",
+      "null" : "5909",
+      "top" : [ {
+        "item" : "Long-term care/nursing home/assisted living facility",
+        "count" : "21224"
+      }, {
+        "item" : "Restaurant: Other",
+        "count" : "8334"
+      }, {
+        "item" : "Restaurant: Sit-down dining",
+        "count" : "4480"
+      }, {
+        "item" : "School/college/university",
+        "count" : "4466"
+      }, {
+        "item" : "Private home/residence",
+        "count" : "3234"
+      }, {
+        "item" : "Child daycare/preschool",
+        "count" : "3085"
+      }, {
+        "item" : "Other",
+        "count" : "2356"
+      }, {
+        "item" : "Caterer",
+        "count" : "1406"
+      }, {
+        "item" : "Hospital",
+        "count" : "1291"
+      }, {
+        "item" : "Restaurant",
+        "count" : "1193"
+      }, {
+        "item" : "Unknown",
+        "count" : "964"
+      }, {
+        "item" : "Restaurant: Fast-food (drive up service or pay at counter)",
+        "count" : "853"
+      }, {
+        "item" : "Hotel/motel",
+        "count" : "702"
+      }, {
+        "item" : "Banquet Facility (food prepared and served on-site)",
+        "count" : "470"
+      }, {
+        "item" : "Correctional/detention facility",
+        "count" : "463"
+      }, {
+        "item" : "Camp",
+        "count" : "406"
+      }, {
+        "item" : "Grocery store/bakery/deli/convenience store",
+        "count" : "378"
+      }, {
+        "item" : "Community/municipality",
+        "count" : "366"
+      }, {
+        "item" : "Other healthcare facility",
+        "count" : "286"
+      }, {
+        "item" : "Office/indoor workplace",
+        "count" : "254"
+      } ],
+      "smallest" : "Agricultural feed store",
+      "count" : "66713",
+      "cardinality" : "597"
+    },
+    "format" : { }
+  }, {
+    "id" : 597163218,
+    "name" : "Illnesses",
+    "dataTypeName" : "number",
+    "description" : "Estimated total number of primary cases, including lab-confirmed and probable, based on the outbreak-specific definition.",
+    "fieldName" : "illnesses",
+    "position" : 10,
+    "renderTypeName" : "number",
+    "tableColumnId" : 154013896,
+    "cachedContents" : {
+      "non_null" : "66713",
+      "largest" : "403000",
+      "null" : "0",
+      "top" : [ {
+        "item" : "2",
+        "count" : "5966"
+      }, {
+        "item" : "3",
+        "count" : "4371"
+      }, {
+        "item" : "4",
+        "count" : "3674"
+      }, {
+        "item" : "5",
+        "count" : "2966"
+      }, {
+        "item" : "6",
+        "count" : "2758"
+      }, {
+        "item" : "7",
+        "count" : "2358"
+      }, {
+        "item" : "8",
+        "count" : "2223"
+      }, {
+        "item" : "9",
+        "count" : "2009"
+      }, {
+        "item" : "10",
+        "count" : "1994"
+      }, {
+        "item" : "11",
+        "count" : "1788"
+      }, {
+        "item" : "12",
+        "count" : "1712"
+      }, {
+        "item" : "13",
+        "count" : "1522"
+      }, {
+        "item" : "15",
+        "count" : "1473"
+      }, {
+        "item" : "14",
+        "count" : "1442"
+      }, {
+        "item" : "16",
+        "count" : "1338"
+      }, {
+        "item" : "20",
+        "count" : "1210"
+      }, {
+        "item" : "17",
+        "count" : "1188"
+      }, {
+        "item" : "18",
+        "count" : "1174"
+      }, {
+        "item" : "19",
+        "count" : "1094"
+      }, {
+        "item" : "21",
+        "count" : "984"
+      } ],
+      "smallest" : "2",
+      "count" : "66713",
+      "cardinality" : "476"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 597163217,
+    "name" : "Hospitalizations",
+    "dataTypeName" : "number",
+    "description" : "Number of primary cases who were hospitalized.",
+    "fieldName" : "hospitalizations",
+    "position" : 11,
+    "renderTypeName" : "number",
+    "tableColumnId" : 154013895,
+    "cachedContents" : {
+      "non_null" : "58155",
+      "largest" : "308",
+      "null" : "8558",
+      "top" : [ {
+        "item" : "0",
+        "count" : "43035"
+      }, {
+        "item" : "1",
+        "count" : "7215"
+      }, {
+        "item" : "2",
+        "count" : "3400"
+      }, {
+        "item" : "3",
+        "count" : "1591"
+      }, {
+        "item" : "4",
+        "count" : "820"
+      }, {
+        "item" : "5",
+        "count" : "535"
+      }, {
+        "item" : "6",
+        "count" : "337"
+      }, {
+        "item" : "7",
+        "count" : "225"
+      }, {
+        "item" : "8",
+        "count" : "153"
+      }, {
+        "item" : "10",
+        "count" : "111"
+      }, {
+        "item" : "9",
+        "count" : "98"
+      }, {
+        "item" : "11",
+        "count" : "92"
+      }, {
+        "item" : "12",
+        "count" : "61"
+      }, {
+        "item" : "13",
+        "count" : "47"
+      }, {
+        "item" : "14",
+        "count" : "44"
+      }, {
+        "item" : "15",
+        "count" : "39"
+      }, {
+        "item" : "16",
+        "count" : "28"
+      }, {
+        "item" : "17",
+        "count" : "23"
+      }, {
+        "item" : "18",
+        "count" : "22"
+      }, {
+        "item" : "19",
+        "count" : "20"
+      } ],
+      "smallest" : "0",
+      "count" : "66713",
+      "cardinality" : "87"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 597163216,
+    "name" : "Info On Hospitalizations",
+    "dataTypeName" : "number",
+    "description" : "Total number of primary cases for whom information on hospitalization is available.",
+    "fieldName" : "info_on_hospitalizations",
+    "position" : 12,
+    "renderTypeName" : "number",
+    "tableColumnId" : 154013894,
+    "cachedContents" : {
+      "non_null" : "58480",
+      "largest" : "2500",
+      "null" : "8233",
+      "top" : [ {
+        "item" : "0",
+        "count" : "6475"
+      }, {
+        "item" : "2",
+        "count" : "4901"
+      }, {
+        "item" : "3",
+        "count" : "3668"
+      }, {
+        "item" : "4",
+        "count" : "3076"
+      }, {
+        "item" : "5",
+        "count" : "2475"
+      }, {
+        "item" : "6",
+        "count" : "2216"
+      }, {
+        "item" : "7",
+        "count" : "1840"
+      }, {
+        "item" : "8",
+        "count" : "1739"
+      }, {
+        "item" : "9",
+        "count" : "1584"
+      }, {
+        "item" : "10",
+        "count" : "1518"
+      }, {
+        "item" : "11",
+        "count" : "1388"
+      }, {
+        "item" : "12",
+        "count" : "1320"
+      }, {
+        "item" : "13",
+        "count" : "1172"
+      }, {
+        "item" : "14",
+        "count" : "1143"
+      }, {
+        "item" : "15",
+        "count" : "1133"
+      }, {
+        "item" : "16",
+        "count" : "1048"
+      }, {
+        "item" : "17",
+        "count" : "953"
+      }, {
+        "item" : "20",
+        "count" : "894"
+      }, {
+        "item" : "18",
+        "count" : "893"
+      }, {
+        "item" : "19",
+        "count" : "854"
+      } ],
+      "smallest" : "0",
+      "count" : "66713",
+      "cardinality" : "356"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 597163215,
+    "name" : "Deaths",
+    "dataTypeName" : "number",
+    "description" : "Number of primary cases who died.",
+    "fieldName" : "deaths",
+    "position" : 13,
+    "renderTypeName" : "number",
+    "tableColumnId" : 154013893,
+    "cachedContents" : {
+      "non_null" : "58785",
+      "largest" : "50",
+      "null" : "7928",
+      "top" : [ {
+        "item" : "0",
+        "count" : "57198"
+      }, {
+        "item" : "1",
+        "count" : "1197"
+      }, {
+        "item" : "2",
+        "count" : "240"
+      }, {
+        "item" : "3",
+        "count" : "74"
+      }, {
+        "item" : "4",
+        "count" : "22"
+      }, {
+        "item" : "5",
+        "count" : "18"
+      }, {
+        "item" : "6",
+        "count" : "11"
+      }, {
+        "item" : "7",
+        "count" : "7"
+      }, {
+        "item" : "12",
+        "count" : "3"
+      }, {
+        "item" : "10",
+        "count" : "2"
+      }, {
+        "item" : "8",
+        "count" : "2"
+      }, {
+        "item" : "13",
+        "count" : "2"
+      }, {
+        "item" : "21",
+        "count" : "1"
+      }, {
+        "item" : "17",
+        "count" : "1"
+      }, {
+        "item" : "11",
+        "count" : "1"
+      }, {
+        "item" : "29",
+        "count" : "1"
+      }, {
+        "item" : "50",
+        "count" : "1"
+      }, {
+        "item" : "15",
+        "count" : "1"
+      }, {
+        "item" : "16",
+        "count" : "1"
+      }, {
+        "item" : "9",
+        "count" : "1"
+      } ],
+      "smallest" : "0",
+      "count" : "66713",
+      "cardinality" : "21"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 597163214,
+    "name" : "Info On Deaths",
+    "dataTypeName" : "number",
+    "description" : "Total number of primary cases for whom information on survival is available.",
+    "fieldName" : "info_on_deaths",
+    "position" : 14,
+    "renderTypeName" : "number",
+    "tableColumnId" : 154013892,
+    "cachedContents" : {
+      "non_null" : "58463",
+      "largest" : "2500",
+      "null" : "8250",
+      "top" : [ {
+        "item" : "0",
+        "count" : "5859"
+      }, {
+        "item" : "2",
+        "count" : "4773"
+      }, {
+        "item" : "3",
+        "count" : "3600"
+      }, {
+        "item" : "4",
+        "count" : "3073"
+      }, {
+        "item" : "5",
+        "count" : "2448"
+      }, {
+        "item" : "6",
+        "count" : "2220"
+      }, {
+        "item" : "7",
+        "count" : "1869"
+      }, {
+        "item" : "8",
+        "count" : "1746"
+      }, {
+        "item" : "9",
+        "count" : "1605"
+      }, {
+        "item" : "10",
+        "count" : "1549"
+      }, {
+        "item" : "11",
+        "count" : "1416"
+      }, {
+        "item" : "12",
+        "count" : "1350"
+      }, {
+        "item" : "13",
+        "count" : "1201"
+      }, {
+        "item" : "14",
+        "count" : "1169"
+      }, {
+        "item" : "15",
+        "count" : "1154"
+      }, {
+        "item" : "16",
+        "count" : "1068"
+      }, {
+        "item" : "17",
+        "count" : "961"
+      }, {
+        "item" : "20",
+        "count" : "926"
+      }, {
+        "item" : "18",
+        "count" : "919"
+      }, {
+        "item" : "19",
+        "count" : "876"
+      } ],
+      "smallest" : "0",
+      "count" : "66713",
+      "cardinality" : "355"
+    },
+    "format" : {
+      "decimalSeparator" : ".",
+      "groupSeparator" : ","
+    }
+  }, {
+    "id" : 597163213,
+    "name" : "Food Vehicle",
+    "dataTypeName" : "text",
+    "description" : "For foodborne outbreaks only, the implicated food.  Multiple implicated foods are separated by a semicolon.",
+    "fieldName" : "food_vehicle",
+    "position" : 15,
+    "renderTypeName" : "text",
+    "tableColumnId" : 154013891,
+    "cachedContents" : {
+      "non_null" : "12446",
+      "largest" : "zucchini;water;unspecified fish;soup, speciality, other;soup, other vegetable-based;salad dressings;refried beans, unspecified;red salsa;ranch dressing;pork, sweet and sour;multiple salads;mousse;mixed vegetables;melon, unspecified;ice;enchiladas;egg rolls;couscous;cookies;chips, tortilla;cake;banana, unspecified",
+      "null" : "54267",
+      "top" : [ {
+        "item" : "oysters, raw",
+        "count" : "264"
+      }, {
+        "item" : "multiple foods",
+        "count" : "208"
+      }, {
+        "item" : "ground beef, hamburger",
+        "count" : "134"
+      }, {
+        "item" : "salad, unspecified",
+        "count" : "130"
+      }, {
+        "item" : "chicken",
+        "count" : "115"
+      }, {
+        "item" : "chicken, unspecified",
+        "count" : "104"
+      }, {
+        "item" : "sandwich, submarine",
+        "count" : "92"
+      }, {
+        "item" : "pork, BBQ",
+        "count" : "87"
+      }, {
+        "item" : "chicken, other",
+        "count" : "85"
+      }, {
+        "item" : "fish, mahi mahi",
+        "count" : "85"
+      }, {
+        "item" : "lettuce-based salads unspecified",
+        "count" : "82"
+      }, {
+        "item" : "pizza, unspecified",
+        "count" : "81"
+      }, {
+        "item" : "oysters",
+        "count" : "80"
+      }, {
+        "item" : "chicken salad",
+        "count" : "76"
+      }, {
+        "item" : "Raw Milk",
+        "count" : "74"
+      }, {
+        "item" : "potato salad",
+        "count" : "74"
+      }, {
+        "item" : "pizza, meat",
+        "count" : "73"
+      }, {
+        "item" : "tuna, unspecified",
+        "count" : "72"
+      }, {
+        "item" : "chicken, fried",
+        "count" : "70"
+      }, {
+        "item" : "fish, ahi",
+        "count" : "65"
+      } ],
+      "smallest" : "5x6 tomatoes",
+      "count" : "66713",
+      "cardinality" : "3779"
+    },
+    "format" : { }
+  }, {
+    "id" : 597163212,
+    "name" : "Food Contaminated Ingredient",
+    "dataTypeName" : "text",
+    "description" : "For foodborne outbreaks only, indicates the contaminated ingredient.   Multiple contaminated ingredients are separated by a semicolon.",
+    "fieldName" : "food_contaminated_ingredient",
+    "position" : 16,
+    "renderTypeName" : "text",
+    "tableColumnId" : 154013890,
+    "cachedContents" : {
+      "non_null" : "2750",
+      "largest" : "zucchini;strawberries",
+      "null" : "63963",
+      "top" : [ {
+        "item" : "chicken",
+        "count" : "253"
+      }, {
+        "item" : "Fin fish",
+        "count" : "194"
+      }, {
+        "item" : "beef",
+        "count" : "148"
+      }, {
+        "item" : "egg",
+        "count" : "147"
+      }, {
+        "item" : "pork",
+        "count" : "136"
+      }, {
+        "item" : "oysters, raw",
+        "count" : "105"
+      }, {
+        "item" : "turkey",
+        "count" : "81"
+      }, {
+        "item" : "tuna",
+        "count" : "73"
+      }, {
+        "item" : "oysters",
+        "count" : "68"
+      }, {
+        "item" : "ground beef",
+        "count" : "59"
+      }, {
+        "item" : "leafy green",
+        "count" : "58"
+      }, {
+        "item" : "rice",
+        "count" : "49"
+      }, {
+        "item" : "milk",
+        "count" : "44"
+      }, {
+        "item" : "fish, baracuda",
+        "count" : "41"
+      }, {
+        "item" : "milk, unpasteurized",
+        "count" : "33"
+      }, {
+        "item" : "milk, whole milk unpasteurized",
+        "count" : "32"
+      }, {
+        "item" : "fruit, unspecified",
+        "count" : "31"
+      }, {
+        "item" : "liver, chicken",
+        "count" : "30"
+      }, {
+        "item" : "fish, tuna",
+        "count" : "29"
+      }, {
+        "item" : "Vine-stalk eg. tomato",
+        "count" : "24"
+      } ],
+      "smallest" : "Alcohol;Shellfish",
+      "count" : "66713",
+      "cardinality" : "518"
+    },
+    "format" : { }
+  }, {
+    "id" : 597163211,
+    "name" : "IFSAC Category",
+    "dataTypeName" : "text",
+    "description" : "For foodborne outbreaks only, the IFSAC food category of the contaminated ingredient.  If contaminated ingredients fall into multiple IFSAC categories, \"Multiple\" will be listed.",
+    "fieldName" : "ifsac_category",
+    "position" : 17,
+    "renderTypeName" : "text",
+    "tableColumnId" : 154013889,
+    "cachedContents" : {
+      "non_null" : "12005",
+      "largest" : "Vegetable Row Crops",
+      "null" : "54708",
+      "top" : [ {
+        "item" : "Multiple",
+        "count" : "5939"
+      }, {
+        "item" : "Fish",
+        "count" : "1067"
+      }, {
+        "item" : "Beef",
+        "count" : "750"
+      }, {
+        "item" : "Chicken",
+        "count" : "620"
+      }, {
+        "item" : "Mollusks",
+        "count" : "481"
+      }, {
+        "item" : "Dairy",
+        "count" : "398"
+      }, {
+        "item" : "Pork",
+        "count" : "370"
+      }, {
+        "item" : "N/A",
+        "count" : "300"
+      }, {
+        "item" : "Fruits",
+        "count" : "287"
+      }, {
+        "item" : "Vegetable Row Crops",
+        "count" : "284"
+      }, {
+        "item" : "Turkey",
+        "count" : "217"
+      }, {
+        "item" : "Grains-beans",
+        "count" : "214"
+      }, {
+        "item" : "Eggs",
+        "count" : "204"
+      }, {
+        "item" : "Other",
+        "count" : "194"
+      }, {
+        "item" : "Seeded Vegetables",
+        "count" : "157"
+      }, {
+        "item" : "Crustaceans",
+        "count" : "117"
+      }, {
+        "item" : "Root/Underground",
+        "count" : "90"
+      }, {
+        "item" : "Herbs",
+        "count" : "81"
+      }, {
+        "item" : "Sprouts",
+        "count" : "57"
+      }, {
+        "item" : "Fungi",
+        "count" : "48"
+      } ],
+      "smallest" : "Beef",
+      "count" : "66713",
+      "cardinality" : "26"
+    },
+    "format" : { }
+  }, {
+    "id" : 597163210,
+    "name" : "Water Exposure",
+    "dataTypeName" : "text",
+    "description" : "For waterborne outbreaks only, the implicated type of water exposure.",
+    "fieldName" : "water_exposure",
+    "position" : 18,
+    "renderTypeName" : "text",
+    "tableColumnId" : 154013888,
+    "cachedContents" : {
+      "non_null" : "3106",
+      "largest" : "Undetermined water",
+      "null" : "63607",
+      "top" : [ {
+        "item" : "Drinking water",
+        "count" : "1256"
+      }, {
+        "item" : "Recreational water -- treated",
+        "count" : "1085"
+      }, {
+        "item" : "Recreational water -- untreated",
+        "count" : "361"
+      }, {
+        "item" : "Undetermined water",
+        "count" : "192"
+      }, {
+        "item" : "Other/Environmental water",
+        "count" : "180"
+      }, {
+        "item" : "Drinking water;Recreational water -- treated",
+        "count" : "14"
+      }, {
+        "item" : "Drinking water;Other/Environmental water",
+        "count" : "11"
+      }, {
+        "item" : "Drinking water;Undetermined water",
+        "count" : "5"
+      }, {
+        "item" : "Other/Environmental water;Recreational water -- treated",
+        "count" : "1"
+      }, {
+        "item" : "Recreational water -- treated;Recreational water -- untreated",
+        "count" : "1"
+      } ],
+      "smallest" : "Drinking water",
+      "count" : "66713",
+      "cardinality" : "10"
+    },
+    "format" : { }
+  }, {
+    "id" : 597163209,
+    "name" : "Water Type",
+    "dataTypeName" : "text",
+    "description" : "For waterborne outbreaks only, a description of the venue (for treated and untreated recreational water), water system (for drinking water) or device/structure (for other/unknown; e.g., steam cleaner, cooling tower, ornamental fountain, etc.) that was the vehicle for waterborne exposure to microbial pathogens, chemicals, or toxins.",
+    "fieldName" : "water_type",
+    "position" : 19,
+    "renderTypeName" : "text",
+    "tableColumnId" : 154013887,
+    "cachedContents" : {
+      "non_null" : "2730",
+      "largest" : "Unknown",
+      "null" : "63983",
+      "top" : [ {
+        "item" : "Community",
+        "count" : "693"
+      }, {
+        "item" : "Pool - Other Swimming Pool",
+        "count" : "511"
+      }, {
+        "item" : "Hot Tub/Spa/Whirlpool",
+        "count" : "348"
+      }, {
+        "item" : "Other",
+        "count" : "346"
+      }, {
+        "item" : "Lake/Reservoir",
+        "count" : "283"
+      }, {
+        "item" : "Hot Tub/Spa/Whirlpool;Pool - Other Swimming Pool",
+        "count" : "113"
+      }, {
+        "item" : "Individual/Private",
+        "count" : "112"
+      }, {
+        "item" : "Unknown",
+        "count" : "76"
+      }, {
+        "item" : "Splash Pad/Interactive Fountain /Water Playground",
+        "count" : "41"
+      }, {
+        "item" : "River/Stream",
+        "count" : "32"
+      }, {
+        "item" : "Commercially-Bottled",
+        "count" : "16"
+      }, {
+        "item" : "Non-Transient Non-Community",
+        "count" : "15"
+      }, {
+        "item" : "Transient Noncommunity",
+        "count" : "13"
+      }, {
+        "item" : "Ocean",
+        "count" : "12"
+      }, {
+        "item" : "Pond",
+        "count" : "12"
+      }, {
+        "item" : "Pool - Other Swimming Pool;Splash Pad/Interactive Fountain /Water Playground",
+        "count" : "10"
+      }, {
+        "item" : "Other;Unknown",
+        "count" : "10"
+      }, {
+        "item" : "Temporary Water Slide",
+        "count" : "8"
+      }, {
+        "item" : "Spring",
+        "count" : "7"
+      }, {
+        "item" : "Community;Hot Tub/Spa/Whirlpool",
+        "count" : "6"
+      } ],
+      "smallest" : "Bulk Water Purchase",
+      "count" : "66713",
+      "cardinality" : "56"
+    },
+    "format" : { }
+  }, {
+    "id" : 597163208,
+    "name" : "Animal Type",
+    "dataTypeName" : "text",
+    "description" : "For animal contact outbreaks only, the type of animal involved.  Multiple animal types are separated by a semicolon.",
+    "fieldName" : "animal_type",
+    "position" : 20,
+    "renderTypeName" : "text",
+    "tableColumnId" : 154013886,
+    "cachedContents" : {
+      "non_null" : "587",
+      "largest" : "Turtle",
+      "null" : "66126",
+      "top" : [ {
+        "item" : "Poultry",
+        "count" : "184"
+      }, {
+        "item" : "Cattle",
+        "count" : "147"
+      }, {
+        "item" : "Dog or puppy",
+        "count" : "46"
+      }, {
+        "item" : "Turtle",
+        "count" : "41"
+      }, {
+        "item" : "Goat",
+        "count" : "30"
+      }, {
+        "item" : "Lizard",
+        "count" : "25"
+      }, {
+        "item" : "Pig",
+        "count" : "8"
+      }, {
+        "item" : "Hedgehog",
+        "count" : "7"
+      }, {
+        "item" : "Sheep",
+        "count" : "7"
+      }, {
+        "item" : "Other",
+        "count" : "6"
+      }, {
+        "item" : "Cat or kitten",
+        "count" : "5"
+      }, {
+        "item" : "Guinea pig",
+        "count" : "5"
+      }, {
+        "item" : "Reptile (type unspecified)",
+        "count" : "5"
+      }, {
+        "item" : "Bird, not including poultry",
+        "count" : "4"
+      }, {
+        "item" : "Horse or pony",
+        "count" : "4"
+      }, {
+        "item" : "Dog or puppy;Poultry",
+        "count" : "4"
+      }, {
+        "item" : "Snake",
+        "count" : "4"
+      }, {
+        "item" : "Fish",
+        "count" : "3"
+      }, {
+        "item" : "Cattle;Sheep",
+        "count" : "3"
+      }, {
+        "item" : "Goat;Sheep",
+        "count" : "2"
+      } ],
+      "smallest" : "Alpaca;Cattle;Dog or puppy;Goat;Hedgehog;Poultry;Rabbit;Sheep",
+      "count" : "66713",
+      "cardinality" : "61"
+    },
+    "format" : { }
+  } ],
+  "grants" : [ {
+    "inherited" : false,
+    "type" : "viewer",
+    "flags" : [ "public" ]
+  } ],
+  "license" : {
+    "name" : "Public Domain U.S. Government",
+    "termsLink" : "https://www.usa.gov/government-works"
+  },
+  "metadata" : {
+    "jsonQuery" : {
+      "order" : [ {
+        "columnFieldName" : "year",
+        "ascending" : true
+      }, {
+        "columnFieldName" : "month",
+        "ascending" : true
+      } ]
+    },
+    "attachments" : [ {
+      "filename" : "NORS Data Documentation_2023.09.08.pdf",
+      "assetId" : "7e2e95ba-8049-4dd7-984b-6ae82c564a6c",
+      "name" : "NORS Data Documentation_2023.09.08.pdf"
+    } ],
+    "custom_fields" : {
+      "Data Quality" : {
+        "Suggested Citation" : "Centers for Disease Control and Prevention (CDC). BEAM (Bacteria, Enterics, Amoeba, and Mycotics) Dashboard. Atlanta, Georgia: U.S. Department of Health and Human Services. www.cdc.gov/ncezid/dfwed/BEAM-dashboard.html. Accessed MM/DD/YYYY."
+      },
+      "Common Core" : {
+        "Contact Email" : "NORSDashboard@cdc.gov",
+        "Homepage" : "https://www.cdc.gov/nors/",
+        "Contact Name" : "NORS Team",
+        "Update Frequency" : "Annual",
+        "Program Code" : "009:026",
+        "Bureau Code" : "009:20",
+        "Public Access Level" : "public"
+      },
+      "Common Core 3" : {
+        "Contact Email" : "NORSDashboard@cdc.gov",
+        "Contact Name" : "NORS Team",
+        "Update Frequency" : "Annual",
+        "Program Code" : "009:026",
+        "Restriction Status" : "public",
+        "Bureau Code" : "009:20",
+        "Public Access Level" : "public"
+      }
+    },
+    "rowIdentifier" : 597163228,
+    "rowLabel" : "Outbreak",
+    "availableDisplayTypes" : [ "table", "fatrow", "page" ]
+  },
+  "owner" : {
+    "id" : "ggqg-y8ec",
+    "displayName" : "Mary Wikswo",
+    "screenName" : "Mary Wikswo",
+    "type" : "interactive",
+    "flags" : [ "acceptedEula", "mayBeStoriesCoOwner" ]
+  },
+  "query" : {
+    "orderBys" : [ {
+      "ascending" : true,
+      "expression" : {
+        "columnId" : 597163226,
+        "type" : "column"
+      }
+    }, {
+      "ascending" : true,
+      "expression" : {
+        "columnId" : 597163225,
+        "type" : "column"
+      }
+    } ]
+  },
+  "rights" : [ "read" ],
+  "tableAuthor" : {
+    "id" : "ggqg-y8ec",
+    "displayName" : "Mary Wikswo",
+    "screenName" : "Mary Wikswo",
+    "type" : "interactive",
+    "flags" : [ "acceptedEula", "mayBeStoriesCoOwner" ]
+  },
+  "tags" : [ "waterborne", "foodborne", "outbreak", "gastroenteritis" ],
+  "flags" : [ "default", "ownerMayBeContacted", "restorable", "restorePossibleForType" ]
+}

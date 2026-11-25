@@ -1,0 +1,104 @@
+etiology_string,n_entries_food_2009_2023,group,pilot_exact_string,note
+Salmonella enterica,1984,SAL,True,study group (genus/pathotype rule)
+Norovirus Genogroup II,1747,NOV_GII,True,study group (genus/pathotype rule)
+Norovirus unknown,929,,False,excluded: norovirus without GI/GII genogroup
+Norovirus,727,,False,excluded: norovirus without GI/GII genogroup
+"Escherichia coli, Shiga toxin-producing",484,STEC,True,study group (genus/pathotype rule)
+Clostridium perfringens,479,CPERF,True,study group (genus/pathotype rule)
+Norovirus Genogroup I,434,NOV_GI,True,study group (genus/pathotype rule)
+Campylobacter jejuni,299,CAMP,True,study group (genus/pathotype rule)
+Bacillus cereus,257,,False,not a study group
+Staphylococcus aureus,213,,False,not a study group
+Ciguatoxin,205,,False,not a study group
+Scombroid toxin,198,,False,not a study group
+Vibrio parahaemolyticus,159,,False,not a study group
+Cyclospora cayetanensis,130,,False,not a study group
+Listeria monocytogenes,117,,False,not a study group
+Campylobacter unknown,94,CAMP,False,study group (genus/pathotype rule)
+Other - Bacterium,74,,False,not a study group
+Shigella sonnei,61,,False,not a study group
+Salmonella unknown,60,SAL,False,study group (genus/pathotype rule)
+Other - Chemical/Toxin,56,,False,not a study group
+Campylobacter,47,CAMP,False,study group (genus/pathotype rule)
+Hepatitis A,44,,False,not a study group
+Clostridium botulinum,41,,False,not a study group
+Other,30,,False,not a study group
+Campylobacter coli,29,CAMP,False,study group (genus/pathotype rule)
+"Escherichia coli, Enteropathogenic",28,,False,not a study group
+"Escherichia coli, Enteroaggregative",26,,False,not a study group
+"Escherichia coli, Enterotoxigenic",24,,False,not a study group
+Mycotoxins,20,,False,not a study group
+Cryptosporidium parvum,18,,False,not a study group
+Salmonella other,18,SAL,False,study group (genus/pathotype rule)
+Cyclospora,16,,False,not a study group
+Sapovirus,16,,False,not a study group
+Shigella flexneri,16,,False,not a study group
+Histamine,14,,False,not a study group
+Vibrio other,13,,False,not a study group
+Cryptosporidium unknown,12,,False,not a study group
+Unknown - Bacterium,12,,False,not a study group
+Vibrio cholerae,12,,False,not a study group
+Bacillus,10,,False,not a study group
+Salmonella,10,SAL,False,study group (genus/pathotype rule)
+Staphylococcus unknown,10,,False,not a study group
+Cryptosporidium,9,,False,not a study group
+Shigella unknown,9,,False,not a study group
+Vibrio unknown,9,,False,not a study group
+Yersinia enterocolitica,9,,False,not a study group
+Cleaning agents,7,,False,not a study group
+Clostridium,7,,False,not a study group
+Paralytic shellfish poison,7,,False,not a study group
+Rotavirus,7,,False,not a study group
+Staphylococcus,7,,False,not a study group
+Trichinella,7,,False,not a study group
+Trichinella spiralis,7,,False,not a study group
+Vibrio,7,,False,not a study group
+"Escherichia coli, Enteroinvasive",6,,False,not a study group
+Sapovirus unknown,6,,False,not a study group
+Shigella,6,,False,not a study group
+Trichinella unknown,6,,False,not a study group
+Giardia duodenalis,5,,False,not a study group
+Other - Virus,5,,False,not a study group
+Campylobacter other,4,CAMP,False,study group (genus/pathotype rule)
+Clostridium difficile,4,,False,not a study group
+Giardia unknown,4,,False,not a study group
+Neurotoxic shellfish poison,4,,False,not a study group
+Norovirus other,4,,False,excluded: norovirus without GI/GII genogroup
+Plant/Herbal toxins,4,,False,not a study group
+Streptococcus Group A,4,,False,not a study group
+Clostridium other,3,,False,not a study group
+Enterobacter other,3,,False,not a study group
+"Escherichia coli, Other",3,,False,not a study group
+Astrovirus,2,,False,not a study group
+Bacillus unknown,2,,False,not a study group
+Brucella other,2,,False,not a study group
+Campylobacter lari,2,CAMP,False,study group (genus/pathotype rule)
+Cryptosporidium hominis,2,,False,not a study group
+Giardia,2,,False,not a study group
+Listeria,2,,False,not a study group
+Norovirus Genogroup IV,2,,False,excluded: norovirus without GI/GII genogroup
+Pesticides,2,,False,not a study group
+Sapovirus Genogroup I,2,,False,not a study group
+Staphylococcus other,2,,False,not a study group
+Toxoplasma,2,,False,not a study group
+Toxoplasma gondii,2,,False,not a study group
+Unknown,2,,False,not a study group
+Vibrio vulnificus,2,,False,not a study group
+Amnesic shellfish poison,1,,False,not a study group
+Bacillus other,1,,False,not a study group
+Brucella,1,,False,not a study group
+Brucella unknown,1,,False,not a study group
+Entamoeba coli,1,,False,not a study group
+Enterococcus faecalis,1,,False,not a study group
+Escherichia,1,,False,not a study group
+"Escherichia coli, Unknown",1,,False,not a study group
+Heavy metals,1,,False,not a study group
+Norovirus Genogroup IX,1,,False,excluded: norovirus without GI/GII genogroup
+Other - Parasite,1,,False,not a study group
+Plesiomonas shigelloides,1,,False,not a study group
+Proteus mirabilis,1,,False,not a study group
+Puffer fish tetrodotoxin,1,,False,not a study group
+Unknown - Chemical/Toxin,1,,False,not a study group
+Yersinia,1,,False,not a study group
+Yersinia unknown,1,,False,not a study group
+<multi-entry>,,,False,eligible if every entry maps to ONE study group and >= 1 entry is Confirmed; entries from >1 group or with a non-study agent -> excluded

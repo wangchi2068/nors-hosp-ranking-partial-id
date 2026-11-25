@@ -1,0 +1,50 @@
+{
+  "dataset_id": "5xkq-dg7x",
+  "download_started_utc": "2026-11-25T04:08:30+00:00",
+  "rows_updated_at_utc": "2024-12-20T19:57:40+00:00",
+  "view_last_modified_utc": "2026-09-22T23:17:00+00:00",
+  "metadata_file": "view_metadata_20261125T040830Z.json",
+  "route": "soda_full",
+  "file": "nors_soda_full_20261125T040830Z.csv",
+  "urls": [
+    "https://data.cdc.gov/resource/5xkq-dg7x.csv?%24select=%2A%2C%3Aid&%24order=%3Aid&%24limit=25000&%24offset=0",
+    "https://data.cdc.gov/resource/5xkq-dg7x.csv?%24select=%2A%2C%3Aid&%24order=%3Aid&%24limit=25000&%24offset=25000",
+    "https://data.cdc.gov/resource/5xkq-dg7x.csv?%24select=%2A%2C%3Aid&%24order=%3Aid&%24limit=25000&%24offset=50000"
+  ],
+  "rows": 66713,
+  "bytes": 8696501,
+  "sha256": "6005ac026ef124a5a1e5b9bd1f5aafc791184976f4518368bb5cd5aa059e82e9",
+  "download_finished_utc": "2026-11-25T04:08:51+00:00",
+  "http_log": [
+    {
+      "url": "https://data.cdc.gov/api/views/5xkq-dg7x.json",
+      "attempt": 1,
+      "status": 200,
+      "bytes": 39828
+    },
+    {
+      "url": "https://data.cdc.gov/api/views/5xkq-dg7x/rows.csv?accessType=DOWNLOAD",
+      "attempt": 1,
+      "status": 410,
+      "error": "{\n  \"code\" : \"feature_deprecated\",\n  \"deprecatedAt\" : 1791331200,\n  \"deprecationInfoLink\" : \"https://support.socrata.com/hc/en-us/articles/43491231777047\",\n  \"error\" : true,\n  \"message\" : \"This feature has been deprecated\",\n  \"sunsetAt\" : 1797897600,\n  \"sunsetInfoLink\" : \"https://support.socrata.com"
+    },
+    {
+      "url": "https://data.cdc.gov/resource/5xkq-dg7x.csv?%24select=%2A%2C%3Aid&%24order=%3Aid&%24limit=25000&%24offset=0",
+      "attempt": 1,
+      "status": 200,
+      "bytes": 4109437
+    },
+    {
+      "url": "https://data.cdc.gov/resource/5xkq-dg7x.csv?%24select=%2A%2C%3Aid&%24order=%3Aid&%24limit=25000&%24offset=25000",
+      "attempt": 1,
+      "status": 200,
+      "bytes": 3847073
+    },
+    {
+      "url": "https://data.cdc.gov/resource/5xkq-dg7x.csv?%24select=%2A%2C%3Aid&%24order=%3Aid&%24limit=25000&%24offset=50000",
+      "attempt": 1,
+      "status": 200,
+      "bytes": 2412213
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+\section{Methods}\label{sec:methods}
+
+\subsection{Data Source, Record Audit and Common Support}\label{sec:data}
+
+We conducted a cross-sectional analysis of outbreak-level records in the public CDC NORS dataset~\cite{cdc2024norsdata}, downloaded in full on 25 November 2026 (portal rows last updated 20 December 2024), adhering to RECORD reporting standards~\cite{benchimol2015record}. Reporting by investigating health departments is voluntary~\cite{hall2013acute}, and etiologies are classified as confirmed or suspected under CDC criteria~\cite{cdc2026surveillance2019}. Eligible outbreaks had food as the primary transmission mode, began in 2009--2023 and had confirmed etiology mapping to one of six study groups: any \textit{Salmonella} serotype, STEC, any \textit{Campylobacter} species, \textit{C. perfringens}, norovirus GI or norovirus GII. Outbreaks listing multiple serotypes or genotypes within a single study group were retained per NORS reporting guidance~\cite{cdc2014norsguidance}; strictly single-entry records~\cite{weller2026single} were evaluated in sensitivity analysis. Outbreaks with ungenogrouped norovirus or mixed agent groups were excluded.
+
+For outbreak $i$, let $C_i$ denote total ill persons, $H_i$ hospitalizations and $K_i$ cases with known hospitalization status~\cite{cdc2014norsguidance}, leaving $M_i = C_i - K_i$ unrecorded-status cases. Every eligible record was audited against $0 \le H_i \le K_i \le C_i$ (Supplementary Table S1). Incomplete records were retained under their weakest logical constraints: blank $K_i$ was set to $K_i = H_i$ (leaving $C_i - H_i$ unrecorded); blank $H_i$ with $K_i = 0$ implied $H_i = 0$; and blank $H_i$ with $K_i > 0$, or both fields blank, treated all $C_i$ cases as unrecorded. Records with arithmetic contradictions ($H_i > C_i$ or $K_i > C_i$) or $C_i \le 0$ were to be excluded.
+
+Food-preparation settings were harmonized into seven categories---restaurant, catering or banquet, private home, institution, other, multiple and unknown (Supplementary Section S1)---and crossed with three five-year periods (2009--2013, 2014--2018, 2019--2023) to form 21 cells. To prevent single large events from dominating sparse strata, the primary analysis used the common support comprising cells with at least 3 outbreaks per group. All six groups were directly standardized~\cite{keiding2014standardization} to one shared reference weight vector $w_s = C_{\cdot s} / \sum_{s'} C_{\cdot s'}$ equal to the pooled share of retained cases in cell $s$.
+
+\subsection{Target Estimand, Worst-Case Bounds and Tipping Points}\label{sec:bounds}
+
+For group $j$ and common-support cell $s$, let $C_{js}$, $H_{js}$ and $M_{js}$ denote the sums of $C_i$, $H_i$ and $M_i$. The target estimand is the case-weighted standardized hospitalization proportion among reported outbreak cases:
+\begin{equation}
+  \theta_j = \sum_s w_s \, \frac{H_{js} + H^{u}_{js}}{C_{js}},
+  \label{eq:theta}
+\end{equation}
+where $H^{u}_{js} \in [0, M_{js}]$ is the unobserved hospitalization count among unrecorded cases. With no missing-data assumptions~\cite{manski1989anatomy}, $\theta_j$ lies in the worst-case interval $[L_j, U_j]$:
+\begin{equation}
+  L_j = \sum_s w_s \frac{H_{js}}{C_{js}}, \qquad
+  U_j = \sum_s w_s \frac{H_{js} + M_{js}}{C_{js}}.
+  \label{eq:bounds}
+\end{equation}
+Group $A$ is ordered above $B$ in the sample without assumptions if $L_A > U_B$~\cite{horowitz2000nonparametric}; overlapping intervals are undetermined. To assess departures from cell-level missingness at random ($\delta = 0$, where unrecorded cases follow the recorded rate $p_{js}$ from complete-field outbreaks), we allowed each cell's unrecorded hospitalization rate to vary independently within $\pm \delta$ of $p_{js}$~\cite{ratitch2013missing}:
+\begin{equation}
+  L_j(\delta) = \sum_s w_s \frac{H_{js} + M_{js}\max(0,\, p_{js} - \delta)}{C_{js}}, \qquad
+  U_j(\delta) = \sum_s w_s \frac{H_{js} + M_{js}\min(1,\, p_{js} + \delta)}{C_{js}}.
+  \label{eq:delta}
+\end{equation}
+For the 52 outbreaks with blank $K_i$ (2.3\% of eligible cases), setting $K_i = H_i$ is exact for worst-case bounds and conservatively applies the $\delta$-band across all $C_i - H_i$ remaining cases. At $\delta = 1$ (100 points), Eq.~\ref{eq:delta} equals $[L_j, U_j]$. For each pair ordered as $\theta_h(0) > \theta_l(0)$, the sample tipping point is
+\begin{equation}
+  \delta^{*}_{hl} = \inf\{\delta \ge 0 : L_h(\delta) \le U_l(\delta)\},
+  \label{eq:deltastar}
+\end{equation}
+with $\delta^{*}_{hl} = \infty$ when $L_h > U_l$ holds at $\delta = 1$. Piecewise-linear exact solutions agreed with bisection to within $1.4 \times 10^{-14}$ points (Supplementary Section S2).
+
+\subsection{Joint M-Estimation Inference and Multiple-Testing Control}\label{sec:inference}
+
+Sample identification bounds ignore finite-outbreak clustering and the sampling variation of the shared reference weights $w_s$. Viewing the $G \times K$ stratum means $\mu_{js} = \mathbb{E}[Z_i \mid j, s]$ of outbreak count vectors $Z_i = (C_i, H_i, M_i, H_{\text{rec},i}, K_{\text{rec},i})^{\top}$ as a stratified cluster M-estimator~\cite{stefanski2002calculus}, every standardized bound $L_j(\delta), U_j(\delta)$ and pairwise difference $[\Delta^{L}_{hl}(\delta), \Delta^{U}_{hl}(\delta)] = [L_h(\delta) - U_l(\delta),\, U_h(\delta) - L_l(\delta)]$ is a smooth functional $\Theta(\mu; \delta)$. Because the sample reference weights $w_s$ aggregate $C_i$ across all six groups, sampling fluctuations in group $k$'s outbreak sizes perturb every group $j$'s standardized proportion via $\frac{\partial w_s}{\partial C_{ks}}$. Stacking the stratum means and target functionals yields the asymptotic sandwich covariance:
+\begin{equation}
+  \widehat{V}(\delta) = \sum_{j=1}^{G}\sum_{s=1}^{K} \widehat{J}_{js}(\delta)\, \widehat{\Omega}_{js}^{\text{HC1}}\, \widehat{J}_{js}(\delta)^{\top}, \qquad
+  \widehat{\Omega}_{js}^{\text{HC1}} = \frac{1}{n_{js}(n_{js} - 1)} \sum_{i \in (j, s)} (Z_i - \bar{Z}_{js})(Z_i - \bar{Z}_{js})^{\top},
+  \label{eq:sandwich}
+\end{equation}
+where $\widehat{J}_{js}(\delta)$ is the Jacobian with respect to $\mu_{js}$ and the finite-cluster factor $n_{js}/(n_{js}-1)$ prevents small-stratum under-coverage. Closed-form outbreak-level influence functions for worst-case bounds (derived in Supplementary Section S2) matched central-difference Jacobians across all $12 \times 12$ covariance entries to $1.40 \times 10^{-12}$.
+
+Using $\widehat{\sigma}_{L,hl}(\delta)$ and $\widehat{\sigma}_{U,hl}(\delta)$ from Eq.~\ref{eq:sandwich}, we constructed Imbens--Manski~\cite{imbens2004confidence} uniformly valid 95\% confidence intervals for each worst-case difference $\theta_h - \theta_l$, $[\widehat{\Delta}^{L}_{hl} - c_{\text{IM}}\widehat{\sigma}_{L,hl},\; \widehat{\Delta}^{U}_{hl} + c_{\text{IM}}\widehat{\sigma}_{U,hl}]$, where $c_{\text{IM}}$ solves $\Phi(c + \widehat{\Lambda}_{hl}/\max(\widehat{\sigma}_{L,hl}, \widehat{\sigma}_{U,hl})) - \Phi(-c) = 0.95$ with interval width $\widehat{\Lambda}_{hl} = \widehat{\Delta}^{U}_{hl} - \widehat{\Delta}^{L}_{hl}$. To control the family-wise error rate ($\text{FWER} \le 0.05$) across all 15 one-sided hypotheses $H_{0,p}: \theta_h \le \theta_l$, we applied a Gaussian multiplier Max-$T$ stepdown procedure~\cite{romano2005exact} using the $15 \times 15$ correlation matrix of $\widehat{\Delta}^{L}(\delta)$ (50,000 multiplier draws, giving joint critical values $c_{\text{sim}}$). We further defined the 95\% confidence tipping point $\delta^{*}_{0.95}$ as the smallest $\delta$ where the confidence lower bound $\widehat{\Delta}^{L}_{hl}(\delta) - z\,\widehat{\sigma}_{L,hl}(\delta)$ crosses zero, computed both pairwise ($z = 1.645$) and simultaneously ($z = c_{\text{sim}}$). To diagnose strata where extreme outbreak sizes inflate sampling variance, we computed the case-share Herfindahl--Hirschman index $\text{HHI}_{js} = \sum_{i \in (j,s)}(C_i/C_{js})^2$ and effective cluster count $N_{\text{eff},js} = 1/\text{HHI}_{js}$, and cross-checked analytic standard errors against a 2,000-replicate stratified outbreak-level bootstrap.
+
+\subsection{Value-of-Information Follow-Up and Retrospective Masking}\label{sec:voi}
+
+To translate partial identification into actionable surveillance guidance, we derived a marginal disambiguation priority score for unresolved comparisons. Following up one unrecorded case in group $j$ and cell $s$ with expected recorded hospitalization rate $\hat{p}_{js}$ narrows ambiguity by raising $L_j$ in expectation by $w_s \hat{p}_{js}/C_{js}$ and lowering $U_j$ in expectation by $w_s (1 - \hat{p}_{js})/C_{js}$. Weighting each unresolved pair $(h, l)$ by inverse overlap urgency $(\widehat{U}_l - \widehat{L}_h + \epsilon)^{-1}$ ($\epsilon = 0.015$) yields the per-case Value-of-Information (VoI) score:
+\begin{equation}
+  S^{\text{VoI}}_{js} = \frac{w_s}{C_{js}} \sum_{\substack{(h,l)\text{ unresolved}}} \frac{\mathbf{1}\{j = h\}\,\hat{p}_{hs} + \mathbf{1}\{j = l\}(1 - \hat{p}_{ls})}{\widehat{U}_l - \widehat{L}_h + \epsilon}.
+  \label{eq:voi}
+\end{equation}
+We evaluated Eq.~\ref{eq:voi} via a 200-trial retrospective masking benchmark on all 2,414 complete-status outbreaks ($U_i = 0$; 45,249 cases) in the common support, masking hospitalization counts according to empirical cell-specific incomplete-outbreak probabilities and comparing four allocation policies across follow-up budgets from 250 to 5,000 cases: random follow-up, largest outbreaks first (descending $C_i$), unweighted width-reduction greedy ($w_s/C_{js}$), and VoI disambiguation ($S^{\text{VoI}}_{js}$). Thirteen pre-specified robustness variants (crude comparisons, period-only standardization, alternative cohorts, support thresholds, weighting schemes and combined norovirus) were also evaluated (Supplementary Table S3). All analyses ran in Python.

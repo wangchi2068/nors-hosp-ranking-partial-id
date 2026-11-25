@@ -1,0 +1,2896 @@
+{
+  "preserved": "results.json",
+  "preserved_sha256": "c4cc76efabe23d7cc5337ad3835327cc90402b85132cabe42998de08e99ead7b",
+  "rebuilt": "results_rebuilt.json",
+  "rebuilt_sha256": "862eb081ce18d7c1a443c6e4cd10c314461e764a6f1ab8f2acf1dc67d73fd950",
+  "tolerance_abs": 1e-09,
+  "rules": "ints/bools/strings/nulls identical; floats |diff| <= tolerance; run metadata excluded",
+  "totals": {
+    "n_leaves": 15473,
+    "exact": 15473,
+    "float_close": 0,
+    "not_matched": 0,
+    "max_abs_float_deviation": 0.0
+  },
+  "totals_excluding_bootstrap": {
+    "n_leaves": 15213,
+    "exact": 15213,
+    "float_close": 0,
+    "not_matched": 0,
+    "max_abs_float_deviation": 0.0
+  },
+  "all_sections_except_bootstrap_matched": true,
+  "bootstrap_matched": true,
+  "bootstrap_present_in_rebuilt": true,
+  "bootstrap_note": "",
+  "bootstrap_monte_carlo_check": {
+    "B": 2000,
+    "tolerance": {
+      "share_z_max": 3.0,
+      "quantile_sd_max": 0.25
+    },
+    "n_share_fields": 161,
+    "max_share_abs_diff": 0.0,
+    "max_share_z": 0.0,
+    "n_share_fields_beyond_tolerance": 0,
+    "n_quantile_fields": 48,
+    "max_quantile_abs_diff": 0.0,
+    "max_quantile_diff_in_bootstrap_sd": 0.0,
+    "n_quantile_fields_beyond_tolerance": 0,
+    "delta_star_quantiles_infinite_status_same": true,
+    "delta_star_quantiles_max_abs_diff_pp": 0.0,
+    "within_monte_carlo_tolerance": true,
+    "conclusions": {
+      "supported_pairs": [
+        "STEC|CAMP",
+        "STEC|CPERF",
+        "STEC|NOV_GI",
+        "STEC|NOV_GII"
+      ],
+      "share_supported_reproduced_range": {
+        "preserved": [
+          0.916,
+          0.9995
+        ],
+        "rebuilt": [
+          0.916,
+          0.9995
+        ]
+      },
+      "share_undetermined_stay_undetermined_range": {
+        "preserved": [
+          0.752,
+          1.0
+        ],
+        "rebuilt": [
+          0.752,
+          1.0
+        ]
+      },
+      "modal_n_determined_worst": {
+        "preserved": 4,
+        "rebuilt": 4
+      },
+      "modal_n_determined_delta5": {
+        "preserved": 12,
+        "rebuilt": 12
+      }
+    },
+    "largest_share_differences": [
+      {
+        "pair": "SAL|STEC",
+        "field": "share_worst_A",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|STEC",
+        "field": "share_worst_B",
+        "preserved": 0.006,
+        "rebuilt": 0.006,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|STEC",
+        "field": "share_worst_undetermined",
+        "preserved": 0.994,
+        "rebuilt": 0.994,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|STEC",
+        "field": "share_worst_main_verdict",
+        "preserved": 0.994,
+        "rebuilt": 0.994,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|STEC",
+        "field": "share_delta5_A",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|STEC",
+        "field": "share_delta5_B",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|STEC",
+        "field": "share_delta5_undetermined",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|STEC",
+        "field": "share_delta5_main_verdict",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      }
+    ],
+    "per_ordering": [
+      {
+        "pair": "SAL|STEC",
+        "field": "share_worst_A",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|STEC",
+        "field": "share_worst_B",
+        "preserved": 0.006,
+        "rebuilt": 0.006,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|STEC",
+        "field": "share_worst_undetermined",
+        "preserved": 0.994,
+        "rebuilt": 0.994,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|STEC",
+        "field": "share_worst_main_verdict",
+        "preserved": 0.994,
+        "rebuilt": 0.994,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|STEC",
+        "field": "share_delta5_A",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|STEC",
+        "field": "share_delta5_B",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|STEC",
+        "field": "share_delta5_undetermined",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|STEC",
+        "field": "share_delta5_main_verdict",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|STEC",
+        "field": "share_same_delta0_direction",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|STEC",
+        "field": "share_holds_without_assumption",
+        "preserved": 0.006,
+        "rebuilt": 0.006,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|CAMP",
+        "field": "share_worst_A",
+        "preserved": 0.042,
+        "rebuilt": 0.042,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|CAMP",
+        "field": "share_worst_B",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|CAMP",
+        "field": "share_worst_undetermined",
+        "preserved": 0.958,
+        "rebuilt": 0.958,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|CAMP",
+        "field": "share_worst_main_verdict",
+        "preserved": 0.958,
+        "rebuilt": 0.958,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|CAMP",
+        "field": "share_delta5_A",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|CAMP",
+        "field": "share_delta5_B",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|CAMP",
+        "field": "share_delta5_undetermined",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|CAMP",
+        "field": "share_delta5_main_verdict",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|CAMP",
+        "field": "share_same_delta0_direction",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|CAMP",
+        "field": "share_holds_without_assumption",
+        "preserved": 0.042,
+        "rebuilt": 0.042,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|CPERF",
+        "field": "share_worst_A",
+        "preserved": 0.248,
+        "rebuilt": 0.248,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|CPERF",
+        "field": "share_worst_B",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|CPERF",
+        "field": "share_worst_undetermined",
+        "preserved": 0.752,
+        "rebuilt": 0.752,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|CPERF",
+        "field": "share_worst_main_verdict",
+        "preserved": 0.752,
+        "rebuilt": 0.752,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|CPERF",
+        "field": "share_delta5_A",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|CPERF",
+        "field": "share_delta5_B",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|CPERF",
+        "field": "share_delta5_undetermined",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|CPERF",
+        "field": "share_delta5_main_verdict",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|CPERF",
+        "field": "share_same_delta0_direction",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|CPERF",
+        "field": "share_holds_without_assumption",
+        "preserved": 0.248,
+        "rebuilt": 0.248,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|NOV_GI",
+        "field": "share_worst_A",
+        "preserved": 0.1455,
+        "rebuilt": 0.1455,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|NOV_GI",
+        "field": "share_worst_B",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|NOV_GI",
+        "field": "share_worst_undetermined",
+        "preserved": 0.8545,
+        "rebuilt": 0.8545,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|NOV_GI",
+        "field": "share_worst_main_verdict",
+        "preserved": 0.8545,
+        "rebuilt": 0.8545,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|NOV_GI",
+        "field": "share_delta5_A",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|NOV_GI",
+        "field": "share_delta5_B",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|NOV_GI",
+        "field": "share_delta5_undetermined",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|NOV_GI",
+        "field": "share_delta5_main_verdict",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|NOV_GI",
+        "field": "share_same_delta0_direction",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|NOV_GI",
+        "field": "share_holds_without_assumption",
+        "preserved": 0.1455,
+        "rebuilt": 0.1455,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|NOV_GII",
+        "field": "share_worst_A",
+        "preserved": 0.1425,
+        "rebuilt": 0.1425,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|NOV_GII",
+        "field": "share_worst_B",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|NOV_GII",
+        "field": "share_worst_undetermined",
+        "preserved": 0.8575,
+        "rebuilt": 0.8575,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|NOV_GII",
+        "field": "share_worst_main_verdict",
+        "preserved": 0.8575,
+        "rebuilt": 0.8575,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|NOV_GII",
+        "field": "share_delta5_A",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|NOV_GII",
+        "field": "share_delta5_B",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|NOV_GII",
+        "field": "share_delta5_undetermined",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|NOV_GII",
+        "field": "share_delta5_main_verdict",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|NOV_GII",
+        "field": "share_same_delta0_direction",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "SAL|NOV_GII",
+        "field": "share_holds_without_assumption",
+        "preserved": 0.1425,
+        "rebuilt": 0.1425,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|CAMP",
+        "field": "share_worst_A",
+        "preserved": 0.9705,
+        "rebuilt": 0.9705,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|CAMP",
+        "field": "share_worst_B",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|CAMP",
+        "field": "share_worst_undetermined",
+        "preserved": 0.0295,
+        "rebuilt": 0.0295,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|CAMP",
+        "field": "share_worst_main_verdict",
+        "preserved": 0.9705,
+        "rebuilt": 0.9705,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|CAMP",
+        "field": "share_delta5_A",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|CAMP",
+        "field": "share_delta5_B",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|CAMP",
+        "field": "share_delta5_undetermined",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|CAMP",
+        "field": "share_delta5_main_verdict",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|CAMP",
+        "field": "share_same_delta0_direction",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|CAMP",
+        "field": "share_holds_without_assumption",
+        "preserved": 0.9705,
+        "rebuilt": 0.9705,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|CPERF",
+        "field": "share_worst_A",
+        "preserved": 0.916,
+        "rebuilt": 0.916,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|CPERF",
+        "field": "share_worst_B",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|CPERF",
+        "field": "share_worst_undetermined",
+        "preserved": 0.084,
+        "rebuilt": 0.084,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|CPERF",
+        "field": "share_worst_main_verdict",
+        "preserved": 0.916,
+        "rebuilt": 0.916,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|CPERF",
+        "field": "share_delta5_A",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|CPERF",
+        "field": "share_delta5_B",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|CPERF",
+        "field": "share_delta5_undetermined",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|CPERF",
+        "field": "share_delta5_main_verdict",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|CPERF",
+        "field": "share_same_delta0_direction",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|CPERF",
+        "field": "share_holds_without_assumption",
+        "preserved": 0.916,
+        "rebuilt": 0.916,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|NOV_GI",
+        "field": "share_worst_A",
+        "preserved": 0.936,
+        "rebuilt": 0.936,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|NOV_GI",
+        "field": "share_worst_B",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|NOV_GI",
+        "field": "share_worst_undetermined",
+        "preserved": 0.064,
+        "rebuilt": 0.064,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|NOV_GI",
+        "field": "share_worst_main_verdict",
+        "preserved": 0.936,
+        "rebuilt": 0.936,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|NOV_GI",
+        "field": "share_delta5_A",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|NOV_GI",
+        "field": "share_delta5_B",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|NOV_GI",
+        "field": "share_delta5_undetermined",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|NOV_GI",
+        "field": "share_delta5_main_verdict",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|NOV_GI",
+        "field": "share_same_delta0_direction",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|NOV_GI",
+        "field": "share_holds_without_assumption",
+        "preserved": 0.936,
+        "rebuilt": 0.936,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|NOV_GII",
+        "field": "share_worst_A",
+        "preserved": 0.9995,
+        "rebuilt": 0.9995,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|NOV_GII",
+        "field": "share_worst_B",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|NOV_GII",
+        "field": "share_worst_undetermined",
+        "preserved": 0.0005,
+        "rebuilt": 0.0005,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|NOV_GII",
+        "field": "share_worst_main_verdict",
+        "preserved": 0.9995,
+        "rebuilt": 0.9995,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|NOV_GII",
+        "field": "share_delta5_A",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|NOV_GII",
+        "field": "share_delta5_B",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|NOV_GII",
+        "field": "share_delta5_undetermined",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|NOV_GII",
+        "field": "share_delta5_main_verdict",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|NOV_GII",
+        "field": "share_same_delta0_direction",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "STEC|NOV_GII",
+        "field": "share_holds_without_assumption",
+        "preserved": 0.9995,
+        "rebuilt": 0.9995,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|CPERF",
+        "field": "share_worst_A",
+        "preserved": 0.0185,
+        "rebuilt": 0.0185,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|CPERF",
+        "field": "share_worst_B",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|CPERF",
+        "field": "share_worst_undetermined",
+        "preserved": 0.9815,
+        "rebuilt": 0.9815,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|CPERF",
+        "field": "share_worst_main_verdict",
+        "preserved": 0.9815,
+        "rebuilt": 0.9815,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|CPERF",
+        "field": "share_delta5_A",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|CPERF",
+        "field": "share_delta5_B",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|CPERF",
+        "field": "share_delta5_undetermined",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|CPERF",
+        "field": "share_delta5_main_verdict",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|CPERF",
+        "field": "share_same_delta0_direction",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|CPERF",
+        "field": "share_holds_without_assumption",
+        "preserved": 0.0185,
+        "rebuilt": 0.0185,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|NOV_GI",
+        "field": "share_worst_A",
+        "preserved": 0.0015,
+        "rebuilt": 0.0015,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|NOV_GI",
+        "field": "share_worst_B",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|NOV_GI",
+        "field": "share_worst_undetermined",
+        "preserved": 0.9985,
+        "rebuilt": 0.9985,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|NOV_GI",
+        "field": "share_worst_main_verdict",
+        "preserved": 0.9985,
+        "rebuilt": 0.9985,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|NOV_GI",
+        "field": "share_delta5_A",
+        "preserved": 0.984,
+        "rebuilt": 0.984,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|NOV_GI",
+        "field": "share_delta5_B",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|NOV_GI",
+        "field": "share_delta5_undetermined",
+        "preserved": 0.016,
+        "rebuilt": 0.016,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|NOV_GI",
+        "field": "share_delta5_main_verdict",
+        "preserved": 0.984,
+        "rebuilt": 0.984,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|NOV_GI",
+        "field": "share_same_delta0_direction",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|NOV_GI",
+        "field": "share_holds_without_assumption",
+        "preserved": 0.0015,
+        "rebuilt": 0.0015,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|NOV_GII",
+        "field": "share_worst_A",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|NOV_GII",
+        "field": "share_worst_B",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|NOV_GII",
+        "field": "share_worst_undetermined",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|NOV_GII",
+        "field": "share_worst_main_verdict",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|NOV_GII",
+        "field": "share_delta5_A",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|NOV_GII",
+        "field": "share_delta5_B",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|NOV_GII",
+        "field": "share_delta5_undetermined",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|NOV_GII",
+        "field": "share_delta5_main_verdict",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|NOV_GII",
+        "field": "share_same_delta0_direction",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CAMP|NOV_GII",
+        "field": "share_holds_without_assumption",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CPERF|NOV_GI",
+        "field": "share_worst_A",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CPERF|NOV_GI",
+        "field": "share_worst_B",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CPERF|NOV_GI",
+        "field": "share_worst_undetermined",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CPERF|NOV_GI",
+        "field": "share_worst_main_verdict",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CPERF|NOV_GI",
+        "field": "share_delta5_A",
+        "preserved": 0.0005,
+        "rebuilt": 0.0005,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CPERF|NOV_GI",
+        "field": "share_delta5_B",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CPERF|NOV_GI",
+        "field": "share_delta5_undetermined",
+        "preserved": 0.9995,
+        "rebuilt": 0.9995,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CPERF|NOV_GI",
+        "field": "share_delta5_main_verdict",
+        "preserved": 0.9995,
+        "rebuilt": 0.9995,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CPERF|NOV_GI",
+        "field": "share_same_delta0_direction",
+        "preserved": 0.602,
+        "rebuilt": 0.602,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CPERF|NOV_GI",
+        "field": "share_holds_without_assumption",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CPERF|NOV_GII",
+        "field": "share_worst_A",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CPERF|NOV_GII",
+        "field": "share_worst_B",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CPERF|NOV_GII",
+        "field": "share_worst_undetermined",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CPERF|NOV_GII",
+        "field": "share_worst_main_verdict",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CPERF|NOV_GII",
+        "field": "share_delta5_A",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CPERF|NOV_GII",
+        "field": "share_delta5_B",
+        "preserved": 0.3305,
+        "rebuilt": 0.3305,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CPERF|NOV_GII",
+        "field": "share_delta5_undetermined",
+        "preserved": 0.6695,
+        "rebuilt": 0.6695,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CPERF|NOV_GII",
+        "field": "share_delta5_main_verdict",
+        "preserved": 0.6695,
+        "rebuilt": 0.6695,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CPERF|NOV_GII",
+        "field": "share_same_delta0_direction",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "CPERF|NOV_GII",
+        "field": "share_holds_without_assumption",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "NOV_GI|NOV_GII",
+        "field": "share_worst_A",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "NOV_GI|NOV_GII",
+        "field": "share_worst_B",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "NOV_GI|NOV_GII",
+        "field": "share_worst_undetermined",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "NOV_GI|NOV_GII",
+        "field": "share_worst_main_verdict",
+        "preserved": 1.0,
+        "rebuilt": 1.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "NOV_GI|NOV_GII",
+        "field": "share_delta5_A",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "NOV_GI|NOV_GII",
+        "field": "share_delta5_B",
+        "preserved": 0.352,
+        "rebuilt": 0.352,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "NOV_GI|NOV_GII",
+        "field": "share_delta5_undetermined",
+        "preserved": 0.648,
+        "rebuilt": 0.648,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "NOV_GI|NOV_GII",
+        "field": "share_delta5_main_verdict",
+        "preserved": 0.648,
+        "rebuilt": 0.648,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "NOV_GI|NOV_GII",
+        "field": "share_same_delta0_direction",
+        "preserved": 0.956,
+        "rebuilt": 0.956,
+        "abs_diff": 0.0,
+        "z": 0.0
+      },
+      {
+        "pair": "NOV_GI|NOV_GII",
+        "field": "share_holds_without_assumption",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff": 0.0,
+        "z": 0.0
+      }
+    ],
+    "quantiles": [
+      {
+        "group": "SAL",
+        "field": "L_p2_5",
+        "preserved": 0.1331646594804407,
+        "rebuilt": 0.1331646594804407,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "SAL",
+        "field": "L_p50",
+        "preserved": 0.14552071515811932,
+        "rebuilt": 0.14552071515811932,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "SAL",
+        "field": "L_p97_5",
+        "preserved": 0.1589351312390474,
+        "rebuilt": 0.1589351312390474,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "SAL",
+        "field": "U_p2_5",
+        "preserved": 0.2815331804751169,
+        "rebuilt": 0.2815331804751169,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "SAL",
+        "field": "U_p50",
+        "preserved": 0.3169672369812634,
+        "rebuilt": 0.3169672369812634,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "SAL",
+        "field": "U_p97_5",
+        "preserved": 0.3545116053721755,
+        "rebuilt": 0.3545116053721755,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "SAL",
+        "field": "theta_delta0_p2_5",
+        "preserved": 0.16137271072807238,
+        "rebuilt": 0.16137271072807238,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "SAL",
+        "field": "theta_delta0_p97_5",
+        "preserved": 0.19395802070060847,
+        "rebuilt": 0.19395802070060847,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "STEC",
+        "field": "L_p2_5",
+        "preserved": 0.2170363070931479,
+        "rebuilt": 0.2170363070931479,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "STEC",
+        "field": "L_p50",
+        "preserved": 0.25060497655704705,
+        "rebuilt": 0.25060497655704705,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "STEC",
+        "field": "L_p97_5",
+        "preserved": 0.29253694429220006,
+        "rebuilt": 0.29253694429220006,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "STEC",
+        "field": "U_p2_5",
+        "preserved": 0.32643136413317986,
+        "rebuilt": 0.32643136413317986,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "STEC",
+        "field": "U_p50",
+        "preserved": 0.370871644657775,
+        "rebuilt": 0.370871644657775,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "STEC",
+        "field": "U_p97_5",
+        "preserved": 0.4232376113665495,
+        "rebuilt": 0.4232376113665495,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "STEC",
+        "field": "theta_delta0_p2_5",
+        "preserved": 0.25384789267168145,
+        "rebuilt": 0.25384789267168145,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "STEC",
+        "field": "theta_delta0_p97_5",
+        "preserved": 0.3342345334617806,
+        "rebuilt": 0.3342345334617806,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "CAMP",
+        "field": "L_p2_5",
+        "preserved": 0.062164852064897094,
+        "rebuilt": 0.062164852064897094,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "CAMP",
+        "field": "L_p50",
+        "preserved": 0.07665247580961407,
+        "rebuilt": 0.07665247580961407,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "CAMP",
+        "field": "L_p97_5",
+        "preserved": 0.09587312512880773,
+        "rebuilt": 0.09587312512880773,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "CAMP",
+        "field": "U_p2_5",
+        "preserved": 0.1416175263909199,
+        "rebuilt": 0.1416175263909199,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "CAMP",
+        "field": "U_p50",
+        "preserved": 0.19010251240342174,
+        "rebuilt": 0.19010251240342174,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "CAMP",
+        "field": "U_p97_5",
+        "preserved": 0.24436975319285265,
+        "rebuilt": 0.24436975319285265,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "CAMP",
+        "field": "theta_delta0_p2_5",
+        "preserved": 0.07040165224220615,
+        "rebuilt": 0.07040165224220615,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "CAMP",
+        "field": "theta_delta0_p97_5",
+        "preserved": 0.11030395612506055,
+        "rebuilt": 0.11030395612506055,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "CPERF",
+        "field": "L_p2_5",
+        "preserved": 0.0015366693576944332,
+        "rebuilt": 0.0015366693576944332,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "CPERF",
+        "field": "L_p50",
+        "preserved": 0.00426695238818132,
+        "rebuilt": 0.00426695238818132,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "CPERF",
+        "field": "L_p97_5",
+        "preserved": 0.008689613730886446,
+        "rebuilt": 0.008689613730886446,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "CPERF",
+        "field": "U_p2_5",
+        "preserved": 0.08531457221669286,
+        "rebuilt": 0.08531457221669286,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "CPERF",
+        "field": "U_p50",
+        "preserved": 0.1798718126028755,
+        "rebuilt": 0.1798718126028755,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "CPERF",
+        "field": "U_p97_5",
+        "preserved": 0.2808486172214798,
+        "rebuilt": 0.2808486172214798,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "CPERF",
+        "field": "theta_delta0_p2_5",
+        "preserved": 0.0023754379149504333,
+        "rebuilt": 0.0023754379149504333,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "CPERF",
+        "field": "theta_delta0_p97_5",
+        "preserved": 0.010717583157599641,
+        "rebuilt": 0.010717583157599641,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "NOV_GI",
+        "field": "L_p2_5",
+        "preserved": 0.0019411228374366738,
+        "rebuilt": 0.0019411228374366738,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "NOV_GI",
+        "field": "L_p50",
+        "preserved": 0.004061769618981366,
+        "rebuilt": 0.004061769618981366,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "NOV_GI",
+        "field": "L_p97_5",
+        "preserved": 0.006261663646287185,
+        "rebuilt": 0.006261663646287185,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "NOV_GI",
+        "field": "U_p2_5",
+        "preserved": 0.11664222001923419,
+        "rebuilt": 0.11664222001923419,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "NOV_GI",
+        "field": "U_p50",
+        "preserved": 0.18493451432992197,
+        "rebuilt": 0.18493451432992197,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "NOV_GI",
+        "field": "U_p97_5",
+        "preserved": 0.2683371671301163,
+        "rebuilt": 0.2683371671301163,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "NOV_GI",
+        "field": "theta_delta0_p2_5",
+        "preserved": 0.0026188759625704826,
+        "rebuilt": 0.0026188759625704826,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "NOV_GI",
+        "field": "theta_delta0_p97_5",
+        "preserved": 0.034904600104115384,
+        "rebuilt": 0.034904600104115384,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "NOV_GII",
+        "field": "L_p2_5",
+        "preserved": 0.01064737972139714,
+        "rebuilt": 0.01064737972139714,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "NOV_GII",
+        "field": "L_p50",
+        "preserved": 0.013204995546218743,
+        "rebuilt": 0.013204995546218743,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "NOV_GII",
+        "field": "L_p97_5",
+        "preserved": 0.016149831895472134,
+        "rebuilt": 0.016149831895472134,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "NOV_GII",
+        "field": "U_p2_5",
+        "preserved": 0.12924221572823197,
+        "rebuilt": 0.12924221572823197,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "NOV_GII",
+        "field": "U_p50",
+        "preserved": 0.16840624633653026,
+        "rebuilt": 0.16840624633653026,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "NOV_GII",
+        "field": "U_p97_5",
+        "preserved": 0.2083858923089275,
+        "rebuilt": 0.2083858923089275,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "NOV_GII",
+        "field": "theta_delta0_p2_5",
+        "preserved": 0.01277960757488036,
+        "rebuilt": 0.01277960757488036,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      },
+      {
+        "group": "NOV_GII",
+        "field": "theta_delta0_p97_5",
+        "preserved": 0.019236684906369615,
+        "rebuilt": 0.019236684906369615,
+        "abs_diff": 0.0,
+        "diff_in_bootstrap_sd": 0.0
+      }
+    ],
+    "delta_star_quantiles": [
+      {
+        "pair": "SAL|STEC",
+        "field": "delta_star_pp_p2_5",
+        "preserved": 24.845495305496502,
+        "rebuilt": 24.845495305496502,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "SAL|STEC",
+        "field": "delta_star_pp_p50",
+        "preserved": 43.00758578535239,
+        "rebuilt": 43.00758578535239,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "SAL|STEC",
+        "field": "delta_star_pp_p97_5",
+        "preserved": 71.09522003915542,
+        "rebuilt": 71.09522003915542,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "SAL|CAMP",
+        "field": "delta_star_pp_p2_5",
+        "preserved": 23.288691769359723,
+        "rebuilt": 23.288691769359723,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "SAL|CAMP",
+        "field": "delta_star_pp_p50",
+        "preserved": 51.40590312100875,
+        "rebuilt": 51.40590312100875,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "SAL|CAMP",
+        "field": "delta_star_pp_p97_5",
+        "preserved": null,
+        "rebuilt": null,
+        "abs_diff_pp": null,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "SAL|CPERF",
+        "field": "delta_star_pp_p2_5",
+        "preserved": 49.5566890994199,
+        "rebuilt": 49.5566890994199,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "SAL|CPERF",
+        "field": "delta_star_pp_p50",
+        "preserved": 79.3551479495914,
+        "rebuilt": 79.3551479495914,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "SAL|CPERF",
+        "field": "delta_star_pp_p97_5",
+        "preserved": null,
+        "rebuilt": null,
+        "abs_diff_pp": null,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "SAL|NOV_GI",
+        "field": "delta_star_pp_p2_5",
+        "preserved": 47.244357232320326,
+        "rebuilt": 47.244357232320326,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "SAL|NOV_GI",
+        "field": "delta_star_pp_p50",
+        "preserved": 77.6488852107169,
+        "rebuilt": 77.6488852107169,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "SAL|NOV_GI",
+        "field": "delta_star_pp_p97_5",
+        "preserved": null,
+        "rebuilt": null,
+        "abs_diff_pp": null,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "SAL|NOV_GII",
+        "field": "delta_star_pp_p2_5",
+        "preserved": 64.17633432854176,
+        "rebuilt": 64.17633432854176,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "SAL|NOV_GII",
+        "field": "delta_star_pp_p50",
+        "preserved": 83.94865681810175,
+        "rebuilt": 83.94865681810175,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "SAL|NOV_GII",
+        "field": "delta_star_pp_p97_5",
+        "preserved": null,
+        "rebuilt": null,
+        "abs_diff_pp": null,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "STEC|CAMP",
+        "field": "delta_star_pp_p2_5",
+        "preserved": 89.99460644109541,
+        "rebuilt": 89.99460644109541,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "STEC|CAMP",
+        "field": "delta_star_pp_p50",
+        "preserved": null,
+        "rebuilt": null,
+        "abs_diff_pp": null,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "STEC|CAMP",
+        "field": "delta_star_pp_p97_5",
+        "preserved": null,
+        "rebuilt": null,
+        "abs_diff_pp": null,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "STEC|CPERF",
+        "field": "delta_star_pp_p2_5",
+        "preserved": 87.81225339772621,
+        "rebuilt": 87.81225339772621,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "STEC|CPERF",
+        "field": "delta_star_pp_p50",
+        "preserved": null,
+        "rebuilt": null,
+        "abs_diff_pp": null,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "STEC|CPERF",
+        "field": "delta_star_pp_p97_5",
+        "preserved": null,
+        "rebuilt": null,
+        "abs_diff_pp": null,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "STEC|NOV_GI",
+        "field": "delta_star_pp_p2_5",
+        "preserved": 89.64273423351358,
+        "rebuilt": 89.64273423351358,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "STEC|NOV_GI",
+        "field": "delta_star_pp_p50",
+        "preserved": null,
+        "rebuilt": null,
+        "abs_diff_pp": null,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "STEC|NOV_GI",
+        "field": "delta_star_pp_p97_5",
+        "preserved": null,
+        "rebuilt": null,
+        "abs_diff_pp": null,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "STEC|NOV_GII",
+        "field": "delta_star_pp_p2_5",
+        "preserved": null,
+        "rebuilt": null,
+        "abs_diff_pp": null,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "STEC|NOV_GII",
+        "field": "delta_star_pp_p50",
+        "preserved": null,
+        "rebuilt": null,
+        "abs_diff_pp": null,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "STEC|NOV_GII",
+        "field": "delta_star_pp_p97_5",
+        "preserved": null,
+        "rebuilt": null,
+        "abs_diff_pp": null,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "CAMP|CPERF",
+        "field": "delta_star_pp_p2_5",
+        "preserved": 23.68171393600731,
+        "rebuilt": 23.68171393600731,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "CAMP|CPERF",
+        "field": "delta_star_pp_p50",
+        "preserved": 40.550769814198915,
+        "rebuilt": 40.550769814198915,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "CAMP|CPERF",
+        "field": "delta_star_pp_p97_5",
+        "preserved": 92.4998806136985,
+        "rebuilt": 92.4998806136985,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "CAMP|NOV_GI",
+        "field": "delta_star_pp_p2_5",
+        "preserved": 8.3904354840818,
+        "rebuilt": 8.3904354840818,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "CAMP|NOV_GI",
+        "field": "delta_star_pp_p50",
+        "preserved": 39.29219351409499,
+        "rebuilt": 39.29219351409499,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "CAMP|NOV_GI",
+        "field": "delta_star_pp_p97_5",
+        "preserved": 67.87343989275054,
+        "rebuilt": 67.87343989275054,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "CAMP|NOV_GII",
+        "field": "delta_star_pp_p2_5",
+        "preserved": 27.07888473914589,
+        "rebuilt": 27.07888473914589,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "CAMP|NOV_GII",
+        "field": "delta_star_pp_p50",
+        "preserved": 39.42031690690639,
+        "rebuilt": 39.42031690690639,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "CAMP|NOV_GII",
+        "field": "delta_star_pp_p97_5",
+        "preserved": 59.25913180570428,
+        "rebuilt": 59.25913180570428,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "CPERF|NOV_GI",
+        "field": "delta_star_pp_p2_5",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "CPERF|NOV_GI",
+        "field": "delta_star_pp_p50",
+        "preserved": 0.6032476160885595,
+        "rebuilt": 0.6032476160885595,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "CPERF|NOV_GI",
+        "field": "delta_star_pp_p97_5",
+        "preserved": 2.590199131021857,
+        "rebuilt": 2.590199131021857,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "CPERF|NOV_GII",
+        "field": "delta_star_pp_p2_5",
+        "preserved": 1.256599758695804,
+        "rebuilt": 1.256599758695804,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "CPERF|NOV_GII",
+        "field": "delta_star_pp_p50",
+        "preserved": 4.1541268350639395,
+        "rebuilt": 4.1541268350639395,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "CPERF|NOV_GII",
+        "field": "delta_star_pp_p97_5",
+        "preserved": 10.685950480230847,
+        "rebuilt": 10.685950480230847,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "NOV_GI|NOV_GII",
+        "field": "delta_star_pp_p2_5",
+        "preserved": 0.0,
+        "rebuilt": 0.0,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "NOV_GI|NOV_GII",
+        "field": "delta_star_pp_p50",
+        "preserved": 4.3920725310802435,
+        "rebuilt": 4.3920725310802435,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      },
+      {
+        "pair": "NOV_GI|NOV_GII",
+        "field": "delta_star_pp_p97_5",
+        "preserved": 8.173973468306349,
+        "rebuilt": 8.173973468306349,
+        "abs_diff_pp": 0.0,
+        "infinite_status_same": true
+      }
+    ]
+  },
+  "bootstrap_order_statistic_check": {
+    "z": 3.0,
+    "n_fields": 48,
+    "n_outside": 0,
+    "fields": [
+      {
+        "group": "SAL",
+        "field": "L_p2_5",
+        "preserved": 0.1331646594804407,
+        "rebuilt_rank_interval": [
+          0.1306821669711118,
+          0.13435354381042364
+        ],
+        "inside": true
+      },
+      {
+        "group": "SAL",
+        "field": "L_p50",
+        "preserved": 0.14552071515811932,
+        "rebuilt_rank_interval": [
+          0.14477513977289436,
+          0.14634988778885138
+        ],
+        "inside": true
+      },
+      {
+        "group": "SAL",
+        "field": "L_p97_5",
+        "preserved": 0.1589351312390474,
+        "rebuilt_rank_interval": [
+          0.15788775152179077,
+          0.16240487320439004
+        ],
+        "inside": true
+      },
+      {
+        "group": "STEC",
+        "field": "L_p2_5",
+        "preserved": 0.2170363070931479,
+        "rebuilt_rank_interval": [
+          0.2124669433561414,
+          0.22078616861356862
+        ],
+        "inside": true
+      },
+      {
+        "group": "STEC",
+        "field": "L_p50",
+        "preserved": 0.25060497655704705,
+        "rebuilt_rank_interval": [
+          0.24866646671057208,
+          0.25260286164848955
+        ],
+        "inside": true
+      },
+      {
+        "group": "STEC",
+        "field": "L_p97_5",
+        "preserved": 0.29253694429220006,
+        "rebuilt_rank_interval": [
+          0.28678823017999555,
+          0.30144569028270446
+        ],
+        "inside": true
+      },
+      {
+        "group": "CAMP",
+        "field": "L_p2_5",
+        "preserved": 0.062164852064897094,
+        "rebuilt_rank_interval": [
+          0.05962991240253533,
+          0.06335564930015293
+        ],
+        "inside": true
+      },
+      {
+        "group": "CAMP",
+        "field": "L_p50",
+        "preserved": 0.07665247580961407,
+        "rebuilt_rank_interval": [
+          0.07562537962533339,
+          0.07766947494521341
+        ],
+        "inside": true
+      },
+      {
+        "group": "CAMP",
+        "field": "L_p97_5",
+        "preserved": 0.09587312512880773,
+        "rebuilt_rank_interval": [
+          0.0938450712415925,
+          0.09974880931446893
+        ],
+        "inside": true
+      },
+      {
+        "group": "CPERF",
+        "field": "L_p2_5",
+        "preserved": 0.0015366693576944332,
+        "rebuilt_rank_interval": [
+          0.0011107224226866634,
+          0.0017506413151911363
+        ],
+        "inside": true
+      },
+      {
+        "group": "CPERF",
+        "field": "L_p50",
+        "preserved": 0.00426695238818132,
+        "rebuilt_rank_interval": [
+          0.004081756475420153,
+          0.004484298635868956
+        ],
+        "inside": true
+      },
+      {
+        "group": "CPERF",
+        "field": "L_p97_5",
+        "preserved": 0.008689613730886446,
+        "rebuilt_rank_interval": [
+          0.008019922252483998,
+          0.009781982107949469
+        ],
+        "inside": true
+      },
+      {
+        "group": "NOV_GI",
+        "field": "L_p2_5",
+        "preserved": 0.0019411228374366738,
+        "rebuilt_rank_interval": [
+          0.0017526370004755465,
+          0.0021489576379212514
+        ],
+        "inside": true
+      },
+      {
+        "group": "NOV_GI",
+        "field": "L_p50",
+        "preserved": 0.004061769618981366,
+        "rebuilt_rank_interval": [
+          0.003917772386353366,
+          0.004192615035042633
+        ],
+        "inside": true
+      },
+      {
+        "group": "NOV_GI",
+        "field": "L_p97_5",
+        "preserved": 0.006261663646287185,
+        "rebuilt_rank_interval": [
+          0.0060467834799473675,
+          0.006788209556092851
+        ],
+        "inside": true
+      },
+      {
+        "group": "NOV_GII",
+        "field": "L_p2_5",
+        "preserved": 0.01064737972139714,
+        "rebuilt_rank_interval": [
+          0.010244326130723123,
+          0.01092900428378122
+        ],
+        "inside": true
+      },
+      {
+        "group": "NOV_GII",
+        "field": "L_p50",
+        "preserved": 0.013204995546218743,
+        "rebuilt_rank_interval": [
+          0.013026196050857829,
+          0.013360055598262593
+        ],
+        "inside": true
+      },
+      {
+        "group": "NOV_GII",
+        "field": "L_p97_5",
+        "preserved": 0.016149831895472134,
+        "rebuilt_rank_interval": [
+          0.015882594264196227,
+          0.016777911910385496
+        ],
+        "inside": true
+      },
+      {
+        "group": "SAL",
+        "field": "U_p2_5",
+        "preserved": 0.2815331804751169,
+        "rebuilt_rank_interval": [
+          0.2724501909649842,
+          0.2857750023548166
+        ],
+        "inside": true
+      },
+      {
+        "group": "SAL",
+        "field": "U_p50",
+        "preserved": 0.3169672369812634,
+        "rebuilt_rank_interval": [
+          0.3148995969969837,
+          0.31957784616394647
+        ],
+        "inside": true
+      },
+      {
+        "group": "SAL",
+        "field": "U_p97_5",
+        "preserved": 0.3545116053721755,
+        "rebuilt_rank_interval": [
+          0.3507472860575084,
+          0.3611107153281039
+        ],
+        "inside": true
+      },
+      {
+        "group": "STEC",
+        "field": "U_p2_5",
+        "preserved": 0.32643136413317986,
+        "rebuilt_rank_interval": [
+          0.3175703569212864,
+          0.3301186878700357
+        ],
+        "inside": true
+      },
+      {
+        "group": "STEC",
+        "field": "U_p50",
+        "preserved": 0.370871644657775,
+        "rebuilt_rank_interval": [
+          0.3682978839216344,
+          0.37329072045362155
+        ],
+        "inside": true
+      },
+      {
+        "group": "STEC",
+        "field": "U_p97_5",
+        "preserved": 0.4232376113665495,
+        "rebuilt_rank_interval": [
+          0.4189265539643496,
+          0.4351298452315397
+        ],
+        "inside": true
+      },
+      {
+        "group": "CAMP",
+        "field": "U_p2_5",
+        "preserved": 0.1416175263909199,
+        "rebuilt_rank_interval": [
+          0.13344288555983327,
+          0.14660167996580506
+        ],
+        "inside": true
+      },
+      {
+        "group": "CAMP",
+        "field": "U_p50",
+        "preserved": 0.19010251240342174,
+        "rebuilt_rank_interval": [
+          0.18640711138406485,
+          0.19385333483299755
+        ],
+        "inside": true
+      },
+      {
+        "group": "CAMP",
+        "field": "U_p97_5",
+        "preserved": 0.24436975319285265,
+        "rebuilt_rank_interval": [
+          0.24004411370624454,
+          0.2555196384283213
+        ],
+        "inside": true
+      },
+      {
+        "group": "CPERF",
+        "field": "U_p2_5",
+        "preserved": 0.08531457221669286,
+        "rebuilt_rank_interval": [
+          0.07082834523110508,
+          0.09169697241941532
+        ],
+        "inside": true
+      },
+      {
+        "group": "CPERF",
+        "field": "U_p50",
+        "preserved": 0.1798718126028755,
+        "rebuilt_rank_interval": [
+          0.1740650806048493,
+          0.18580219312519577
+        ],
+        "inside": true
+      },
+      {
+        "group": "CPERF",
+        "field": "U_p97_5",
+        "preserved": 0.2808486172214798,
+        "rebuilt_rank_interval": [
+          0.2661276432121578,
+          0.29440650477997576
+        ],
+        "inside": true
+      },
+      {
+        "group": "NOV_GI",
+        "field": "U_p2_5",
+        "preserved": 0.11664222001923419,
+        "rebuilt_rank_interval": [
+          0.10498596184025048,
+          0.12245676321973456
+        ],
+        "inside": true
+      },
+      {
+        "group": "NOV_GI",
+        "field": "U_p50",
+        "preserved": 0.18493451432992197,
+        "rebuilt_rank_interval": [
+          0.18040786862517602,
+          0.19033005130786204
+        ],
+        "inside": true
+      },
+      {
+        "group": "NOV_GI",
+        "field": "U_p97_5",
+        "preserved": 0.2683371671301163,
+        "rebuilt_rank_interval": [
+          0.25721743764224964,
+          0.2825400749031841
+        ],
+        "inside": true
+      },
+      {
+        "group": "NOV_GII",
+        "field": "U_p2_5",
+        "preserved": 0.12924221572823197,
+        "rebuilt_rank_interval": [
+          0.12274745097161552,
+          0.1335123645815085
+        ],
+        "inside": true
+      },
+      {
+        "group": "NOV_GII",
+        "field": "U_p50",
+        "preserved": 0.16840624633653026,
+        "rebuilt_rank_interval": [
+          0.1660824832928683,
+          0.17091418818753967
+        ],
+        "inside": true
+      },
+      {
+        "group": "NOV_GII",
+        "field": "U_p97_5",
+        "preserved": 0.2083858923089275,
+        "rebuilt_rank_interval": [
+          0.20382598923251333,
+          0.21646502842996007
+        ],
+        "inside": true
+      },
+      {
+        "group": "SAL",
+        "field": "theta_delta0_p2_5",
+        "preserved": 0.16137271072807238,
+        "rebuilt_rank_interval": [
+          0.15827577550794292,
+          0.16298486133882142
+        ],
+        "inside": true
+      },
+      {
+        "group": "SAL",
+        "field": "theta_delta0_p97_5",
+        "preserved": 0.19395802070060847,
+        "rebuilt_rank_interval": [
+          0.19225094932685874,
+          0.1971960866052802
+        ],
+        "inside": true
+      },
+      {
+        "group": "STEC",
+        "field": "theta_delta0_p2_5",
+        "preserved": 0.25384789267168145,
+        "rebuilt_rank_interval": [
+          0.24897533568357155,
+          0.25674143230457913
+        ],
+        "inside": true
+      },
+      {
+        "group": "STEC",
+        "field": "theta_delta0_p97_5",
+        "preserved": 0.3342345334617806,
+        "rebuilt_rank_interval": [
+          0.3273398279299923,
+          0.344133735575478
+        ],
+        "inside": true
+      },
+      {
+        "group": "CAMP",
+        "field": "theta_delta0_p2_5",
+        "preserved": 0.07040165224220615,
+        "rebuilt_rank_interval": [
+          0.06782092659133353,
+          0.07206359604357235
+        ],
+        "inside": true
+      },
+      {
+        "group": "CAMP",
+        "field": "theta_delta0_p97_5",
+        "preserved": 0.11030395612506055,
+        "rebuilt_rank_interval": [
+          0.10742359910481136,
+          0.11459543121329334
+        ],
+        "inside": true
+      },
+      {
+        "group": "CPERF",
+        "field": "theta_delta0_p2_5",
+        "preserved": 0.0023754379149504333,
+        "rebuilt_rank_interval": [
+          0.001981042956770196,
+          0.0027416484469470264
+        ],
+        "inside": true
+      },
+      {
+        "group": "CPERF",
+        "field": "theta_delta0_p97_5",
+        "preserved": 0.010717583157599641,
+        "rebuilt_rank_interval": [
+          0.01003337322764257,
+          0.01183983624607204
+        ],
+        "inside": true
+      },
+      {
+        "group": "NOV_GI",
+        "field": "theta_delta0_p2_5",
+        "preserved": 0.0026188759625704826,
+        "rebuilt_rank_interval": [
+          0.0022522131889490646,
+          0.0029476943962894213
+        ],
+        "inside": true
+      },
+      {
+        "group": "NOV_GI",
+        "field": "theta_delta0_p97_5",
+        "preserved": 0.034904600104115384,
+        "rebuilt_rank_interval": [
+          0.02577287026193106,
+          0.040486121099069086
+        ],
+        "inside": true
+      },
+      {
+        "group": "NOV_GII",
+        "field": "theta_delta0_p2_5",
+        "preserved": 0.01277960757488036,
+        "rebuilt_rank_interval": [
+          0.012290642054257209,
+          0.013113272673753071
+        ],
+        "inside": true
+      },
+      {
+        "group": "NOV_GII",
+        "field": "theta_delta0_p97_5",
+        "preserved": 0.019236684906369615,
+        "rebuilt_rank_interval": [
+          0.018819032389429266,
+          0.019963244271758634
+        ],
+        "inside": true
+      }
+    ]
+  },
+  "sections": {
+    "task": {
+      "n_leaves": 1,
+      "exact": 1,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "task_slug": {
+      "n_leaves": 1,
+      "exact": 1,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "dataset": {
+      "n_leaves": 1,
+      "exact": 1,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "metrics": {
+      "n_leaves": 5,
+      "exact": 5,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "metric_definitions": {
+      "n_leaves": 4,
+      "exact": 4,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "seeds": {
+      "n_leaves": 1,
+      "exact": 1,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "statistics": {
+      "n_leaves": 2,
+      "exact": 2,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "simulated": {
+      "n_leaves": 1,
+      "exact": 1,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "provenance": {
+      "n_leaves": 7,
+      "exact": 7,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "summary": {
+      "n_leaves": 90,
+      "exact": 90,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "groups": {
+      "n_leaves": 6,
+      "exact": 6,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "delta_grid_pp": {
+      "n_leaves": 5,
+      "exact": 5,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "main": {
+      "n_leaves": 3504,
+      "exact": 3504,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "delta_fine": {
+      "n_leaves": 3216,
+      "exact": 3216,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "robustness.R1a_crude_all": {
+      "n_leaves": 512,
+      "exact": 512,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "robustness.R1b_crude_support": {
+      "n_leaves": 512,
+      "exact": 512,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "robustness.R2_period_only": {
+      "n_leaves": 516,
+      "exact": 516,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "robustness.R3a_single_etiology": {
+      "n_leaves": 533,
+      "exact": 533,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "robustness.R3b_complete_only": {
+      "n_leaves": 533,
+      "exact": 533,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "robustness.R3c_pilot_rule": {
+      "n_leaves": 531,
+      "exact": 531,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "robustness.R4a_threshold_2": {
+      "n_leaves": 539,
+      "exact": 539,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "robustness.R4b_threshold_5": {
+      "n_leaves": 521,
+      "exact": 521,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "robustness.R5_named_settings": {
+      "n_leaves": 530,
+      "exact": 530,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "robustness.R6a_w_group_balanced": {
+      "n_leaves": 533,
+      "exact": 533,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "robustness.R6b_w_pooled_outbreaks": {
+      "n_leaves": 533,
+      "exact": 533,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "robustness.R6c_w_uniform": {
+      "n_leaves": 533,
+      "exact": 533,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "robustness.R7_norovirus_combined": {
+      "n_leaves": 300,
+      "exact": 300,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "retention": {
+      "n_leaves": 165,
+      "exact": 165,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "width_decomposition": {
+      "n_leaves": 221,
+      "exact": 221,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "bootstrap": {
+      "n_leaves": 260,
+      "exact": 260,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "audit": {
+      "n_leaves": 144,
+      "exact": 144,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "pilot": {
+      "n_leaves": 125,
+      "exact": 125,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "stacked_inference": {
+      "n_leaves": 264,
+      "exact": 264,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "cluster_diagnostics": {
+      "n_leaves": 552,
+      "exact": 552,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "voi_masking": {
+      "n_leaves": 270,
+      "exact": 270,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "notes": {
+      "n_leaves": 1,
+      "exact": 1,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "estimates_note": {
+      "n_leaves": 1,
+      "exact": 1,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    }
+  },
+  "run_metadata_differences": [
+    {
+      "path": "provenance.timestamp",
+      "status": "value_differs",
+      "preserved": "2026-11-25T09:05:46Z",
+      "rebuilt": "2026-11-25T09:21:05Z"
+    },
+    {
+      "path": "provenance.wall_clock_seconds",
+      "status": "float_differs",
+      "preserved": 44.3,
+      "rebuilt": 54.1
+    }
+  ],
+  "added_keys_in_rebuilt": []
+}

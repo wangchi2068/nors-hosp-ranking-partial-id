@@ -1,0 +1,101 @@
+% =================================================================
+% RESEARCH PAPER MAIN MANUSCRIPT
+% =================================================================
+% Standard single-column journal submission layout (11pt, 1in margins,
+% 1.15 line spacing). Supplementary tables and figures are compiled
+% separately in supplementary.tex -> supplementary.pdf.
+% =================================================================
+\documentclass[11pt,a4paper]{article}
+\usepackage{iftex}
+\ifXeTeX\else
+  \PackageError{paper-template}{XeLaTeX is required}{Run xelatex; fontspec requires XeLaTeX.}
+\fi
+\usepackage{fontspec}
+\IfFontExistsTF{Liberation Serif}{\setmainfont{Liberation Serif}}{\setmainfont{Times New Roman}}
+\makeatletter
+\@ifclassloaded{ctexart}{
+  \setCJKmainfont{Noto Serif CJK SC}
+  \setCJKsansfont{Noto Sans CJK SC}
+}{}
+\makeatother
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage[a4paper, margin=1in]{geometry}
+\usepackage{setspace}
+\setstretch{1.15}
+\usepackage[numbers,sort&compress]{natbib}
+\setlength{\bibsep}{3.5pt plus 1pt minus 1pt}
+\setlength{\emergencystretch}{2em}
+\usepackage{booktabs}
+\usepackage{microtype}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{multirow}
+\usepackage{xurl}
+\usepackage[hidelinks,unicode=true]{hyperref}
+\urlstyle{same}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{placeins}
+\captionsetup{
+  font=small,
+  labelfont=bf,
+  textfont=normalfont,
+  labelsep=period,
+  justification=justified,
+  singlelinecheck=true,
+  skip=6pt
+}
+\setlength{\textfloatsep}{14pt plus 2pt minus 2pt}
+\setlength{\floatsep}{12pt plus 2pt minus 2pt}
+\setlength{\intextsep}{12pt plus 2pt minus 2pt}
+\setcounter{topnumber}{4}
+\setcounter{bottomnumber}{3}
+\setcounter{totalnumber}{6}
+\renewcommand{\topfraction}{0.88}
+\renewcommand{\bottomfraction}{0.80}
+\renewcommand{\textfraction}{0.10}
+\renewcommand{\floatpagefraction}{0.70}
+
+\usepackage{fancyhdr}
+\setlength{\headheight}{14pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\nouppercase{\leftmark}}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyfoot[C]{\small\thepage}
+  \renewcommand{\headrulewidth}{0pt}
+}
+\renewcommand{\sectionmark}[1]{\markboth{\thesection\quad #1}{}}
+
+\usepackage{newunicodechar}
+\newunicodechar{δ}{\ensuremath{\delta}}
+
+\title{\textbf{Hospitalization Orderings among Six Pathogen Groups in Foodborne Outbreaks with Incompletely Recorded Outcomes, United States, 2009--2023}}
+\author{Apevon Science}
+\date{\today}
+
+\begin{document}
+\maketitle
+\normalfont\mdseries
+
+\input{sections/abstract}
+\input{sections/introduction}
+\input{sections/methods}
+\input{sections/results}
+\input{sections/discussion}
+\input{sections/declarations}
+
+\FloatBarrier
+\clearpage
+{\small
+\bibliographystyle{unsrtnatclean}
+\bibliography{bibliography}
+}
+
+\end{document}

@@ -1,0 +1,29 @@
+\begin{table}[!tbp]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.12}
+\caption{Outbreak-level bootstrap (2,000 replicates, seed 20261125; outbreaks resampled within group $\times$ common-support cell, reference weights recomputed), with the share of replicates giving each verdict and the percentile range of $\delta^{*}$ for the main-analysis direction. These describe sampling variability and are not confidence intervals.}
+\label{tab:bootstrap}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.6cm}>{\raggedleft\arraybackslash}p{2.0cm}>{\raggedleft\arraybackslash}p{2.2cm}>{\raggedleft\arraybackslash}p{2.0cm}>{\raggedleft\arraybackslash}p{2.0cm}>{\raggedleft\arraybackslash}p{2.6cm}}
+\toprule
+Ordering at $\delta$ = 0 & Same $\delta$ = 0 direction (\%) & Worst case, higher group $>$ lower (\%) & Worst case, undetermined (\%) & Determined at $\delta$ = 5 (\%) & $\delta^{*}$ 2.5th--97.5th percentile (points) \\
+\midrule
+STEC $>$ CAMP & 100.0 & 97.0 & 2.9 & 100.0 & 90.0--$\infty$ \\
+STEC $>$ CPERF & 100.0 & 91.6 & 8.4 & 100.0 & 87.8--$\infty$ \\
+STEC $>$ NoV GI & 100.0 & 93.6 & 6.4 & 100.0 & 89.6--$\infty$ \\
+STEC $>$ NoV GII & 100.0 & 100.0 & 0.1 & 100.0 & $\infty$--$\infty$ \\
+SAL $>$ NoV GII & 100.0 & 14.2 & 85.8 & 100.0 & 64.2--$\infty$ \\
+SAL $>$ NoV GI & 100.0 & 14.5 & 85.5 & 100.0 & 47.2--$\infty$ \\
+SAL $>$ CPERF & 100.0 & 24.8 & 75.2 & 100.0 & 49.6--$\infty$ \\
+SAL $>$ CAMP & 100.0 & 4.2 & 95.8 & 100.0 & 23.3--$\infty$ \\
+STEC $>$ SAL & 100.0 & 0.6 & 99.4 & 100.0 & 24.8--71.1 \\
+CAMP $>$ NoV GI & 100.0 & 0.1 & 99.9 & 98.4 & 8.4--67.9 \\
+CAMP $>$ NoV GII & 100.0 & 0.0 & 100.0 & 100.0 & 27.1--59.3 \\
+CAMP $>$ CPERF & 100.0 & 1.8 & 98.2 & 100.0 & 23.7--92.5 \\
+NoV GII $>$ NoV GI & 95.6 & 0.0 & 100.0 & 35.2 & 0.0--8.2 \\
+NoV GII $>$ CPERF & 100.0 & 0.0 & 100.0 & 33.1 & 1.3--10.7 \\
+CPERF $>$ NoV GI & 60.2 & 0.0 & 100.0 & 0.0 & 0.0--2.6 \\
+\bottomrule
+\end{tabular}
+\end{table}

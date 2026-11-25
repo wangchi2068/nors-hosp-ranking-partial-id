@@ -1,0 +1,56 @@
+\section{Results}\label{sec:results}
+
+\subsection{Study Population, Record Audit and Common Support}\label{sec:res-cohort}
+
+Among 66,713 NORS outbreak records, 11,358 were foodborne outbreaks in 2009--2023, of which 4,133 outbreaks (103,040 cases) had confirmed etiology in one of six study groups: \textit{Salmonella} (1,758 outbreaks; 47,779 cases), norovirus GII (1,206; 29,712), STEC (388; 5,818), norovirus GI (297; 7,998), \textit{Campylobacter} (296; 3,254) and \textit{C. perfringens} (188; 8,479) (Figure~\ref{fig:flow}). Overall, 3,908 eligible outbreaks had a single etiology entry and 225 had multiple entries within one group. Auditing found zero arithmetic contradictions; 3,976 outbreaks (95,781 cases) were complete and 157 (7,259 cases) had blank outcome fields (52 blank $K_i$, 28 blank $H_i$ with $K_i=0$, 23 blank $H_i$ with $K_i>0$, and 54 both blank; Supplementary Table S1), leaving 19.4\% of eligible cases with unrecorded status.
+
+\begin{figure}[!tbp]
+  \centering
+  \includegraphics[width=0.82\linewidth]{figures/fig_01_selection_flow.png}
+  \caption{Selection of confirmed foodborne outbreaks across six pathogen groups in NORS, United States, 2009--2023. All 157 eligible outbreaks with blank hospitalization fields were retained under logical bounds.}
+  \label{fig:flow}
+\end{figure}
+
+Twelve of 21 setting--period cells met the common-support threshold ($\ge 3$ outbreaks per group), retaining 3,176 outbreaks (76.8\%) and 72,132 cases (70.0\%). Case retention ranged from 61.0\% for \textit{Salmonella} and 67.8\% for STEC to 77.5\%--81.3\% for the remaining four groups (Supplementary Table S2; Supplementary Figure S1). Restricting to the common support modestly lowered unstandardized $\delta=0$ proportions from 33.2\% to 30.2\% for STEC and from 21.5\% to 18.6\% for \textit{Salmonella}.
+
+\subsection{Sample Bounds, Standardized Intervals and Tipping Points}\label{sec:res-bounds}
+
+Under the 12-cell reference distribution, sample worst-case intervals were 24.7\%--36.8\% for STEC, 14.5\%--31.7\% for \textit{Salmonella}, 7.4\%--19.3\% for \textit{Campylobacter}, 1.3\%--17.2\% for norovirus GII, 0.4\%--19.7\% for \textit{C. perfringens} and 0.4\%--18.7\% for norovirus GI (Table~\ref{tab:group_bounds}; Figure~\ref{fig:intervals}). Point values at $\delta = 0$ lay near the lower bounds at 28.5\%, 17.6\%, 8.5\%, 1.6\%, 0.6\% and 0.5\%, respectively. With no missing-data assumptions, 4 of 15 pairwise orderings were determined in the sample: STEC exceeded \textit{Campylobacter} (by 5.4 points), \textit{C. perfringens} (5.0), norovirus GI (6.0) and norovirus GII (7.5) (Figure~\ref{fig:verdicts}; Table~\ref{tab:pairwise}). At $\delta = 1$ and $2$ points, 14 orderings held, and 12 held at $\delta = 5$ and $10$ points. Eight sample-undetermined orderings---including STEC above \textit{Salmonella} ($\delta^{*} = 41.3$ points), \textit{Salmonella} above the four lower groups (51.1--81.6) and \textit{Campylobacter} above the lowest three (35.5--37.8)---held across wide deviations, whereas all three orderings among norovirus GII, \textit{C. perfringens} and norovirus GI failed below 5 points ($\delta^{*} = 4.2, 3.7$ and $0.19$ points; Supplementary Figure S2).
+
+\begin{figure}[!tbp]
+  \centering
+  \includegraphics[width=0.82\linewidth]{figures/fig_02_verdict_matrix.pdf}
+  \caption{Sample pairwise orderings and critical deviations $\delta^{*}$ across six pathogen groups, NORS foodborne outbreaks, United States, 2009--2023. Groups are ordered by $\delta = 0$ point values. Dark blue cells hold without missing-data assumptions; light blue cells hold up to $\delta^{*} \ge 5$ points; light red cells fail below 5 points.}
+  \label{fig:verdicts}
+\end{figure}
+
+\input{tables/table_1_group_bounds}
+\input{tables/table_2_pairwise}
+
+\begin{figure}[!tbp]
+  \centering
+  \includegraphics[width=0.92\linewidth]{figures/fig_03_bound_intervals.pdf}
+  \caption{Standardized hospitalization proportions and identification intervals by pathogen group. Light bars give worst-case intervals; dark bars give $\delta = 5$ intervals; circles give $\delta = 0$ values; error bars show 2.5th--97.5th percentiles of each bound across 2,000 outbreak-level bootstrap replicates.}
+  \label{fig:intervals}
+\end{figure}
+
+\subsection{Joint M-Estimation Inference, FWER Control and Cluster Diagnostics}\label{sec:res-inference}
+
+Accounting for outbreak-cluster variance and shared reference-weight uncertainty via the HC1 stacked sandwich estimator closely matched the 2,000-replicate outbreak bootstrap across every pathogen group (Supplementary Table S5; e.g., lower-bound SE 0.66 vs. 0.66 points for \textit{Salmonella}; upper-bound SE 4.33 vs. 4.99 points for \textit{C. perfringens}). Cluster concentration diagnostics explained the elevated upper-bound sampling variance in smaller cohorts: maximum single-outbreak case shares within a stratum reached 69.2\% for \textit{C. perfringens} (max HHI 0.501, $N_{\text{eff}} = 2.00$), 62.1\% for norovirus GI (max HHI 0.508, $N_{\text{eff}} = 1.97$), 65.5\% for \textit{Campylobacter} (max HHI 0.491) and 63.3\% for STEC (max HHI 0.479), compared with 33.0\% (max HHI 0.133) for \textit{Salmonella}.
+
+Incorporating sampling uncertainty substantially narrowed the set of assumption-free orderings (Table~\ref{tab:joint_inference}; Figure~\ref{fig:inference_voi}a). Under pairwise Imbens--Manski 95\% confidence intervals, 2 of the 4 sample-determined pairs excluded zero: STEC above norovirus GII ($[+3.2, +39.2]$ points) and STEC above \textit{Campylobacter} ($[+0.2, +33.3]$ points), whereas STEC above norovirus GI ($[-1.0, +40.1]$) and STEC above \textit{C. perfringens} ($[-2.5, +40.1]$) crossed zero due to upper-bound variance. Under simultaneous 15-pair Max-$T$ FWER control ($c_{\text{sim}} = 2.492$ at worst case versus Bonferroni $2.713$), only STEC above norovirus GII remained unconditionally significant ($p_{\text{FWER}} = 0.0182$), while STEC above norovirus GI, \textit{Campylobacter} and \textit{C. perfringens} required simultaneous confidence tipping points of $\delta^{*}_{0.95,\text{sim}} = 81.9$, $75.1$ and $76.4$ points, respectively. At $\delta = 5$ points ($c_{\text{sim}} = 2.526$), all 12 upper-tier orderings were jointly significant ($p_{\text{FWER}} < 0.0001$), though joint confidence tipping points were roughly half their sample counterparts for adjacent high-risk pairs---falling from $\delta^{*} = 41.3$ to $\delta^{*}_{0.95,\text{sim}} = 20.4$ points for STEC above \textit{Salmonella}, from $51.1$ to $21.8$ for \textit{Salmonella} above \textit{Campylobacter}, and to $19.5$--$21.6$ points for \textit{Campylobacter} above the lowest three groups. The three bottom pairs yielded $\delta^{*}_{0.95,\text{sim}} \le 1.4$ points and $p_{\text{FWER}} \ge 0.9292$ at $\delta = 5$.
+
+\input{tables/table_8_joint_inference}
+
+\begin{figure}[!tbp]
+  \centering
+  \includegraphics[width=0.96\linewidth]{figures/fig_04_inference_voi.pdf}
+  \caption{Simultaneous confidence tipping points and Value-of-Information (VoI) follow-up gains. (a) Sample tipping point $\delta^{*}$ versus 15-pair FWER-adjusted 95\% confidence tipping point $\delta^{*}_{0.95}$ ($c = 2.526$; triangles at 100 denote $\delta^{*} = \infty$). (b) Mean worst-case determined pairs (of 15) across 200 retrospective masking trials on 2,414 complete-status outbreaks by follow-up case budget.}
+  \label{fig:inference_voi}
+\end{figure}
+
+\subsection{Retrospective Masking, VoI Follow-Up and Robustness}\label{sec:res-voi}
+
+Across 200 retrospective masking trials on the 2,414 complete-status common-support outbreaks (45,249 cases), baseline masking reduced worst-case determined pairs to a mean of 1.57 (SD 1.17) with 171.1 points of total unresolved interval overlap (Figure~\ref{fig:inference_voi}b; Supplementary Table S7). Prioritizing follow-up by largest outbreak size performed worse than random selection across every budget (at 1,000 cases: 2.01 vs. 2.50 pairs; at 5,000 cases: 5.95 vs. 6.74 pairs) because the largest outbreaks occurred in high-denominator \textit{Salmonella} and norovirus GII cells where marginal $w_s/C_{js}$ gains are tiny. In contrast, the VoI disambiguation rule resolved 4.51 pairs at 500 cases (overlap 102.5 points), 6.31 pairs at 1,000 cases (75.6 points), 9.36 pairs at 2,000 cases (44.2 points) and 13.38 pairs at 5,000 cases (10.7 points), achieving more disambiguation with 1,000 follow-up cases (6.31 pairs) than largest-outbreak follow-up achieved with 5,000 cases (5.95 pairs). On the actual incomplete NORS cohort, Eq.~\ref{eq:voi} ranked norovirus GI private-home strata (2014--2018 and 2009--2013), \textit{C. perfringens} restaurant (2019--2023) and unknown-setting 2009--2013 strata as highest-priority follow-up targets (width decomposition in Supplementary Table S6).
+
+Across 12 six-group robustness specifications (Supplementary Table S3; Supplementary Figure S3), 4 to 7 pairs held without assumptions and 12 to 14 at $\delta = 5$ points, with zero reversals among the four primary pairs. Discarding the 157 incomplete outbreaks (variant R3b) spuriously inflated worst-case determined pairs from 4 to 7 by omitting unrecorded outcomes. Bootstrap frequencies (Table~\ref{tab:pairwise}; Supplementary Table S4) reproduced the four primary worst-case orderings in 91.6\%--100.0\% of resamples and the modal counts (4 worst-case; 12 at $\delta = 5$) matched the main analysis.

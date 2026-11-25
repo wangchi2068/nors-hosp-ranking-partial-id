@@ -1,0 +1,2 @@
+eligibility_rule,exclusion_rule,eligible,excluded,analysed,matches_pilot
+"pilot exact species strings, single etiology",exclude exactly-one-of-H/K missing,3799,96,3703,True

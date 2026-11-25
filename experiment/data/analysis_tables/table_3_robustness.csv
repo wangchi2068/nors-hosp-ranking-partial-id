@@ -1,0 +1,15 @@
+Analysis,Description,Cells,Pairs,"Determined, worst case","Determined, δ = 5",Worst-case verdicts changed,δ = 0 directions changed
+Main,"Setting × period, ≥ 3 outbreaks, pooled-case weights",12,15,4,12,0,0
+R1a,"Crude, no standardization, all eligible outbreaks",1,15,5,12,1,1
+R1b,Crude within the common support (no standardization),1,15,4,13,0,0
+R2,"Period-only standardization (3 strata, all settings)",3,15,5,12,1,1
+R3a,Cohort of single-etiology confirmed only,12,15,4,12,0,0
+R3b,Cohort of records with any blank H or K dropped,12,15,7,14,3,0
+R3c,"Cohort of species-level etiology strings; records with exactly one blank outcome field dropped (3,703 outbreaks)",11,15,4,12,0,0
+R4a,Common support ≥ 2 outbreaks per group per cell,15,15,4,12,0,1
+R4b,Common support ≥ 5 outbreaks per group per cell,6,15,5,12,1,0
+R5,Drop Unknown and Multiple setting cells,10,15,4,14,0,1
+R6a,Weights from group-balanced case mix,12,15,4,12,0,0
+R6b,Weights from pooled outbreak mix,12,15,4,12,0,1
+R6c,Weights from uniform over cells,12,15,4,12,0,0
+R7,"Norovirus GI+GII combined (5 groups, 10 pairs)",12,10,3,9,NA,NA

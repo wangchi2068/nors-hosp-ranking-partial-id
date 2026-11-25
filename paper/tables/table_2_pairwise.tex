@@ -1,0 +1,30 @@
+\begin{table}[!tbp]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{3pt}
+\renewcommand{\arraystretch}{1.12}
+\caption{Pairwise orderings with their verdict under worst-case bounds and the critical deviation $\delta^{*}$. $\delta^{*}$ is the smallest deviation of the unrecorded-status hospitalization rate from the recorded rate at which the $\delta$ = 0 ordering is no longer guaranteed ($\infty$, holds with no assumption). Further columns show whether the ordering is determined at $\delta$ = 1, 2, 5 and 10 points and the share of bootstrap replicates reproducing the main verdicts.}
+\label{tab:pairwise}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{1.8cm}>{\raggedleft\arraybackslash}p{1.1cm}>{\raggedleft\arraybackslash}p{0.8cm}>{\raggedleft\arraybackslash}p{0.8cm}>{\raggedleft\arraybackslash}p{0.8cm}>{\raggedleft\arraybackslash}p{0.8cm}>{\raggedleft\arraybackslash}p{2.2cm}>{\raggedleft\arraybackslash}p{2.2cm}}
+\toprule
+Ordering at $\delta$ = 0 & Worst case & $\delta^{*}$ (points) & $\delta$ = 1 & $\delta$ = 2 & $\delta$ = 5 & $\delta$ = 10 & Bootstrap, worst-case verdict reproduced (\%) & Bootstrap, $\delta$ = 5 verdict reproduced (\%) \\
+\midrule
+STEC $>$ CAMP & determined & $\infty$ & yes & yes & yes & yes & 97.0 & 100.0 \\
+STEC $>$ CPERF & determined & $\infty$ & yes & yes & yes & yes & 91.6 & 100.0 \\
+STEC $>$ NoV GI & determined & $\infty$ & yes & yes & yes & yes & 93.6 & 100.0 \\
+STEC $>$ NoV GII & determined & $\infty$ & yes & yes & yes & yes & 100.0 & 100.0 \\
+SAL $>$ NoV GII & undetermined & 81.6 & yes & yes & yes & yes & 85.8 & 100.0 \\
+SAL $>$ NoV GI & undetermined & 76.5 & yes & yes & yes & yes & 85.5 & 100.0 \\
+SAL $>$ CPERF & undetermined & 72.1 & yes & yes & yes & yes & 75.2 & 100.0 \\
+SAL $>$ CAMP & undetermined & 51.1 & yes & yes & yes & yes & 95.8 & 100.0 \\
+STEC $>$ SAL & undetermined & 41.3 & yes & yes & yes & yes & 99.4 & 100.0 \\
+CAMP $>$ NoV GI & undetermined & 37.8 & yes & yes & yes & yes & 99.9 & 98.4 \\
+CAMP $>$ NoV GII & undetermined & 37.1 & yes & yes & yes & yes & 100.0 & 100.0 \\
+CAMP $>$ CPERF & undetermined & 35.5 & yes & yes & yes & yes & 98.2 & 100.0 \\
+NoV GII $>$ NoV GI & undetermined & 4.2 & yes & yes & no & no & 100.0 & 64.8 \\
+NoV GII $>$ CPERF & undetermined & 3.7 & yes & yes & no & no & 100.0 & 67.0 \\
+CPERF $>$ NoV GI & undetermined & 0.19 & no & no & no & no & 100.0 & 100.0 \\
+\bottomrule
+\end{tabular}
+\par\smallskip\parbox{0.97\linewidth}{\footnotesize SAL Salmonella; STEC Shiga toxin-producing E. coli; CAMP Campylobacter; CPERF C. perfringens; NoV GI/GII norovirus genogroup I/II. At $\delta$ = 0 every pair is ordered (point values differ). The last two columns report the share of bootstrap replicates reproducing the main-analysis verdict (determined or undetermined under worst-case bounds; yes or no at $\delta$ = 5 points).}
+\end{table}
