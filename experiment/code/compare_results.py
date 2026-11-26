@@ -24,7 +24,7 @@ sys.dont_write_bytecode = True
 
 RUN_METADATA = {"timestamp", "spec_hash", "wall_clock_seconds", "analysis_version", "hardware", "cohort_sha256"}
 ADDED_OK = {"estimates", "estimates_note"}
-NUM_SECTIONS = {"stacked_inference", "small_sample_calibration", "followup_masking"}
+NUM_SECTIONS = {"stacked_inference", "small_sample_calibration", "followup_masking", "cluster_diagnostics"}
 TOL = 1e-9
 NUM_TOL = 1e-5
 

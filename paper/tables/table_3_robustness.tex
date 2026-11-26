@@ -3,7 +3,7 @@
 \scriptsize
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.12}
-\caption{Sensitivity analyses across all 20 cohort, support, weighting, serogroup, outbreak-MAR, and multistate variants.}
+\caption{Sensitivity analyses across all 22 cohort, support, weighting, serogroup, outbreak-MAR, and denominator variants.}
 \label{tab:robustness}
 \begin{tabular}{>{\raggedright\arraybackslash}p{1.0cm}>{\raggedright\arraybackslash}p{5.25cm}>{\raggedleft\arraybackslash}p{0.85cm}>{\raggedleft\arraybackslash}p{0.85cm}>{\raggedleft\arraybackslash}p{1.5cm}>{\raggedleft\arraybackslash}p{1.45cm}>{\raggedleft\arraybackslash}p{1.45cm}>{\raggedleft\arraybackslash}p{1.45cm}}
 \toprule
@@ -30,7 +30,9 @@ R10 & Within-cell aggregation: equal weight per outbreak & 12 & 15 & 7 & 14 & 3 
 R11 & Cohort of single-state outbreaks only (exclude multistate) & 12 & 15 & 4 & 12 & 0 & 0 \\
 R12 & Cohort of restrict STEC to confirmed O157 serogroup & 11 & 15 & 4 & 12 & 0 & 0 \\
 R13 & Anchor: outbreak-level H\_i/K\_i MAR within common support & 12 & 15 & 4 & 14 & 0 & 1 \\
+R14a & Denominator: treat 25\% of unrecorded cases as extrapolated non-cases & 12 & 15 & 6 & 13 & 2 & 0 \\
+R14b & Denominator: restrict to outbreaks with $\leq$50\% unrecorded status & 11 & 15 & 12 & 14 & 8 & 0 \\
 \bottomrule
 \end{tabular}
-\par\smallskip\parbox{0.97\linewidth}{\footnotesize R7 and R7b combine norovirus into 5 groups (10 pairs), so 6-group changes are NA. R12 restricts STEC to confirmed O157; R13 uses outbreak-level H\_i/K\_i MAR anchors.}
+\par\smallskip\parbox{0.97\linewidth}{\footnotesize R7 and R7b combine norovirus into 5 groups (10 pairs), so 6-group changes are NA. R12 restricts STEC to confirmed O157; R13 uses outbreak-level H\_i/K\_i MAR anchors; R14a--R14b evaluate C\_i contamination/extrapolation sensitivity.}
 \end{table}

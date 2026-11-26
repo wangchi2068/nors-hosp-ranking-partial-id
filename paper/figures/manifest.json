@@ -21,7 +21,7 @@
   "id": "fig_04_calibrated_2d",
   "path_pdf": "fig_04_calibrated_2d.pdf",
   "path_png": "fig_04_calibrated_2d.png",
-  "caption": "2D breakdown frontiers across 15 pairs.",
+  "caption": "2D breakdown frontiers across lower-tier pairs [0,10] pp and key upper-tier boundary pairs [0,60] pp.",
   "section": "results",
   "generator": "code/make_outputs.py",
   "data_source": "analysis/results.json"
@@ -30,7 +30,7 @@
   "id": "fig_05_inference_followup",
   "path_pdf": "fig_05_inference_followup.pdf",
   "path_png": "fig_05_inference_followup.png",
-  "caption": "Sample and statistical 30-hypothesis breakdown points alongside common-mechanism proportional scaling.",
+  "caption": "Sample and 30-hypothesis statistical breakdown points alongside delta-specific Max-T critical value curves.",
   "section": "results",
   "generator": "code/make_outputs.py",
   "data_source": "analysis/results.json"
@@ -48,7 +48,7 @@
   "id": "fig_s2_robustness",
   "path_pdf": "fig_s2_robustness.pdf",
   "path_png": "fig_s2_robustness.png",
-  "caption": "Sensitivity verdicts across all 18 six-group specifications.",
+  "caption": "Sensitivity verdicts across all 20 six-group specifications.",
   "section": "supplementary",
   "generator": "code/make_outputs.py",
   "data_source": "analysis/results.json"
@@ -58,6 +58,15 @@
   "path_pdf": "fig_s3_followup_sensitivity.pdf",
   "path_png": "fig_s3_followup_sensitivity.png",
   "caption": "Follow-up benchmarks across per-case, per-outbreak, mixed-cost, and MNAR masking regimes.",
+  "section": "supplementary",
+  "generator": "code/make_outputs.py",
+  "data_source": "analysis/results.json"
+ },
+ {
+  "id": "fig_s4_common_mechanism",
+  "path_pdf": "fig_s4_common_mechanism.pdf",
+  "path_png": "fig_s4_common_mechanism.png",
+  "caption": "Standardized hospitalization under uniform common-mechanism rate scaling alpha in [0, 2].",
   "section": "supplementary",
   "generator": "code/make_outputs.py",
   "data_source": "analysis/results.json"

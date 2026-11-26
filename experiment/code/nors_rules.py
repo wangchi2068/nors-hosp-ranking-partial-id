@@ -35,7 +35,7 @@ NOROVIRUS_UNSPECIFIED = {
     "Norovirus Genogroup IV", "Norovirus Genogroup IX",
 }
 
-# Exact species strings used by the user's pilot (reproduces 3,799 / 96 / 3,703).
+# Exact species strings from the initial exploratory specification (reproduces 3,799 / 96 / 3,703).
 PILOT_STRINGS = {
     "Salmonella enterica": "SAL",
     "Escherichia coli, Shiga toxin-producing": "STEC",

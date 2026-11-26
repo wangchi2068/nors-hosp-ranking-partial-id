@@ -1,7 +1,7 @@
 {
  "source": "analysis/results.json",
- "spec_hash": "e9c1391390ed0bdf",
- "analysis_version": "5.0",
+ "spec_hash": "191b49d7b65746f9",
+ "analysis_version": "6.0",
  "n_pairs": 15,
  "n_common_support_cells": 12,
  "determined_pairs": {
@@ -204,6 +204,18 @@
    "determined_worst_case": 4,
    "determined_delta5": 14,
    "n_pairs": 15
+  },
+  "R14a_Ci_extrap25": {
+   "cells": 12,
+   "determined_worst_case": 6,
+   "determined_delta5": 13,
+   "n_pairs": 15
+  },
+  "R14b_low_unrec_50": {
+   "cells": 11,
+   "determined_worst_case": 12,
+   "determined_delta5": 14,
+   "n_pairs": 15
   }
  },
  "bootstrap": {
@@ -249,25 +261,34 @@
   "n_fwer_worst_sig": 1,
   "n_fwer_boot_t_worst_sig": 0,
   "n_fwer_boot_t_delta5_sig": 12,
-  "c_bt_worst": 4.519158609896355,
-  "c_bt_delta5": 3.3688244616842953,
+  "c_bt_worst": 4.519158609896356,
+  "c_bt_delta5": 3.3688244616842944,
   "rank_breakdown_points_pp": {
    "hc1": {
     "STEC_1_1": 19.073664731428924,
     "SAL_2_2": 19.073664731428924,
-    "CAMP_3_3": 18.541628533538255
+    "CAMP_3_3": 18.541628533538255,
+    "joint_upper_tier_min": 18.541628533538255
    },
    "state": {
     "STEC_1_1": 20.046117539076075,
     "SAL_2_2": 18.24713861682171,
-    "CAMP_3_3": 18.02377981854279
+    "CAMP_3_3": 18.02377981854279,
+    "joint_upper_tier_min": 18.02377981854279
    },
    "bootstrap_t": {
-    "STEC_1_1": 15.040500288276471,
-    "SAL_2_2": 15.040500288276471,
-    "CAMP_3_3": 15.933631829940486
+    "STEC_1_1": 11.582770265100924,
+    "SAL_2_2": 11.582770265100924,
+    "CAMP_3_3": 13.471188664574212,
+    "joint_upper_tier_min": 11.582770265100924
+   },
+   "bootstrap_t_unif": {
+    "STEC_1_1": 7.855345738657947,
+    "SAL_2_2": 7.855345738657947,
+    "CAMP_3_3": 11.625353337053435,
+    "joint_upper_tier_min": 7.855345738657947
    }
   }
  },
- "note": "Canonical summary across sample bounds, 30-hypothesis nominal & calibrated bootstrap-t inference, and 20 variants."
+ "note": "Canonical summary across sample bounds, 30-hypothesis Gaussian & studentized bootstrap-t inference, and 22 variants."
 }

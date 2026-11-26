@@ -3,7 +3,7 @@
 \scriptsize
 \setlength{\tabcolsep}{2.1pt}
 \renewcommand{\arraystretch}{1.12}
-\caption{Outbreak-cluster concentration, Multistate unrecorded case share, and standard errors across HC0, HC1, bootstrap SD (2,000 replicates), and 53 exposure-state clusters.}
+\caption{Outbreak-cluster concentration, Multistate unrecorded case share, cluster share of score variance, coarser/outbreak-weighted inference, and leave-one-outbreak-out influence.}
 \label{tab:cluster_diag}
 \begin{tabular}{>{\raggedright\arraybackslash}p{1.85cm}>{\raggedleft\arraybackslash}p{1.75cm}>{\raggedleft\arraybackslash}p{2.05cm}>{\raggedleft\arraybackslash}p{1.55cm}>{\raggedleft\arraybackslash}p{3.4cm}>{\raggedleft\arraybackslash}p{3.4cm}}
 \toprule
@@ -17,5 +17,5 @@ C. perfringens & 4/10/32 & 0.501 (2.00) & 0.0 & 0.14/0.15/0.18/0.13 & 4.09/4.33/
 Norovirus GI & 3/9/66 & 0.508 (1.97) & 5.0 & 0.10/0.11/0.11/0.13 & 3.73/3.97/3.86/3.51 \\
 \bottomrule
 \end{tabular}
-\par\smallskip\parbox{0.97\linewidth}{\footnotesize MNW (2023) score leverage across 53 exposure-state clusters: max share = 48.3\% (worst case) and 66.8\% ($\delta$ = 5 pp) in Multistate; G\_eff = 4.04 / 2.21. Treating 219 Multistate outbreaks as singletons (271 clusters) or clustering inside 52 single states (R11) yields 0 / 0 worst-case and 12 / 12 $\delta$ = 5 significant pairs.}
+\par\smallskip\parbox{0.97\linewidth}{\footnotesize Cluster share of score variance across 53 exposure-state categories (Carter et al. 2017; MacKinnon et al. 2023): Multistate share = 48.3\% (worst case) and 66.8\% ($\delta$ = 5 pp), G\_eff = 4.04 / 2.21. Splitting 219 Multistate outbreaks as singletons (271 clusters) or single-state R11 (52 states) gives 0/0 worst-case and 12/12 $\delta$ = 5 significant hypotheses. Coarser R2 (3 periods, min cell n = 24) gives 2 HC1 and 0 boot-t worst-case rejections ($\delta$ = 5: 12 boot-t, upper tier [1,1]/[2,2]/[3,3]); equal-outbreak R10 gives 5 boot-t worst-case and 12 $\delta$ = 5 rejections (identical under R4a/R4b). Across all 3,176 single-outbreak deletions (and simultaneous 6-group LLO removal), worst-case determined pairs stay 4--4 (4 LLO) and $\delta$ = 5 stays 12--13 (12 LLO).}
 \end{table}

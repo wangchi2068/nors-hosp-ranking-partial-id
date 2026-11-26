@@ -34,6 +34,7 @@ SEED = 20261125
 DELTA_GRID_PP = [0, 1, 2, 5, 10]
 DELTA_FINE_PP = [round(i * 0.05, 2) for i in range(201)]
 TWO_D_PP = [round(i * 0.25, 2) for i in range(81)]
+TWO_D_EXT_PP = list(range(0, 61, 1))
 THRESHOLD = 3
 
 
@@ -122,6 +123,13 @@ def analyze_table(t: S.Table, detail: bool = False) -> OrderedDict:
             two_d[f"{groups[i]}|{groups[j]}"] = OrderedDict(hi=groups[h], lo=groups[l], d_hi_pp=list(TWO_D_PP),
                                                             d_lo_boundary_pp=bnd)
         out["two_d"] = two_d
+        two_d_ext = OrderedDict()
+        for k in ("SAL|STEC", "SAL|CAMP", "CAMP|NOV_GII"):
+            p_k = pairs[k]
+            h = groups.index(p_k["higher_at_delta0"]); l = groups.index(p_k["lower_at_delta0"])
+            bnd_e = [None if (v := B.lo_boundary(t, h, l, d / 100.0)) is None else v * 100.0 for d in TWO_D_EXT_PP]
+            two_d_ext[k] = OrderedDict(hi=groups[h], lo=groups[l], d_hi_pp=list(TWO_D_EXT_PP), d_lo_boundary_pp=bnd_e)
+        out["two_d_ext"] = two_d_ext
         d1 = 0.0
         for i in range(len(groups)):
             Lw, Uw = B.worst_bounds(t, i)
@@ -161,6 +169,7 @@ def cohorts(cohort: pd.DataFrame, suspected: pd.DataFrame | None = None,
         "keep_excl_healthcare": main[~main["is_healthcare"].astype(bool)].copy(),
         "keep_single_state": main[main["state"].astype(str) != "Multistate"].copy(),
         "keep_stec_o157": main[(~is_stec) | sg_col.str.contains("O157")].copy(),
+        "keep_low_unrec_50": main[(main["U"] / main["C"]) <= 0.50].copy(),
     }
     if suspected is not None and len(suspected) > 0:
         sus_kept = suspected[suspected["kept"]].copy()
@@ -198,6 +207,8 @@ ROBUSTNESS = OrderedDict([
     ("R11_single_state_only", ("Cohort: single-state outbreaks only (exclude multistate)", {"cohort": "keep_single_state"})),
     ("R12_stec_o157_only", ("Cohort: restrict STEC to confirmed O157 serogroup", {"cohort": "keep_stec_o157"})),
     ("R13_outbreak_level_mar", ("Anchor: outbreak-level H_i/K_i MAR within common support", {"kind": "outbreak_mar", "cohort": "keep_main"})),
+    ("R14a_Ci_extrap25", ("Denominator: treat 25% of unrecorded cases as extrapolated non-cases", {"kind": "ci_extrap25", "cohort": "keep_main"})),
+    ("R14b_low_unrec_50", ("Denominator: restrict to outbreaks with <=50% unrecorded status", {"cohort": "keep_low_unrec_50"})),
 ])
 
 
@@ -309,6 +320,12 @@ def variant_table(spec: dict, co: dict, main_cells: list, main_weights: np.ndarr
         if main_weights is not None:
             t_ow.w = main_weights.copy()
         return t_ow, len(cohort)
+    if kind == "ci_extrap25":
+        sub = cohort.copy()
+        m_drop = 0.25 * sub["U"]
+        sub["C"] = sub["C"] - m_drop
+        sub["U"] = sub["U"] - m_drop
+        return S.build(sub, R.GROUPS, "setting_period", fixed_cells=main_cells), len(sub)
     if spec.get("combined"):
         c2 = cohort.assign(group=cohort["group"].replace({"NOV_GI": "NOV", "NOV_GII": "NOV", "NOV_UNSPEC": "NOV"}))
         groups = ["SAL", "STEC", "CAMP", "CPERF", "NOV"]
@@ -544,7 +561,7 @@ def main(argv=None):
             (Path(__file__).parent / f).read_text(encoding="utf-8")
             for f in ("analyze.py", "bounds.py", "strata.py", "nors_rules.py", "bootstrap.py", "inference_voi.py")
             if (Path(__file__).parent / f).exists()).encode()).hexdigest()[:16],
-        analysis_version="5.0", hardware="CPU only", wall_clock_seconds=None,
+        analysis_version="6.0", hardware="CPU only", wall_clock_seconds=None,
     )
     res["summary"] = summary_block(main_res)
     res["groups"] = OrderedDict((g, R.GROUP_LABELS[g]) for g in R.GROUPS)
@@ -597,7 +614,7 @@ def main(argv=None):
     print("stacked inference, calibration & follow-up done", flush=True)
     res["notes"] = TEXT["notes"]
     res["estimates"] = []
-    res["estimates_note"] = ("Point-wise identification bounds appear in `main`; uniformly valid Imbens-Manski 95% CIs, "
+    res["estimates_note"] = ("Point-wise identification bounds appear in `main`; pointwise Imbens-Manski 95% CIs, "
                              "outbreak-HC1/state-clustered Max-T FWER p-values, and rank confidence sets appear in "
                              "`stacked_inference`.")
     res["provenance"]["wall_clock_seconds"] = round(time.time() - t0, 1)

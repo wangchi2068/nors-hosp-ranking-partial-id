@@ -1,20 +1,20 @@
 {
   "preserved": "results.json",
-  "preserved_sha256": "5ce23d5eb782b599430aabb1cb48bb4444714de1348912ba78000e2c4362d1b5",
+  "preserved_sha256": "c00f0e8723e1df61b9147534a4953181cd7dc9b1e9dd3aba5152ed4c5c5da43b",
   "rebuilt": "results_rebuilt.json",
-  "rebuilt_sha256": "5c1e0650217999c1f1548848dda099d23bb945eec7ce2aac7568ed099e5fa340",
+  "rebuilt_sha256": "62cfcf87820f81ec3d3643fb3fc6d86521264959b151afbe059e6f99740b817b",
   "tolerance_abs": 1e-09,
   "rules": "ints/bools/strings/nulls identical; floats |diff| <= tolerance; run metadata excluded",
   "totals": {
-    "n_leaves": 23061,
-    "exact": 23061,
+    "n_leaves": 25169,
+    "exact": 25169,
     "float_close": 0,
     "not_matched": 0,
     "max_abs_float_deviation": 0.0
   },
   "totals_excluding_bootstrap": {
-    "n_leaves": 21402,
-    "exact": 21402,
+    "n_leaves": 23510,
+    "exact": 23510,
     "float_close": 0,
     "not_matched": 0,
     "max_abs_float_deviation": 0.0
@@ -2678,8 +2678,8 @@
       "status": "exact"
     },
     "main": {
-      "n_leaves": 3511,
-      "exact": 3511,
+      "n_leaves": 3883,
+      "exact": 3883,
       "float_close": 0,
       "not_matched": 0,
       "max_abs_float_deviation": 0.0,
@@ -2853,6 +2853,22 @@
       "max_abs_float_deviation": 0.0,
       "status": "exact"
     },
+    "robustness.R14a_Ci_extrap25": {
+      "n_leaves": 534,
+      "exact": 534,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "robustness.R14b_low_unrec_50": {
+      "n_leaves": 531,
+      "exact": 531,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
     "retention": {
       "n_leaves": 165,
       "exact": 165,
@@ -2894,8 +2910,8 @@
       "status": "exact"
     },
     "stacked_inference": {
-      "n_leaves": 1532,
-      "exact": 1532,
+      "n_leaves": 2180,
+      "exact": 2180,
       "float_close": 0,
       "not_matched": 0,
       "max_abs_float_deviation": 0.0,
@@ -2910,16 +2926,16 @@
       "status": "exact"
     },
     "small_sample_calibration": {
-      "n_leaves": 93,
-      "exact": 93,
+      "n_leaves": 114,
+      "exact": 114,
       "float_close": 0,
       "not_matched": 0,
       "max_abs_float_deviation": 0.0,
       "status": "exact"
     },
     "empirical_calibration": {
-      "n_leaves": 504,
-      "exact": 504,
+      "n_leaves": 506,
+      "exact": 506,
       "float_close": 0,
       "not_matched": 0,
       "max_abs_float_deviation": 0.0,
@@ -2954,14 +2970,14 @@
     {
       "path": "provenance.timestamp",
       "status": "value_differs",
-      "preserved": "2026-11-26T05:42:36Z",
-      "rebuilt": "2026-11-26T05:54:57Z"
+      "preserved": "2026-11-26T07:43:52Z",
+      "rebuilt": "2026-11-26T07:56:27Z"
     },
     {
       "path": "provenance.wall_clock_seconds",
       "status": "float_differs",
-      "preserved": 150.3,
-      "rebuilt": 173.6
+      "preserved": 289.5,
+      "rebuilt": 267.0
     }
   ],
   "added_keys_in_rebuilt": []
