@@ -1,6 +1,6 @@
 Audit category,Outbreaks,Cases,SAL,STEC,CAMP,CPERF,NoV GI,NoV GII,Handling
 Complete and consistent,"3,976","95,781","1,689",369,292,180,285,"1,161",as recorded (K = 0 means all status unrecorded)
-K blank,52,"2,337",26,6,0,2,3,15,K set to H; remaining cases unrecorded
+K blank,52,"2,337",26,6,0,2,3,15,K set to H; C − H cases unrecorded
 "H blank, K = 0",28,978,11,3,2,2,1,9,H = 0 implied by H ≤ K = 0; all cases unrecorded
 "H blank, K > 0",23,321,1,1,0,1,5,15,all cases treated as unrecorded
 H and K blank,54,"3,623",31,9,2,3,3,6,all cases treated as unrecorded

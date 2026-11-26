@@ -1,20 +1,20 @@
 {
   "preserved": "results.json",
-  "preserved_sha256": "c4cc76efabe23d7cc5337ad3835327cc90402b85132cabe42998de08e99ead7b",
+  "preserved_sha256": "372463400091ef49c89e0263dcd2ba5be3175525f5b9eb709712f36807b32cfa",
   "rebuilt": "results_rebuilt.json",
-  "rebuilt_sha256": "862eb081ce18d7c1a443c6e4cd10c314461e764a6f1ab8f2acf1dc67d73fd950",
+  "rebuilt_sha256": "75fc826541dc64976c3dfeb6ae07bfe4d6ae34dcb32624ba920497d2f74c3afc",
   "tolerance_abs": 1e-09,
   "rules": "ints/bools/strings/nulls identical; floats |diff| <= tolerance; run metadata excluded",
   "totals": {
-    "n_leaves": 15473,
-    "exact": 15473,
+    "n_leaves": 18654,
+    "exact": 18654,
     "float_close": 0,
     "not_matched": 0,
     "max_abs_float_deviation": 0.0
   },
   "totals_excluding_bootstrap": {
-    "n_leaves": 15213,
-    "exact": 15213,
+    "n_leaves": 18135,
+    "exact": 18135,
     "float_close": 0,
     "not_matched": 0,
     "max_abs_float_deviation": 0.0
@@ -2646,8 +2646,8 @@
       "status": "exact"
     },
     "provenance": {
-      "n_leaves": 7,
-      "exact": 7,
+      "n_leaves": 6,
+      "exact": 6,
       "float_close": 0,
       "not_matched": 0,
       "max_abs_float_deviation": 0.0,
@@ -2797,6 +2797,30 @@
       "max_abs_float_deviation": 0.0,
       "status": "exact"
     },
+    "robustness.R8_include_suspected": {
+      "n_leaves": 541,
+      "exact": 541,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "robustness.R9_excl_healthcare": {
+      "n_leaves": 533,
+      "exact": 533,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "robustness.R10_outbreak_weighted": {
+      "n_leaves": 534,
+      "exact": 534,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
     "retention": {
       "n_leaves": 165,
       "exact": 165,
@@ -2814,16 +2838,16 @@
       "status": "exact"
     },
     "bootstrap": {
-      "n_leaves": 260,
-      "exact": 260,
+      "n_leaves": 519,
+      "exact": 519,
       "float_close": 0,
       "not_matched": 0,
       "max_abs_float_deviation": 0.0,
       "status": "exact"
     },
     "audit": {
-      "n_leaves": 144,
-      "exact": 144,
+      "n_leaves": 212,
+      "exact": 212,
       "float_close": 0,
       "not_matched": 0,
       "max_abs_float_deviation": 0.0,
@@ -2838,24 +2862,40 @@
       "status": "exact"
     },
     "stacked_inference": {
-      "n_leaves": 264,
-      "exact": 264,
+      "n_leaves": 779,
+      "exact": 779,
       "float_close": 0,
       "not_matched": 0,
       "max_abs_float_deviation": 0.0,
       "status": "exact"
     },
     "cluster_diagnostics": {
-      "n_leaves": 552,
-      "exact": 552,
+      "n_leaves": 563,
+      "exact": 563,
       "float_close": 0,
       "not_matched": 0,
       "max_abs_float_deviation": 0.0,
       "status": "exact"
     },
-    "voi_masking": {
-      "n_leaves": 270,
-      "exact": 270,
+    "small_sample_calibration": {
+      "n_leaves": 63,
+      "exact": 63,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "empirical_calibration": {
+      "n_leaves": 278,
+      "exact": 278,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "followup_masking": {
+      "n_leaves": 650,
+      "exact": 650,
       "float_close": 0,
       "not_matched": 0,
       "max_abs_float_deviation": 0.0,
@@ -2882,14 +2922,14 @@
     {
       "path": "provenance.timestamp",
       "status": "value_differs",
-      "preserved": "2026-11-25T09:05:46Z",
-      "rebuilt": "2026-11-25T09:21:05Z"
+      "preserved": "2026-11-26T01:21:15Z",
+      "rebuilt": "2026-11-26T01:29:06Z"
     },
     {
       "path": "provenance.wall_clock_seconds",
       "status": "float_differs",
-      "preserved": 44.3,
-      "rebuilt": 54.1
+      "preserved": 50.8,
+      "rebuilt": 36.3
     }
   ],
   "added_keys_in_rebuilt": []

@@ -1,0 +1,65 @@
+[
+ {
+  "id": "fig_02_verdict_matrix",
+  "path_pdf": "fig_02_verdict_matrix.pdf",
+  "path_png": "fig_02_verdict_matrix.png",
+  "caption": "Sample pairwise orderings and critical deviations δ*. Dark blue cells (4/15) hold without assumptions on unrecorded outcomes; δ = 5 pp shading is an illustrative scenario threshold.",
+  "section": "results",
+  "generator": "code/make_outputs.py",
+  "data_source": "analysis/results.json"
+ },
+ {
+  "id": "fig_03_bound_intervals",
+  "path_pdf": "fig_03_bound_intervals.pdf",
+  "path_png": "fig_03_bound_intervals.png",
+  "caption": "Standardized hospitalization bounds overlaid with crude H/C and H/K conventions across common-support cells.",
+  "section": "results",
+  "generator": "code/make_outputs.py",
+  "data_source": "analysis/results.json"
+ },
+ {
+  "id": "fig_04_calibrated_2d",
+  "path_pdf": "fig_04_calibrated_2d.pdf",
+  "path_png": "fig_04_calibrated_2d.png",
+  "caption": "Two-dimensional asymmetric sensitivity across all 15 pairs with empirically calibrated downward departure boxes.",
+  "section": "results",
+  "generator": "code/make_outputs.py",
+  "data_source": "analysis/results.json"
+ },
+ {
+  "id": "fig_05_inference_followup",
+  "path_pdf": "fig_05_inference_followup.pdf",
+  "path_png": "fig_05_inference_followup.png",
+  "caption": "Joint confidence tipping points under dynamic c_sim(δ) and budget-filling follow-up curves with 95% MC intervals.",
+  "section": "results",
+  "generator": "code/make_outputs.py",
+  "data_source": "analysis/results.json"
+ },
+ {
+  "id": "fig_s1_retention_recording",
+  "path_pdf": "fig_s1_retention_recording.pdf",
+  "path_png": "fig_s1_retention_recording.png",
+  "caption": "Common-support retention and status recording.",
+  "section": "supplementary",
+  "generator": "code/make_outputs.py",
+  "data_source": "analysis/results.json"
+ },
+ {
+  "id": "fig_s2_robustness",
+  "path_pdf": "fig_s2_robustness.pdf",
+  "path_png": "fig_s2_robustness.png",
+  "caption": "Sensitivity verdicts across all 15 six-group specifications.",
+  "section": "supplementary",
+  "generator": "code/make_outputs.py",
+  "data_source": "analysis/results.json"
+ },
+ {
+  "id": "fig_s3_followup_sensitivity",
+  "path_pdf": "fig_s3_followup_sensitivity.pdf",
+  "path_png": "fig_s3_followup_sensitivity.png",
+  "caption": "Paired DPI vs width-greedy differences and follow-up sensitivity across MNAR, adaptive, and partial-yield designs.",
+  "section": "supplementary",
+  "generator": "code/make_outputs.py",
+  "data_source": "analysis/results.json"
+ }
+]

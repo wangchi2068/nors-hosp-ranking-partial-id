@@ -83,7 +83,7 @@ def main():
         mo.make_tables(r, out / "paper" / "tables")
         mo.make_figures(r, out / "paper" / "figures")
 
-    print("\nReproduction passed: all results and all 10 tables verified bit-for-bit in", out)
+    print("\nReproduction passed: all results verified within numerical tolerance and all CSV tables matched in", out)
 
 
 if __name__ == "__main__":

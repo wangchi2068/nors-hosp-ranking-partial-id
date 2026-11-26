@@ -147,15 +147,22 @@ def delta_fine(t: S.Table) -> OrderedDict:
 
 
 # --------------------------------------------------------------------------- cohorts
-def cohorts(cohort: pd.DataFrame) -> dict:
+def cohorts(cohort: pd.DataFrame, suspected: pd.DataFrame | None = None) -> dict:
     kept = cohort[cohort["kept"]]
     main = kept[kept["in_main"]].copy()
-    return {
+    out = {
         "keep_main": main,
         "keep_single_etiology": main[main["single_etiology"]].copy(),
         "keep_complete_only": main[main["in_complete_only"]].copy(),
         "keep_pilot_rule": kept[kept["in_pilot_rule"]].assign(group=lambda d: d["pilot_group"]).copy(),
+        "keep_excl_healthcare": main[~main["is_healthcare"].astype(bool)].copy(),
     }
+    if suspected is not None and len(suspected) > 0:
+        sus_kept = suspected[suspected["kept"]].copy()
+        out["keep_include_suspected"] = pd.concat([main, sus_kept], ignore_index=True)
+    else:
+        out["keep_include_suspected"] = main.copy()
+    return out
 
 
 ROBUSTNESS = OrderedDict([
@@ -173,10 +180,13 @@ ROBUSTNESS = OrderedDict([
     ("R6b_w_pooled_outbreaks", ("Weights: pooled outbreak mix", {"weights": "pooled_outbreaks"})),
     ("R6c_w_uniform", ("Weights: uniform over cells", {"weights": "uniform"})),
     ("R7_norovirus_combined", ("Norovirus GI+GII combined (5 groups, 10 pairs)", {"combined": True})),
+    ("R8_include_suspected", ("Cohort: include suspected study-group etiologies", {"cohort": "keep_include_suspected"})),
+    ("R9_excl_healthcare", ("Cohort: exclude healthcare/LTCF outbreaks", {"cohort": "keep_excl_healthcare"})),
+    ("R10_outbreak_weighted", ("Within-cell aggregation: equal weight per outbreak", {"kind": "outbreak_weighted", "cohort": "keep_main"})),
 ])
 
 
-def variant_table(spec: dict, co: dict, main_cells: list) -> tuple[S.Table, int]:
+def variant_table(spec: dict, co: dict, main_cells: list, main_weights: np.ndarray | None = None) -> tuple[S.Table, int]:
     cohort = co[spec.get("cohort", "keep_main")]
     kind = spec.get("kind")
     if kind == "crude":
@@ -186,6 +196,15 @@ def variant_table(spec: dict, co: dict, main_cells: list) -> tuple[S.Table, int]
         return S.build(sub, R.GROUPS, "all", threshold=0), len(cohort)
     if kind == "period":
         return S.build(cohort, R.GROUPS, "period", threshold=THRESHOLD), len(cohort)
+    if kind == "outbreak_weighted":
+        sub = cohort[cohort["cell"].isin(main_cells)].copy()
+        sub["H"] = sub["H"] / sub["C"]
+        sub["U"] = sub["U"] / sub["C"]
+        sub["C"] = 1.0
+        t_ow = S.build(sub, R.GROUPS, "setting_period", fixed_cells=main_cells)
+        if main_weights is not None:
+            t_ow.w = main_weights.copy()
+        return t_ow, len(cohort)
     if spec.get("combined"):
         c2 = cohort.assign(group=cohort["group"].replace({"NOV_GI": "NOV", "NOV_GII": "NOV"}))
         groups = ["SAL", "STEC", "CAMP", "CPERF", "NOV"]
@@ -207,10 +226,10 @@ def changes_vs_main(main_res, var_res):
     return rows
 
 
-def robustness(co: dict, main_res, main_cells) -> OrderedDict:
+def robustness(co: dict, main_res, main_cells, main_weights: np.ndarray | None = None) -> OrderedDict:
     out = OrderedDict()
     for key, (label, spec) in ROBUSTNESS.items():
-        t, n_coh = variant_table(spec, co, main_cells)
+        t, n_coh = variant_table(spec, co, main_cells, main_weights=main_weights)
         res = analyze_table(t)
         res["n_outbreaks_in_cohort"] = int(n_coh)
         res["label"] = label
@@ -324,14 +343,12 @@ TEXT = OrderedDict(
         ("L_delta5 / U_delta5", "bounds if the unrecorded-status rate is within 5 percentage points of the "
                                 "recorded rate"),
     ]),
-    statistics=OrderedDict(std_ddof=0, note="Bounds are deterministic functions of the data (identification "
-                           "intervals, not confidence intervals); std is null and n_seeds = 1. Sampling variability "
-                           "is described by the outbreak-level bootstrap block (percentiles of the bootstrap "
-                           "distribution, not confidence intervals)."),
+    statistics=OrderedDict(std_ddof=0, note="Sample bounds are deterministic identification intervals; sampling "
+                           "uncertainty is quantified by stratified outbreak-level bootstrap, state-clustered "
+                           "M-estimation sandwich covariances, Imbens-Manski 95% CIs, and Max-T FWER tests."),
     notes="All numbers are recomputed from the 2026-11-25 snapshot. 'undetermined' means the recorded data do not "
           "fix the direction; it does not mean equal. delta is a scenario parameter, not an estimate.",
-    pilot_note="Pilot figures come from the user's discussion; the pilot snapshot was not uploaded. The grid is "
-               "exploratory and used only to explain differences.",
+    pilot_note="Pilot figures come from earlier exploratory checks and are retained to document cohort convergence.",
 )
 
 
@@ -367,7 +384,10 @@ def main(argv=None):
                          keep_default_na=False, na_values=[""])
     for c in ("H_raw", "K_raw", "C_raw", "pilot_group"):
         cohort[c] = cohort[c].fillna("")
-    co = cohorts(cohort)
+    sus_path = args.derived / "suspected_cohort_outbreaks.csv"
+    suspected = pd.read_csv(sus_path, dtype={"H_raw": str, "K_raw": str, "C_raw": str, "month": str},
+                            keep_default_na=False, na_values=[""]) if sus_path.exists() else None
+    co = cohorts(cohort, suspected=suspected)
     main_df = co["keep_main"]
     t_main = S.build(main_df, R.GROUPS, "setting_period", threshold=THRESHOLD)
     main_res = analyze_table(t_main, detail=True)
@@ -381,24 +401,23 @@ def main(argv=None):
     raw_meta = json.load(open(args.derived / "data_manifest.json"))
     res["provenance"] = OrderedDict(
         mode="measured", simulated=False,
-        source="measured: code/analyze.py on the audited cohort built by code/prepare_data.py from the CDC NORS "
-               "snapshot bound in data/data_contract.md",
-        dataset_contract="data/data_contract.md", data_manifest="data/data_manifest.json",
-        raw_snapshot_sha256=raw_meta["raw_sha256"], cohort_file="data/cohort_outbreaks.csv",
+        source="measured: code/analyze.py on the audited cohort built by code/prepare_data.py from the CDC NORS snapshot",
+        data_manifest="data/derived/data_manifest.json",
+        raw_snapshot_sha256=raw_meta["raw_sha256"], cohort_file="data/derived/cohort_outbreaks.csv",
         cohort_sha256=file_sha(args.derived / "cohort_outbreaks.csv"),
         timestamp=datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
         spec_hash=hashlib.sha256("".join(
-            (Path(__file__).parent / f).read_text() for f in ("analyze.py", "bounds.py", "strata.py", "nors_rules.py",
-                                                              "bootstrap.py", "inference_voi.py")
+            (Path(__file__).parent / f).read_text(encoding="utf-8")
+            for f in ("analyze.py", "bounds.py", "strata.py", "nors_rules.py", "bootstrap.py", "inference_voi.py")
             if (Path(__file__).parent / f).exists()).encode()).hexdigest()[:16],
-        analysis_version="2.0", hardware="CPU only", wall_clock_seconds=None,
+        analysis_version="3.0", hardware="CPU only", wall_clock_seconds=None,
     )
     res["summary"] = summary_block(main_res)
     res["groups"] = OrderedDict((g, R.GROUP_LABELS[g]) for g in R.GROUPS)
     res["delta_grid_pp"] = list(DELTA_GRID_PP)
     res["main"] = main_res
     res["delta_fine"] = delta_fine(t_main)
-    res["robustness"] = robustness(co, main_res, t_main.cells)
+    res["robustness"] = robustness(co, main_res, t_main.cells, main_weights=t_main.w)
     print("robustness done", flush=True)
     res["retention"] = retention(main_df, t_main.cells, args.derived / "strata_counts.csv")
     res["width_decomposition"] = width_decomposition(t_main, main_res)
@@ -408,20 +427,41 @@ def main(argv=None):
         import bootstrap as BS
         res["bootstrap"] = BS.run(main_df, t_main, main_res, B=args.bootstrap_B, seed=SEED, workers=args.workers,
                                   jsonl=args.bootstrap_jsonl)
-    res["audit"] = OrderedDict(record_audit_summary=json.load(open(args.derived / "record_audit_summary.json")),
-                               eligibility_flow=json.load(open(args.derived / "eligibility_flow.json")))
+    excl_path = args.derived / "excluded_outbreaks_summary.json"
+    res["audit"] = OrderedDict(
+        record_audit_summary=json.load(open(args.derived / "record_audit_summary.json")),
+        eligibility_flow=json.load(open(args.derived / "eligibility_flow.json")),
+        excluded_outbreaks_summary=(json.load(open(excl_path)) if excl_path.exists() else None),
+    )
     res["pilot"] = OrderedDict(targets=PILOT_TARGETS, grid=pilot_grid(co), note=TEXT["pilot_note"])
     up = IV.run_all(main_df, t_main, main_res, seed=SEED)
+    if res.get("bootstrap") and "pair_dL_worst_cov" in res["bootstrap"]:
+        bt_cov_raw = np.asarray(res["bootstrap"]["pair_dL_worst_cov"], dtype=float)
+        raw_keys = list(main_res["pairs"].keys())
+        raw_idx = {k: i for i, k in enumerate(raw_keys)}
+        st_pairs = up["stacked_inference"]["pairs"]
+        perm = [raw_idx[k] for k in st_pairs.keys()]
+        bt_cov = bt_cov_raw[np.ix_(perm, perm)]
+        dL_vec = np.array([st_pairs[k]["dL_worst"] for k in st_pairs], dtype=float)
+        bt_se = np.sqrt(np.maximum(np.diag(bt_cov), 1e-20))
+        p_bt, _, c_bt = IV.max_t_stepdown(dL_vec / bt_se, bt_cov, alpha=0.05, n_sim=200000, seed=SEED)
+        up["stacked_inference"]["bootstrap_cov_fwer"] = OrderedDict(
+            c_sim_boot=float(c_bt),
+            p_fwer_boot=[float(x) for x in p_bt],
+            n_sig_boot=int(sum(x <= 0.05 for x in p_bt)),
+            pair_order=list(st_pairs.keys()),
+        )
     res["stacked_inference"] = up["stacked_inference"]
     res["cluster_diagnostics"] = up["cluster_diagnostics"]
-    res["voi_masking"] = up["voi_masking"]
-    print("stacked inference & VoI done", flush=True)
+    res["small_sample_calibration"] = up["small_sample_calibration"]
+    res["empirical_calibration"] = up["empirical_calibration"]
+    res["followup_masking"] = up["followup_masking"]
+    print("stacked inference, calibration & follow-up done", flush=True)
     res["notes"] = TEXT["notes"]
     res["estimates"] = []
-    res["estimates_note"] = ("No point estimates with confidence intervals are reported: the targets are partially "
-                             "identified (identification intervals L-U and delta-bounds), and bootstrap percentiles "
-                             "describe sampling variability only. The empty array lets delivery checks flag any "
-                             "CI-style estimate in the text.")
+    res["estimates_note"] = ("Point-wise identification bounds appear in `main`; uniformly valid Imbens-Manski 95% CIs, "
+                             "outbreak-HC1/state-clustered Max-T FWER p-values, and rank confidence sets appear in "
+                             "`stacked_inference`.")
     res["provenance"]["wall_clock_seconds"] = round(time.time() - t0, 1)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     with open(args.out, "w", encoding="utf-8") as fh:

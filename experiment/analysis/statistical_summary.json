@@ -1,6 +1,7 @@
 {
  "source": "analysis/results.json",
- "spec_hash": "1b67ecd7e10c8b52",
+ "spec_hash": "9ee0d39fc6b50d0f",
+ "analysis_version": "3.0",
  "n_pairs": 15,
  "n_common_support_cells": 12,
  "determined_pairs": {
@@ -161,6 +162,24 @@
    "determined_worst_case": 3,
    "determined_delta5": 9,
    "n_pairs": 10
+  },
+  "R8_include_suspected": {
+   "cells": 16,
+   "determined_worst_case": 5,
+   "determined_delta5": 13,
+   "n_pairs": 15
+  },
+  "R9_excl_healthcare": {
+   "cells": 12,
+   "determined_worst_case": 4,
+   "determined_delta5": 12,
+   "n_pairs": 15
+  },
+  "R10_outbreak_weighted": {
+   "cells": 12,
+   "determined_worst_case": 7,
+   "determined_delta5": 14,
+   "n_pairs": 15
   }
  },
  "bootstrap": {
@@ -205,8 +224,86 @@
   "n_im_excludes_zero": 2,
   "n_fwer_worst_sig": 1,
   "n_fwer_delta5_sig": 12,
-  "c_sim_worst": 2.4917978407772075,
-  "c_sim_delta5": 2.5257785486177387
+  "n_fwer_state_worst_sig": 1,
+  "n_fwer_wcb_worst_sig": 1,
+  "c_sim_worst": 2.487273179613307,
+  "c_sim_delta5": 2.5323593450426576,
+  "rank_sets_worst_hc1": {
+   "SAL": {
+    "rank_lower": 1,
+    "rank_upper": 6,
+    "n_significantly_higher": 0,
+    "n_significantly_lower": 0
+   },
+   "STEC": {
+    "rank_lower": 1,
+    "rank_upper": 5,
+    "n_significantly_higher": 0,
+    "n_significantly_lower": 1
+   },
+   "CAMP": {
+    "rank_lower": 1,
+    "rank_upper": 6,
+    "n_significantly_higher": 0,
+    "n_significantly_lower": 0
+   },
+   "CPERF": {
+    "rank_lower": 1,
+    "rank_upper": 6,
+    "n_significantly_higher": 0,
+    "n_significantly_lower": 0
+   },
+   "NOV_GI": {
+    "rank_lower": 1,
+    "rank_upper": 6,
+    "n_significantly_higher": 0,
+    "n_significantly_lower": 0
+   },
+   "NOV_GII": {
+    "rank_lower": 2,
+    "rank_upper": 6,
+    "n_significantly_higher": 1,
+    "n_significantly_lower": 0
+   }
+  },
+  "rank_sets_delta5_hc1": {
+   "SAL": {
+    "rank_lower": 2,
+    "rank_upper": 2,
+    "n_significantly_higher": 1,
+    "n_significantly_lower": 4
+   },
+   "STEC": {
+    "rank_lower": 1,
+    "rank_upper": 1,
+    "n_significantly_higher": 0,
+    "n_significantly_lower": 5
+   },
+   "CAMP": {
+    "rank_lower": 3,
+    "rank_upper": 3,
+    "n_significantly_higher": 2,
+    "n_significantly_lower": 3
+   },
+   "CPERF": {
+    "rank_lower": 4,
+    "rank_upper": 6,
+    "n_significantly_higher": 3,
+    "n_significantly_lower": 0
+   },
+   "NOV_GI": {
+    "rank_lower": 4,
+    "rank_upper": 6,
+    "n_significantly_higher": 3,
+    "n_significantly_lower": 0
+   },
+   "NOV_GII": {
+    "rank_lower": 4,
+    "rank_upper": 6,
+    "n_significantly_higher": 3,
+    "n_significantly_lower": 0
+   }
+  }
  },
- "note": "Identification intervals are not confidence intervals; bootstrap shares describe sampling variability. Uniformly valid Imbens-Manski 95% CIs and Max-T FWER p-values appear in stacked_inference."
+ "note": "Sample intervals are identification bounds; Imbens-Manski 95% CIs, outbreak-HC1 and state-clustered Max-T FWER p-values, and rank confidence sets appear in stacked_inference."
 }

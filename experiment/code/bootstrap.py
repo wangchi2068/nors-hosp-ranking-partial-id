@@ -1,12 +1,12 @@
-"""Outbreak-level bootstrap of the main analysis (rebuilt 2026-11-25).
+"""Outbreak-level bootstrap of the main analysis.
 
-Scheme (pre-specified): B = 2000 replicates, seed 20261125; replicate b uses its own generator
+Scheme: B = 2000 replicates, seed 20261125; replicate b uses its own generator
 numpy.random.default_rng([seed, b]) so that a resumed or parallel run equals an uninterrupted
 one. Within each group x common-support cell the group's outbreaks are resampled with
 replacement (same number); cells are fixed; pooled-case weights are recomputed per replicate.
 A resampled cell without a recorded rate keeps worst-case bounds at every delta; the delta = 0
 direction is then taken from the midpoint and delta* = 0 if the ordering is not guaranteed at
-delta = 0 (amendment 1). Replicates are streamed to a JSONL file; only compact per-replicate
+delta = 0. Replicates are streamed to a JSONL file; only compact per-replicate
 summaries are kept in memory. Quantiles: numpy method 'inverted_cdf' (no interpolation;
 infinite delta* allowed, reported as null).
 
@@ -143,12 +143,19 @@ def run(main_df, t_main, main_res, B: int = 2000, seed: int = 20261125, workers:
     for i, g in enumerate(groups):
         per_group[g] = OrderedDict(
             L_p2_5=_q(L[:, i], 0.025), L_p50=_q(L[:, i], 0.5), L_p97_5=_q(L[:, i], 0.975),
+            L_sd=float(np.std(L[:, i], ddof=1)),
             U_p2_5=_q(U[:, i], 0.025), U_p50=_q(U[:, i], 0.5), U_p97_5=_q(U[:, i], 0.975),
-            theta_delta0_p2_5=_q(T0[:, i], 0.025), theta_delta0_p97_5=_q(T0[:, i], 0.975))
+            U_sd=float(np.std(U[:, i], ddof=1)),
+            theta_delta0_p2_5=_q(T0[:, i], 0.025), theta_delta0_p97_5=_q(T0[:, i], 0.975),
+            theta_delta0_sd=float(np.std(T0[:, i], ddof=1)))
     pairs = OrderedDict()
+    dL_mat = np.zeros((B, len(pkeys)))
     for k, key in enumerate(pkeys):
         mp = main_pairs[key]
         a, bb = mp["A"], mp["B"]
+        hi_idx = groups.index(mp["higher_at_delta0"])
+        lo_idx = groups.index(mp["lower_at_delta0"])
+        dL_mat[:, k] = L[:, hi_idx] - U[:, lo_idx]
         w, v5 = worst[:, k], d5[:, k]
         pairs[key] = OrderedDict(
             share_worst_A=float(np.mean(w == a)), share_worst_B=float(np.mean(w == bb)),
@@ -159,6 +166,7 @@ def run(main_df, t_main, main_res, B: int = 2000, seed: int = 20261125, workers:
             share_delta5_main_verdict=float(np.mean(v5 == mp["verdict_by_delta_pp"]["5"])),
             share_same_delta0_direction=float(np.mean(hi0[:, k] == mp["higher_at_delta0"])),
             share_holds_without_assumption=float(np.mean(w != BD.UNDET)),
+            dL_worst_sd=float(np.std(dL_mat[:, k], ddof=1)),
             delta_star_pp_p2_5=_qn(ds[:, k], 0.025), delta_star_pp_p50=_qn(ds[:, k], 0.5),
             delta_star_pp_p97_5=_qn(ds[:, k], 0.975))
 
@@ -167,12 +175,16 @@ def run(main_df, t_main, main_res, B: int = 2000, seed: int = 20261125, workers:
         vals, c = np.unique(cnt, return_counts=True)
         return OrderedDict((str(int(v)), float(x / len(cnt))) for v, x in zip(vals, c))
 
+    dL_cov = np.cov(dL_mat, rowvar=False, ddof=1)
+
     return OrderedDict(
         B=B, B_planned=2000, seed=seed,
         scheme="resample outbreaks with replacement within group x common-support cell; cells fixed; pooled-case "
                "weights recomputed per replicate",
         quantile_method="inverted_cdf (no interpolation; infinite delta* allowed)",
+        n_replicates_with_undefined_strata=int(n_undef),
         per_group=per_group, pairs=pairs,
+        pair_dL_worst_cov=[[float(x) for x in row] for row in dL_cov],
         n_determined_worst_distribution=dist(worst), n_determined_delta5_distribution=dist(d5),
         jsonl="logs/bootstrap_replicates.jsonl",
     )

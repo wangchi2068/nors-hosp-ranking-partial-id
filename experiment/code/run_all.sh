@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # One-command rebuild of the NORS hospitalization-ranking analysis from the raw snapshot.
-#   raw snapshot -> prepare_data.py -> analyze.py (+ bootstrap & stacked M-estimation & VoI)
+#   raw snapshot -> prepare_data.py -> analyze.py (+ bootstrap & M-estimation & calibration & follow-up)
 #   -> compare_results.py -> check_tables.py
 #
 # Usage: bash code/run_all.sh [EXP_DIR] [OUT_DIR] [B]

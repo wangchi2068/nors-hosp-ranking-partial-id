@@ -1,16 +1,14 @@
-"""Compare a rebuilt results JSON with the preserved original, leaf by leaf (rebuilt 2026-11-25).
+"""Compare a rebuilt results JSON with the canonical analysis results, leaf by leaf.
 
 Usage:
-  python compare_results.py --preserved data/derived/results_preserved_20261125T0626Z.json \
+  python compare_results.py --preserved analysis/results.json \
       --rebuilt rebuild_check/results_rebuilt.json --out-json rebuild_check/rebuild_check.json \
-      --out-md rebuild_check/rebuild_check.md [--tol 1e-9] [--bootstrap-note TEXT]
+      --out-md rebuild_check/rebuild_check.md [--tol 1e-9] [--num-tol 1e-5] [--bootstrap-note TEXT]
 
-Rules: integers, booleans, strings and nulls must be identical; floats must agree within an
-absolute tolerance (default 1e-9; values that are exactly equal are counted separately). A
-section is reported per top-level key, and per variant for `robustness`. Run metadata in
-`provenance` (timestamp, spec_hash, wall_clock_seconds, analysis_version, hardware, cohort_sha256)
-is listed separately and not counted as a result. Keys present only in the rebuilt file that the
-preserved run did not have (estimates, estimates_note) are reported as additions.
+Rules: integers, booleans, strings and nulls must be identical; deterministic floats must agree
+within --tol (default 1e-9); numerical simulation/root-finding sections (stacked_inference,
+small_sample_calibration, followup_masking) allow --num-tol (default 1e-5) for cross-platform BLAS
+differences. Run metadata in `provenance` is excluded from equality counts.
 """
 from __future__ import annotations
 
@@ -26,6 +24,9 @@ sys.dont_write_bytecode = True
 
 RUN_METADATA = {"timestamp", "spec_hash", "wall_clock_seconds", "analysis_version", "hardware", "cohort_sha256"}
 ADDED_OK = {"estimates", "estimates_note"}
+NUM_SECTIONS = {"stacked_inference", "small_sample_calibration", "followup_masking"}
+TOL = 1e-9
+NUM_TOL = 1e-5
 
 
 def walk(a, b, path, out):
@@ -51,17 +52,15 @@ def walk(a, b, path, out):
             out.append((path, "exact", a, b))
         elif isinstance(a, float) or isinstance(b, float):
             d = abs(float(a) - float(b))
+            tol_here = NUM_TOL if (path and path[0] in NUM_SECTIONS) else TOL
             if math.isfinite(d):
-                out.append((path, "float_close" if d <= TOL else "float_differs", a, b))
+                out.append((path, "float_close" if d <= tol_here else "float_differs", a, b))
             else:
                 out.append((path, "float_differs", a, b))
         else:
             out.append((path, "int_differs", a, b))
         return
     out.append((path, "exact" if (a == b and type(a) == type(b)) else "value_differs", a, b))
-
-
-TOL = 1e-9
 
 
 def bootstrap_mc_check(pa: dict, pb: dict, z_max: float = 3.0, q_sd_max: float = 0.25) -> OrderedDict:
@@ -189,18 +188,20 @@ def fmt(path):
 
 
 def main(argv=None):
-    global TOL
+    global TOL, NUM_TOL
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--preserved", required=True, type=Path)
     ap.add_argument("--rebuilt", required=True, type=Path)
     ap.add_argument("--out-json", required=True, type=Path)
     ap.add_argument("--out-md", required=True, type=Path)
     ap.add_argument("--tol", type=float, default=1e-9)
+    ap.add_argument("--num-tol", type=float, default=1e-5)
     ap.add_argument("--bootstrap-note", default="")
     ap.add_argument("--rebuilt-jsonl", type=Path, default=None,
                     help="per-replicate JSONL of the rebuilt bootstrap (enables the supplementary order-statistic check)")
     args = ap.parse_args(argv)
     TOL = args.tol
+    NUM_TOL = args.num_tol
     a = json.loads(args.preserved.read_text(encoding="utf-8"))
     b = json.loads(args.rebuilt.read_text(encoding="utf-8"))
     leaves = []

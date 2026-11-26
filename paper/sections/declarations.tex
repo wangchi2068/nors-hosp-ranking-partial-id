@@ -1,6 +1,22 @@
+\section*{Author Contributions}\label{sec:contributions}
+
+C.W. conceived the study, curated the CDC NORS data snapshot, designed and implemented the statistical methodology and reproducibility pipeline, generated all tables and figures, and wrote and revised the manuscript.
+
+\section*{Funding}\label{sec:funding}
+
+This study received no specific grant from any funding agency in the public, commercial or not-for-profit sectors.
+
+\section*{Competing Interests}\label{sec:competing}
+
+The author declares no competing financial or non-financial interests.
+
+\section*{Use of Automated Tools}\label{sec:ai}
+
+Large language model coding and editing assistants were used during software engineering, LaTeX typesetting, and language polishing. The author independently verified all mathematical derivations, statistical implementations, data outputs, and scientific interpretations.
+
 \section*{Data and Code Availability}\label{sec:availability}
 
-The NORS public dataset is available from the CDC open data portal~\cite{cdc2024norsdata}. The dated extract of the dataset, the analysis results file from which every reported number is taken, the record-audit and selection summaries, the analysis programs that recompute the results file from the extract (including the seeded outbreak-level bootstrap), and the program that generates every table and figure are distributed with this article. Rerunning the pipeline from the dated extract reproduces every reported number, table and figure exactly.
+The NORS public dataset is available from the CDC open data portal~\cite{cdc2024norsdata}. The dated extract (\texttt{nors\_soda\_full\_20261125T040830Z.csv}, SHA-256 pinned), derived cohorts, excluded-outbreak audit summaries, analysis results JSON, all 14 CSV/LaTeX tables, and replication scripts are openly archived at \url{https://github.com/wangchi2068/nors-hosp-ranking-partial-id}. Rerunning the pipeline from the raw extract reproduces all deterministic bounds, cohorts and formatted CSV tables identically and reproduces all Monte Carlo and root-finding quantities to within cross-platform numerical tolerance ($\le 10^{-5}$).
 
 \section*{Ethics}\label{sec:ethics}
 

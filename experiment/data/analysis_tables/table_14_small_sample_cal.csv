@@ -1,0 +1,7 @@
+Group,MC SD(L) (pp),Mean HC1 SE(L),Ratio L (HC1/MC),MC SD(U) (pp),Mean HC1 SE(U),Ratio U (HC1/MC)
+STEC,1.85,1.58,0.852,2.39,2.16,0.904
+Salmonella,0.62,0.63,1.015,1.96,1.81,0.925
+Campylobacter,0.88,0.86,0.969,2.66,2.35,0.884
+Norovirus GII,0.14,0.14,1.024,2.05,1.89,0.918
+C. perfringens,0.16,0.15,0.917,4.67,3.52,0.754
+Norovirus GI,0.11,0.10,0.926,3.83,3.48,0.910

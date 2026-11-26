@@ -1,22 +1,23 @@
 """Build the audited cohort, mapping tables, strata counts and audit summaries from the raw
-NORS snapshot (rebuilt 2026-11-25).
+NORS snapshot.
 
 Usage:
   python prepare_data.py --raw data/raw/nors_soda_full_20261125T040830Z.csv \
       --meta data/raw/nors_soda_full_20261125T040830Z.json --out data/derived
 
 Deterministic (no randomness). Outputs (in --out):
-  cohort_outbreaks.csv      one row per eligible outbreak (main rule) + pilot-rule rows, with
-                            audited counts, setting group, period, cell and variant flags
-  record_audit.csv          one row per audited outbreak (eligible + ambiguous etiology)
-  etiology_mapping.csv      raw etiology string -> study group (Food 2009-2023)
-  setting_mapping.csv       raw setting token -> harmonized setting group
-  strata_counts.csv         group x setting x period sums (main cohort) + support flag, weight
-  support_cells.csv         common-support cells (>= 3 outbreaks per group) and weights
-  eligibility_flow.json     selection counts
-  record_audit_summary.json audit counts by category x group, variants, pilot reproduction
-  pilot_reproduction.csv    pilot counts reproduced
-  data_manifest.json        sha256 of the raw snapshot and of every output
+  cohort_outbreaks.csv         one row per eligible outbreak (main rule) + pilot-rule rows
+  suspected_cohort_outbreaks.csv suspected-etiology study-group outbreaks for sensitivity R8
+  excluded_outbreaks_summary.json descriptive profile of excluded suspected and ambiguous outbreaks
+  record_audit.csv             one row per audited outbreak (eligible + ambiguous etiology)
+  etiology_mapping.csv         raw etiology string -> study group (Food 2009-2023)
+  setting_mapping.csv          raw setting token -> harmonized setting group
+  strata_counts.csv            group x setting x period sums (main cohort) + support flag, weight
+  support_cells.csv            common-support cells (>= 3 outbreaks per group) and weights
+  eligibility_flow.json        selection counts
+  record_audit_summary.json    audit counts by category x group, variants, pilot reproduction
+  pilot_reproduction.csv       pilot counts reproduced
+  data_manifest.json           sha256 of the raw snapshot and of every output
 """
 from __future__ import annotations
 
@@ -92,6 +93,7 @@ def build_cohort(df: pd.DataFrame):
             in_pilot_rule=bool(pilot_g) and not (h_blank ^ k_blank),
             setting_raw=r["setting"], setting_group=setting_group, period=period,
             cell=f"{setting_group} | {period}",
+            is_healthcare=R.is_healthcare_setting(r["setting"]),
             C_raw=r["illnesses"], H_raw=r["hospitalizations"], K_raw=r["info_on_hospitalizations"],
             audit_category=a["category"], audit_detail=a["detail"],
             handling=R.AUDIT_HANDLING[a["category"]], kept=a["kept"],
@@ -251,6 +253,92 @@ def strata_counts(main: pd.DataFrame):
     return pd.DataFrame(rows), cells
 
 
+def _summarize_excluded_group(rows: list[dict]) -> OrderedDict:
+    """Summarize case distribution, top settings, recorded hosp rate, and unrecorded share."""
+    n_total = len(rows)
+    kept = [r for r in rows if r["kept"]]
+    cases = np.array([float(r["C"]) for r in kept], dtype=float)
+    set_counts = Counter(r["setting_group"] for r in rows)
+    top_set = [
+        OrderedDict(
+            setting=s,
+            outbreaks=int(cnt),
+            share_pct=(100.0 * cnt / n_total) if n_total else 0.0,
+        )
+        for s, cnt in sorted(set_counts.items(), key=lambda kv: (-kv[1], kv[0]))[:3]
+    ]
+    c_sum = float(sum(r["C"] for r in kept))
+    u_sum = float(sum(r["U"] for r in kept))
+    h_rec = float(sum(r["H_rec"] for r in kept))
+    k_rec = float(sum(r["K_rec"] for r in kept))
+    return OrderedDict(
+        n_outbreaks=int(n_total),
+        n_kept_valid_counts=int(len(kept)),
+        total_cases=c_sum,
+        median_cases=float(np.median(cases)) if len(cases) else None,
+        iqr_cases=[float(np.percentile(cases, 25)), float(np.percentile(cases, 75))] if len(cases) else None,
+        top_settings=top_set,
+        recorded_hosp_rate=(h_rec / k_rec) if k_rec > 0 else None,
+        unrecorded_status_share=(u_sum / c_sum) if c_sum > 0 else None,
+    )
+
+
+def build_suspected_and_excluded(food: pd.DataFrame) -> tuple[pd.DataFrame, OrderedDict]:
+    """Build suspected-etiology cohort (for R8) and summary of excluded outbreak categories."""
+    suspected_rows = []
+    buckets = OrderedDict([
+        ("suspected_study_group", []),
+        ("norovirus_unspecified_confirmed", []),
+        ("multi_cross_group_or_nontarget", []),
+        ("multi_cross_with_confirmed_target", []),
+    ])
+    for _, r in food.iterrows():
+        cat, grp = R.etiology_category(r["etiology"], r["etiology_status"])
+        if cat not in ("single_target_suspected_or_blank", "multi_same_group_unconfirmed",
+                       "norovirus_unspecified_confirmed", "multi_cross_group_or_nontarget"):
+            continue
+        a = R.audit_record(r["illnesses"], r["hospitalizations"], r["info_on_hospitalizations"])
+        setting_group = R.harmonize_setting(r["setting"])
+        period = R.period_of(int(r["year"]))
+        n_entries = len(R.split_tokens(r["etiology"]))
+        is_hc = R.is_healthcare_setting(r["setting"])
+        summary_rec = dict(
+            setting_group=setting_group,
+            kept=bool(a["kept"]),
+            C=a["C"] or 0.0,
+            U=a["U"] or 0.0,
+            H_rec=a["H_rec"] or 0.0,
+            K_rec=a["K_rec"] or 0.0,
+        )
+        if cat in ("single_target_suspected_or_blank", "multi_same_group_unconfirmed"):
+            buckets["suspected_study_group"].append(summary_rec)
+            suspected_rows.append(OrderedDict(
+                outbreak_id=r[":id"], year=int(r["year"]), month=r["month"], state=r["state"],
+                etiology=r["etiology"], etiology_status=r["etiology_status"],
+                n_etiology_entries=n_entries, flow_category=cat,
+                group=grp, pilot_group="", in_main=False,
+                single_etiology=(n_entries == 1),
+                in_pilot_eligible=False, in_pilot_rule=False,
+                setting_raw=r["setting"], setting_group=setting_group, period=period,
+                cell=f"{setting_group} | {period}", is_healthcare=is_hc,
+                C_raw=r["illnesses"], H_raw=r["hospitalizations"], K_raw=r["info_on_hospitalizations"],
+                audit_category=a["category"], audit_detail=a["detail"],
+                handling=R.AUDIT_HANDLING[a["category"]], kept=a["kept"],
+                C=a["C"], H=a["H"], K_eff=a["K_eff"], U=a["U"], H_rec=a["H_rec"], K_rec=a["K_rec"],
+                recorded=a["recorded"],
+                in_complete_only=(a["category"] == "complete_consistent"),
+            ))
+        elif cat == "norovirus_unspecified_confirmed":
+            buckets["norovirus_unspecified_confirmed"].append(summary_rec)
+        else:
+            buckets["multi_cross_group_or_nontarget"].append(summary_rec)
+            if R.is_ambiguous_etiology(r["etiology"], r["etiology_status"]):
+                buckets["multi_cross_with_confirmed_target"].append(summary_rec)
+
+    excl_summary = OrderedDict((k, _summarize_excluded_group(v)) for k, v in buckets.items())
+    return pd.DataFrame(suspected_rows), excl_summary
+
+
 def write_json(obj, path: Path, indent: int = 1):
     # indent=1, no trailing newline: the serialization of the original summaries (byte-identical output)
     with open(path, "w", encoding="utf-8") as fh:
@@ -273,9 +361,11 @@ def main(argv=None):
         print(f"raw sha256 OK {raw_sha}")
     df = load_raw(args.raw)
     food, cohort, audit = build_cohort(df)
+    suspected_cohort, excluded_summary = build_suspected_and_excluded(food)
     main_df = main_cohort(cohort)
 
     cohort.to_csv(args.out / "cohort_outbreaks.csv", index=False, lineterminator="\n")
+    suspected_cohort.to_csv(args.out / "suspected_cohort_outbreaks.csv", index=False, lineterminator="\n")
     audit.to_csv(args.out / "record_audit.csv", index=False, lineterminator="\n")
     etiology_mapping(food).to_csv(args.out / "etiology_mapping.csv", index=False, lineterminator="\n")
     setting_mapping(food).to_csv(args.out / "setting_mapping.csv", index=False, lineterminator="\n")
@@ -286,6 +376,7 @@ def main(argv=None):
     summ = audit_summary(audit, cohort)
     write_json(flow, args.out / "eligibility_flow.json")
     write_json(summ, args.out / "record_audit_summary.json")
+    write_json(excluded_summary, args.out / "excluded_outbreaks_summary.json")
     pd.DataFrame(summ["pilot_reproduction"]).to_csv(args.out / "pilot_reproduction.csv", index=False,
                                                     lineterminator="\n")
     files = sorted(p for p in args.out.iterdir() if p.is_file() and p.name != "data_manifest.json")

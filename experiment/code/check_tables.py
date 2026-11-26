@@ -40,8 +40,9 @@ def main(argv=None):
             new = tdir / ref.name
             a = pd.read_csv(ref, dtype=str, keep_default_na=False)
             b = pd.read_csv(new, dtype=str, keep_default_na=False)
-            entry = OrderedDict(byte_identical=ref.read_bytes() == new.read_bytes(),
-                                same_shape=a.shape == b.shape, same_header=list(a.columns) == list(b.columns))
+            entry = OrderedDict(
+                byte_identical=ref.read_bytes().replace(b"\r\n", b"\n") == new.read_bytes().replace(b"\r\n", b"\n"),
+                same_shape=a.shape == b.shape, same_header=list(a.columns) == list(b.columns))
             if entry["same_shape"] and entry["same_header"]:
                 if "bootstrap" in ref.name:  # the bootstrap table: every column except the row label
                     boot_cols = list(a.columns[1:])

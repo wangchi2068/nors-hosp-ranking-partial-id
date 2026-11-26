@@ -1,0 +1,13 @@
+Rank,Pathogen group,Setting | Period,Weight (%),Cases,Unrecorded,w_s/C_js (pp/case),DPI (score/case)
+1,Norovirus GI,Private home | 2014-2018,4.2,38,5,0.1106,3.85
+2,Norovirus GI,Private home | 2009-2013,5.8,81,12,0.0719,2.58
+3,C. perfringens,Restaurant | 2019-2023,9.6,199,53,0.0480,1.31
+4,Campylobacter,Restaurant | 2009-2013,16.1,218,19,0.0739,1.24
+5,Norovirus GI,Unknown | 2009-2013,7.5,223,130,0.0337,1.20
+6,C. perfringens,Restaurant | 2009-2013,16.1,376,6,0.0428,1.17
+7,Campylobacter,Private home | 2009-2013,5.8,83,14,0.0702,1.16
+8,Campylobacter,Restaurant | 2014-2018,17.7,291,35,0.0608,1.02
+9,Campylobacter,Catering/banquet | 2014-2018,8.6,149,14,0.0577,0.98
+10,Norovirus GI,Institution | 2014-2018,6.5,267,60,0.0245,0.88
+11,Norovirus GI,Multiple | 2014-2018,7.5,342,44,0.0220,0.79
+12,C. perfringens,Multiple | 2014-2018,7.5,261,1,0.0288,0.78

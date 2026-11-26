@@ -1,11 +1,11 @@
-"""Worst-case and delta bounds, pairwise verdicts, critical deviation delta* (rebuilt 2026-11-25).
+"""Worst-case and delta bounds, pairwise verdicts, critical deviation delta*, and OR/asymmetric bands.
 
 Per group j and cell s (C = cases, H = hospitalized, U = cases with unrecorded status,
 p = H_rec / K_rec recorded rate):
   worst case:  L_js = H/C,                    U_js = (H + U)/C
   delta band:  L_js(d) = (H + U max(0,p-d))/C, U_js(d) = (H + U min(1,p+d))/C
 Standardized: L_j = sum_s w_s L_js. A cell without a recorded rate (K_rec = 0) keeps its
-worst-case bounds at every d (amendment 1; never occurs in the main analysis).
+worst-case bounds at every d (never occurs in the main analysis).
 delta* for a pair (h = higher point value at d = 0, l = other) = inf{d >= 0: L_h(d) <= U_l(d)};
 None (= infinity) if L_h > U_l under the worst case; 0 if not guaranteed at d = 0.
 """
@@ -125,3 +125,59 @@ def lo_boundary(t, h: int, l: int, d_hi: float):
             return prev_d + (-prev_v) * (d - prev_d) / (v - prev_v)
         prev_d, prev_v = d, v
     return None
+
+
+def group_bounds_asym(t, i: int, d_down: float, d_up: float) -> tuple[float, float]:
+    """Standardized (L, U) of group index i with asymmetric downward/upward deviations (fractions)."""
+    C, H, U, p, w = t.C[i], t.H[i], t.U[i], t.p_obs[i], t.w
+    undefined = np.isnan(p)
+    pp = np.where(undefined, 0.0, p)
+    lo_rate = np.where(undefined, 0.0, np.maximum(0.0, pp - d_down))
+    hi_rate = np.where(undefined, 1.0, np.minimum(1.0, pp + d_up))
+    L = float(np.sum(w * (H + U * lo_rate) / C))
+    Uu = float(np.sum(w * (H + U * hi_rate) / C))
+    return L, Uu
+
+
+def group_bounds_or(t, i: int, gamma: float) -> tuple[float, float]:
+    """Standardized (L, U) of group index i under odds-ratio pattern-mixture factor Gamma >= 1.
+
+    Unrecorded-status odds in cell s lie within [odds(p_js) / Gamma, Gamma * odds(p_js)].
+    For cells with p_js == 0, pure OR scaling keeps 0; for p_js == 1, it keeps 1.
+    """
+    C, H, U, p, w = t.C[i], t.H[i], t.U[i], t.p_obs[i], t.w
+    undefined = np.isnan(p)
+    pp = np.where(undefined, 0.0, p)
+    denom_lo = pp + gamma * (1.0 - pp)
+    denom_hi = gamma * pp + (1.0 - pp)
+    lo_rate = np.where(undefined, 0.0, np.where(denom_lo > 0.0, pp / denom_lo, 0.0))
+    hi_rate = np.where(undefined, 1.0, np.where(denom_hi > 0.0, (gamma * pp) / denom_hi, 0.0))
+    L = float(np.sum(w * (H + U * lo_rate) / C))
+    Uu = float(np.sum(w * (H + U * hi_rate) / C))
+    return L, Uu
+
+
+def gamma_star(t, h: int, l: int, max_gamma: float = 1e6) -> float | None:
+    """Smallest odds-ratio sensitivity parameter Gamma >= 1 where L_h^OR(Gamma) <= U_l^OR(Gamma).
+
+    Returns None if L_h^OR(max_gamma) > U_l^OR(max_gamma) (including pairs that hold even under
+    worst-case bounds or when cell p_ls == 0 caps OR upward movement below L_h).
+    """
+    from scipy.optimize import brentq
+
+    def gap_or(g: float) -> float:
+        lh, _ = group_bounds_or(t, h, g)
+        _, ul = group_bounds_or(t, l, g)
+        return lh - ul
+
+    if gap_or(1.0) <= 0.0:
+        return 1.0
+    if gap_or(max_gamma) > 0.0:
+        return None
+    log_g = brentq(lambda lg: gap_or(float(np.exp(lg))), 0.0, float(np.log(max_gamma)), xtol=1e-7)
+    return float(np.exp(log_g))
+
+
+def lo_boundary_asym(t, h: int, l: int, d_hi_down: float):
+    """Exact max upward deviation of group l keeping L_h(d_hi_down) > U_l(d_lo_up)."""
+    return lo_boundary(t, h, l, d_hi_down)

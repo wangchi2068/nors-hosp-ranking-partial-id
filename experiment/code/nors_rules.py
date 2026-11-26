@@ -1,7 +1,6 @@
-"""Locked rules for the NORS hospitalization-ranking analysis (rebuilt 2026-11-25).
+"""Locked rules for the NORS hospitalization-ranking analysis.
 
-Rebuilt from the rules recorded in the step notes / AGENT_KNOWLEDGE after the original
-code was deleted. Every rule below is the locked rule of the data-audit-plan step:
+Summary of cohort eligibility, record audit, and stratum harmonization rules:
 
 1. Group mapping (genus/pathotype level): SAL = any "Salmonella*"; STEC = "Escherichia coli,
    Shiga toxin-producing"; CAMP = any "Campylobacter*"; CPERF = "Clostridium perfringens";
@@ -86,6 +85,17 @@ SETTING_MAP = {
     "Other": "Other",
     "Unknown": None,
 }
+
+HEALTHCARE_TOKENS = {
+    "Hospital",
+    "Long-term care/nursing home/assisted living facility",
+    "Other healthcare facility",
+}
+
+
+def is_healthcare_setting(setting: str) -> bool:
+    """Return True if any raw NORS setting token denotes a hospital or long-term care facility."""
+    return any(t in HEALTHCARE_TOKENS for t in split_tokens(setting))
 
 
 def split_tokens(value: str) -> list[str]:

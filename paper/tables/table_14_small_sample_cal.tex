@@ -1,0 +1,21 @@
+\begin{table}[!tbp]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.4pt}
+\renewcommand{\arraystretch}{1.12}
+\caption{Small-sample stratified Monte Carlo calibration (500 resamples preserving observed stratum sizes n\_js) comparing analytic HC1 sandwich SEs against empirical sampling SDs.}
+\label{tab:small_cal}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.2cm}>{\raggedleft\arraybackslash}p{1.75cm}>{\raggedleft\arraybackslash}p{1.85cm}>{\raggedleft\arraybackslash}p{1.9cm}>{\raggedleft\arraybackslash}p{1.75cm}>{\raggedleft\arraybackslash}p{1.85cm}>{\raggedleft\arraybackslash}p{1.9cm}}
+\toprule
+Group & MC SD(L) (pp) & Mean HC1 SE(L) & Ratio L (HC1/MC) & MC SD(U) (pp) & Mean HC1 SE(U) & Ratio U (HC1/MC) \\
+\midrule
+STEC & 1.85 & 1.58 & 0.852 & 2.39 & 2.16 & 0.904 \\
+Salmonella & 0.62 & 0.63 & 1.015 & 1.96 & 1.81 & 0.925 \\
+Campylobacter & 0.88 & 0.86 & 0.969 & 2.66 & 2.35 & 0.884 \\
+Norovirus GII & 0.14 & 0.14 & 1.024 & 2.05 & 1.89 & 0.918 \\
+C. perfringens & 0.16 & 0.15 & 0.917 & 4.67 & 3.52 & 0.754 \\
+Norovirus GI & 0.11 & 0.10 & 0.926 & 3.83 & 3.48 & 0.910 \\
+\bottomrule
+\end{tabular}
+\par\smallskip\parbox{0.97\linewidth}{\footnotesize Across the 15 pairs, Imbens--Manski 95\% empirical boundary coverage ranged from 76.4\% (min) to 87.4\% (median) under HC1 versus 75.4\%--86.0\% under HC0; empirical Max-T FWER was 30.8\% (worst case) and 15.8\% ($\delta$ = 5) under HC1, reflecting sparse high-HHI strata (N\_eff ≈ 2).}
+\end{table}
