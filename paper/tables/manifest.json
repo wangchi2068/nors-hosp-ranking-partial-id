@@ -33,7 +33,7 @@
    "id": "tab:robustness",
    "path": "table_3_robustness.tex",
    "csv": "table_3_robustness.csv",
-   "sha256": "36b9e3cde9e9d07772984930b1607b978caa4f432587ed9f06416e516a2bbaaa",
+   "sha256": "3f1a816344f137af16f8369ba6ffe2d8108ea17cc2e26e985dd88d375b606602",
    "generator": "code/make_outputs.py",
    "data_sources": [
     "analysis/results.json"
@@ -41,7 +41,7 @@
    "display": "raw",
    "n_seeds": 1,
    "std_ddof": 0,
-   "caption": "Sensitivity analyses across all 22 cohort, support, weighting, serogroup, outbreak-MAR, and denominator variants."
+   "caption": "Sensitivity analyses across all 23 cohort, support, weighting, serogroup, outbreak-MAR, and denominator variants."
   },
   {
    "id": "tab:retention",
@@ -75,7 +75,7 @@
    "id": "tab:bootstrap",
    "path": "table_6_bootstrap.tex",
    "csv": "table_6_bootstrap.csv",
-   "sha256": "961eb5d0c945f3708bac554c2a14d7d567303ba57c3d5d29f4dbd261425f372d",
+   "sha256": "ec050e2f6ee5fdda49111d3e833f65066295ea6fe9dc64499e378a271d7f655a",
    "generator": "code/make_outputs.py",
    "data_sources": [
     "analysis/results.json"
@@ -83,7 +83,7 @@
    "display": "raw",
    "n_seeds": 1,
    "std_ddof": 0,
-   "caption": "Outbreak-level bootstrap (2,000 replicates, seed 20261125; 0/2,000 resamples lacked K_rec), reporting two-decimal verdict frequencies and δ* percentile intervals."
+   "caption": "Outbreak-level bootstrap (2,000 replicates, seed 20261125; 88/2,000 resamples had >=1 stratum lacking K_rec, 0 degenerate SE entries in studentized bootstrap-t), reporting two-decimal verdict frequencies and δ* percentile intervals."
   },
   {
    "id": "tab:width",
@@ -103,7 +103,7 @@
    "id": "tab:joint_inference",
    "path": "table_8_joint_inference.tex",
    "csv": "table_8_joint_inference.csv",
-   "sha256": "2735a3dd1360f5432c1d0d4072535720f0b03deaa0c579e977c7629a84172c4c",
+   "sha256": "63f359642539f8abf11ee66baf83fe99fee75bc64265df62063fd50cd784e7f4",
    "generator": "code/make_outputs.py",
    "data_sources": [
     "analysis/results.json"
@@ -111,13 +111,13 @@
    "display": "raw",
    "n_seeds": 1,
    "std_ddof": 0,
-   "caption": "Joint 30-hypothesis one-sided (15 pairs × 2 directions) FWER inference: pointwise Imbens–Manski 95% CIs, outbreak-HC1 and 53-cluster exposure-state Gaussian Max-T p-values, and studentized bootstrap-t p-values and δ-specific breakdown points."
+   "caption": "Joint 30-hypothesis one-sided (15 pairs × 2 directions) FWER inference: pointwise Imbens–Manski 95% CIs, outbreak-HC1, 53-cluster CV1 and CV3 jackknife Max-T p-values, studentized bootstrap-t p-values, and δ-specific 95% breakdown points."
   },
   {
    "id": "tab:cluster_diag",
    "path": "table_9_cluster_diagnostics.tex",
    "csv": "table_9_cluster_diagnostics.csv",
-   "sha256": "d4441fa3b95edd5a10b3c7482a401c156fc96ed6a62875fa01ebd980d6083db6",
+   "sha256": "14268021011080c60dac0233a91269a6054cc3323798ddad263a79518ec2e8cf",
    "generator": "code/make_outputs.py",
    "data_sources": [
     "analysis/results.json"
@@ -125,7 +125,7 @@
    "display": "raw",
    "n_seeds": 1,
    "std_ddof": 0,
-   "caption": "Outbreak-cluster concentration, Multistate unrecorded case share, cluster share of score variance, coarser/outbreak-weighted inference, and leave-one-outbreak-out influence."
+   "caption": "Outbreak-cluster concentration, Multistate unrecorded case share, cluster variance share, CV3/R11/R2/R10 inference, and leave-one-outbreak-out influence."
   },
   {
    "id": "tab:voi_masking",
@@ -159,7 +159,7 @@
    "id": "tab:delta_cal",
    "path": "table_12_delta_calibration.tex",
    "csv": "table_12_delta_calibration.csv",
-   "sha256": "83f2c06be981afc8b89effdfc451f58c671e48fab8a36406f1032fc0a8b9f273",
+   "sha256": "6bd40623870f312fa9a91b67dd14740645de4bac5349b090d3dcf82d4854d75c",
    "generator": "code/make_outputs.py",
    "data_sources": [
     "analysis/results.json"
@@ -167,7 +167,7 @@
    "display": "raw",
    "n_seeds": 1,
    "std_ddof": 0,
-   "caption": "Composition-adjusted comparison of fully recorded (M_i = 0) vs. known-status cases in partially recorded outbreaks (M_i > 0, K_rec > 0), and benchmark rates with 95% Wilson CIs in 11 low-missingness states (<5% unrecorded and ≥200 common-support cases)."
+   "caption": "Composition-adjusted comparison of fully recorded (M_i = 0) vs. known-status cases in partially recorded outbreaks (M_i > 0, K_rec > 0), and descriptive benchmark rates with 95% Wilson CIs in 11 low-missingness states (<5% unrecorded and ≥200 common-support cases)."
   },
   {
    "id": "tab:real_followup",
@@ -187,7 +187,7 @@
    "id": "tab:small_cal",
    "path": "table_14_small_sample_cal.tex",
    "csv": "table_14_small_sample_cal.csv",
-   "sha256": "1a5164e044851d0c0b6a2196dea4ffa45158a6b659e4a5d52214f1f352dd7f2b",
+   "sha256": "29c9646529d55d5ca4d35576d09d6c8b291587ed7678f0576e304e2ef042fdd1",
    "generator": "code/make_outputs.py",
    "data_sources": [
     "analysis/results.json"
@@ -195,7 +195,7 @@
    "display": "raw",
    "n_seeds": 1,
    "std_ddof": 0,
-   "caption": "Stratified double-bootstrap evaluation (400 outer worlds × 399 inner resamples preserving n_js; no state dependence simulated) of 30-hypothesis FWER with every procedure re-estimating its critical value inside each world."
+   "caption": "Empirical 30-hypothesis FWER (%) under least-favourable boundary null (nominal 5.0%): stratified outbreak double bootstrap (400 × 499) and 53-state Bayesian cluster double bootstrap (300 × 399)."
   }
  ]
 }

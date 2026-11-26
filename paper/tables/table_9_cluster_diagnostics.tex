@@ -3,7 +3,7 @@
 \scriptsize
 \setlength{\tabcolsep}{2.1pt}
 \renewcommand{\arraystretch}{1.12}
-\caption{Outbreak-cluster concentration, Multistate unrecorded case share, cluster share of score variance, coarser/outbreak-weighted inference, and leave-one-outbreak-out influence.}
+\caption{Outbreak-cluster concentration, Multistate unrecorded case share, cluster variance share, CV3/R11/R2/R10 inference, and leave-one-outbreak-out influence.}
 \label{tab:cluster_diag}
 \begin{tabular}{>{\raggedright\arraybackslash}p{1.85cm}>{\raggedleft\arraybackslash}p{1.75cm}>{\raggedleft\arraybackslash}p{2.05cm}>{\raggedleft\arraybackslash}p{1.55cm}>{\raggedleft\arraybackslash}p{3.4cm}>{\raggedleft\arraybackslash}p{3.4cm}}
 \toprule
@@ -17,5 +17,5 @@ C. perfringens & 4/10/32 & 0.501 (2.00) & 0.0 & 0.14/0.15/0.18/0.13 & 4.09/4.33/
 Norovirus GI & 3/9/66 & 0.508 (1.97) & 5.0 & 0.10/0.11/0.11/0.13 & 3.73/3.97/3.86/3.51 \\
 \bottomrule
 \end{tabular}
-\par\smallskip\parbox{0.97\linewidth}{\footnotesize Cluster share of score variance across 53 exposure-state categories (Carter et al. 2017; MacKinnon et al. 2023): Multistate share = 48.3\% (worst case) and 66.8\% ($\delta$ = 5 pp), G\_eff = 4.04 / 2.21. Splitting 219 Multistate outbreaks as singletons (271 clusters) or single-state R11 (52 states) gives 0/0 worst-case and 12/12 $\delta$ = 5 significant hypotheses. Coarser R2 (3 periods, min cell n = 24) gives 2 HC1 and 0 boot-t worst-case rejections ($\delta$ = 5: 12 boot-t, upper tier [1,1]/[2,2]/[3,3]); equal-outbreak R10 gives 5 boot-t worst-case and 12 $\delta$ = 5 rejections (identical under R4a/R4b). Across all 3,176 single-outbreak deletions (and simultaneous 6-group LLO removal), worst-case determined pairs stay 4--4 (4 LLO) and $\delta$ = 5 stays 12--13 (12 LLO).}
+\par\smallskip\parbox{0.97\linewidth}{\footnotesize Across 53 exposure-state clusters (Carter et al. 2017; MacKinnon et al. 2023), Multistate accounts for 48.3\% (worst case, plug-in G\_eff = 4.04) and 66.8\% ($\delta$ = 5 pp, G\_eff = 2.21) of score variance. Pairwise CV3/HC1 SE ratios span 1.10--2.07 (worst case; 53/53 leave-cluster-out fits valid); Bayesian 53-cluster boot-t c\_crit = 4.07/3.74 (0/12 rejections). Singleton Multistate (271 clusters) gives 0/12 sig; R11 (52 single states, 2,957 outbreaks, 52/52 valid CV3 fits) gives 0 sig across all 5 methods (HC1/CV1/CV3/WCB/boot-t) at worst case and 12 at $\delta$ = 5 pp, with R11 within-upper-tier (SAL$>$CAMP) min 95\% $\delta^{*}$ = 7.4 (boot-t) / 10.3 (CV3) / 12.0 pp (HC1) and upper-vs-lower separation 14.0 / 13.1 / 19.5 pp. Coarser R2 (min n = 24) yields 2 HC1 and 0 boot-t worst-case rejections; R10 (H\_rec/K\_rec \& H/U/C normalized) yields 5 boot-t worst-case and 12 $\delta$ = 5 rejections. Across 3,176 LOO deletions (and LLO), worst-case pairs stay 4--4 (4 LLO) and $\delta$ = 5 stays 12--13 (12 LLO).}
 \end{table}

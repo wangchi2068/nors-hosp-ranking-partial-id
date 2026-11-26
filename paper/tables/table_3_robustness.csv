@@ -19,6 +19,7 @@ R9,Cohort of exclude healthcare/LTCF outbreaks,12,15,4,12,0,0
 R10,Within-cell aggregation: equal weight per outbreak,12,15,7,14,3,0
 R11,Cohort of single-state outbreaks only (exclude multistate),12,15,4,12,0,0
 R12,Cohort of restrict STEC to confirmed O157 serogroup,11,15,4,12,0,0
+R12b,Cohort of exclude Salmonella serotype Typhi (6 outbreaks),12,15,4,12,0,0
 R13,Anchor: outbreak-level H_i/K_i MAR within common support,12,15,4,14,0,1
 R14a,Denominator: treat 25% of unrecorded cases as extrapolated non-cases,12,15,6,13,2,0
-R14b,Denominator: restrict to outbreaks with <=50% unrecorded status,11,15,12,14,8,0
+R14b,Selection sensitivity: restrict to outbreaks with <=50% unrecorded status,11,15,12,14,8,0

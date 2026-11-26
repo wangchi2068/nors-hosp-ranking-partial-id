@@ -1,30 +1,30 @@
 \begin{table}[!tbp]
 \centering
 \scriptsize
-\setlength{\tabcolsep}{2.1pt}
+\setlength{\tabcolsep}{2.0pt}
 \renewcommand{\arraystretch}{1.12}
-\caption{Joint 30-hypothesis one-sided (15 pairs $\times$ 2 directions) FWER inference: pointwise Imbens--Manski 95\% CIs, outbreak-HC1 and 53-cluster exposure-state Gaussian Max-T p-values, and studentized bootstrap-t p-values and $\delta$-specific breakdown points.}
+\caption{Joint 30-hypothesis one-sided (15 pairs $\times$ 2 directions) FWER inference: pointwise Imbens--Manski 95\% CIs, outbreak-HC1, 53-cluster CV1 and CV3 jackknife Max-T p-values, studentized bootstrap-t p-values, and $\delta$-specific 95\% breakdown points.}
 \label{tab:joint_inference}
-\begin{tabular}{>{\raggedright\arraybackslash}p{2.4cm}>{\raggedleft\arraybackslash}p{2.2cm}>{\raggedleft\arraybackslash}p{2.35cm}>{\raggedleft\arraybackslash}p{2.45cm}>{\raggedleft\arraybackslash}p{1.15cm}>{\raggedleft\arraybackslash}p{2.7cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.15cm}>{\raggedleft\arraybackslash}p{2.1cm}>{\raggedleft\arraybackslash}p{2.65cm}>{\raggedleft\arraybackslash}p{2.35cm}>{\raggedleft\arraybackslash}p{1.05cm}>{\raggedleft\arraybackslash}p{2.9cm}}
 \toprule
-Ordering ($\delta$ = 0) & Pointwise IM 95\% CI (pp)$^{\dagger}$ & HC1 / State 30-test p (w) & Boot-t p (w / $\delta$=5) & Sample $\delta^{*}$ (pp) & 95\% $\delta^{*}$ (HC1 / Boot-t, pp) \\
+Ordering ($\delta$ = 0) & Pointwise IM 95\% CI & HC1 / CV1 / CV3 p (w) & Boot-t p (w / $\delta$=5) & Sample $\delta^{*}$ & 95\% $\delta^{*}$ (HC1 / CV3 / Bt) \\
 \midrule
-STEC $>$ CAMP & [+0.2, +33.3] & 0.345 / 0.137 & 0.642 / <0.001 & $\infty$ & 73.2 / 46.8 \\
-STEC $>$ CPERF & [-2.5, +40.1] & 0.697 / 0.579 & 0.861 / <0.001 & $\infty$ & 75.0 / 56.0 \\
-STEC $>$ NoV GI & [-1.0, +40.1] & 0.509 / 0.225 & 0.752 / <0.001 & $\infty$ & 80.6 / 60.4 \\
-STEC $>$ NoV GII & [+3.2, +39.2] & 0.024 / 0.033 & 0.249 / <0.001 & $\infty$ & $\infty$ / 79.4 \\
-SAL $>$ NoV GII & [-6.3, +33.6] & 1.000 / 1.000 & 1.000 / <0.001 & 81.6 & 57.7 / 46.8 \\
-SAL $>$ NoV GI & [-10.7, +34.5] & 1.000 / 1.000 & 1.000 / <0.001 & 76.5 & 47.3 / 37.1 \\
-SAL $>$ CPERF & [-12.3, +34.6] & 1.000 / 1.000 & 1.000 / <0.001 & 72.1 & 44.0 / 34.6 \\
-SAL $>$ CAMP & [-9.4, +27.8] & 1.000 / 1.000 & 1.000 / <0.001 & 51.1 & 20.5 / 13.7 \\
-STEC $>$ SAL & [-11.1, +26.0] & 1.000 / 1.000 & 1.000 / 0.002 & 41.3 & 19.1 / 11.6 \\
-CAMP $>$ NoV GI & [-17.9, +23.4] & 1.000 / 1.000 & 1.000 / <0.001 & 37.8 & 20.2 / 14.6 \\
-CAMP $>$ NoV GII & [-13.4, +22.5] & 1.000 / 1.000 & 1.000 / <0.001 & 37.1 & 20.5 / 13.9 \\
-CAMP $>$ CPERF & [-19.5, +23.4] & 1.000 / 1.000 & 1.000 / <0.001 & 35.5 & 18.5 / 13.5 \\
-NoV GII $>$ NoV GI & [-23.9, +20.2] & 1.000 / 1.000 & 1.000 / 1.000 & 4.2 & 1.3 / 1.0 \\
-NoV GII $>$ CPERF & [-25.5, +20.2] & 1.000 / 1.000 & 1.000 / 1.000 & 3.7 & 0.88 / 0.65 \\
-CPERF $>$ NoV GI & [-24.8, +26.4] & 1.000 / 1.000 & 1.000 / 1.000 & 0.19 & 0.00 / 0.00 \\
+STEC $>$ CAMP & [+0.2, +33.3] & 0.345 / 0.137 / 0.518 & 0.642 / <0.001 & $\infty$ & 73.2 / 56.9 / 47.0 \\
+STEC $>$ CPERF & [-2.5, +40.1] & 0.697 / 0.579 / 0.852 & 0.861 / <0.001 & $\infty$ & 75.0 / 55.2 / 56.3 \\
+STEC $>$ NoV GI & [-1.0, +40.1] & 0.509 / 0.225 / 0.518 & 0.752 / <0.001 & $\infty$ & 80.6 / 77.6 / 60.4 \\
+STEC $>$ NoV GII & [+3.2, +39.2] & 0.024 / 0.033 / 0.241 & 0.249 / <0.001 & $\infty$ & $\infty$ / 83.5 / 79.2 \\
+SAL $>$ NoV GII & [-6.3, +33.6] & 1.000 / 1.000 / 1.000 & 1.000 / <0.001 & 81.6 & 57.7 / 47.7 / 46.8 \\
+SAL $>$ NoV GI & [-10.7, +34.5] & 1.000 / 1.000 / 1.000 & 1.000 / <0.001 & 76.5 & 47.3 / 43.6 / 37.0 \\
+SAL $>$ CPERF & [-12.3, +34.6] & 1.000 / 1.000 / 1.000 & 1.000 / <0.001 & 72.1 & 44.0 / 31.3 / 34.5 \\
+SAL $>$ CAMP & [-9.4, +27.8] & 1.000 / 1.000 / 1.000 & 1.000 / <0.001 & 51.1 & 20.5 / 4.4 / 13.7 \\
+STEC $>$ SAL & [-11.1, +26.0] & 1.000 / 1.000 / 1.000 & 1.000 / 0.002 & 41.3 & 19.1 / 19.1 / 11.5 \\
+CAMP $>$ NoV GI & [-17.9, +23.4] & 1.000 / 1.000 / 1.000 & 1.000 / <0.001 & 37.8 & 20.2 / 17.1 / 14.6 \\
+CAMP $>$ NoV GII & [-13.4, +22.5] & 1.000 / 1.000 / 1.000 & 1.000 / <0.001 & 37.1 & 20.5 / 15.9 / 13.9 \\
+CAMP $>$ CPERF & [-19.5, +23.4] & 1.000 / 1.000 / 1.000 & 1.000 / <0.001 & 35.5 & 18.5 / 12.3 / 13.5 \\
+NoV GII $>$ NoV GI & [-23.9, +20.2] & 1.000 / 1.000 / 1.000 & 1.000 / 1.000 & 4.2 & 1.3 / 0.66 / 1.0 \\
+NoV GII $>$ CPERF & [-25.5, +20.2] & 1.000 / 1.000 / 1.000 & 1.000 / 1.000 & 3.7 & 0.88 / 0.34 / 0.65 \\
+CPERF $>$ NoV GI & [-24.8, +26.4] & 1.000 / 1.000 / 1.000 & 1.000 / 1.000 & 0.19 & 0.00 / 0.00 / 0.00 \\
 \bottomrule
 \end{tabular}
-\par\smallskip\parbox{0.97\linewidth}{\footnotesize SAL Salmonella; STEC Shiga toxin-producing E. coli; CAMP Campylobacter; CPERF C. perfringens; NoV GI/GII norovirus GI/GII. $^{\dagger}$Pointwise IM 95\% CIs under-cover in sparse strata (75.2\% min to 86.8\% median endpoint coverage under HC1; Supp. Table S8). Critical values (worst / $\delta$ = 5 pp): HC1 2.61/2.73, 53-cluster 2.54/2.68, studentized bootstrap-t 4.52/3.37 (c\_bt($\delta$) uses $\delta$-specific quantiles for 95\% $\delta^{*}$). Worst-case 95\% rank sets: HC1 STEC [1,5], NoV GII [2,6], others [1,6]; studentized bootstrap-t all [1,6]. At $\delta$ = 5 pp (and $-$15/+5 pp), rank sets are STEC [1,1], SAL [2,2], CAMP [3,3], lower [4,6], holding jointly up to 11.6 pp (13.5 pp CAMP alone) under $\delta$-specific boot-t, 7.9 pp under conservative worst-case c\_bt = 4.52, and 18.5 pp under HC1.}
+\par\smallskip\parbox{0.97\linewidth}{\footnotesize SAL Salmonella; STEC Shiga toxin-producing E. coli; CAMP Campylobacter; CPERF C. perfringens; NoV GI/GII norovirus GI/GII. Sample $\delta^{*}$ and 95\% $\delta^{*}$ columns are in pp. $^{\dagger}$Pointwise IM 95\% CIs under-cover in sparse strata (75.2\% min to 86.8\% median endpoint coverage under HC1; Supp. Table S8). Critical values (worst / $\delta$ = 5 pp): HC1 2.61/2.73, 53-state CV1 2.54/2.68, CV3 2.56/2.66, cluster boot-t 4.07/3.74, outbreak boot-t 4.52/3.37 (0 and 12 rejections at worst / $\delta$ = 5 pp for CV3; 0 and 12 for cluster boot-t). Worst-case 95\% ranks: STEC [1,5], NoV GII [2,6] under HC1/CV1 (all [1,6] under CV3/cluster boot-t/boot-t). Within-upper-tier joint min 95\% $\delta^{*}$ is 11.5 pp (STEC$>$SAL) under boot-t, 19.1 pp HC1, 18.2 pp CV1, and 4.4 pp CV3 (SAL$>$CAMP; stepdown p = 0.040 at $\delta$ = 5); upper-vs-lower separation (CAMP$>$CPERF) holds up to 13.5 pp boot-t (12.3 CV3, 18.5 HC1, 18.0 CV1). Under OR scaling (0.1\% floor, boot-t): 95\% $\Gamma^{*}$ = 2.27 (STEC$>$SAL), 6.83 (CAMP$>$CPERF), 1.94 (NoV GII$>$GI).}
 \end{table}

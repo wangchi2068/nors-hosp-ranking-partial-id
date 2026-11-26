@@ -48,7 +48,7 @@
   "id": "fig_s2_robustness",
   "path_pdf": "fig_s2_robustness.pdf",
   "path_png": "fig_s2_robustness.png",
-  "caption": "Sensitivity verdicts across all 20 six-group specifications.",
+  "caption": "Sensitivity verdicts across all 21 six-group specifications.",
   "section": "supplementary",
   "generator": "code/make_outputs.py",
   "data_source": "analysis/results.json"

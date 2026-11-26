@@ -1,10 +1,10 @@
 # Rebuild check: rebuilt analysis vs preserved results
 
-- Preserved: `results.json` (sha256 `c00f0e8723e1...`)
-- Rebuilt: `results_rebuilt.json` (sha256 `62cfcf87820f...`)
+- Preserved: `results.json` (sha256 `05b8b5401d71...`)
+- Rebuilt: `results_rebuilt.json` (sha256 `05b8b5401d71...`)
 - Rule: integers, booleans, strings and nulls identical; floats within an absolute tolerance of 1e-09; run metadata (timestamp, spec hash, wall clock, version, hardware, cohort file hash) not counted.
-- Everything except the bootstrap: 23,510 result leaves; bit-identical 23,510; within tolerance 0; not matched 0; largest float deviation 0.
-- Including the bootstrap block: 25,169 leaves; not matched 0 (all in the bootstrap block, which uses a different random-stream order; see the Monte Carlo comparison below).
+- Everything except the bootstrap: 26,802 result leaves; bit-identical 26,802; within tolerance 0; not matched 0; largest float deviation 0.
+- Including the bootstrap block: 28,461 leaves; not matched 0 (all in the bootstrap block, which uses a different random-stream order; see the Monte Carlo comparison below).
 
 ## Bootstrap (Monte Carlo comparison)
 
@@ -14,7 +14,6 @@
 - delta* percentiles: infinite/finite status identical: True; largest finite difference 0.00 points (reported, not tested).
 - Supported orderings reproduced: preserved 91.6-100.0%, rebuilt 91.6-100.0%. Undetermined orderings staying undetermined: preserved 75.2-100.0%, rebuilt 75.2-100.0%. Modal number of orderings supported without assumption: preserved 4, rebuilt 4; at delta = 5: preserved 12, rebuilt 12.
 - Within Monte Carlo tolerance: True.
-- Supplementary distribution-free check (added after the comparison above; not the pre-stated criterion): 48 of 48 preserved bound percentiles lie within the rebuilt replicates' order-statistic interval (rank +/- 3 x sqrt(2) x binomial SD).
 
 | Ordering | Frequency | Preserved | Rebuilt | Abs. diff. | z |
 |---|---|---:|---:|---:|---:|
@@ -99,23 +98,20 @@
 | robustness.R10_outbreak_weighted | 534 | 534 | 0 | 0 | 0 | exact |
 | robustness.R11_single_state_only | 533 | 533 | 0 | 0 | 0 | exact |
 | robustness.R12_stec_o157_only | 531 | 531 | 0 | 0 | 0 | exact |
+| robustness.R12b_nontyphoidal_sal | 533 | 533 | 0 | 0 | 0 | exact |
 | robustness.R13_outbreak_level_mar | 534 | 534 | 0 | 0 | 0 | exact |
 | robustness.R14a_Ci_extrap25 | 534 | 534 | 0 | 0 | 0 | exact |
 | robustness.R14b_low_unrec_50 | 531 | 531 | 0 | 0 | 0 | exact |
 | retention | 165 | 165 | 0 | 0 | 0 | exact |
 | width_decomposition | 221 | 221 | 0 | 0 | 0 | exact |
 | bootstrap | 1659 | 1659 | 0 | 0 | 0 | exact |
-| audit | 212 | 212 | 0 | 0 | 0 | exact |
+| audit | 220 | 220 | 0 | 0 | 0 | exact |
 | pilot | 125 | 125 | 0 | 0 | 0 | exact |
-| stacked_inference | 2180 | 2180 | 0 | 0 | 0 | exact |
-| cluster_diagnostics | 623 | 623 | 0 | 0 | 0 | exact |
+| stacked_inference | 4483 | 4483 | 0 | 0 | 0 | exact |
+| cluster_diagnostics | 995 | 995 | 0 | 0 | 0 | exact |
 | small_sample_calibration | 114 | 114 | 0 | 0 | 0 | exact |
-| empirical_calibration | 506 | 506 | 0 | 0 | 0 | exact |
+| cluster_double_bootstrap | 29 | 29 | 0 | 0 | 0 | exact |
+| empirical_calibration | 553 | 553 | 0 | 0 | 0 | exact |
 | followup_masking | 942 | 942 | 0 | 0 | 0 | exact |
 | notes | 1 | 1 | 0 | 0 | 0 | exact |
 | estimates_note | 1 | 1 | 0 | 0 | 0 | exact |
-
-## Run metadata (expected to differ, not counted)
-
-- `provenance.timestamp`: preserved "2026-11-26T07:43:52Z", rebuilt "2026-11-26T07:56:27Z"
-- `provenance.wall_clock_seconds`: preserved 289.5, rebuilt 267.0

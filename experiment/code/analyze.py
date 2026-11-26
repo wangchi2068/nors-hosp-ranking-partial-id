@@ -155,12 +155,34 @@ def delta_fine(t: S.Table) -> OrderedDict:
 
 
 # --------------------------------------------------------------------------- cohorts
+def _is_confirmed_o157(sg: str, es: str) -> bool:
+    sg_parts = [p.strip() for p in str(sg).split(";")]
+    es_parts = [p.strip() for p in str(es).split(";")]
+    if len(sg_parts) == len(es_parts) and len(sg_parts) > 0:
+        return any(("O157" in s.upper()) and (e.lower() == "confirmed") for s, e in zip(sg_parts, es_parts))
+    return ("O157" in str(sg).upper()) and ("confirmed" in str(es).lower())
+
+
+def _is_typhi_sal(sg: str) -> bool:
+    toks = [p.strip().upper() for p in str(sg).split(";")]
+    return any(t == "TYPHI" for t in toks)
+
+
 def cohorts(cohort: pd.DataFrame, suspected: pd.DataFrame | None = None,
             unspec_nov: pd.DataFrame | None = None) -> dict:
     kept = cohort[cohort["kept"]]
     main = kept[kept["in_main"]].copy()
     is_stec = main["group"] == "STEC"
-    sg_col = main["serotype_or_genotype"].astype(str).str.upper() if "serotype_or_genotype" in main.columns else pd.Series("", index=main.index)
+    is_sal = main["group"] == "SAL"
+    if "serotype_or_genotype" in main.columns:
+        o157_mask = pd.Series(
+            [_is_confirmed_o157(sg, es) for sg, es in zip(main["serotype_or_genotype"], main["etiology_status"])],
+            index=main.index,
+        )
+        typhi_mask = pd.Series([_is_typhi_sal(sg) for sg in main["serotype_or_genotype"]], index=main.index)
+    else:
+        o157_mask = pd.Series(False, index=main.index)
+        typhi_mask = pd.Series(False, index=main.index)
     out = {
         "keep_main": main,
         "keep_single_etiology": main[main["single_etiology"]].copy(),
@@ -168,7 +190,8 @@ def cohorts(cohort: pd.DataFrame, suspected: pd.DataFrame | None = None,
         "keep_pilot_rule": kept[kept["in_pilot_rule"]].assign(group=lambda d: d["pilot_group"]).copy(),
         "keep_excl_healthcare": main[~main["is_healthcare"].astype(bool)].copy(),
         "keep_single_state": main[main["state"].astype(str) != "Multistate"].copy(),
-        "keep_stec_o157": main[(~is_stec) | sg_col.str.contains("O157")].copy(),
+        "keep_stec_o157": main[(~is_stec) | o157_mask].copy(),
+        "keep_nontyphoidal_sal": main[~(is_sal & typhi_mask)].copy(),
         "keep_low_unrec_50": main[(main["U"] / main["C"]) <= 0.50].copy(),
     }
     if suspected is not None and len(suspected) > 0:
@@ -206,9 +229,10 @@ ROBUSTNESS = OrderedDict([
     ("R10_outbreak_weighted", ("Within-cell aggregation: equal weight per outbreak", {"kind": "outbreak_weighted", "cohort": "keep_main"})),
     ("R11_single_state_only", ("Cohort: single-state outbreaks only (exclude multistate)", {"cohort": "keep_single_state"})),
     ("R12_stec_o157_only", ("Cohort: restrict STEC to confirmed O157 serogroup", {"cohort": "keep_stec_o157"})),
+    ("R12b_nontyphoidal_sal", ("Cohort: exclude Salmonella serotype Typhi (6 outbreaks)", {"cohort": "keep_nontyphoidal_sal"})),
     ("R13_outbreak_level_mar", ("Anchor: outbreak-level H_i/K_i MAR within common support", {"kind": "outbreak_mar", "cohort": "keep_main"})),
     ("R14a_Ci_extrap25", ("Denominator: treat 25% of unrecorded cases as extrapolated non-cases", {"kind": "ci_extrap25", "cohort": "keep_main"})),
-    ("R14b_low_unrec_50", ("Denominator: restrict to outbreaks with <=50% unrecorded status", {"cohort": "keep_low_unrec_50"})),
+    ("R14b_low_unrec_50", ("Selection sensitivity: restrict to outbreaks with <=50% unrecorded status", {"cohort": "keep_low_unrec_50"})),
 ])
 
 
@@ -316,6 +340,9 @@ def variant_table(spec: dict, co: dict, main_cells: list, main_weights: np.ndarr
         sub["H"] = sub["H"] / sub["C"]
         sub["U"] = sub["U"] / sub["C"]
         sub["C"] = 1.0
+        kr_pos = sub["K_rec"] > 0
+        sub["H_rec"] = np.where(kr_pos, sub["H_rec"] / sub["K_rec"], 0.0)
+        sub["K_rec"] = np.where(kr_pos, 1.0, 0.0)
         t_ow = S.build(sub, R.GROUPS, "setting_period", fixed_cells=main_cells)
         if main_weights is not None:
             t_ow.w = main_weights.copy()
@@ -561,7 +588,7 @@ def main(argv=None):
             (Path(__file__).parent / f).read_text(encoding="utf-8")
             for f in ("analyze.py", "bounds.py", "strata.py", "nors_rules.py", "bootstrap.py", "inference_voi.py")
             if (Path(__file__).parent / f).exists()).encode()).hexdigest()[:16],
-        analysis_version="6.0", hardware="CPU only", wall_clock_seconds=None,
+        analysis_version="7.0", hardware="CPU only", wall_clock_seconds=None,
     )
     res["summary"] = summary_block(main_res)
     res["groups"] = OrderedDict((g, R.GROUP_LABELS[g]) for g in R.GROUPS)
@@ -579,10 +606,28 @@ def main(argv=None):
         res["bootstrap"] = BS.run(main_df, t_main, main_res, B=args.bootstrap_B, seed=SEED, workers=args.workers,
                                   jsonl=args.bootstrap_jsonl)
     excl_path = args.derived / "excluded_outbreaks_summary.json"
+    sal_df = main_df[main_df["group"] == "SAL"]
+    typhi_m = pd.Series([_is_typhi_sal(sg) for sg in sal_df["serotype_or_genotype"]], index=sal_df.index) if "serotype_or_genotype" in sal_df.columns else pd.Series(False, index=sal_df.index)
+    sal_ty = sal_df[typhi_m]
+    stec_df = main_df[main_df["group"] == "STEC"]
+    o157_sub_m = stec_df["serotype_or_genotype"].astype(str).str.upper().str.contains("O157") if "serotype_or_genotype" in stec_df.columns else pd.Series(False, index=stec_df.index)
+    o157_conf_m = pd.Series([_is_confirmed_o157(sg, es) for sg, es in zip(stec_df["serotype_or_genotype"], stec_df["etiology_status"])], index=stec_df.index) if "serotype_or_genotype" in stec_df.columns else pd.Series(False, index=stec_df.index)
     res["audit"] = OrderedDict(
         record_audit_summary=json.load(open(args.derived / "record_audit_summary.json")),
         eligibility_flow=json.load(open(args.derived / "eligibility_flow.json")),
         excluded_outbreaks_summary=(json.load(open(excl_path)) if excl_path.exists() else None),
+        typhi_audit=OrderedDict(
+            n_outbreaks=int(len(sal_ty)),
+            cases=float(sal_ty["C"].sum()),
+            hospitalized_known=float(sal_ty["H"].sum()),
+            unknown_cases=float(sal_ty["U"].sum()),
+        ),
+        o157_audit=OrderedDict(
+            n_stec_total=int(len(stec_df)),
+            n_o157_substring=int(o157_sub_m.sum()),
+            n_o157_confirmed_rule=int(o157_conf_m.sum()),
+            cases_confirmed_rule=float(stec_df.loc[o157_conf_m, "C"].sum()),
+        ),
     )
     res["pilot"] = OrderedDict(targets=PILOT_TARGETS, grid=pilot_grid(co), note=TEXT["pilot_note"])
     up = IV.run_all(main_df, t_main, main_res, seed=SEED, boot_block=res.get("bootstrap"))
@@ -609,6 +654,7 @@ def main(argv=None):
     res["stacked_inference"] = up["stacked_inference"]
     res["cluster_diagnostics"] = up["cluster_diagnostics"]
     res["small_sample_calibration"] = up["small_sample_calibration"]
+    res["cluster_double_bootstrap"] = up["cluster_double_bootstrap"]
     res["empirical_calibration"] = up["empirical_calibration"]
     res["followup_masking"] = up["followup_masking"]
     print("stacked inference, calibration & follow-up done", flush=True)

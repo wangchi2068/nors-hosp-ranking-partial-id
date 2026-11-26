@@ -1,4 +1,4 @@
-"""Tables, figures, and statistical summary for the NORS hospitalization-ranking analysis (v6.0).
+"""Tables, figures, and statistical summary for the NORS hospitalization-ranking analysis (v7.0).
 
 Reads ONLY analysis/results.json so every table, figure, and text value shares one canonical source.
 """
@@ -28,8 +28,9 @@ VARIANT_CODES = {"R1a_crude_all": "R1a", "R1b_crude_support": "R1b", "R2_period_
                  "R7_norovirus_combined": "R7", "R7b_norovirus_all_confirmed": "R7b",
                  "R8_include_suspected": "R8", "R9_excl_healthcare": "R9",
                  "R10_outbreak_weighted": "R10", "R11_single_state_only": "R11",
-                 "R12_stec_o157_only": "R12", "R13_outbreak_level_mar": "R13",
-                 "R14a_Ci_extrap25": "R14a", "R14b_low_unrec_50": "R14b"}
+                 "R12_stec_o157_only": "R12", "R12b_nontyphoidal_sal": "R12b",
+                 "R13_outbreak_level_mar": "R13", "R14a_Ci_extrap25": "R14a",
+                 "R14b_low_unrec_50": "R14b"}
 CAT_COLORS = {"A": "#0F4D92", "B": "#8FA8D6", "C": "#E9A6A1", "D": "#E8B04B"}
 CAT_TEXT = {"A": "white", "B": "#272727", "C": "#272727"}
 CAT_LABEL = {
@@ -91,7 +92,7 @@ def statistical_summary(exp: Path) -> None:
     si = r.get("stacked_inference")
     out = dict(
         source="analysis/results.json", spec_hash=r["provenance"]["spec_hash"],
-        analysis_version=r["provenance"].get("analysis_version", "6.0"),
+        analysis_version=r["provenance"].get("analysis_version", "7.0"),
         n_pairs=m["n_pairs"], n_common_support_cells=m["n_cells"],
         determined_pairs=dict(worst_case=m["n_determined"]["worst_case"],
                               **{f"delta_{k}pp": v for k, v in m["n_determined"].items() if k != "worst_case"}),
@@ -119,7 +120,7 @@ def statistical_summary(exp: Path) -> None:
             c_bt_delta5=si["c_bt_delta5"],
             rank_breakdown_points_pp=si["rank_breakdown_points_pp"],
         ) if si else None,
-        note="Canonical summary across sample bounds, 30-hypothesis Gaussian & studentized bootstrap-t inference, and 22 variants.",
+        note=f"Canonical summary across sample bounds, 30-hypothesis Gaussian/CV3/cluster/studentized bootstrap-t inference, and {len(r['robustness'])} variants.",
     )
     (exp / "analysis" / "statistical_summary.json").write_text(json.dumps(out, indent=1, ensure_ascii=False),
                                                                encoding="utf-8")
@@ -221,7 +222,7 @@ def make_tables(r: dict, tdir: Path, write_tex: bool = True) -> None:
                 f"†OR Γ* = ∞† for SAL > CPERF reflects 9/72 cells with p_js = 0; a 0.1% continuity floor yields Γ* = {sal_cp_fl:.1f}.",
           sep="2.3pt")
 
-    # Table 3: robustness (22 variants)
+    # Table 3: robustness (23 variants)
     rows = [{"Analysis": "Main", "Description": "Setting × period, ≥ 3 outbreaks, pooled-case weights",
              "Cells": m["n_cells"], "Pairs": m["n_pairs"], "Determined, worst case": m["n_determined"]["worst_case"],
              "Determined, δ = 5 pp": m["n_determined"]["5"], "Worst-case changed": 0,
@@ -238,11 +239,11 @@ def make_tables(r: dict, tdir: Path, write_tex: bool = True) -> None:
                      "Worst-case changed": v.get("n_worst_case_verdicts_changed", "NA"),
                      "δ = 0 reversed": v.get("n_delta0_directions_changed", "NA")})
     _emit("tab:robustness", "table_3_robustness", pd.DataFrame(rows),
-          "Sensitivity analyses across all 22 cohort, support, weighting, serogroup, outbreak-MAR, and denominator variants.",
+          f"Sensitivity analyses across all {len(r['robustness'])} cohort, support, weighting, serogroup, outbreak-MAR, and denominator variants.",
           "".join([Lc(1.0), Lc(5.25), R(0.85), R(0.85), R(1.5), R(1.45), R(1.45), R(1.45)]),
           notes="R7 and R7b combine norovirus into 5 groups (10 pairs), so 6-group changes are NA. "
-                "R12 restricts STEC to confirmed O157; R13 uses outbreak-level H_i/K_i MAR anchors; "
-                "R14a–R14b evaluate C_i contamination/extrapolation sensitivity.")
+                "R12 restricts STEC to confirmed O157 (279/388 outbreaks); R12b excludes 6 Salmonella Typhi outbreaks (87 cases); "
+                "R13 uses outbreak-level H_i/K_i MAR anchors; R14a–R14b evaluate C_i contamination and high-completeness selection.")
 
     # Table 4: retention
     ret = r["retention"]["per_group"]
@@ -301,8 +302,9 @@ def make_tables(r: dict, tdir: Path, write_tex: bool = True) -> None:
                          f"{'∞' if b['delta_star_pp_p2_5'] is None else format(b['delta_star_pp_p2_5'], '.1f')}–"
                          f"{'∞' if b['delta_star_pp_p97_5'] is None else format(b['delta_star_pp_p97_5'], '.1f')}"})
     _emit("tab:bootstrap", "table_6_bootstrap", pd.DataFrame(rows),
-          f"Outbreak-level bootstrap ({bt['B']:,} replicates, seed {bt['seed']}; 0/{bt['B']:,} resamples lacked K_rec), "
-          f"reporting two-decimal verdict frequencies and δ* percentile intervals.",
+          f"Outbreak-level bootstrap ({bt['B']:,} replicates, seed {bt['seed']}; "
+          f"{bt['n_replicates_with_undefined_strata']}/{bt['B']:,} resamples had >=1 stratum lacking K_rec, "
+          f"0 degenerate SE entries in studentized bootstrap-t), reporting two-decimal verdict frequencies and δ* percentile intervals.",
           "".join([Lc(2.6), R(2.0), R(2.2), R(2.0), R(2.0), R(2.6)]))
 
     # Table 7: width decomposition
@@ -318,10 +320,12 @@ def make_tables(r: dict, tdir: Path, write_tex: bool = True) -> None:
           "Undetermined pairs under worst-case bounds and top unrecorded-status width contributors.",
           "".join([Lc(2.6), R(1.6), Lc(10.6)]))
 
-    # Table 8: Joint 30-hypothesis inference (Main Table 3: Pointwise IM + HC1/State + Studentized Boot-t)
+    # Table 8: Joint 30-hypothesis inference (Main Table 3: IM + HC1/CV1/CV3 + Studentized Boot-t + OR Gamma*_95)
     if "stacked_inference" in r:
         si = r["stacked_inference"]
         sc_cal = r.get("small_sample_calibration", {})
+        cbt = si.get("cluster_boot_t", {})
+        oi = si.get("or_inference", {}).get("gamma_star_95", {})
         rows = []
         for k, p in sorted_pairs(m):
             sp = si["pairs"][k]
@@ -330,45 +334,55 @@ def make_tables(r: dict, tdir: Path, write_tex: bool = True) -> None:
             fmt_p = lambda pv: "<0.001" if (pv is not None and pv < 0.001) else ("NA" if pv is None else f"{pv:.3f}")
             rows.append({
                 "Ordering (δ = 0)": pair_label(p, SHORT),
-                "Pointwise IM 95% CI (pp)†": fmt_ci(sp["ci95_im_lo"], sp["ci95_im_hi"]),
-                "HC1 / State 30-test p (w)": f"{fmt_p(sp['p_fwer_worst'])} / {fmt_p(sp['p_fwer_state_worst'])}",
+                "Pointwise IM 95% CI": fmt_ci(sp["ci95_im_lo"], sp["ci95_im_hi"]),
+                "HC1 / CV1 / CV3 p (w)": f"{fmt_p(sp['p_fwer_worst'])} / {fmt_p(sp['p_fwer_state_worst'])} / {fmt_p(sp['p_fwer_cv3_worst'])}",
                 "Boot-t p (w / δ=5)": f"{fmt_p(sp['p_fwer_boot_t_worst'])} / {fmt_p(sp['p_fwer_boot_t_delta5'])}",
-                "Sample δ* (pp)": fmt_ds(sp["delta_star_pt_pp"]),
-                "95% δ* (HC1 / Boot-t, pp)": f"{fmt_ds(sp['delta_star_95_sim_pp'])} / {fmt_ds(sp['delta_star_95_bt_pp'])}",
+                "Sample δ*": fmt_ds(sp["delta_star_pt_pp"]),
+                "95% δ* (HC1 / CV3 / Bt)": f"{fmt_ds(sp['delta_star_95_sim_pp'])} / {fmt_ds(sp['delta_star_95_cv3_pp'])} / {fmt_ds(sp['delta_star_95_bt_pp'])}",
             })
         rcs_w = si["rank_confidence_sets"]["worst_hc1"]
         rb_hc = si["rank_breakdown_points_pp"]["hc1"]
+        rb_st = si["rank_breakdown_points_pp"]["state"]
+        rb_c3 = si["rank_breakdown_points_pp"]["cv3"]
         rb_bt = si["rank_breakdown_points_pp"]["bootstrap_t"]
-        rb_btu = si["rank_breakdown_points_pp"].get("bootstrap_t_unif", {})
-        im_min = 100.0 * sc_cal.get("im95_min_endpoint_cov_hc1", 0.76)
-        im_med = 100.0 * sc_cal.get("im95_median_endpoint_cov_hc1", 0.87)
+        im_min = 100.0 * sc_cal["im95_min_endpoint_cov_hc1"]
+        im_med = 100.0 * sc_cal["im95_median_endpoint_cov_hc1"]
+        or_ss_bt = oi.get("SAL|STEC", {}).get("gamma_star_95_bt")
+        or_cc_bt = oi.get("CAMP|CPERF", {}).get("gamma_star_95_bt")
+        or_gi_bt = oi.get("NOV_GI|NOV_GII", {}).get("gamma_star_95_bt")
         _emit("tab:joint_inference", "table_8_joint_inference", pd.DataFrame(rows),
               "Joint 30-hypothesis one-sided (15 pairs × 2 directions) FWER inference: pointwise Imbens–Manski 95% CIs, "
-              "outbreak-HC1 and 53-cluster exposure-state Gaussian Max-T p-values, and studentized bootstrap-t p-values "
-              "and δ-specific breakdown points.",
-              "".join([Lc(2.4), R(2.2), R(2.35), R(2.45), R(1.15), R(2.7)]),
+              "outbreak-HC1, 53-cluster CV1 and CV3 jackknife Max-T p-values, studentized bootstrap-t p-values, "
+              "and δ-specific 95% breakdown points.",
+              "".join([Lc(2.15), R(2.1), R(2.65), R(2.35), R(1.05), R(2.9)]),
               notes=f"SAL Salmonella; STEC Shiga toxin-producing E. coli; CAMP Campylobacter; CPERF C. perfringens; "
-                    f"NoV GI/GII norovirus GI/GII. †Pointwise IM 95% CIs under-cover in sparse strata ({im_min:.1f}% min to "
-                    f"{im_med:.1f}% median endpoint coverage under HC1; Supp. Table S8). "
+                    f"NoV GI/GII norovirus GI/GII. Sample δ* and 95% δ* columns are in pp. †Pointwise IM 95% CIs under-cover in sparse strata "
+                    f"({im_min:.1f}% min to {im_med:.1f}% median endpoint coverage under HC1; Supp. Table S8). "
                     f"Critical values (worst / δ = 5 pp): HC1 {si['c_sim_worst']:.2f}/{si['c_sim_delta5']:.2f}, "
-                    f"53-cluster {si['c_sim_state_worst']:.2f}/{si['c_sim_state_delta5']:.2f}, studentized bootstrap-t "
-                    f"{si['c_bt_worst']:.2f}/{si['c_bt_delta5']:.2f} (c_bt(δ) uses δ-specific quantiles for 95% δ*). "
-                    f"Worst-case 95% rank sets: HC1 STEC [{rcs_w['STEC']['rank_lower']},{rcs_w['STEC']['rank_upper']}], "
-                    f"NoV GII [{rcs_w['NOV_GII']['rank_lower']},{rcs_w['NOV_GII']['rank_upper']}], others [1,6]; studentized bootstrap-t all [1,6]. "
-                    f"At δ = 5 pp (and −15/+5 pp), rank sets are STEC [1,1], SAL [2,2], CAMP [3,3], lower [4,6], "
-                    f"holding jointly up to {rb_bt['joint_upper_tier_min']:.1f} pp ({rb_bt['CAMP_3_3']:.1f} pp CAMP alone) under δ-specific boot-t, "
-                    f"{rb_btu.get('joint_upper_tier_min', 7.9):.1f} pp under conservative worst-case c_bt = {si['c_bt_worst']:.2f}, and "
-                    f"{rb_hc['joint_upper_tier_min']:.1f} pp under HC1.",
-              sep="2.1pt")
+                    f"53-state CV1 {si['c_sim_state_worst']:.2f}/{si['c_sim_state_delta5']:.2f}, "
+                    f"CV3 {si['c_sim_cv3_worst']:.2f}/{si['c_sim_cv3_delta5']:.2f}, "
+                    f"cluster boot-t {si['c_cbt_worst']:.2f}/{si['c_cbt_delta5']:.2f}, "
+                    f"outbreak boot-t {si['c_bt_worst']:.2f}/{si['c_bt_delta5']:.2f} "
+                    f"(0 and {si['n_fwer_cv3_delta5_sig']} rejections at worst / δ = 5 pp for CV3; 0 and {cbt.get('delta5',{}).get('n_sig',12)} for cluster boot-t). "
+                    f"Worst-case 95% ranks: STEC [{rcs_w['STEC']['rank_lower']},{rcs_w['STEC']['rank_upper']}], "
+                    f"NoV GII [{rcs_w['NOV_GII']['rank_lower']},{rcs_w['NOV_GII']['rank_upper']}] under HC1/CV1 (all [1,6] under CV3/cluster boot-t/boot-t). "
+                    f"Within-upper-tier joint min 95% δ* is {rb_bt['within_upper_tier_min']:.1f} pp (STEC>SAL) under boot-t, "
+                    f"{rb_hc['within_upper_tier_min']:.1f} pp HC1, {rb_st['within_upper_tier_min']:.1f} pp CV1, and {rb_c3['within_upper_tier_min']:.1f} pp CV3 (SAL>CAMP; stepdown p = {si['pairs']['SAL|CAMP']['p_fwer_cv3_delta5']:.3f} at δ = 5); "
+                    f"upper-vs-lower separation (CAMP>CPERF) holds up to {rb_bt['upper_vs_lower_tier_min']:.1f} pp boot-t "
+                    f"({rb_c3['upper_vs_lower_tier_min']:.1f} CV3, {rb_hc['upper_vs_lower_tier_min']:.1f} HC1, {rb_st['upper_vs_lower_tier_min']:.1f} CV1). "
+                    f"Under OR scaling (0.1% floor, boot-t): 95% Γ* = {or_ss_bt:.2f} (STEC>SAL), {or_cc_bt:.2f} (CAMP>CPERF), {or_gi_bt:.2f} (NoV GII>GI).",
+              sep="2.0pt")
 
-    # Table 9: Cluster concentration, Multistate shares & cluster score variance share
+    # Table 9: Cluster concentration, Multistate shares, CV3/cluster boot-t & R11 sensitivity
     if "cluster_diagnostics" in r and "stacked_inference" in r:
         cd = r["cluster_diagnostics"]["per_group"]
         sg = r["stacked_inference"]["per_group"]
-        cvs = r["cluster_diagnostics"].get("cluster_variance_share") or r["cluster_diagnostics"].get("mnw_cluster_leverage", {})
-        ms = r["cluster_diagnostics"].get("multistate_sensitivity", {})
-        cwi = r["stacked_inference"].get("coarser_and_weighting_inference", {})
-        loo = r["stacked_inference"].get("loo_influence", {})
+        si = r["stacked_inference"]
+        cvs = r["cluster_diagnostics"]["cluster_variance_share"]
+        ms = r["cluster_diagnostics"]["multistate_sensitivity"]
+        r11 = ms["r11_full"]
+        cwi = si["coarser_and_weighting_inference"]
+        loo = si["loo_influence"]
         rows = []
         for g in order:
             c_g = cd[g]; s_g = sg[g]; b_g = bt["per_group"][g]
@@ -376,35 +390,33 @@ def make_tables(r: dict, tdir: Path, write_tex: bool = True) -> None:
                 "Group": NAME[g],
                 "Min/Med/Max n": f"{c_g['min_n']}/{c_g['median_n']:.0f}/{c_g['max_n']}",
                 "Max HHI (min N_eff)": f"{c_g['max_hhi']:.3f} ({c_g['min_neff']:.2f})",
-                "Multistate unrec (%)": f"{100 * c_g.get('multistate_unrecorded_share', 0.0):.1f}",
+                "Multistate unrec (%)": f"{100 * c_g['multistate_unrecorded_share']:.1f}",
                 "SE(L) HC0/HC1/Boot/St (pp)": (f"{100*s_g['se_L_hc0']:.2f}/{100*s_g['se_L_hc1']:.2f}/"
                                                f"{100*b_g['L_sd']:.2f}/{100*s_g['se_L_state']:.2f}"),
                 "SE(U) HC0/HC1/Boot/St (pp)": (f"{100*s_g['se_U_hc0']:.2f}/{100*s_g['se_U_hc1']:.2f}/"
                                                f"{100*b_g['U_sd']:.2f}/{100*s_g['se_U_state']:.2f}"),
             })
-        cw_w = cvs.get("worst", {}); cw_5 = cvs.get("delta5", {})
-        sh_w = cw_w.get("max_variance_share", cw_w.get("max_leverage_share", 0.0))
-        sh_5 = cw_5.get("max_variance_share", cw_5.get("max_leverage_share", 0.0))
-        r2 = cwi.get("R2_period_only", {}); r10 = cwi.get("R10_outbreak_weighted", {})
-        llo = loo.get("leave_largest_per_group", {})
+        cw_w = cvs["worst"]; cw_5 = cvs["delta5"]
+        sh_w = cw_w["max_variance_share"]; sh_5 = cw_5["max_variance_share"]
+        r2 = cwi["R2_period_only"]; r10 = cwi["R10_outbreak_weighted"]
+        llo = loo["leave_largest_per_group"]
+        r11_rb = r11["rank_breakdown_pp"]
         _emit("tab:cluster_diag", "table_9_cluster_diagnostics", pd.DataFrame(rows),
-              "Outbreak-cluster concentration, Multistate unrecorded case share, cluster share of score variance, "
-              "coarser/outbreak-weighted inference, and leave-one-outbreak-out influence.",
+              "Outbreak-cluster concentration, Multistate unrecorded case share, cluster variance share, CV3/R11/R2/R10 inference, and leave-one-outbreak-out influence.",
               "".join([Lc(1.85), R(1.75), R(2.05), R(1.55), R(3.4), R(3.4)]),
-              notes=f"Cluster share of score variance across 53 exposure-state categories (Carter et al. 2017; MacKinnon et al. 2023): "
-                    f"Multistate share = {100*sh_w:.1f}% (worst case) and {100*sh_5:.1f}% (δ = 5 pp), G_eff = "
-                    f"{cw_w.get('effective_clusters_g_eff',0):.2f} / {cw_5.get('effective_clusters_g_eff',0):.2f}. "
-                    f"Splitting 219 Multistate outbreaks as singletons (271 clusters) or single-state R11 (52 states) gives "
-                    f"{ms.get('n_sig_singleton_worst',0)}/{ms.get('n_sig_r11_state_worst',0)} worst-case and "
-                    f"{ms.get('n_sig_singleton_delta5',12)}/{ms.get('n_sig_r11_state_delta5',12)} δ = 5 significant hypotheses. "
-                    f"Coarser R2 (3 periods, min cell n = {r2.get('min_cell_outbreaks',24)}) gives "
-                    f"{r2.get('n_sig_worst',{}).get('hc1',2)} HC1 and {r2.get('n_sig_worst',{}).get('boot_t',0)} boot-t worst-case rejections "
-                    f"(δ = 5: 12 boot-t, upper tier [1,1]/[2,2]/[3,3]); equal-outbreak R10 gives "
-                    f"{r10.get('n_sig_worst',{}).get('boot_t',5)} boot-t worst-case and 12 δ = 5 rejections (identical under R4a/R4b). "
-                    f"Across all {loo.get('n_outbreaks_checked',3176):,} single-outbreak deletions (and simultaneous 6-group LLO removal), "
-                    f"worst-case determined pairs stay {loo.get('wc_determined_range',[4,4])[0]}–{loo.get('wc_determined_range',[4,4])[1]} "
-                    f"({llo.get('wc_determined',4)} LLO) and δ = 5 stays {loo.get('delta5_determined_range',[12,13])[0]}–{loo.get('delta5_determined_range',[12,13])[1]} "
-                    f"({llo.get('delta5_determined',12)} LLO).",
+              notes=f"Across 53 exposure-state clusters (Carter et al. 2017; MacKinnon et al. 2023), Multistate accounts for "
+                    f"{100*sh_w:.1f}% (worst case, plug-in G_eff = {cw_w['effective_clusters_g_eff']:.2f}) and "
+                    f"{100*sh_5:.1f}% (δ = 5 pp, G_eff = {cw_5['effective_clusters_g_eff']:.2f}) of score variance. "
+                    f"Pairwise CV3/HC1 SE ratios span {si['cv3_vs_hc1_se_ratio_min']:.2f}–{si['cv3_vs_hc1_se_ratio_max']:.2f} (worst case; {si['cv3_n_valid_worst']}/53 leave-cluster-out fits valid); "
+                    f"Bayesian 53-cluster boot-t c_crit = {si['c_cbt_worst']:.2f}/{si['c_cbt_delta5']:.2f} (0/12 rejections). "
+                    f"Singleton Multistate (271 clusters) gives {ms['n_sig_singleton_worst']}/12 sig; "
+                    f"R11 (52 single states, {r11['n_outbreaks']:,} outbreaks, 52/52 valid CV3 fits) gives 0 sig across all 5 methods (HC1/CV1/CV3/WCB/boot-t) at worst case and 12 at δ = 5 pp, "
+                    f"with R11 within-upper-tier (SAL>CAMP) min 95% δ* = {r11_rb['bootstrap_t']['within_upper_tier_min']:.1f} (boot-t) / {r11_rb['cv3']['within_upper_tier_min']:.1f} (CV3) / {r11_rb['hc1']['within_upper_tier_min']:.1f} pp (HC1) "
+                    f"and upper-vs-lower separation {r11_rb['bootstrap_t']['upper_vs_lower_tier_min']:.1f} / {r11_rb['cv3']['upper_vs_lower_tier_min']:.1f} / {r11_rb['hc1']['upper_vs_lower_tier_min']:.1f} pp. "
+                    f"Coarser R2 (min n = {r2['min_cell_outbreaks']}) yields {r2['n_sig_worst']['hc1']} HC1 and {r2['n_sig_worst']['boot_t']} boot-t worst-case rejections; "
+                    f"R10 (H_rec/K_rec & H/U/C normalized) yields {r10['n_sig_worst']['boot_t']} boot-t worst-case and 12 δ = 5 rejections. "
+                    f"Across {loo['n_outbreaks_checked']:,} LOO deletions (and LLO), worst-case pairs stay {loo['wc_determined_range'][0]}–{loo['wc_determined_range'][1]} "
+                    f"({llo['wc_determined']} LLO) and δ = 5 stays {loo['delta5_determined_range'][0]}–{loo['delta5_determined_range'][1]} ({llo['delta5_determined']} LLO).",
               sep="2.1pt")
 
     # Table 10: Cost-conditional follow-up benchmark (ALL mixed budgets 500..5000 included)
@@ -467,9 +479,14 @@ def make_tables(r: dict, tdir: Path, write_tex: bool = True) -> None:
     # Table 12: Composition-adjusted Partial vs Full Comparison + Multistate Δ + 11-state Wilson CIs
     if emp:
         pg = emp["per_group"]; hc = emp["high_completeness_states"]["per_group"]
+        si = r["stacked_inference"]
+        dai = si["diag_asymmetric_inference"]
         rows = []
+        n_cc_list = []; wt_cc_list = []
         for g in order:
             v = pg[g]; hv = hc[g]
+            n_cc_list.append(v["n_common_cells_contrast"])
+            wt_cc_list.append(100.0 * v["common_cells_weight_share"])
             ciw = hv.get("ci95_wilson")
             ci_str = f"{pnum(hv['recorded_hosp_rate'])} [{pnum(ciw[0])},{pnum(ciw[1])}]" if ciw else "NA"
             m_str = "–" if v.get("multistate_diff_pp") is None else f"{v['multistate_diff_pp']:+.2f}"
@@ -480,23 +497,28 @@ def make_tables(r: dict, tdir: Path, write_tex: bool = True) -> None:
                 "Std obs − Full (pp)": f"{v['std_obs_minus_full_pp']:+.2f}",
                 "Single-state Δ (pp)": f"{v['single_state_diff_pp']:+.2f}",
                 "Multistate Δ (pp)": m_str,
-                "11 states n / C": f"{hv.get('outbreaks', 0)} / {int(hv.get('cases', 0)):,}",
+                "11 states n / C": f"{hv['outbreaks']} / {int(hv['cases']):,}",
                 "11 states rate [95% CI]": ci_str,
             })
-        cm = emp.get("common_mechanism", {})
-        cm_0 = cm.get("0.00", {}).get("n_main_direction_preserved", 14)
-        cm_5 = cm.get("0.50", {}).get("n_main_direction_preserved", 15)
-        or_fl = emp.get("odds_ratio_floor_001", {}).get("by_gamma", {})
+        cm = emp["common_mechanism"]
+        cm_0 = cm["0.00"]["n_main_direction_preserved"]
+        cm_5 = cm["0.50"]["n_main_direction_preserved"]
+        or_fl = emp["odds_ratio_floor_001"]["by_gamma"]
         _emit("tab:delta_cal", "table_12_delta_calibration", pd.DataFrame(rows),
               "Composition-adjusted comparison of fully recorded (M_i = 0) vs. known-status cases in partially recorded "
-              "outbreaks (M_i > 0, K_rec > 0), and benchmark rates with 95% Wilson CIs in 11 low-missingness states "
+              "outbreaks (M_i > 0, K_rec > 0), and descriptive benchmark rates with 95% Wilson CIs in 11 low-missingness states "
               "(<5% unrecorded and ≥200 common-support cases).",
               "".join([Lc(1.75), R(2.0), R(1.35), R(1.45), R(1.45), R(1.35), R(1.45), R(2.9)]),
-              notes=f"Within-cell Δ (+0.05 to +9.02 pp) and single-state Δ are positive across all six groups, whereas "
-                    f"Std obs − Full is negative for STEC (−2.53 pp) and Campylobacter (−0.27 pp) and Multistate Δ is negative "
-                    f"for STEC (−1.28 pp). Common-mechanism scaling (q_js = α p_js) preserves {cm_0}/15 directions at α = 0 and "
-                    f"{cm_5}/15 for α ≥ 0.50 (Supp. Fig. S4). With a 0.1% zero-cell floor under OR scaling, 14/15 pairs hold at Γ = 3.0 and "
-                    f"{or_fl.get('5.0', {}).get('determined', 13)}/15 at Γ = 5.0.", sep="1.8pt")
+              notes=f"Within-cell Δ (+{min(v['within_cell_diff_pp'] for v in pg.values()):.2f} to +{max(v['within_cell_diff_pp'] for v in pg.values()):.2f} pp), "
+                    f"Single-state Δ (+{min(v['single_state_diff_pp'] for v in pg.values()):.2f} to +{max(v['single_state_diff_pp'] for v in pg.values()):.2f} pp), "
+                    f"and common-cell Std obs − Full (+{min(v['std_obs_minus_full_pp'] for v in pg.values()):.2f} to +{max(v['std_obs_minus_full_pp'] for v in pg.values()):.2f} pp; "
+                    f"averaged over identical {min(n_cc_list)}–{max(n_cc_list)} contrast cells spanning {min(wt_cc_list):.1f}%–{max(wt_cc_list):.1f}% of weight) are positive across all six groups; "
+                    f"Multistate Δ is negative only for STEC ({pg['STEC']['multistate_diff_pp']:+.2f} pp). "
+                    f"Diagnostic asymmetric scenario (SAL −10/+5, CAMP −7/+5, others ±5 pp) retains 12/12 upper-tier separations "
+                    f"(p <= 0.05 under HC1/CV1/CV3/boot-t; c_bt = {dai['c_sim']['boot_t']:.2f}). "
+                    f"Common-mechanism scaling (q_js = min(1, α p_js)) preserves {cm_0}/15 directions at α = 0 and "
+                    f"{cm_5}/15 for α ≥ 0.50 (Supp. Fig. S4). With a 0.1% zero-cell floor under OR scaling, "
+                    f"{or_fl['3.0']['determined']}/15 pairs hold in sample at Γ = 3.0 and {or_fl['5.0']['determined']}/15 at Γ = 5.0.", sep="1.8pt")
 
     # Table 13: Real-data follow-up strata
     if "followup_masking" in r:
@@ -514,37 +536,67 @@ def make_tables(r: dict, tdir: Path, write_tex: bool = True) -> None:
               "Top 12 incomplete strata in the observed NORS common-support cohort ranked by heuristic DPI and stratum leverage w_s/C_js.",
               "".join([R(0.75), Lc(2.1), Lc(3.5), R(1.2), R(1.1), R(1.4), R(2.0), R(1.8)]), sep="2.3pt")
 
-    # Table 14: Double-bootstrap 6-method FWER + top drivers
+    # Table 14: Double-bootstrap empirical FWER rejection matrix inside Table body (m03; outbreak 400x499 + cluster 300x399)
     sc = r.get("small_sample_calibration")
+    cc = r.get("cluster_double_bootstrap")
     if sc:
-        rows = []
-        for g in order:
-            pg = sc["per_group"][g]
-            rows.append({
-                "Group": NAME[g], "MC SD(L) (pp)": f"{pg['mc_sd_L_pp']:.2f}",
-                "Mean HC1 SE(L)": f"{pg['mean_hc1_se_L_pp']:.2f}", "Ratio L (HC1/MC)": f"{pg['ratio_hc1_to_mc_L']:.3f}",
-                "MC SD(U) (pp)": f"{pg['mc_sd_U_pp']:.2f}", "Mean HC1 SE(U)": f"{pg['mean_hc1_se_U_pp']:.2f}",
-                "Ratio U (HC1/MC)": f"{pg['ratio_hc1_to_mc_U']:.3f}",
-            })
         fw = sc["fwer_worst"]; fd5 = sc["fwer_delta5"]
-        sew = sc.get("fwer_worst_mc_se", {}); sed5 = sc.get("fwer_delta5_mc_se", {})
-        cw = sc.get("inner_c_bt_worst_summary", {}); c5 = sc.get("inner_c_bt_delta5_summary", {})
-        drv = "; ".join(f"{d['hypothesis']} ({100*d['exceed_rate']:.1f}%)" for d in sc.get("top_fwer_drivers_wc", [])[:3])
-        bi = sc.get("B_inner", 399)
+        sew = sc["fwer_worst_mc_se"]; sed5 = sc["fwer_delta5_mc_se"]
+        cw = sc["inner_c_bt_worst_summary"]; c5 = sc["inner_c_bt_delta5_summary"]
+        rows = []
+        outbreak_methods = [
+            ("hc0", "HC0 Gaussian (uncorrected)", "Outbreak (400 × 499)"),
+            ("hc1", "HC1 Gaussian", "Outbreak (400 × 499)"),
+            ("fixed_scale_boot", "Fixed-scale std. bootstrap", "Outbreak (400 × 499)"),
+            ("state", "53-state CV1 Gaussian", "Outbreak (400 × 499)"),
+            ("wcb", "Unrestricted Rademacher WCB", "Outbreak (400 × 499)"),
+            ("bootstrap_t", "Studentized bootstrap-t", "Outbreak (400 × 499)"),
+        ]
+        for key_m, lbl_m, world_m in outbreak_methods:
+            note_m = (f"Inner c(boot-t) [p5–p95]: {cw['p5']:.2f}–{cw['p95']:.2f} (w); {c5['p5']:.2f}–{c5['p95']:.2f} (δ=5)"
+                      if key_m == "bootstrap_t" else "No state dependence simulated")
+            rows.append({
+                "Calibration world": world_m,
+                "Inference procedure": lbl_m,
+                "Worst-case FWER ± SE (%)": f"{100*fw[key_m]:.1f} ± {100*sew[key_m]:.1f}",
+                "δ = 5 pp FWER ± SE (%)": f"{100*fd5[key_m]:.1f} ± {100*sed5[key_m]:.1f}",
+                "Inner critical quantile / note": note_m,
+            })
+        if cc:
+            cfw = cc["fwer_worst"]; cfd5 = cc["fwer_delta5"]
+            csew = cc["fwer_worst_mc_se"]; csed5 = cc["fwer_delta5_mc_se"]
+            ccw = cc["inner_c_cbt_worst_summary"]; cc5 = cc["inner_c_cbt_delta5_summary"]
+            cluster_methods = [
+                ("cv1_state", "53-state CV1 Gaussian", f"Cluster ({cc['n_mc']} × {cc['B_inner']})"),
+                ("wcb", "Unrestricted Rademacher WCB", f"Cluster ({cc['n_mc']} × {cc['B_inner']})"),
+                ("cluster_boot_t", "Bayesian cluster boot-t", f"Cluster ({cc['n_mc']} × {cc['B_inner']})"),
+                ("cv3_jackknife", "CV3 cluster jackknife", f"Cluster ({cc['n_mc']} × {cc['B_inner']})"),
+            ]
+            for key_c, lbl_c, world_c in cluster_methods:
+                note_c = (f"Inner c(clust-bt) [p5–p95]: {ccw['p5']:.2f}–{ccw['p95']:.2f} (w); {cc5['p5']:.2f}–{cc5['p95']:.2f} (δ=5)"
+                          if key_c == "cluster_boot_t" else "Exp(1) state-cluster weights")
+                rows.append({
+                    "Calibration world": world_c,
+                    "Inference procedure": lbl_c,
+                    "Worst-case FWER ± SE (%)": f"{100*cfw[key_c]:.1f} ± {100*csew[key_c]:.1f}",
+                    "δ = 5 pp FWER ± SE (%)": f"{100*cfd5[key_c]:.1f} ± {100*csed5[key_c]:.1f}",
+                    "Inner critical quantile / note": note_c,
+                })
+        pg_ratios_L = [sc["per_group"][g]["ratio_hc1_to_mc_L"] for g in order]
+        pg_ratios_U = [sc["per_group"][g]["ratio_hc1_to_mc_U"] for g in order]
+        drv = "; ".join(f"{SHORT.get(d['hypothesis'].split('->')[0], d['hypothesis'].split('->')[0])}>{SHORT.get(d['hypothesis'].split('->')[1], d['hypothesis'].split('->')[1])} ({100*d['exceed_rate']:.1f}%)"
+                        for d in sc["top_fwer_drivers_wc"][:3])
         _emit("tab:small_cal", "table_14_small_sample_cal", pd.DataFrame(rows),
-              f"Stratified double-bootstrap evaluation ({sc['n_mc']} outer worlds × {bi} inner resamples preserving n_js; "
-              f"no state dependence simulated) of 30-hypothesis FWER with every procedure re-estimating its critical value inside each world.",
-              "".join([Lc(2.2), R(1.75), R(1.85), R(1.9), R(1.75), R(1.85), R(1.9)]),
-              notes=f"IM 95% boundary coverage (15 primary pairs): {100*sc['im95_min_endpoint_cov_hc1']:.1f}% min to "
-                    f"{100*sc['im95_median_endpoint_cov_hc1']:.1f}% median (HC1). Empirical 30-test Max-T FWER (nominal 5%; worst / δ = 5; ± MC SE): "
-                    f"HC0 {100*fw['hc0']:.1f}±{100*sew.get('hc0',0):.1f}%/{100*fd5['hc0']:.1f}%; "
-                    f"HC1 {100*fw['hc1']:.1f}±{100*sew.get('hc1',0):.1f}%/{100*fd5['hc1']:.1f}%; "
-                    f"53-cluster {100*fw['state']:.1f}±{100*sew.get('state',0):.1f}%/{100*fd5['state']:.1f}%; "
-                    f"unrestricted WCB {100*fw['wcb']:.1f}±{100*sew.get('wcb',0):.1f}%/{100*fd5['wcb']:.1f}%; "
-                    f"fixed-scale boot {100*fw['fixed_scale_boot']:.1f}±{100*sew.get('fixed_scale_boot',0):.1f}%/{100*fd5['fixed_scale_boot']:.1f}%; "
-                    f"studentized boot-t {100*fw['bootstrap_t']:.1f}±{100*sew.get('bootstrap_t',0):.1f}%/{100*fd5['bootstrap_t']:.1f}±{100*sed5.get('bootstrap_t',0):.1f}%. "
-                    f"Inner c_bt 5th–95th percentile: {cw.get('p5',3.5):.2f}–{cw.get('p95',5.4):.2f} (worst), "
-                    f"{c5.get('p5',3.0):.2f}–{c5.get('p95',4.1):.2f} (δ = 5). Top HC1 exceedance drivers: {drv}.", sep="2.3pt")
+              f"Empirical 30-hypothesis FWER (%) under least-favourable boundary null (nominal 5.0%): "
+              f"stratified outbreak double bootstrap ({sc['n_mc']} × {sc['B_inner']}) and "
+              f"53-state Bayesian cluster double bootstrap ({cc['n_mc']} × {cc['B_inner']}).",
+              "".join([Lc(2.85), Lc(3.55), R(2.4), R(2.4), Lc(3.5)]),
+              notes=f"All procedures re-estimate their own critical values inside every outer world. "
+                    f"Per-group HC1 SE / MC SD ratios in the {sc['n_mc']} × {sc['B_inner']} outbreak world: "
+                    f"{min(pg_ratios_L):.3f}–{max(pg_ratios_L):.3f} (lower bound L) and {min(pg_ratios_U):.3f}–{max(pg_ratios_U):.3f} (upper bound U); "
+                    f"pointwise IM 95% boundary coverage (15 primary pairs): {100*sc['im95_min_endpoint_cov_hc1']:.1f}% min to "
+                    f"{100*sc['im95_median_endpoint_cov_hc1']:.1f}% median (HC1). "
+                    f"Top HC1 outbreak-world exceedance drivers: {drv}.", sep="2.2pt")
 
     if write_tex:
         (tdir / "manifest.json").write_text(json.dumps(dict(schema_version=2, tables=man), indent=1, ensure_ascii=False),
@@ -643,14 +695,13 @@ def fig_intervals(r, kit, fdir, man):
 
 def fig_calibrated_2d(r, kit, fdir, man):
     """Main Fig. 4: 2x3 2D breakdown frontiers — top row: 3 lower-tier pairs [0,10]^2;
-    bottom row: 3 key upper-tier boundary pairs [0,60]^2 (m14, zero legend overlap)."""
+    bottom row: 3 key upper-tier boundary pairs [0,60]^2 (explicit layout margins, ZERO legend/xlabel overlap)."""
     import matplotlib.pyplot as plt
     from matplotlib.patches import Patch, Rectangle
     m = r["main"]
-    fig, axes = plt.subplots(2, 3, figsize=(7.6, 5.2), constrained_layout=True)
+    fig, axes = plt.subplots(2, 3, figsize=(7.6, 5.5))
+    fig.subplots_adjust(left=0.095, right=0.985, top=0.94, bottom=0.185, hspace=0.40, wspace=0.22)
 
-    lower_keys = ["CPERF|NOV_GII", "NOV_GI|NOV_GII", "CPERF|NOV_GI"]
-    # Order by delta_star descending among lower tier: GII>GI (4.20), GII>CPERF (3.68), CPERF>GI (0.19)
     lower_keys = ["NOV_GI|NOV_GII", "CPERF|NOV_GII", "CPERF|NOV_GI"]
     upper_keys = ["SAL|STEC", "SAL|CAMP", "CAMP|NOV_GII"]
 
@@ -669,7 +720,7 @@ def fig_calibrated_2d(r, kit, fdir, man):
         else:
             ax.text(5.8, 7.6, f"$\\delta^{{*}} = {p['delta_star_pp']:.1f}$ pp", fontsize=7.2, color="#272727")
         ax.set_xlim(0, 10); ax.set_ylim(0, 10); ax.set_xticks([0, 5, 10]); ax.set_yticks([0, 5, 10])
-        ax.grid(alpha=0.3); ax.set_title(pair_label(p, SHORT), fontsize=8.3); ax.tick_params(labelsize=7.2)
+        ax.grid(alpha=0.3); ax.set_title(pair_label(p, SHORT), fontsize=8.3, pad=4); ax.tick_params(labelsize=7.2)
 
     two_ext = m.get("two_d_ext", {})
     for ax, k in zip(axes[1], upper_keys):
@@ -682,32 +733,35 @@ def fig_calibrated_2d(r, kit, fdir, man):
         ax.add_patch(Rectangle((0.0, 0.0), 15.0, 5.0, facecolor="none", edgecolor="#D95F02", lw=1.25, ls="--", zorder=4))
         ax.text(32.0, 48.0, f"$\\delta^{{*}} = {p['delta_star_pp']:.1f}$ pp", fontsize=7.2, color="#272727")
         ax.set_xlim(0, 60); ax.set_ylim(0, 60); ax.set_xticks([0, 20, 40, 60]); ax.set_yticks([0, 20, 40, 60])
-        ax.grid(alpha=0.3); ax.set_title(pair_label(p, SHORT), fontsize=8.3); ax.tick_params(labelsize=7.2)
+        ax.grid(alpha=0.3); ax.set_title(pair_label(p, SHORT), fontsize=8.3, pad=4); ax.tick_params(labelsize=7.2)
 
-    fig.supxlabel("Downward deviation allowed for higher group, $\\delta_{h,\\mathrm{down}}$ (pp)", fontsize=8.8)
-    fig.supylabel("Upward deviation allowed for lower group, $\\delta_{l,\\mathrm{up}}$ (pp)", fontsize=8.8)
+    fig.text(0.54, 0.105, "Downward deviation allowed for higher group, $\\delta_{h,\\mathrm{down}}$ (pp)",
+             ha="center", va="center", fontsize=8.8)
+    fig.text(0.024, 0.56, "Upward deviation allowed for lower group, $\\delta_{l,\\mathrm{up}}$ (pp)",
+             ha="center", va="center", rotation="vertical", fontsize=8.8)
     handles = [
         Patch(facecolor=CAT_COLORS["B"], alpha=0.85, label="Upper tier ($\\delta^{*} \\geq 35.5$ pp)"),
         Patch(facecolor=CAT_COLORS["C"], alpha=0.85, label="Lower tier ($\\delta^{*} < 5$ pp)"),
         Rectangle((0, 0), 1, 1, facecolor="none", edgecolor="#272727", lw=1.0, ls=":", label="Symmetric $5 \\times 5$ pp box"),
         Rectangle((0, 0), 1, 1, facecolor="none", edgecolor="#D95F02", lw=1.25, ls="--", label="Asymmetric $-15 / +5$ pp stress test"),
     ]
-    fig.legend(handles=handles, loc="outside lower center", ncol=2, frameon=False, fontsize=7.5)
+    fig.legend(handles=handles, loc="lower center", bbox_to_anchor=(0.54, 0.01), ncol=2, frameon=False, fontsize=7.5)
     _save(fig, kit, fdir, "fig_04_calibrated_2d", man,
           "2D breakdown frontiers across lower-tier pairs [0,10] pp and key upper-tier boundary pairs [0,60] pp.", "results")
 
 
 def fig_inference_followup(r, kit, fdir, man):
-    """Main Fig. 5: (a) Sample & 30-test statistical breakdown points (HC1, 53-cluster, dynamic & uniform Boot-t);
-    (b) Dynamic Max-T critical value curves c_bt(delta) vs c_HC1(delta) and c_state(delta)."""
+    """Main Fig. 5: (a) Sample & 30-test statistical breakdown points (HC1, 53-cluster CV1, CV3, δ-specific Boot-t);
+    (b) Dynamic Max-T critical value curves c_bt(delta) vs c_HC1(delta), c_CV1(delta), and c_CV3(delta)."""
     import matplotlib.pyplot as plt
     from matplotlib.lines import Line2D
     si = r["stacked_inference"]; m = r["main"]; sp = sorted_pairs(m)
     rb_bt = si["rank_breakdown_points_pp"]["bootstrap_t"]
-    joint_min_bt = rb_bt["joint_upper_tier_min"]
+    within_bt = rb_bt["within_upper_tier_min"]
+    tier_bt = rb_bt["upper_vs_lower_tier_min"]
 
-    fig, axes = plt.subplots(1, 2, figsize=(7.6, 4.3), constrained_layout=True,
-                             gridspec_kw={"width_ratios": [1.22, 1.0]})
+    fig, axes = plt.subplots(1, 2, figsize=(7.8, 4.4), constrained_layout=True,
+                             gridspec_kw={"width_ratios": [1.24, 1.0]})
 
     ax = axes[0]
     y = np.arange(len(sp))
@@ -716,17 +770,21 @@ def fig_inference_followup(r, kit, fdir, man):
         pt = 100.0 if vp["delta_star_pt_pp"] is None else vp["delta_star_pt_pp"]
         hc = 100.0 if vp["delta_star_95_sim_pp"] is None else vp["delta_star_95_sim_pp"]
         st = 100.0 if vp["delta_star_95_sim_state_pp"] is None else vp["delta_star_95_sim_state_pp"]
+        c3 = 100.0 if vp["delta_star_95_cv3_pp"] is None else vp["delta_star_95_cv3_pp"]
         bt = 100.0 if vp["delta_star_95_bt_pp"] is None else vp["delta_star_95_bt_pp"]
-        btu = 100.0 if vp.get("delta_star_95_bt_unif_pp") is None else vp["delta_star_95_bt_unif_pp"]
-        ax.plot([min(hc, st, bt, btu), pt], [i, i], color="#9AA5B8", lw=1.3, zorder=1)
+        ax.plot([min(hc, st, c3, bt), pt], [i, i], color="#9AA5B8", lw=1.3, zorder=1)
         ax.scatter([pt], [i], color="#0F4D92", s=22, zorder=3, marker=("^" if vp["delta_star_pt_pp"] is None else "o"))
         ax.scatter([hc], [i - 0.14], color="#2B8CBE", s=18, zorder=4, marker=("^" if vp["delta_star_95_sim_pp"] is None else "s"))
-        ax.scatter([st], [i - 0.04], color="#D95F02", s=18, zorder=4, marker=("^" if vp["delta_star_95_sim_state_pp"] is None else "D"))
-        ax.scatter([bt], [i + 0.08], color="#C44E52", s=21, zorder=5, marker=("^" if vp["delta_star_95_bt_pp"] is None else "P"))
-        ax.scatter([btu], [i + 0.18], color="#7570B3", s=16, zorder=4, marker="X")
+        ax.scatter([st], [i - 0.05], color="#D95F02", s=17, zorder=4, marker=("^" if vp["delta_star_95_sim_state_pp"] is None else "D"))
+        ax.scatter([c3], [i + 0.05], color="#1B9E77", s=17, zorder=4, marker=("^" if vp["delta_star_95_cv3_pp"] is None else "v"))
+        ax.scatter([bt], [i + 0.15], color="#C44E52", s=21, zorder=5, marker=("^" if vp["delta_star_95_bt_pp"] is None else "P"))
     ax.axvline(5.0, color="#666666", ls=":", lw=0.9)
-    ax.axvline(joint_min_bt, color="#C44E52", ls="--", lw=1.0, alpha=0.8)
-    ax.text(joint_min_bt + 1.5, 13.7, f"{joint_min_bt:.1f} pp\n(joint)", fontsize=6.4, color="#C44E52")
+    ax.axvline(within_bt, color="#C44E52", ls="--", lw=1.0, alpha=0.85)
+    ax.axvline(tier_bt, color="#1B9E77", ls="-.", lw=1.0, alpha=0.85)
+    ax.annotate(f"{within_bt:.1f} pp\n(STEC>SAL)", xy=(within_bt, 13.7), xytext=(16.5, 13.85),
+                arrowprops=dict(arrowstyle="->", color="#C44E52", lw=0.8), fontsize=6.0, color="#C44E52")
+    ax.annotate(f"{tier_bt:.1f} pp\n(CAMP>CPERF)", xy=(tier_bt, 12.25), xytext=(17.5, 12.35),
+                arrowprops=dict(arrowstyle="->", color="#1B9E77", lw=0.8), fontsize=6.0, color="#1B9E77")
     ax.set_yticks(y); ax.set_yticklabels([pair_label(p, SHORT) for _, p in sp], fontsize=6.9)
     ax.set_ylim(len(sp) - 0.5, -0.5); ax.set_xlim(-3, 105)
     ax.set_xticks([0, 20, 40, 60, 80, 100]); ax.set_xticklabels(["0", "20", "40", "60", "80", "100 ($\\infty$)"], fontsize=7.3)
@@ -736,28 +794,30 @@ def fig_inference_followup(r, kit, fdir, man):
     h_a = [
         Line2D([], [], color="#0F4D92", marker="o", ms=4.2, ls="none", label="Sample $\\delta^{*}$"),
         Line2D([], [], color="#2B8CBE", marker="s", ms=4.0, ls="none", label="HC1 $\\delta^{*}_{0.95}$"),
-        Line2D([], [], color="#D95F02", marker="D", ms=3.8, ls="none", label="53-cluster $\\delta^{*}_{0.95}$"),
+        Line2D([], [], color="#D95F02", marker="D", ms=3.8, ls="none", label="53-state CV1 $\\delta^{*}_{0.95}$"),
+        Line2D([], [], color="#1B9E77", marker="v", ms=4.0, ls="none", label="CV3 jackknife $\\delta^{*}_{0.95}$"),
         Line2D([], [], color="#C44E52", marker="P", ms=4.2, ls="none", label="Boot-$t$ $\\delta^{*}_{0.95}$ ($c_{\\mathrm{bt}}(\\delta)$)"),
-        Line2D([], [], color="#7570B3", marker="X", ms=4.0, ls="none", label="Boot-$t$ ($c_{\\mathrm{bt}}(100) = 4.52$)"),
     ]
-    ax.legend(handles=h_a, loc="lower right", frameon=True, facecolor="white", framealpha=0.92, fontsize=6.1)
+    ax.legend(handles=h_a, loc="lower right", frameon=True, facecolor="white", framealpha=0.92, fontsize=6.0)
 
     ax = axes[1]
     dyn = si["dynamic_csim_grid"]
     d_gauss = np.array(dyn["delta_pp"])
-    ax.plot(d_gauss, dyn["hc1"], color="#2B8CBE", ls="-", lw=1.7, marker="s", ms=2.8, markevery=2, label="Gaussian HC1 $c_{\\mathrm{HC1}}(\\delta)$")
-    ax.plot(d_gauss, dyn["state"], color="#D95F02", ls="--", lw=1.7, marker="D", ms=2.8, markevery=2, label="Gaussian 53-cluster $c_{\\mathrm{state}}(\\delta)$")
+    ax.plot(d_gauss, dyn["hc1"], color="#2B8CBE", ls="-", lw=1.6, marker="s", ms=2.6, markevery=2, label="Gaussian HC1 $c_{\\mathrm{HC1}}(\\delta)$")
+    ax.plot(d_gauss, dyn["state"], color="#D95F02", ls="--", lw=1.6, marker="D", ms=2.6, markevery=2, label="53-state CV1 $c_{\\mathrm{CV1}}(\\delta)$")
+    ax.plot(d_gauss, dyn["cv3"], color="#1B9E77", ls="-.", lw=1.6, marker="v", ms=2.8, markevery=2, label="CV3 jackknife $c_{\\mathrm{CV3}}(\\delta)$")
     bt_g = si["studentized_bootstrap_t"]
-    ax.plot(bt_g["c_bt_grid_pp"], bt_g["c_bt_grid_vals"], color="#C44E52", ls="-", lw=2.0, marker="P", ms=4.2, label="Studentized boot-$t$ $c_{\\mathrm{bt}}(\\delta)$")
+    ax.plot(bt_g["c_bt_grid_pp"], bt_g["c_bt_grid_vals"], color="#C44E52", ls="-", lw=2.0, marker="P", ms=4.0, label="Studentized boot-$t$ $c_{\\mathrm{bt}}(\\delta)$")
     ax.axvline(5.0, color="#666666", ls=":", lw=0.9)
-    ax.axvline(joint_min_bt, color="#C44E52", ls="--", lw=1.0, alpha=0.8)
+    ax.axvline(within_bt, color="#C44E52", ls="--", lw=1.0, alpha=0.8)
+    ax.axvline(tier_bt, color="#1B9E77", ls="-.", lw=1.0, alpha=0.8)
     ax.set_xlim(-2, 102); ax.set_ylim(2.2, 4.75)
     ax.set_xticks([0, 20, 40, 60, 80, 100]); ax.tick_params(labelsize=7.2)
     ax.grid(alpha=0.35, lw=0.5)
     ax.set_xlabel("Missingness bound deviation $\\delta$ (pp)", fontsize=8)
     ax.set_ylabel("30-hypothesis 95% Max-$T$ critical value", fontsize=8)
     ax.set_title("(b) $\\delta$-specific Max-$T$ critical values", fontsize=8.3, pad=5)
-    ax.legend(loc="lower right", frameon=True, facecolor="white", framealpha=0.92, fontsize=6.4)
+    ax.legend(loc="lower right", frameon=True, facecolor="white", framealpha=0.92, fontsize=6.1)
 
     _save(fig, kit, fdir, "fig_05_inference_followup", man,
           "Sample and 30-hypothesis statistical breakdown points alongside delta-specific Max-T critical value curves.", "results")
@@ -818,7 +878,7 @@ def fig_robust(r, kit, fdir, man):
     m = r["main"]; sp = sorted_pairs(m)
     variants = [("Main", m)] + [(VARIANT_CODES[k], v) for k, v in r["robustness"].items()
                                 if k not in ("R7_norovirus_combined", "R7b_norovirus_all_confirmed")]
-    fig, ax = plt.subplots(figsize=(8.4, 5.1), constrained_layout=True)
+    fig, ax = plt.subplots(figsize=(8.8, 5.1), constrained_layout=True)
     for j, (code, v) in enumerate(variants):
         for i, (k, p) in enumerate(sp):
             q = v["pairs"][k]
@@ -827,7 +887,7 @@ def fig_robust(r, kit, fdir, man):
     ax.set_xlim(-0.5, len(variants) - 0.5); ax.set_ylim(len(sp) - 0.5, -0.5)
     ax.set_xticks(range(len(variants)))
     ax.set_xticklabels([f"{c}\n{v['n_determined']['worst_case']}|{v['n_determined']['5']}" for c, v in variants],
-                       fontsize=5.8)
+                       fontsize=5.5)
     ax.set_yticks(range(len(sp))); ax.set_yticklabels([pair_label(p) for _, p in sp], fontsize=7.4)
     ax.tick_params(length=0); ax.grid(False)
     for s in ax.spines.values():
@@ -837,7 +897,7 @@ def fig_robust(r, kit, fdir, man):
                (("A", "Holds without unrecorded-outcome assumptions"), ("B", "Holds at $\\delta = 5$ pp ($\\delta^{*} \\geq 5$)"),
                 ("C", "Fails before $\\delta = 5$ pp ($\\delta^{*} < 5$)"), ("D", "$\\delta = 0$ direction reversed vs. main"))]
     fig.legend(handles=handles, loc="outside lower center", ncol=2, frameon=False, fontsize=7.6)
-    _save(fig, kit, fdir, "fig_s2_robustness", man, "Sensitivity verdicts across all 20 six-group specifications.", "supplementary")
+    _save(fig, kit, fdir, "fig_s2_robustness", man, f"Sensitivity verdicts across all {len(variants) - 1} six-group specifications.", "supplementary")
 
 
 def fig_followup_sens(r, kit, fdir, man):

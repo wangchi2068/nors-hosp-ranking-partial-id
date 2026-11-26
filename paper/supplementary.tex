@@ -1,5 +1,5 @@
 % =================================================================
-% SUPPLEMENTARY MATERIAL (STANDALONE DOCUMENT, v6.0)
+% SUPPLEMENTARY MATERIAL (STANDALONE DOCUMENT, v7.0)
 % =================================================================
 \documentclass[11pt,a4paper]{article}
 \usepackage{iftex}
@@ -59,7 +59,7 @@
 \newunicodechar{α}{\ensuremath{\alpha}}
 
 \title{\textbf{Supplementary Material}\\[0.4em]
-\large Hospitalization Orderings among Six Pathogen Groups in Foodborne Outbreaks with Incompletely Recorded Outcomes, United States, 2009--2023}
+\large Hospitalization Orderings among Reported Outbreak Cases across Six Foodborne Pathogen Groups with Incompletely Recorded Outcomes, United States, 2009--2023}
 \author{Chi Wang}
 \date{November 26, 2026}
 
@@ -69,13 +69,13 @@
 
 \section{Study Population, Excluded Categories, Settings and Weights}\label{sec:s-population}
 
-Of 11,358 foodborne outbreaks reported to NORS for 2009--2023, 4,133 met the primary eligibility criteria: 3,908 listed a single confirmed etiology entry and 225 listed multiple serotype or genotype entries mapping to a single study group with at least one confirmed entry. Three excluded outbreak groups were profiled separately (Supplementary Table~\ref{tab:excluded}): 951 suspected or unconfirmed outbreaks mapping to a study group (12,965 cases; evaluated by inclusion in variant R8), 304 confirmed norovirus outbreaks lacking genogroup specification (7,679 cases; 302 with blank \texttt{serotype\_or\_genotype}; evaluated by inclusion in variant R7b), and 300 outbreaks combining entries across study groups or with non-study agents (8,480 cases, including 104 with $\ge 1$ confirmed study-group entry). Across the 4,133 eligible outbreaks, record auditing identified 3,976 complete-field consistent records, 52 with blank $K_i$, 28 with blank $H_i$ and $K_i = 0$, 23 with blank $H_i$ and $K_i > 0$, and 54 with both fields blank, with zero count contradictions (Supplementary Table~\ref{tab:audit}). After retaining all 157 incomplete records under logical bounds, 19.4\% of eligible cases had unrecorded hospitalization status ($M_i = C_i - K_{\text{eff},i}$).
+Of 11,358 foodborne outbreaks reported to NORS for 2009--2023, 4,133 met the primary eligibility criteria: 3,908 listed a single confirmed etiology entry and 225 listed multiple serotype or genotype entries mapping to a single study group with at least one confirmed entry. Three excluded outbreak groups were profiled separately (Supplementary Table~\ref{tab:excluded}): 951 suspected or unconfirmed outbreaks mapping to a study group (12,965 cases; evaluated by inclusion in variant R8), 304 confirmed norovirus outbreaks lacking genogroup specification (7,679 cases; 302 with blank genotype tokens; evaluated by inclusion in variant R7b), and 300 outbreaks combining entries across study groups or with non-study agents (8,480 cases, including 104 with $\ge 1$ confirmed study-group entry). Across the 4,133 eligible outbreaks, record auditing identified 3,976 complete-field consistent records, 52 with blank $K_i$, 28 with blank $H_i$ and $K_i = 0$, 23 with blank $H_i$ and $K_i > 0$, and 54 with both fields blank, with zero count contradictions (Supplementary Table~\ref{tab:audit}). After retaining all 157 incomplete records under logical bounds, 19.4\% of eligible cases had unrecorded hospitalization status ($M_i = C_i - K_{\text{eff},i}$).
 
-Raw NORS food-preparation setting tokens were harmonized into seven categories: \textit{Restaurant} (sit-down, fast-food, buffet, other restaurant, food truck or street vendor), \textit{Catering or banquet} (caterer, banquet facility, event space), \textit{Private home} (private home/residence, single-family or multi-unit housing), \textit{Institution} (school, college, or university; long-term care, nursing home, or assisted living facility; correctional or detention facility; hospital; other healthcare facility; child daycare or preschool; camp; office or indoor workplace; soup kitchen; 79 healthcare/LTCF outbreaks excluded in variant R9), \textit{Other} (grocery, bakery, deli, or convenience store; festival or fair; religious facility; farm or dairy; hotel or motel; ship or boat; park; campground; commissary; other), \textit{Multiple} ($\ge 2$ named categories after ignoring ``Unknown'' tokens when paired with a known setting) and \textit{Unknown} (only ``Unknown'' or blank). Variant R11 restricts the primary cohort to 3,659 single-state outbreaks; R12 restricts STEC to confirmed O157 serogroup outbreaks; R13 applies outbreak-level $H_i/K_i$ MAR anchors; R14a treats 25\% of unrecorded cases as extrapolated non-cases ($C'_i = C_i - 0.25 M_i$); and R14b restricts to outbreaks with $M_i/C_i \le 0.50$. To document analytic evolution transparently, an earlier exploratory specification restricted to exact species strings and dropped records with a single blank outcome field yielded 3,799 eligible, 96 excluded, and 3,703 analysed outbreaks across 10 common-support cells (variant R3c), and we evaluated a support-threshold grid from $\ge 1$ to $\ge 6$ outbreaks per group per cell (\texttt{pilot\_grid} in \texttt{analyze.py}) alongside R4a ($\ge 2$) and R4b ($\ge 5$).
+Raw NORS food-preparation setting tokens were harmonized into seven categories: \textit{Restaurant} (sit-down, fast-food, buffet, other restaurant, food truck or street vendor), \textit{Catering or banquet} (caterer, banquet facility, event space), \textit{Private home} (private home/residence, single-family or multi-unit housing), \textit{Institution} (school, college, or university; long-term care, nursing home, or assisted living facility; correctional or detention facility; hospital; other healthcare facility; child daycare or preschool; camp; office or indoor workplace; soup kitchen; 79 healthcare/LTCF outbreaks excluded in variant R9), \textit{Other} (grocery, bakery, deli, or convenience store; festival or fair; religious facility; farm or dairy; hotel or motel; ship or boat; park; campground; commissary; other), \textit{Multiple} ($\ge 2$ named categories after ignoring ``Unknown'' tokens when paired with a known setting) and \textit{Unknown} (only ``Unknown'' or blank). Across the 23 sensitivity variants: R10 normalizes both $(H_i, M_i, C_i)$ and $(H_{\text{rec},i}, K_{\text{rec},i})$ per outbreak; R11 restricts the primary cohort to 3,659 single-state outbreaks; R12 restricts STEC to 279 confirmed O157 outbreaks (verifying semicolon-aligned confirmation against 280 O157 substring entries); R12b excludes 6 \textit{Salmonella} serovar Typhi outbreaks (87 cases; 42 hospitalized); R13 applies outbreak-level $H_i/K_i$ MAR anchors; R14a treats 25\% of unrecorded cases as extrapolated non-cases ($C'_i = C_i - 0.25 M_i$); and R14b evaluates high-completeness selection ($M_i/C_i \le 0.50$). To document analytic evolution transparently, an earlier exploratory specification restricted to exact species strings and dropped records with a single blank outcome field yielded 3,799 eligible, 96 excluded, and 3,703 analysed outbreaks across 11 common-support cells (variant R3c), and we evaluated a support-threshold grid from $\ge 1$ to $\ge 6$ outbreaks per group per cell (\texttt{pilot\_grid} in \texttt{analyze.py}) alongside R4a ($\ge 2$) and R4b ($\ge 5$).
 
 Crossing seven setting categories with three five-year periods (2009--2013, 2014--2018, 2019--2023) yielded 21 cells, of which 12 contained $\ge 3$ outbreaks per group. Pooled-case weights $w_s$ were: restaurant 2009--2013 (16.1\%), 2014--2018 (17.7\%) and 2019--2023 (9.6\%); catering or banquet 2014--2018 (8.6\%); private home 2009--2013 (5.8\%) and 2014--2018 (4.2\%); institution 2009--2013 (5.3\%) and 2014--2018 (6.5\%); other 2009--2013 (5.8\%) and 2014--2018 (5.4\%); multiple 2014--2018 (7.5\%); and unknown 2009--2013 (7.5\%). Group retention appears in Supplementary Table~\ref{tab:retention} and Supplementary Figure~\ref{fig:s-retention}.
 
-\section{Breakdown Points, Influence Functions, Standardized vs.\ Studentized Bootstrapping and Follow-Up Protocols}\label{sec:s-deltastar}
+\section{Breakdown Points, Influence Functions and Calibration}\label{sec:s-deltastar}
 
 \subsection*{Exact Piecewise-Linear Solution for $\delta^{*}_{hl}$}
 For a pair ordered at $\delta = 0$ as $\theta_h(0) > \theta_l(0)$, the additive-band gap function
@@ -87,14 +87,16 @@ For a pair ordered at $\delta = 0$ as $\theta_h(0) > \theta_l(0)$, the additive-
 \end{equation}
 is continuous, non-increasing on $[0, 1]$ and piecewise linear with breakpoints at $\delta \in \{p_{hs}\}_s \cup \{1 - p_{ls}\}_s$ inside $(0, 1)$. When $g(1) > 0$, the ordering holds without unrecorded-outcome assumptions ($\delta^{*}_{hl} = \infty$). Exact and 200-step bisection solutions agreed to machine precision ($< 2 \times 10^{-14}$ pp).
 
-\subsection*{Closed-Form Influence Functions and Standardized vs.\ Studentized Bootstrap Max-$T$}
-Let $C_{\cdot} = \sum_{k=1}^{G}\sum_{t=1}^{K} C_{kt}$ denote total retained cases across the common support ($w_t = C_{\cdot t}/C_{\cdot}$). For group $j$, cell $s$, and departure $(\delta_{\text{down}}, \delta_{\text{up}})$, define $q^{L}_{js} = \max(0, p_{js} - \delta_{\text{down}})$, $q^{U}_{js} = \min(1, p_{js} + \delta_{\text{up}})$, $d^{L}_{js} = \mathbf{1}\{\delta_{\text{down}} < 1,\; p_{js} > \delta_{\text{down}}\}$, $d^{U}_{js} = \mathbf{1}\{\delta_{\text{up}} < 1,\; p_{js} < 1 - \delta_{\text{up}}\}$, $r^{L}_{js} = (H_{js} + M_{js}q^{L}_{js})/C_{js}$, and $\bar{L}_j = \sum_t w_t r^{L}_{jt}$. Perturbing stratum $(k, s)$ by centered outbreak counts $(\tilde{C}_i, \tilde{H}_i, \tilde{M}_i, \tilde{H}_{\text{rec},i}, \tilde{K}_{\text{rec},i})$ with $\tilde{p}_i = (\tilde{H}_{\text{rec},i} - p_{ks}\tilde{K}_{\text{rec},i})/K_{\text{rec},ks}$ yields:
+\subsection*{Closed-Form Influence Functions, CV3 Jackknife and Double-Bootstrap Evaluation}
+Let $C_{\cdot} = \sum_{k=1}^{G}\sum_{t=1}^{K} C_{kt}$ denote total retained cases across the common support ($w_t = C_{\cdot t}/C_{\cdot}$). For group $j$, cell $s$, and departure $(\delta_{\text{down}}, \delta_{\text{up}})$, define $q^{L}_{js} = \max(0, p_{js} - \delta_{\text{down}})$, $q^{U}_{js} = \min(1, p_{js} + \delta_{\text{up}})$, $d^{L}_{js} = \mathbf{1}\{\delta_{\text{down}} < 1,\; p_{js} > \delta_{\text{down}}\}$, $d^{U}_{js} = \mathbf{1}\{\delta_{\text{up}} < 1,\; p_{js} < 1 - \delta_{\text{up}}\}$, $r^{L}_{js} = (H_{js} + M_{js}q^{L}_{js})/C_{js}$, and $\bar{L}_j = \sum_t w_t r^{L}_{jt}$. Analogous closed-form influence functions under OR scaling ($\Gamma \ge 1$ with 0.1\% continuity floor) replace $(q^{L}, q^{U}, d^{L}, d^{U})$ by OR bounds $q^{L}_{js} = \tilde{p}_{js}/[\tilde{p}_{js} + \Gamma(1 - \tilde{p}_{js})]$, $q^{U}_{js} = \Gamma\tilde{p}_{js}/[\Gamma\tilde{p}_{js} + (1 - \tilde{p}_{js})]$ and exact quotient derivatives. Perturbing stratum $(k, s)$ by centered outbreak counts $(\tilde{C}_i, \tilde{H}_i, \tilde{M}_i, \tilde{H}_{\text{rec},i}, \tilde{K}_{\text{rec},i})$ with $\tilde{p}_i = (\tilde{H}_{\text{rec},i} - p_{ks}\tilde{K}_{\text{rec},i})/K_{\text{rec},ks}$ yields:
 \begin{equation}
   \psi^{L}_{j,i} = \frac{r^{L}_{js} - \bar{L}_j}{C_{\cdot}}\tilde{C}_i
   + \mathbf{1}\{k = j\}\, \frac{w_s}{C_{js}} \left[\tilde{H}_i + q^{L}_{js}\tilde{M}_i + d^{L}_{js}M_{js}\tilde{p}_i - r^{L}_{js}\tilde{C}_i\right],
   \label{eq:s-if}
 \end{equation}
-with $\psi^{U}_{j,i}$ replacing $(q^{L}, d^{L}, r^{L}, \bar{L})$ by $(q^{U}, d^{U}, r^{U}, \bar{U})$. Summing $\frac{n_{ks}}{n_{ks}-1} \sum_{i \in (k,s)} \psi_i\psi_i^{\top}$ matches central-difference covariances $\widehat{V}$ to $1.64 \times 10^{-12}$ (worst case), $2.92 \times 10^{-13}$ ($\delta = 5\text{ pp}$), and $4.00 \times 10^{-13}$ ($-15/+5\text{ pp}$). Across $B = 2,000$ bootstrap draws, $0/2,000$ lacked $K_{\text{rec}}$. We distinguish two 30-test bootstrap Max-$T$ distributions: (i) fixed-scale standardized bootstrap, dividing $(\Delta^{L,(b)}_m - \widehat{\Delta}^{L}_m)$ by constant SD $\widehat{\sigma}_{\text{boot},m}$; and (ii) studentized bootstrap-$t$, dividing each draw by its own HC1 SE $\widehat{\sigma}^{(b)}_{\text{HC1},m}$ (zero degenerate entries). In a $400 \times 399$ stratified double bootstrap re-estimating every method's critical value inside every outer world, 30-test FWER was 33.2\% (HC0), 30.5\% (HC1), 24.8\% (fixed-scale), 20.5\% (53-cluster), 20.5\% (unrestricted WCB) and 6.5\% (bootstrap-$t$, MC SE 1.2\%) at worst case, and 6.8\% (MC SE 1.3\%) for bootstrap-$t$ at $\delta = 5\text{ pp}$ (Table~\ref{tab:small_cal}).
+with $\psi^{U}_{j,i}$ replacing $(q^{L}, d^{L}, r^{L}, \bar{L})$ by $(q^{U}, d^{U}, r^{U}, \bar{U})$. Summing $\frac{n_{ks}}{n_{ks}-1} \sum_{i \in (k,s)} \psi_i\psi_i^{\top}$ matches central-difference covariances $\widehat{V}$ to $\le 1.64 \times 10^{-12}$ (worst case), $2.92 \times 10^{-13}$ ($\delta = 5\text{ pp}$), and $4.00 \times 10^{-13}$ ($-15/+5\text{ pp}$); OR ($\le 6.40 \times 10^{-13}$) and group-specific asymmetric ($\le 3.16 \times 10^{-13}$) covariances match finite differences, and vectorized bootstrap-$t$ expansions agree to $\le 5.6 \times 10^{-17}$ on $\Delta^L$ and $\le 6.9 \times 10^{-18}$ on standard errors. Across $B = 2,000$ outbreak-level bootstrap draws, $88/2,000$ had $\ge 1$ stratum lacking $K_{\text{rec}}$ (with $0$ degenerate SE entries in studentized bootstrap-$t$).
+
+We evaluate both empirical calibration worlds in Table~\ref{tab:small_cal}: (1) a $400 \times 499$ \textbf{stratified outbreak double bootstrap} preserving cell counts $n_{js}$ under the least-favourable boundary null ($\Delta^L_{hl} = 0$), where studentized bootstrap-$t$ reached 7.2\% ($\pm 1.3\%$) at worst case and 7.8\% ($\pm 1.3\%$) at $\delta = 5\text{ pp}$ versus 20.5\%--33.2\% for HC0/HC1/CV1/WCB/fixed-scale; and (2) a $300 \times 399$ \textbf{53-state Bayesian cluster double bootstrap} drawing i.i.d.\ $\text{Exp}(1)$ cluster weights across all 53 exposure-state categories, where CV1 (17.0\%/16.0\%) and unrestricted WCB (19.3\%/17.7\%) suffered Multistate leverage inflation, Bayesian cluster bootstrap-$t$ reached 9.3\%/10.0\%, and \textbf{CV3 cluster jackknife} achieved 7.3\% ($\pm 1.5\%$) at worst case and 4.7\% ($\pm 1.2\%$) at $\delta = 5\text{ pp}$.
 
 \subsection*{Exploratory Follow-Up Benchmarks and Heuristic Disambiguation Priority Index (DPI)}
 On all 2,414 fully recorded outbreaks ($M_i = 0$; 45,249 cases), budget-filling follow-up strategies were simulated across 200 trials under per-case ($\text{cost}_i = U_i$), per-outbreak ($\text{cost}_i = 1$), and mixed ($\text{cost}_i = 20 + U_i$) budgets (Table~\ref{tab:voi_masking}; Figure~\ref{fig:s-followup}). Baseline empirical per-cell masking probability $P(U_i > 0 \mid g, c)$ was clipped to $[0.12, 0.45]$; exposure-state-clustered masking mixed $0.8\,\bar{u}_{\text{state}} + 0.2\,p_{\text{cell}}$ clipped to $[0.03, 0.65]$; and outcome/size-dependent MNAR masking multiplied by $1.85$ for hospitalized cases and clipped log-size factor $0.55 + 0.35(\log C_i - \bar{\ell})/s_{\ell}$ to $[0.25, 1.85]$. The Disambiguation Priority Index (DPI),
@@ -102,7 +104,7 @@ On all 2,414 fully recorded outbreaks ($M_i = 0$; 45,249 cases), budget-filling 
   S^{\text{DPI}}_{js} = \frac{w_s}{C_{js}} \sum_{(h,l)\text{ unresolved}} \frac{\mathbf{1}\{j = h\}\,\hat{p}_{hs} + \mathbf{1}\{j = l\}(1 - \hat{p}_{ls})}{\widehat{U}_l - \widehat{L}_h + \epsilon}, \qquad \epsilon = 0.015,
   \label{eq:s-dpi}
 \end{equation}
-was compared with per-case leverage $w_s/C_{js}$, per-outbreak width $w_s U_i/C_{js}$, mixed ratio $(w_s U_i/C_{js})/\allowbreak(20+U_i)$, random selection, and largest-first across adaptive 250-case tranches, 70\% partial recovery, $\epsilon \in \{0.005,\allowbreak 0.015,\allowbreak 0.05,\allowbreak 0.10\}$, MNAR masking, and state clustering (observed strata in Table~\ref{tab:real_followup}). Per-case $w_s/C_{js}$ led per-case budgets ($6.29$ vs.\ $2.54$ random at 1,000 cases; DPI $6.35$), $w_s U_i/C_{js}$ led per-outbreak budgets ($9.12$ vs.\ $7.90$ largest-first and $3.27$ random at 100 outbreaks), and per-case $w_s/C_{js}$ overtook the mixed ratio at 5,000 mixed units ($9.72$ vs.\ $9.22$).
+was compared with per-case leverage $w_s/C_{js}$, per-outbreak width $w_s U_i/C_{js}$, mixed ratio $(w_s U_i/C_{js})/\allowbreak(20+U_i)$, random selection, and largest-first across adaptive 250-case tranches, 70\% partial recovery, $\epsilon \in \{0.005,\allowbreak 0.015,\allowbreak 0.05,\allowbreak 0.10\}$, MNAR masking, and state clustering (observed strata in Table~\ref{tab:real_followup}). Heuristic DPI led per-case budgets ($6.36$ vs.\ $6.29$ for $w_s/C_{js}$ and $2.54$ random at 1,000 cases), $w_s U_i/C_{js}$ led per-outbreak budgets ($9.12$ vs.\ $7.90$ largest-first and $3.27$ random at 100 outbreaks), and per-case $w_s/C_{js}$ overtook the mixed ratio at 5,000 mixed units ($9.72$ vs.\ $9.22$).
 
 \section{Supplementary Tables and Figures}\label{sec:s-tables}
 
@@ -124,8 +126,15 @@ was compared with per-case leverage $w_s/C_{js}$, per-outbreak width $w_s U_i/C_
 \begin{figure}[!htbp]
   \centering
   \includegraphics[width=0.96\linewidth]{figures/fig_s2_robustness.pdf}
-  \caption{Pairwise ordering verdicts across the main analysis and all 20 six-group sensitivity specifications (columns R1a--R6c, R8--R14b; combined norovirus variants R7 and R7b reported in Supplementary Table~\ref{tab:robustness}).}
+  \caption{Pairwise ordering verdicts across the main analysis and all 21 six-group sensitivity specifications (columns R1a--R6c, R8--R14b; combined norovirus variants R7 and R7b reported in Supplementary Table~\ref{tab:robustness}).}
   \label{fig:s-robust}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.96\linewidth]{figures/fig_s3_followup_sensitivity.pdf}
+  \caption{Exploratory follow-up benchmarks across cost models and MNAR sensitivity checks. (a) Per-case cost budgets (cases resolved). (b) Per-outbreak cost budgets (outbreaks contacted). (c) Mixed fixed-plus-per-case cost budgets ($20 + U_i$ case-equivalents). (d) MNAR masking regime showing no-follow-up baseline (6.61 pairs) and MNAR random control alongside $w_s/C_{js}$ and heuristic DPI.}
+  \label{fig:s-followup}
 \end{figure}
 
 \begin{figure}[!htbp]
@@ -143,13 +152,6 @@ was compared with per-case leverage $w_s/C_{js}$, per-outbreak width $w_s U_i/C_
 \input{tables/table_10_followup_masking}
 \input{tables/table_13_real_followup_priority}
 
-\begin{figure}[!htbp]
-  \centering
-  \includegraphics[width=0.96\linewidth]{figures/fig_s3_followup_sensitivity.pdf}
-  \caption{Exploratory follow-up benchmarks across cost models and MNAR sensitivity checks. (a) Per-case cost budgets (cases resolved). (b) Per-outbreak cost budgets (outbreaks contacted). (c) Mixed fixed-plus-per-case cost budgets ($20 + U_i$ case-equivalents). (d) MNAR masking regime showing no-follow-up baseline (6.61 pairs) and MNAR random control alongside $w_s/C_{js}$ and heuristic DPI.}
-  \label{fig:s-followup}
-\end{figure}
-
 \FloatBarrier
 \section{Complete RECORD Reporting Checklist}\label{sec:s-record}
 
@@ -164,33 +166,33 @@ was compared with per-case leverage $w_s/C_{js}$, per-outbreak width $w_s U_i/C_
 \toprule
 Section / Item & Item No. & Exact manuscript / supplement location \\
 \midrule
-Title and abstract & 1a--b / R1.1--1.3 & MS Title \& Abstract (p.\ 1): specifies NORS, United States, 2009--2023 (90.4\% weight 2009--2018), cross-sectional design, and key findings. \\
-Background / Objectives & 2--3 & MS §1 (pp.\ 1--2): denominator conventions, prior NORS studies, and partial-identification / breakdown / rank-set objectives. \\
-Study design & 4 & MS §2.1 (p.\ 2): cross-sectional outbreak-level surveillance analysis. \\
-Setting & 5 & MS §2.1 (p.\ 2) \& Supp.\ §S1 (p.\ 1): CDC NORS snapshot downloaded 25 Nov 2026 (rows updated 20 Dec 2024), 2009--2023 foodborne restriction, 7 settings. \\
-Participants & 6 / R6.1--6.3 & MS §2.1 (p.\ 2) \& Supp.\ §S1 (p.\ 1): eligibility rules, locked genus/pathotype algorithms (`nors\_rules.py`), common-support ($\ge 3$ outbreaks) selection. \\
+Title and abstract & 1a--b / R1.1--1.3 & MS Title \& Abstract (p.\ 1): specifies NORS, reported outbreak cases, United States, 2009--2023 (90.4\% weight 2009--2018), cross-sectional design, and key findings. \\
+Background / Objectives & 2--3 & MS §1 (pp.\ 1--2): denominator conventions, prior NORS studies, novelty statement, and partial-identification / breakdown / rank-set objectives. \\
+Study design & 4 & MS §2.1 (p.\ 3): cross-sectional outbreak-level surveillance analysis. \\
+Setting & 5 & MS §2.1 (p.\ 3) \& Supp.\ §S1 (pp.\ 1--2): CDC NORS snapshot downloaded 25 Nov 2026 (rows updated 20 Dec 2024), 2009--2023 foodborne restriction, 7 settings. \\
+Participants & 6 / R6.1--6.3 & MS §2.1 (p.\ 3) \& Supp.\ §S1 (pp.\ 1--2): eligibility rules, locked genus/pathotype algorithms (\texttt{nors\_rules.py}), common-support ($\ge 3$ outbreaks) selection. \\
 Data linkage & R7.1 & Not applicable (single public CDC NORS table without linkage). \\
-Variables & 7 & MS §2.1--2.2 (pp.\ 2--3): definitions of $C_i, H_i, K_i, M_i$, cell weights $w_s$, additive/OR/common-mechanism parameters, exact-$C_i$ assumption. \\
-Data sources / measurement & 8 & MS §2.1 (pp.\ 2--3) \& Supp.\ Table S1: consistent NORS definitions across 2009--2023 revisions; audit categories and logical bounds. \\
-Bias & 9 & MS §2.2, §3.3, §4.1 (pp.\ 3, 10, 12): composition-adjusted partial-vs-full checks, excluded profiles (Table S2), ascertainment discussion. \\
-Study size & 10 & MS §3.1 (p.\ 5), Fig.\ 1 (p.\ 6) \& Table S3: 66,713 raw $\rightarrow$ 11,358 foodborne $\rightarrow$ 4,133 eligible $\rightarrow$ 3,176 common-support outbreaks. \\
-Quantitative variables & 11 & MS §2.1--2.2 (pp.\ 2--3): five-year period grouping, seven setting classes, continuous percentage-point and OR scales. \\
-Statistical methods & 12a & MS §2.2--2.3 (pp.\ 3--5) \& Supp.\ §S2 (pp.\ 1--2): piecewise-linear $\delta^*$, 30-test HC1/cluster Max-$T$, unrestricted WCB, bootstrap-$t$, rank sets. \\
-Subgroups & 12b & MS §3.3 (pp.\ 9--10) \& Table S5: O157 STEC (R12), single-state (R11), healthcare exclusion (R9), combined norovirus (R7/R7b). \\
-Missing data & 12c & MS §2.1--2.2, Table S1: logical bound retention of all 157 incomplete records; $C_i$ contamination (R14a--b), asymmetric, and OR sensitivity. \\
-Sampling / sensitivity & 12d--e & MS §2.3 (pp.\ 4--5) \& Table S5: stratified fixed-$n_{js}$ superpopulation model; 22 specification variants and $400 \times 399$ double bootstrap. \\
-Data cleaning & R12.1--12.2 & MS §2.1 \& Declarations (pp.\ 13--14): deterministic pipeline (`prepare\_data.py` $\rightarrow$ `analyze.py`) pinned by SHA-256 (`reproduce.py`). \\
-Participants & 13a--c & MS §3.1 (p.\ 5), Fig.\ 1 (p.\ 6), Table S1, Table S2, Table S3: counts at each eligibility, audit, exclusion, and support stage. \\
-Descriptive data & 14a--b & MS Table 1 (p.\ 7), Table S3, Table S4: per-group outbreaks, cases, unrecorded shares, setting/period weights, missingness covariates. \\
-Outcome data & 15 & MS Table 1 (p.\ 7): worst-case bounds, $\delta = 5$ pp intervals, $\delta = 0$ values, bootstrap bound percentiles. \\
-Main results & 16a--c & MS Table 2 (p.\ 8), Table 3 (p.\ 10), Figs.\ 2--5 (pp.\ 7--11): bounds, pointwise IM CIs, Gaussian vs.\ studentized bootstrap-$t$ $p$-values, rank sets. \\
-Other analyses & 17 & MS §3.2--3.3 (pp.\ 6--10), Supp.\ §S2, Tables S4--S11, Figs.\ S2--S4: 22 variants, cluster variance share, LOO/LLO, follow-up heuristics. \\
-Key results & 18 & MS §4 (pp.\ 11--13): summary of worst-case core, studentized bootstrap-$t$ limits, and externally anchored upper-tier breakdown frontiers. \\
-Limitations & 19 & MS §4.1 (p.\ 12): state reporting variation, $C_i$ ascertainment, 2009--2018 weight concentration, Multistate variance share, non-pre-specification. \\
-Interpretation & 20 & MS §4 (pp.\ 11--13) \& §4.2 (p.\ 13): cautious interpretation avoiding causal virulence, analytic-flexibility overstatement, or unconditional ranks. \\
-Generalizability & 21 & MS §4.1 (p.\ 12): applies strictly to reported foodborne outbreak cases (distinct from sporadic community severity). \\
-Funding & 22 & MS Declarations (pp.\ 13--14): author received no specific grant; COI, AI-assistance, and ethics statements included. \\
-Data \& code availability & R22.1 & MS Declarations (pp.\ 13--14): raw CDC NORS extract, code, derived tables, and verification runner archived on GitHub. \\
+Variables & 7 & MS §2.1--2.2 (pp.\ 3--5): definitions of $C_i, H_i, K_i, M_i, H_{\text{rec},js}, K_{\text{rec},js}$, weights $w_s$, additive/OR/common-mechanism parameters, exact-$C_i$ assumption. \\
+Data sources / measurement & 8 & MS §2.1 (p.\ 3) \& Supp.\ Table S1 (p.\ 3): consistent NORS definitions across 2009--2023 revisions; audit categories and logical bounds. \\
+Bias & 9 & MS §2.2, §3.3, §4.1 (pp.\ 4--5, 10, 12, 13--14): common-cell partial-vs-full checks, excluded profiles (Table S2, p.\ 3), ascertainment discussion. \\
+Study size & 10 & MS §3.1 (p.\ 6), Fig.\ 1 (p.\ 7) \& Table S3 (p.\ 4): 66,713 raw $\rightarrow$ 11,358 foodborne $\rightarrow$ 4,133 eligible $\rightarrow$ 3,176 common-support outbreaks. \\
+Quantitative variables & 11 & MS §2.1--2.2 (pp.\ 3--5): five-year period grouping, seven setting classes, continuous percentage-point and OR scales. \\
+Statistical methods & 12a & MS §2.2--2.3 (pp.\ 3--6) \& Supp.\ §S2 (pp.\ 2--3): piecewise-linear $\delta^*$, 30-test HC1/CV1/CV3/WCB/cluster boot-$t$/boot-$t$, OR inference, rank sets. \\
+Subgroups & 12b & MS §3.3 (pp.\ 9--12) \& Table S5 (p.\ 6): O157 STEC (R12), non-typhoidal \textit{Salmonella} (R12b), single-state (R11), healthcare (R9), norovirus (R7/R7b). \\
+Missing data & 12c & MS §2.1--2.2 (pp.\ 3--5) \& Table S1 (p.\ 3): logical bound retention of 157 incomplete records; $C_i$ contamination/selection (R14a--b), asymmetric, OR sensitivity. \\
+Sampling / sensitivity & 12d--e & MS §2.3 (pp.\ 5--6), Table S5 (p.\ 6) \& Table S8 (p.\ 9): stratified fixed-$n_{js}$ superpopulation model; 23 variants and $400 \times 499$ plus $300 \times 399$ double bootstraps. \\
+Data cleaning & R12.1--12.2 & MS §2.1 (p.\ 3) \& Declarations (pp.\ 14--15): deterministic pipeline (\texttt{prepare\_data.py} $\rightarrow$ \texttt{analyze.py}) pinned by SHA-256 (\texttt{reproduce.py}). \\
+Participants & 13a--c & MS §3.1 (p.\ 6), Fig.\ 1 (p.\ 7), Table S1--S2 (p.\ 3), Table S3 (p.\ 4): counts at each eligibility, audit, exclusion, and support stage. \\
+Descriptive data & 14a--b & MS Table 1 (p.\ 8), Table S3 (p.\ 4), Table S4 (p.\ 5): per-group outbreaks, cases, unrecorded shares, setting/period weights, missingness covariates. \\
+Outcome data & 15 & MS Table 1 (p.\ 8): worst-case bounds, $\delta = 5$ pp intervals, $\delta = 0$ values, bootstrap bound percentiles. \\
+Main results & 16a--c & MS Table 2 (p.\ 8), Table 3 (p.\ 10), Figs.\ 2--5 (pp.\ 7--11): bounds, pointwise IM CIs, 6 Max-$T$ procedures, $\delta$-specific breakdown frontiers, rank sets. \\
+Other analyses & 17 & MS §3.2--3.3 (pp.\ 6--12), Supp.\ §S2 (pp.\ 2--3), Tables S4--S11 (pp.\ 5--11), Figs.\ S2--S4 (pp.\ 5--7): 23 variants, CV3/R11/cluster share, LOO/LLO, follow-up. \\
+Key results & 18 & MS §4 (pp.\ 12--14): summary of worst-case core, within-upper-tier precision limits, and externally anchored upper-vs.-lower separation. \\
+Limitations & 19 & MS §4.1 (pp.\ 13--14): state reporting variation, $C_i$ ascertainment, 2009--2018 weight concentration, Multistate variance share, non-pre-specification. \\
+Interpretation & 20 & MS §4 (pp.\ 12--14) \& §4.2 (p.\ 14): cautious interpretation avoiding causal virulence, analytic-flexibility overstatement, or unconditional ranks. \\
+Generalizability & 21 & MS §4.1 (pp.\ 13--14): applies strictly to reported foodborne outbreak cases (distinct from sporadic community severity). \\
+Funding & 22 & MS Declarations (pp.\ 14--15): author received no specific grant; COI, AI-assistance, and ethics statements included. \\
+Data \& code availability & R22.1 & MS Declarations (pp.\ 14--15): raw CDC NORS extract, code, derived tables, and verification runner archived on GitHub. \\
 \bottomrule
 \end{tabular}
 \end{table}

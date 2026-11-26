@@ -1,20 +1,20 @@
 {
   "preserved": "results.json",
-  "preserved_sha256": "c00f0e8723e1df61b9147534a4953181cd7dc9b1e9dd3aba5152ed4c5c5da43b",
+  "preserved_sha256": "05b8b5401d71c6ec13c23cfb8fb7367b21d5b048fd328ed37754c972f37dc8fa",
   "rebuilt": "results_rebuilt.json",
-  "rebuilt_sha256": "62cfcf87820f81ec3d3643fb3fc6d86521264959b151afbe059e6f99740b817b",
+  "rebuilt_sha256": "05b8b5401d71c6ec13c23cfb8fb7367b21d5b048fd328ed37754c972f37dc8fa",
   "tolerance_abs": 1e-09,
   "rules": "ints/bools/strings/nulls identical; floats |diff| <= tolerance; run metadata excluded",
   "totals": {
-    "n_leaves": 25169,
-    "exact": 25169,
+    "n_leaves": 28461,
+    "exact": 28461,
     "float_close": 0,
     "not_matched": 0,
     "max_abs_float_deviation": 0.0
   },
   "totals_excluding_bootstrap": {
-    "n_leaves": 23510,
-    "exact": 23510,
+    "n_leaves": 26802,
+    "exact": 26802,
     "float_close": 0,
     "not_matched": 0,
     "max_abs_float_deviation": 0.0
@@ -2093,493 +2093,7 @@
       }
     ]
   },
-  "bootstrap_order_statistic_check": {
-    "z": 3.0,
-    "n_fields": 48,
-    "n_outside": 0,
-    "fields": [
-      {
-        "group": "SAL",
-        "field": "L_p2_5",
-        "preserved": 0.1331646594804407,
-        "rebuilt_rank_interval": [
-          0.1306821669711118,
-          0.13435354381042364
-        ],
-        "inside": true
-      },
-      {
-        "group": "SAL",
-        "field": "L_p50",
-        "preserved": 0.14552071515811932,
-        "rebuilt_rank_interval": [
-          0.14477513977289436,
-          0.14634988778885138
-        ],
-        "inside": true
-      },
-      {
-        "group": "SAL",
-        "field": "L_p97_5",
-        "preserved": 0.1589351312390474,
-        "rebuilt_rank_interval": [
-          0.15788775152179077,
-          0.16240487320439004
-        ],
-        "inside": true
-      },
-      {
-        "group": "STEC",
-        "field": "L_p2_5",
-        "preserved": 0.2170363070931479,
-        "rebuilt_rank_interval": [
-          0.2124669433561414,
-          0.22078616861356862
-        ],
-        "inside": true
-      },
-      {
-        "group": "STEC",
-        "field": "L_p50",
-        "preserved": 0.25060497655704705,
-        "rebuilt_rank_interval": [
-          0.24866646671057208,
-          0.25260286164848955
-        ],
-        "inside": true
-      },
-      {
-        "group": "STEC",
-        "field": "L_p97_5",
-        "preserved": 0.29253694429220006,
-        "rebuilt_rank_interval": [
-          0.28678823017999555,
-          0.30144569028270446
-        ],
-        "inside": true
-      },
-      {
-        "group": "CAMP",
-        "field": "L_p2_5",
-        "preserved": 0.062164852064897094,
-        "rebuilt_rank_interval": [
-          0.05962991240253533,
-          0.06335564930015293
-        ],
-        "inside": true
-      },
-      {
-        "group": "CAMP",
-        "field": "L_p50",
-        "preserved": 0.07665247580961407,
-        "rebuilt_rank_interval": [
-          0.07562537962533339,
-          0.07766947494521341
-        ],
-        "inside": true
-      },
-      {
-        "group": "CAMP",
-        "field": "L_p97_5",
-        "preserved": 0.09587312512880773,
-        "rebuilt_rank_interval": [
-          0.0938450712415925,
-          0.09974880931446893
-        ],
-        "inside": true
-      },
-      {
-        "group": "CPERF",
-        "field": "L_p2_5",
-        "preserved": 0.0015366693576944332,
-        "rebuilt_rank_interval": [
-          0.0011107224226866634,
-          0.0017506413151911363
-        ],
-        "inside": true
-      },
-      {
-        "group": "CPERF",
-        "field": "L_p50",
-        "preserved": 0.00426695238818132,
-        "rebuilt_rank_interval": [
-          0.004081756475420153,
-          0.004484298635868956
-        ],
-        "inside": true
-      },
-      {
-        "group": "CPERF",
-        "field": "L_p97_5",
-        "preserved": 0.008689613730886446,
-        "rebuilt_rank_interval": [
-          0.008019922252483998,
-          0.009781982107949469
-        ],
-        "inside": true
-      },
-      {
-        "group": "NOV_GI",
-        "field": "L_p2_5",
-        "preserved": 0.0019411228374366738,
-        "rebuilt_rank_interval": [
-          0.0017526370004755465,
-          0.0021489576379212514
-        ],
-        "inside": true
-      },
-      {
-        "group": "NOV_GI",
-        "field": "L_p50",
-        "preserved": 0.004061769618981366,
-        "rebuilt_rank_interval": [
-          0.003917772386353366,
-          0.004192615035042633
-        ],
-        "inside": true
-      },
-      {
-        "group": "NOV_GI",
-        "field": "L_p97_5",
-        "preserved": 0.006261663646287185,
-        "rebuilt_rank_interval": [
-          0.0060467834799473675,
-          0.006788209556092851
-        ],
-        "inside": true
-      },
-      {
-        "group": "NOV_GII",
-        "field": "L_p2_5",
-        "preserved": 0.01064737972139714,
-        "rebuilt_rank_interval": [
-          0.010244326130723123,
-          0.01092900428378122
-        ],
-        "inside": true
-      },
-      {
-        "group": "NOV_GII",
-        "field": "L_p50",
-        "preserved": 0.013204995546218743,
-        "rebuilt_rank_interval": [
-          0.013026196050857829,
-          0.013360055598262593
-        ],
-        "inside": true
-      },
-      {
-        "group": "NOV_GII",
-        "field": "L_p97_5",
-        "preserved": 0.016149831895472134,
-        "rebuilt_rank_interval": [
-          0.015882594264196227,
-          0.016777911910385496
-        ],
-        "inside": true
-      },
-      {
-        "group": "SAL",
-        "field": "U_p2_5",
-        "preserved": 0.2815331804751169,
-        "rebuilt_rank_interval": [
-          0.2724501909649842,
-          0.2857750023548166
-        ],
-        "inside": true
-      },
-      {
-        "group": "SAL",
-        "field": "U_p50",
-        "preserved": 0.3169672369812634,
-        "rebuilt_rank_interval": [
-          0.3148995969969837,
-          0.31957784616394647
-        ],
-        "inside": true
-      },
-      {
-        "group": "SAL",
-        "field": "U_p97_5",
-        "preserved": 0.3545116053721755,
-        "rebuilt_rank_interval": [
-          0.3507472860575084,
-          0.3611107153281039
-        ],
-        "inside": true
-      },
-      {
-        "group": "STEC",
-        "field": "U_p2_5",
-        "preserved": 0.32643136413317986,
-        "rebuilt_rank_interval": [
-          0.3175703569212864,
-          0.3301186878700357
-        ],
-        "inside": true
-      },
-      {
-        "group": "STEC",
-        "field": "U_p50",
-        "preserved": 0.370871644657775,
-        "rebuilt_rank_interval": [
-          0.3682978839216344,
-          0.37329072045362155
-        ],
-        "inside": true
-      },
-      {
-        "group": "STEC",
-        "field": "U_p97_5",
-        "preserved": 0.4232376113665495,
-        "rebuilt_rank_interval": [
-          0.4189265539643496,
-          0.4351298452315397
-        ],
-        "inside": true
-      },
-      {
-        "group": "CAMP",
-        "field": "U_p2_5",
-        "preserved": 0.1416175263909199,
-        "rebuilt_rank_interval": [
-          0.13344288555983327,
-          0.14660167996580506
-        ],
-        "inside": true
-      },
-      {
-        "group": "CAMP",
-        "field": "U_p50",
-        "preserved": 0.19010251240342174,
-        "rebuilt_rank_interval": [
-          0.18640711138406485,
-          0.19385333483299755
-        ],
-        "inside": true
-      },
-      {
-        "group": "CAMP",
-        "field": "U_p97_5",
-        "preserved": 0.24436975319285265,
-        "rebuilt_rank_interval": [
-          0.24004411370624454,
-          0.2555196384283213
-        ],
-        "inside": true
-      },
-      {
-        "group": "CPERF",
-        "field": "U_p2_5",
-        "preserved": 0.08531457221669286,
-        "rebuilt_rank_interval": [
-          0.07082834523110508,
-          0.09169697241941532
-        ],
-        "inside": true
-      },
-      {
-        "group": "CPERF",
-        "field": "U_p50",
-        "preserved": 0.1798718126028755,
-        "rebuilt_rank_interval": [
-          0.1740650806048493,
-          0.18580219312519577
-        ],
-        "inside": true
-      },
-      {
-        "group": "CPERF",
-        "field": "U_p97_5",
-        "preserved": 0.2808486172214798,
-        "rebuilt_rank_interval": [
-          0.2661276432121578,
-          0.29440650477997576
-        ],
-        "inside": true
-      },
-      {
-        "group": "NOV_GI",
-        "field": "U_p2_5",
-        "preserved": 0.11664222001923419,
-        "rebuilt_rank_interval": [
-          0.10498596184025048,
-          0.12245676321973456
-        ],
-        "inside": true
-      },
-      {
-        "group": "NOV_GI",
-        "field": "U_p50",
-        "preserved": 0.18493451432992197,
-        "rebuilt_rank_interval": [
-          0.18040786862517602,
-          0.19033005130786204
-        ],
-        "inside": true
-      },
-      {
-        "group": "NOV_GI",
-        "field": "U_p97_5",
-        "preserved": 0.2683371671301163,
-        "rebuilt_rank_interval": [
-          0.25721743764224964,
-          0.2825400749031841
-        ],
-        "inside": true
-      },
-      {
-        "group": "NOV_GII",
-        "field": "U_p2_5",
-        "preserved": 0.12924221572823197,
-        "rebuilt_rank_interval": [
-          0.12274745097161552,
-          0.1335123645815085
-        ],
-        "inside": true
-      },
-      {
-        "group": "NOV_GII",
-        "field": "U_p50",
-        "preserved": 0.16840624633653026,
-        "rebuilt_rank_interval": [
-          0.1660824832928683,
-          0.17091418818753967
-        ],
-        "inside": true
-      },
-      {
-        "group": "NOV_GII",
-        "field": "U_p97_5",
-        "preserved": 0.2083858923089275,
-        "rebuilt_rank_interval": [
-          0.20382598923251333,
-          0.21646502842996007
-        ],
-        "inside": true
-      },
-      {
-        "group": "SAL",
-        "field": "theta_delta0_p2_5",
-        "preserved": 0.16137271072807238,
-        "rebuilt_rank_interval": [
-          0.15827577550794292,
-          0.16298486133882142
-        ],
-        "inside": true
-      },
-      {
-        "group": "SAL",
-        "field": "theta_delta0_p97_5",
-        "preserved": 0.19395802070060847,
-        "rebuilt_rank_interval": [
-          0.19225094932685874,
-          0.1971960866052802
-        ],
-        "inside": true
-      },
-      {
-        "group": "STEC",
-        "field": "theta_delta0_p2_5",
-        "preserved": 0.25384789267168145,
-        "rebuilt_rank_interval": [
-          0.24897533568357155,
-          0.25674143230457913
-        ],
-        "inside": true
-      },
-      {
-        "group": "STEC",
-        "field": "theta_delta0_p97_5",
-        "preserved": 0.3342345334617806,
-        "rebuilt_rank_interval": [
-          0.3273398279299923,
-          0.344133735575478
-        ],
-        "inside": true
-      },
-      {
-        "group": "CAMP",
-        "field": "theta_delta0_p2_5",
-        "preserved": 0.07040165224220615,
-        "rebuilt_rank_interval": [
-          0.06782092659133353,
-          0.07206359604357235
-        ],
-        "inside": true
-      },
-      {
-        "group": "CAMP",
-        "field": "theta_delta0_p97_5",
-        "preserved": 0.11030395612506055,
-        "rebuilt_rank_interval": [
-          0.10742359910481136,
-          0.11459543121329334
-        ],
-        "inside": true
-      },
-      {
-        "group": "CPERF",
-        "field": "theta_delta0_p2_5",
-        "preserved": 0.0023754379149504333,
-        "rebuilt_rank_interval": [
-          0.001981042956770196,
-          0.0027416484469470264
-        ],
-        "inside": true
-      },
-      {
-        "group": "CPERF",
-        "field": "theta_delta0_p97_5",
-        "preserved": 0.010717583157599641,
-        "rebuilt_rank_interval": [
-          0.01003337322764257,
-          0.01183983624607204
-        ],
-        "inside": true
-      },
-      {
-        "group": "NOV_GI",
-        "field": "theta_delta0_p2_5",
-        "preserved": 0.0026188759625704826,
-        "rebuilt_rank_interval": [
-          0.0022522131889490646,
-          0.0029476943962894213
-        ],
-        "inside": true
-      },
-      {
-        "group": "NOV_GI",
-        "field": "theta_delta0_p97_5",
-        "preserved": 0.034904600104115384,
-        "rebuilt_rank_interval": [
-          0.02577287026193106,
-          0.040486121099069086
-        ],
-        "inside": true
-      },
-      {
-        "group": "NOV_GII",
-        "field": "theta_delta0_p2_5",
-        "preserved": 0.01277960757488036,
-        "rebuilt_rank_interval": [
-          0.012290642054257209,
-          0.013113272673753071
-        ],
-        "inside": true
-      },
-      {
-        "group": "NOV_GII",
-        "field": "theta_delta0_p97_5",
-        "preserved": 0.019236684906369615,
-        "rebuilt_rank_interval": [
-          0.018819032389429266,
-          0.019963244271758634
-        ],
-        "inside": true
-      }
-    ]
-  },
+  "bootstrap_order_statistic_check": null,
   "sections": {
     "task": {
       "n_leaves": 1,
@@ -2845,6 +2359,14 @@
       "max_abs_float_deviation": 0.0,
       "status": "exact"
     },
+    "robustness.R12b_nontyphoidal_sal": {
+      "n_leaves": 533,
+      "exact": 533,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
     "robustness.R13_outbreak_level_mar": {
       "n_leaves": 534,
       "exact": 534,
@@ -2894,8 +2416,8 @@
       "status": "exact"
     },
     "audit": {
-      "n_leaves": 212,
-      "exact": 212,
+      "n_leaves": 220,
+      "exact": 220,
       "float_close": 0,
       "not_matched": 0,
       "max_abs_float_deviation": 0.0,
@@ -2910,16 +2432,16 @@
       "status": "exact"
     },
     "stacked_inference": {
-      "n_leaves": 2180,
-      "exact": 2180,
+      "n_leaves": 4483,
+      "exact": 4483,
       "float_close": 0,
       "not_matched": 0,
       "max_abs_float_deviation": 0.0,
       "status": "exact"
     },
     "cluster_diagnostics": {
-      "n_leaves": 623,
-      "exact": 623,
+      "n_leaves": 995,
+      "exact": 995,
       "float_close": 0,
       "not_matched": 0,
       "max_abs_float_deviation": 0.0,
@@ -2933,9 +2455,17 @@
       "max_abs_float_deviation": 0.0,
       "status": "exact"
     },
+    "cluster_double_bootstrap": {
+      "n_leaves": 29,
+      "exact": 29,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
     "empirical_calibration": {
-      "n_leaves": 506,
-      "exact": 506,
+      "n_leaves": 553,
+      "exact": 553,
       "float_close": 0,
       "not_matched": 0,
       "max_abs_float_deviation": 0.0,
@@ -2966,19 +2496,6 @@
       "status": "exact"
     }
   },
-  "run_metadata_differences": [
-    {
-      "path": "provenance.timestamp",
-      "status": "value_differs",
-      "preserved": "2026-11-26T07:43:52Z",
-      "rebuilt": "2026-11-26T07:56:27Z"
-    },
-    {
-      "path": "provenance.wall_clock_seconds",
-      "status": "float_differs",
-      "preserved": 289.5,
-      "rebuilt": 267.0
-    }
-  ],
+  "run_metadata_differences": [],
   "added_keys_in_rebuilt": []
 }

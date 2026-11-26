@@ -1,21 +1,25 @@
 \begin{table}[!tbp]
 \centering
 \scriptsize
-\setlength{\tabcolsep}{2.3pt}
+\setlength{\tabcolsep}{2.2pt}
 \renewcommand{\arraystretch}{1.12}
-\caption{Stratified double-bootstrap evaluation (400 outer worlds $\times$ 399 inner resamples preserving n\_js; no state dependence simulated) of 30-hypothesis FWER with every procedure re-estimating its critical value inside each world.}
+\caption{Empirical 30-hypothesis FWER (\%) under least-favourable boundary null (nominal 5.0\%): stratified outbreak double bootstrap (400 $\times$ 499) and 53-state Bayesian cluster double bootstrap (300 $\times$ 399).}
 \label{tab:small_cal}
-\begin{tabular}{>{\raggedright\arraybackslash}p{2.2cm}>{\raggedleft\arraybackslash}p{1.75cm}>{\raggedleft\arraybackslash}p{1.85cm}>{\raggedleft\arraybackslash}p{1.9cm}>{\raggedleft\arraybackslash}p{1.75cm}>{\raggedleft\arraybackslash}p{1.85cm}>{\raggedleft\arraybackslash}p{1.9cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.85cm}>{\raggedright\arraybackslash}p{3.55cm}>{\raggedleft\arraybackslash}p{2.4cm}>{\raggedleft\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}p{3.5cm}}
 \toprule
-Group & MC SD(L) (pp) & Mean HC1 SE(L) & Ratio L (HC1/MC) & MC SD(U) (pp) & Mean HC1 SE(U) & Ratio U (HC1/MC) \\
+Calibration world & Inference procedure & Worst-case FWER $\pm$ SE (\%) & $\delta$ = 5 pp FWER $\pm$ SE (\%) & Inner critical quantile / note \\
 \midrule
-STEC & 1.89 & 1.58 & 0.837 & 2.48 & 2.16 & 0.872 \\
-Salmonella & 0.60 & 0.63 & 1.052 & 1.99 & 1.82 & 0.914 \\
-Campylobacter & 0.86 & 0.85 & 0.990 & 2.64 & 2.36 & 0.893 \\
-Norovirus GII & 0.14 & 0.14 & 1.026 & 2.08 & 1.88 & 0.904 \\
-C. perfringens & 0.17 & 0.15 & 0.899 & 4.65 & 3.52 & 0.756 \\
-Norovirus GI & 0.11 & 0.10 & 0.920 & 3.79 & 3.48 & 0.920 \\
+Outbreak (400 $\times$ 499) & HC0 Gaussian (uncorrected) & 33.2 $\pm$ 2.4 & 21.0 $\pm$ 2.0 & No state dependence simulated \\
+Outbreak (400 $\times$ 499) & HC1 Gaussian & 30.5 $\pm$ 2.3 & 17.8 $\pm$ 1.9 & No state dependence simulated \\
+Outbreak (400 $\times$ 499) & Fixed-scale std. bootstrap & 25.2 $\pm$ 2.2 & 10.5 $\pm$ 1.5 & No state dependence simulated \\
+Outbreak (400 $\times$ 499) & 53-state CV1 Gaussian & 20.5 $\pm$ 2.0 & 10.0 $\pm$ 1.5 & No state dependence simulated \\
+Outbreak (400 $\times$ 499) & Unrestricted Rademacher WCB & 21.0 $\pm$ 2.0 & 10.5 $\pm$ 1.5 & No state dependence simulated \\
+Outbreak (400 $\times$ 499) & Studentized bootstrap-t & 7.2 $\pm$ 1.3 & 7.8 $\pm$ 1.3 & Inner c(boot-t) [p5--p95]: 3.53--5.33 (w); 2.98--4.07 ($\delta$=5) \\
+Cluster (300 $\times$ 399) & 53-state CV1 Gaussian & 17.0 $\pm$ 2.2 & 16.0 $\pm$ 2.1 & Exp(1) state-cluster weights \\
+Cluster (300 $\times$ 399) & Unrestricted Rademacher WCB & 19.3 $\pm$ 2.3 & 17.7 $\pm$ 2.2 & Exp(1) state-cluster weights \\
+Cluster (300 $\times$ 399) & Bayesian cluster boot-t & 9.3 $\pm$ 1.7 & 10.0 $\pm$ 1.7 & Inner c(clust-bt) [p5--p95]: 3.11--5.36 (w); 2.74--5.19 ($\delta$=5) \\
+Cluster (300 $\times$ 399) & CV3 cluster jackknife & 7.3 $\pm$ 1.5 & 4.7 $\pm$ 1.2 & Exp(1) state-cluster weights \\
 \bottomrule
 \end{tabular}
-\par\smallskip\parbox{0.97\linewidth}{\footnotesize IM 95\% boundary coverage (15 primary pairs): 75.2\% min to 86.8\% median (HC1). Empirical 30-test Max-T FWER (nominal 5\%; worst / $\delta$ = 5; $\pm$ MC SE): HC0 33.2$\pm$2.4\%/21.0\%; HC1 30.5$\pm$2.3\%/17.8\%; 53-cluster 20.5$\pm$2.0\%/10.0\%; unrestricted WCB 20.5$\pm$2.0\%/10.2\%; fixed-scale boot 24.8$\pm$2.2\%/10.5\%; studentized boot-t 6.5$\pm$1.2\%/6.8$\pm$1.3\%. Inner c\_bt 5th--95th percentile: 3.50--5.37 (worst), 2.98--4.07 ($\delta$ = 5). Top HC1 exceedance drivers: NOV\_GII-$>$CPERF (9.2\%); NOV\_GI-$>$CPERF (9.2\%); STEC-$>$CPERF (8.5\%).}
+\par\smallskip\parbox{0.97\linewidth}{\footnotesize All procedures re-estimate their own critical values inside every outer world. Per-group HC1 SE / MC SD ratios in the 400 $\times$ 499 outbreak world: 0.837--1.052 (lower bound L) and 0.756--0.920 (upper bound U); pointwise IM 95\% boundary coverage (15 primary pairs): 75.2\% min to 86.8\% median (HC1). Top HC1 outbreak-world exceedance drivers: NoV GII$>$CPERF (9.2\%); NoV GI$>$CPERF (9.2\%); STEC$>$CPERF (8.5\%).}
 \end{table}
