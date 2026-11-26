@@ -1,11 +1,11 @@
-Analysis,Description,Cells,Pairs,"Determined, worst case","Determined, δ = 5",Worst-case verdicts changed,δ = 0 directions changed
+Analysis,Description,Cells,Pairs,"Determined, worst case","Determined, δ = 5 pp",Worst-case changed,δ = 0 reversed
 Main,"Setting × period, ≥ 3 outbreaks, pooled-case weights",12,15,4,12,0,0
 R1a,"Crude, no standardization, all eligible outbreaks",1,15,5,12,1,1
 R1b,Crude within the common support (no standardization),1,15,4,13,0,0
 R2,"Period-only standardization (3 strata, all settings)",3,15,5,12,1,1
 R3a,Cohort of single-etiology confirmed only,12,15,4,12,0,0
 R3b,Cohort of records with any blank H or K dropped,12,15,7,14,3,0
-R3c,"Cohort of species-level etiology strings; records with one blank outcome field dropped (3,703 outbreaks)",11,15,4,12,0,0
+R3c,"Cohort of species-level strings; records with one blank outcome field dropped (3,703 outbreaks)",11,15,4,12,0,0
 R4a,Common support ≥ 2 outbreaks per group per cell,15,15,4,12,0,1
 R4b,Common support ≥ 5 outbreaks per group per cell,6,15,5,12,1,0
 R5,Drop Unknown and Multiple setting cells,10,15,4,14,0,1
@@ -13,7 +13,10 @@ R6a,Weights from group-balanced case mix,12,15,4,12,0,0
 R6b,Weights from pooled outbreak mix,12,15,4,12,0,1
 R6c,Weights from uniform over cells,12,15,4,12,0,0
 R7,"Norovirus GI+GII combined (5 groups, 10 pairs)",12,10,3,9,NA,NA
+R7b,"All confirmed norovirus GI+GII+unspecified (5 groups, 10 pairs)",12,10,3,9,NA,NA
 R8,Cohort of include suspected study-group etiologies,16,15,5,13,1,1
 R9,Cohort of exclude healthcare/LTCF outbreaks,12,15,4,12,0,0
 R10,Within-cell aggregation: equal weight per outbreak,12,15,7,14,3,0
 R11,Cohort of single-state outbreaks only (exclude multistate),12,15,4,12,0,0
+R12,Cohort of restrict STEC to confirmed O157 serogroup,11,15,4,12,0,0
+R13,Anchor: outbreak-level H_i/K_i MAR within common support,12,15,4,14,0,1

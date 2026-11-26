@@ -3,28 +3,28 @@
 \scriptsize
 \setlength{\tabcolsep}{2.1pt}
 \renewcommand{\arraystretch}{1.12}
-\caption{Pairwise orderings with worst-case verdicts, critical additive deviations $\delta^{*}$, critical odds-ratio factors $\Gamma^{*}$, illustrative symmetric and asymmetric ($-$15/+5 pp) stress-test verdicts, and bootstrap determination shares.}
+\caption{Pairwise sample breakdown points ($\delta^{*}$, $\Gamma^{*}$), common-mechanism (CM $\alpha$ = 0.5) and asymmetric ($-$15/+5 pp) checks, and bootstrap determination frequencies.}
 \label{tab:pairwise}
-\begin{tabular}{>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}p{1.55cm}>{\raggedleft\arraybackslash}p{0.92cm}>{\raggedleft\arraybackslash}p{0.95cm}>{\raggedleft\arraybackslash}p{0.6cm}>{\raggedleft\arraybackslash}p{0.6cm}>{\raggedleft\arraybackslash}p{0.6cm}>{\raggedleft\arraybackslash}p{0.65cm}>{\raggedleft\arraybackslash}p{1.1cm}>{\raggedleft\arraybackslash}p{1.4cm}>{\raggedleft\arraybackslash}p{1.4cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}p{1.55cm}>{\raggedleft\arraybackslash}p{0.92cm}>{\raggedleft\arraybackslash}p{0.92cm}>{\raggedleft\arraybackslash}p{1.0cm}>{\raggedleft\arraybackslash}p{0.85cm}>{\raggedleft\arraybackslash}p{0.9cm}>{\raggedleft\arraybackslash}p{1.15cm}>{\raggedleft\arraybackslash}p{1.4cm}>{\raggedleft\arraybackslash}p{1.4cm}}
 \toprule
-Ordering at $\delta$ = 0 & Worst case & $\delta^{*}$ (pp) & OR $\Gamma^{*}$ & $\delta$ = 1 & $\delta$ = 2 & $\delta$ = 5 & $\delta$ = 10 & Asym ($-$15/+5) & Boot det., worst (\%) & Boot det., $\delta$ = 5 (\%) \\
+Ordering at $\delta$ = 0 & Worst case & $\delta^{*}$ (pp) & OR $\Gamma^{*}$ & CM $\alpha$=0.5 & $\delta$ = 5 pp & $\delta$ = 10 pp & Asym ($-$15/+5) & Boot det., worst (\%) & Boot det., $\delta$ = 5 (\%) \\
 \midrule
-STEC $>$ CAMP & determined & $\infty$ & $\infty$ & yes & yes & yes & yes & yes & 97.0 & 100.0 \\
-STEC $>$ CPERF & determined & $\infty$ & $\infty$ & yes & yes & yes & yes & yes & 91.6 & 100.0 \\
-STEC $>$ NoV GI & determined & $\infty$ & $\infty$ & yes & yes & yes & yes & yes & 93.6 & 100.0 \\
-STEC $>$ NoV GII & determined & $\infty$ & $\infty$ & yes & yes & yes & yes & yes & 100.0 & 100.0 \\
-SAL $>$ NoV GII & undetermined & 81.6 & 342.1 & yes & yes & yes & yes & yes & 14.2 & 100.0 \\
-SAL $>$ NoV GI & undetermined & 76.5 & 1420.4 & yes & yes & yes & yes & yes & 14.5 & 100.0 \\
-SAL $>$ CPERF & undetermined & 72.1 & $\infty^{\dagger}$ & yes & yes & yes & yes & yes & 24.8 & 100.0 \\
-SAL $>$ CAMP & undetermined & 51.1 & 17.5 & yes & yes & yes & yes & yes & 4.2 & 100.0 \\
-STEC $>$ SAL & undetermined & 41.3 & 8.41 & yes & yes & yes & yes & yes & 0.6 & 100.0 \\
-CAMP $>$ NoV GI & undetermined & 37.8 & 115.9 & yes & yes & yes & yes & yes & 0.1 & 98.4 \\
-CAMP $>$ NoV GII & undetermined & 37.1 & 41.2 & yes & yes & yes & yes & yes & 0.0 & 100.0 \\
-CAMP $>$ CPERF & undetermined & 35.5 & 120.6 & yes & yes & yes & yes & yes & 1.8 & 100.0 \\
-NoV GII $>$ NoV GI & undetermined & 4.2 & 7.75 & yes & yes & no & no & no & 0.0 & 35.2 \\
-NoV GII $>$ CPERF & undetermined & 3.7 & 4.99 & yes & yes & no & no & no & 0.0 & 33.1 \\
-CPERF $>$ NoV GI & undetermined & 0.19 & 1.19 & no & no & no & no & no & 0.0 & 0.0 \\
+STEC $>$ CAMP & determined & $\infty$ & $\infty$ & yes & yes & yes & yes & 97.0 & 100.0 \\
+STEC $>$ CPERF & determined & $\infty$ & $\infty$ & yes & yes & yes & yes & 91.6 & 100.0 \\
+STEC $>$ NoV GI & determined & $\infty$ & $\infty$ & yes & yes & yes & yes & 93.6 & 100.0 \\
+STEC $>$ NoV GII & determined & $\infty$ & $\infty$ & yes & yes & yes & yes & 100.0 & 100.0 \\
+SAL $>$ NoV GII & undetermined & 81.6 & 342.1 & yes & yes & yes & yes & 14.2 & 100.0 \\
+SAL $>$ NoV GI & undetermined & 76.5 & 1420.4 & yes & yes & yes & yes & 14.5 & 100.0 \\
+SAL $>$ CPERF & undetermined & 72.1 & $\infty^{\dagger}$ & yes & yes & yes & yes & 24.8 & 100.0 \\
+SAL $>$ CAMP & undetermined & 51.1 & 17.5 & yes & yes & yes & yes & 4.2 & 100.0 \\
+STEC $>$ SAL & undetermined & 41.3 & 8.41 & yes & yes & yes & yes & 0.6 & 100.0 \\
+CAMP $>$ NoV GI & undetermined & 37.8 & 115.9 & yes & yes & yes & yes & 0.1 & 98.4 \\
+CAMP $>$ NoV GII & undetermined & 37.1 & 41.2 & yes & yes & yes & yes & 0.0 & 100.0 \\
+CAMP $>$ CPERF & undetermined & 35.5 & 120.6 & yes & yes & yes & yes & 1.8 & 100.0 \\
+NoV GII $>$ NoV GI & undetermined & 4.2 & 7.75 & yes & no & no & no & 0.0 & 35.2 \\
+NoV GII $>$ CPERF & undetermined & 3.7 & 4.99 & yes & no & no & no & 0.0 & 33.1 \\
+CPERF $>$ NoV GI & undetermined & 0.19 & 1.19 & yes & no & no & no & 0.0 & 0.0 \\
 \bottomrule
 \end{tabular}
-\par\smallskip\parbox{0.97\linewidth}{\footnotesize Boot det. columns show the percentage of 2,000 bootstrap replicates in which the ordering is determined (non-overlapping intervals) at worst case and $\delta$ = 5 pp. $^{\dagger}$OR $\Gamma^{*}$ = $\infty^{\dagger}$ for SAL $>$ CPERF reflects 9/72 cells having zero recorded hospitalizations (p\_js = 0), which pure multiplicative scaling cannot shift upward; applying a 0.1\% continuity floor yields $\Gamma^{*}$ = 955.7 (Table S4).}
+\par\smallskip\parbox{0.97\linewidth}{\footnotesize SAL Salmonella; STEC Shiga toxin-producing E. coli; CAMP Campylobacter; CPERF C. perfringens; NoV GI/GII norovirus genogroup I/II. Boot det. columns show the percentage of 2,000 resamples with disjoint bounds. CM $\alpha$ = 0.5 tests halving all within-cell recorded rates simultaneously. $^{\dagger}$OR $\Gamma^{*}$ = $\infty^{\dagger}$ for SAL $>$ CPERF reflects 9/72 cells with p\_js = 0; a 0.1\% continuity floor yields $\Gamma^{*}$ = 955.7 (§3.2).}
 \end{table}

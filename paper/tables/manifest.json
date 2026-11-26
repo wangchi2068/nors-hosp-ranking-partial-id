@@ -5,7 +5,7 @@
    "id": "tab:group_bounds",
    "path": "table_1_group_bounds.tex",
    "csv": "table_1_group_bounds.csv",
-   "sha256": "df641eb51ed5b0b1b778fa11999c451b140c91abde692476812de375bec36902",
+   "sha256": "8a241facc967609f30740e154d0cfa1fa54a1c74172cee6a55ddd875d4c46a76",
    "generator": "code/make_outputs.py",
    "data_sources": [
     "analysis/results.json"
@@ -13,13 +13,13 @@
    "display": "raw",
    "n_seeds": 1,
    "std_ddof": 0,
-   "caption": "Standardized hospitalization proportion among reported outbreak cases, by pathogen group (12 common-support setting × period cells, pooled-case reference weights). Sample worst-case intervals are identification intervals; bootstrap ranges are the 2.5th–97.5th percentiles of each bound over 2,000 outbreak-level resamples."
+   "caption": "Standardized hospitalization proportion among reported outbreak cases across six pathogen groups (12 common-support setting × period cells, pooled-case weights)."
   },
   {
    "id": "tab:pairwise",
    "path": "table_2_pairwise.tex",
    "csv": "table_2_pairwise.csv",
-   "sha256": "71d9a2bb537f71798eecc3e7ab4318bc99ce01319f72edac1299157157c23bc0",
+   "sha256": "8371f966377b225ec6a25c4c61997babe104812ec8c5c5bfcc1c918221f64e48",
    "generator": "code/make_outputs.py",
    "data_sources": [
     "analysis/results.json"
@@ -27,13 +27,13 @@
    "display": "raw",
    "n_seeds": 1,
    "std_ddof": 0,
-   "caption": "Pairwise orderings with worst-case verdicts, critical additive deviations δ*, critical odds-ratio factors Γ*, illustrative symmetric and asymmetric (−15/+5 pp) stress-test verdicts, and bootstrap determination shares."
+   "caption": "Pairwise sample breakdown points (δ*, Γ*), common-mechanism (CM α = 0.5) and asymmetric (−15/+5 pp) checks, and bootstrap determination frequencies."
   },
   {
    "id": "tab:robustness",
    "path": "table_3_robustness.tex",
    "csv": "table_3_robustness.csv",
-   "sha256": "2550d6571daa429395913a538e0e306f481217c89bb897b017097e4e18ccdf70",
+   "sha256": "af65cbb65b50816bcfb0427a717e209510c104761d228f60fc83825fc718e409",
    "generator": "code/make_outputs.py",
    "data_sources": [
     "analysis/results.json"
@@ -41,13 +41,13 @@
    "display": "raw",
    "n_seeds": 1,
    "std_ddof": 0,
-   "caption": "Sensitivity analyses across 17 cohort, support, weighting, aggregation, and multistate variants, with common-support cells, determined pairwise orderings under worst-case bounds and at δ = 5 pp, and changes relative to the main analysis."
+   "caption": "Sensitivity analyses across all 20 cohort, support, weighting, serogroup, outbreak-MAR, and multistate variants."
   },
   {
    "id": "tab:retention",
    "path": "table_4_retention.tex",
    "csv": "table_4_retention.csv",
-   "sha256": "cb4d405a932199aa8fe9d07725bccd206b9b3a705e9860964ebcf52537d13160",
+   "sha256": "1808aa208b19ebe4c630533fd7c9509e6c0067e8e53acf21c750691bf303995f",
    "generator": "code/make_outputs.py",
    "data_sources": [
     "analysis/results.json"
@@ -55,13 +55,13 @@
    "display": "raw",
    "n_seeds": 1,
    "std_ddof": 0,
-   "caption": "Common-support retention by pathogen group, with eligible and retained outbreaks and cases, the settings and periods losing most cases, and crude (unstandardized) proportions before and after the restriction."
+   "caption": "Common-support retention by pathogen group, dropped strata, and crude proportions before/after restriction."
   },
   {
    "id": "tab:audit",
    "path": "table_5_audit.tex",
    "csv": "table_5_audit.csv",
-   "sha256": "4a14820618306c4838700823bc682c9e3259cb34b8a8e2f42e2908f2e7b80796",
+   "sha256": "d1d94e61d1d156f6dcee06fef7d2c2dd13f35fe18325daab8203279c98df563e",
    "generator": "code/make_outputs.py",
    "data_sources": [
     "analysis/results.json"
@@ -69,13 +69,13 @@
    "display": "raw",
    "n_seeds": 1,
    "std_ddof": 0,
-   "caption": "Record audit of outbreak outcome fields (C reported cases, H hospitalized, K cases with known hospitalization status), with category counts and handling. No record had a count contradiction."
+   "caption": "Record audit of outbreak outcome fields (C reported cases, H hospitalized, K known status). Zero count contradictions."
   },
   {
    "id": "tab:bootstrap",
    "path": "table_6_bootstrap.tex",
    "csv": "table_6_bootstrap.csv",
-   "sha256": "fda083fdbbdf00672f710522fc6b507ae793da2d47d86483b3fb78be4b82fd68",
+   "sha256": "961eb5d0c945f3708bac554c2a14d7d567303ba57c3d5d29f4dbd261425f372d",
    "generator": "code/make_outputs.py",
    "data_sources": [
     "analysis/results.json"
@@ -83,13 +83,13 @@
    "display": "raw",
    "n_seeds": 1,
    "std_ddof": 0,
-   "caption": "Outbreak-level bootstrap (2,000 replicates, seed 20261125; 0/2,000 resamples lacked K_rec), with verdict shares and percentile ranges of δ*."
+   "caption": "Outbreak-level bootstrap (2,000 replicates, seed 20261125; 0/2,000 resamples lacked K_rec), reporting two-decimal verdict frequencies and δ* percentile intervals."
   },
   {
    "id": "tab:width",
    "path": "table_7_width_decomposition.tex",
    "csv": "table_7_width_decomposition.csv",
-   "sha256": "2001e07c9fee3235fa39cec0f1f36ce43e0be53cddda7d2297edd39c05830283",
+   "sha256": "131325b6e10d3d195e547d65699be12e0a73689caa2ee2d7124ef47b2b3a76dc",
    "generator": "code/make_outputs.py",
    "data_sources": [
     "analysis/results.json"
@@ -97,13 +97,13 @@
    "display": "raw",
    "n_seeds": 1,
    "std_ddof": 0,
-   "caption": "Undetermined pairs under worst-case bounds, with interval overlap and the group × cell strata whose unrecorded-status cases contribute most to the interval widths."
+   "caption": "Undetermined pairs under worst-case bounds and top unrecorded-status width contributors."
   },
   {
    "id": "tab:joint_inference",
    "path": "table_8_joint_inference.tex",
    "csv": "table_8_joint_inference.csv",
-   "sha256": "27df9679628019641fe603fc56d7b23fb8a0a518fb6a65067cfe68cf062a57b2",
+   "sha256": "4898789967554b5524c6d14a2c89e443ae8d13898cec44a0995f9a43eb256e50",
    "generator": "code/make_outputs.py",
    "data_sources": [
     "analysis/results.json"
@@ -111,13 +111,13 @@
    "display": "raw",
    "n_seeds": 1,
    "std_ddof": 0,
-   "caption": "Joint 30-hypothesis two-sided FWER inference combining Imbens–Manski 95% CIs, outbreak-HC1 and 53-state Gaussian Max-T stepdown, studentized non-Gaussian bootstrap Max-T, and dynamic 95% confidence tipping points."
+   "caption": "Joint 30-hypothesis one-sided (15 pairs × 2 directions) FWER inference: pointwise Imbens–Manski 95% CIs, nominal outbreak-HC1 and 53-cluster exposure-state Gaussian Max-T p-values, and calibrated studentized bootstrap-t p-values and breakdown points."
   },
   {
    "id": "tab:cluster_diag",
    "path": "table_9_cluster_diagnostics.tex",
    "csv": "table_9_cluster_diagnostics.csv",
-   "sha256": "1f857e4470e94c9d136a6fa56f0342856716e1cc587c30a4b4580f2d4805fc03",
+   "sha256": "ddfe9b83de19734dc9c62153d2dffae41ab5ff5cc451f410926a607fdf670d51",
    "generator": "code/make_outputs.py",
    "data_sources": [
     "analysis/results.json"
@@ -125,13 +125,13 @@
    "display": "raw",
    "n_seeds": 1,
    "std_ddof": 0,
-   "caption": "Outbreak-cluster concentration diagnostics across the 12 common-support cells and standard error comparison across HC0, HC1, stratified bootstrap SD (2,000 replicates), and 53-state clustering."
+   "caption": "Outbreak-cluster concentration, Multistate unrecorded case share, and standard errors across HC0, HC1, bootstrap SD (2,000 replicates), and 53 exposure-state clusters."
   },
   {
    "id": "tab:voi_masking",
    "path": "table_10_followup_masking.tex",
    "csv": "table_10_followup_masking.csv",
-   "sha256": "b09e21fa2c8c93200af024f1dcb16ebf6f9037e7e21fb5c360d6ddd29343e17a",
+   "sha256": "b16056898ca39d8dc332119188e408e89a654ede6678123a2efa769b8da87e4e",
    "generator": "code/make_outputs.py",
    "data_sources": [
     "analysis/results.json"
@@ -139,7 +139,7 @@
    "display": "raw",
    "n_seeds": 1,
    "std_ddof": 0,
-   "caption": "Cost-conditional follow-up benchmark across 200 MCAR masking trials on all 2,414 fully recorded outbreaks (45,249 cases)."
+   "caption": "Cost-conditional follow-up benchmark across 200 MCAR masking trials on all 2,414 fully recorded outbreaks (baseline pre-follow-up mean = 1.55 pairs)."
   },
   {
    "id": "tab:excluded",
@@ -159,7 +159,7 @@
    "id": "tab:delta_cal",
    "path": "table_12_delta_calibration.tex",
    "csv": "table_12_delta_calibration.csv",
-   "sha256": "70f6411095ec91e4c20c7fffd808a606a3ccfcf0a08fdb0e473578dbdae8bf21",
+   "sha256": "e448675375d10be809151c17069658f6c90231a225da437d62ea3b57389e8377",
    "generator": "code/make_outputs.py",
    "data_sources": [
     "analysis/results.json"
@@ -167,13 +167,13 @@
    "display": "raw",
    "n_seeds": 1,
    "std_ddof": 0,
-   "caption": "Composition-adjusted comparison of fully recorded outbreaks (M_i = 0) versus known-status cases in partially recorded outbreaks (M_i > 0, K_rec > 0) and 11 low-missingness states (<5% unrecorded status)."
+   "caption": "Composition-adjusted comparison of fully recorded (M_i = 0) vs. known-status cases in partially recorded outbreaks (M_i > 0, K_rec > 0), and benchmark rates with 95% Wilson CIs in 11 low-missingness states (<5%)."
   },
   {
    "id": "tab:real_followup",
    "path": "table_13_real_followup_priority.tex",
    "csv": "table_13_real_followup_priority.csv",
-   "sha256": "adf496f85d46f0fec03705e4f17d05e3b0e9671307a0e9ec12af6bcb701c277b",
+   "sha256": "12715b0bcec8212139dd314a6c9ece19f8832a787281729c77d6735a4c7f7fbf",
    "generator": "code/make_outputs.py",
    "data_sources": [
     "analysis/results.json"
@@ -181,13 +181,13 @@
    "display": "raw",
    "n_seeds": 1,
    "std_ddof": 0,
-   "caption": "Top 12 incomplete group × setting-period strata in the observed NORS common-support cohort ranked by per-case disambiguation priority index (DPI) and per-case stratum leverage w_s/C_js."
+   "caption": "Top 12 incomplete strata in the observed NORS common-support cohort ranked by heuristic DPI and stratum leverage w_s/C_js."
   },
   {
    "id": "tab:small_cal",
    "path": "table_14_small_sample_cal.tex",
    "csv": "table_14_small_sample_cal.csv",
-   "sha256": "8c453b3c542f913f5f3b186d1498f0629620e48164219bfee79f9638131107b5",
+   "sha256": "aa8769730d6c85fa3e836a29a514cdfa93135503e652a1bec041c4e8df84dd23",
    "generator": "code/make_outputs.py",
    "data_sources": [
     "analysis/results.json"
@@ -195,7 +195,7 @@
    "display": "raw",
    "n_seeds": 1,
    "std_ddof": 0,
-   "caption": "Bootstrap-world stratified Monte Carlo calibration (500 resamples preserving n_js) comparing analytic HC1 SEs with empirical sampling SDs and 30-hypothesis FWER across five inferential procedures."
+   "caption": "Bootstrap-world stratified Monte Carlo calibration (500 resamples preserving n_js; no state dependence simulated) evaluating statistic-matched 30-hypothesis FWER across six procedures."
   }
  ]
 }

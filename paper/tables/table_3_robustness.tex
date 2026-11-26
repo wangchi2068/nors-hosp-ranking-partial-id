@@ -3,11 +3,11 @@
 \scriptsize
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.12}
-\caption{Sensitivity analyses across 17 cohort, support, weighting, aggregation, and multistate variants, with common-support cells, determined pairwise orderings under worst-case bounds and at $\delta$ = 5 pp, and changes relative to the main analysis.}
+\caption{Sensitivity analyses across all 20 cohort, support, weighting, serogroup, outbreak-MAR, and multistate variants.}
 \label{tab:robustness}
-\begin{tabular}{>{\raggedright\arraybackslash}p{1.05cm}>{\raggedright\arraybackslash}p{5.15cm}>{\raggedleft\arraybackslash}p{0.85cm}>{\raggedleft\arraybackslash}p{0.85cm}>{\raggedleft\arraybackslash}p{1.5cm}>{\raggedleft\arraybackslash}p{1.45cm}>{\raggedleft\arraybackslash}p{1.5cm}>{\raggedleft\arraybackslash}p{1.5cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{1.0cm}>{\raggedright\arraybackslash}p{5.25cm}>{\raggedleft\arraybackslash}p{0.85cm}>{\raggedleft\arraybackslash}p{0.85cm}>{\raggedleft\arraybackslash}p{1.5cm}>{\raggedleft\arraybackslash}p{1.45cm}>{\raggedleft\arraybackslash}p{1.45cm}>{\raggedleft\arraybackslash}p{1.45cm}}
 \toprule
-Analysis & Description & Cells & Pairs & Determined, worst case & Determined, $\delta$ = 5 & Worst-case verdicts changed & $\delta$ = 0 directions changed \\
+Analysis & Description & Cells & Pairs & Determined, worst case & Determined, $\delta$ = 5 pp & Worst-case changed & $\delta$ = 0 reversed \\
 \midrule
 Main & Setting $\times$ period, $\geq$ 3 outbreaks, pooled-case weights & 12 & 15 & 4 & 12 & 0 & 0 \\
 R1a & Crude, no standardization, all eligible outbreaks & 1 & 15 & 5 & 12 & 1 & 1 \\
@@ -15,7 +15,7 @@ R1b & Crude within the common support (no standardization) & 1 & 15 & 4 & 13 & 0
 R2 & Period-only standardization (3 strata, all settings) & 3 & 15 & 5 & 12 & 1 & 1 \\
 R3a & Cohort of single-etiology confirmed only & 12 & 15 & 4 & 12 & 0 & 0 \\
 R3b & Cohort of records with any blank H or K dropped & 12 & 15 & 7 & 14 & 3 & 0 \\
-R3c & Cohort of species-level etiology strings; records with one blank outcome field dropped (3,703 outbreaks) & 11 & 15 & 4 & 12 & 0 & 0 \\
+R3c & Cohort of species-level strings; records with one blank outcome field dropped (3,703 outbreaks) & 11 & 15 & 4 & 12 & 0 & 0 \\
 R4a & Common support $\geq$ 2 outbreaks per group per cell & 15 & 15 & 4 & 12 & 0 & 1 \\
 R4b & Common support $\geq$ 5 outbreaks per group per cell & 6 & 15 & 5 & 12 & 1 & 0 \\
 R5 & Drop Unknown and Multiple setting cells & 10 & 15 & 4 & 14 & 0 & 1 \\
@@ -23,11 +23,14 @@ R6a & Weights from group-balanced case mix & 12 & 15 & 4 & 12 & 0 & 0 \\
 R6b & Weights from pooled outbreak mix & 12 & 15 & 4 & 12 & 0 & 1 \\
 R6c & Weights from uniform over cells & 12 & 15 & 4 & 12 & 0 & 0 \\
 R7 & Norovirus GI+GII combined (5 groups, 10 pairs) & 12 & 10 & 3 & 9 & NA & NA \\
+R7b & All confirmed norovirus GI+GII+unspecified (5 groups, 10 pairs) & 12 & 10 & 3 & 9 & NA & NA \\
 R8 & Cohort of include suspected study-group etiologies & 16 & 15 & 5 & 13 & 1 & 1 \\
 R9 & Cohort of exclude healthcare/LTCF outbreaks & 12 & 15 & 4 & 12 & 0 & 0 \\
 R10 & Within-cell aggregation: equal weight per outbreak & 12 & 15 & 7 & 14 & 3 & 0 \\
 R11 & Cohort of single-state outbreaks only (exclude multistate) & 12 & 15 & 4 & 12 & 0 & 0 \\
+R12 & Cohort of restrict STEC to confirmed O157 serogroup & 11 & 15 & 4 & 12 & 0 & 0 \\
+R13 & Anchor: outbreak-level H\_i/K\_i MAR within common support & 12 & 15 & 4 & 14 & 0 & 1 \\
 \bottomrule
 \end{tabular}
-\par\smallskip\parbox{0.97\linewidth}{\footnotesize R7 combines Norovirus GI and GII into five groups (10 pairs), so six-group pair changes are NA. R8 adds 951 suspected study-group outbreaks; R9 excludes 79 healthcare/LTCF outbreaks; R10 weights all outbreaks equally within cells; R11 restricts to 3,659 single-state outbreaks.}
+\par\smallskip\parbox{0.97\linewidth}{\footnotesize R7 and R7b combine norovirus into 5 groups (10 pairs), so 6-group changes are NA. R12 restricts STEC to confirmed O157; R13 uses outbreak-level H\_i/K\_i MAR anchors.}
 \end{table}

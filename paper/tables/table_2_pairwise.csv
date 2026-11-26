@@ -1,16 +1,16 @@
-Ordering at δ = 0,Worst case,δ* (pp),OR Γ*,δ = 1,δ = 2,δ = 5,δ = 10,Asym (−15/+5),"Boot det., worst (%)","Boot det., δ = 5 (%)"
-STEC > CAMP,determined,∞,∞,yes,yes,yes,yes,yes,97.0,100.0
-STEC > CPERF,determined,∞,∞,yes,yes,yes,yes,yes,91.6,100.0
-STEC > NoV GI,determined,∞,∞,yes,yes,yes,yes,yes,93.6,100.0
-STEC > NoV GII,determined,∞,∞,yes,yes,yes,yes,yes,100.0,100.0
-SAL > NoV GII,undetermined,81.6,342.1,yes,yes,yes,yes,yes,14.2,100.0
-SAL > NoV GI,undetermined,76.5,1420.4,yes,yes,yes,yes,yes,14.5,100.0
-SAL > CPERF,undetermined,72.1,∞†,yes,yes,yes,yes,yes,24.8,100.0
-SAL > CAMP,undetermined,51.1,17.5,yes,yes,yes,yes,yes,4.2,100.0
-STEC > SAL,undetermined,41.3,8.41,yes,yes,yes,yes,yes,0.6,100.0
-CAMP > NoV GI,undetermined,37.8,115.9,yes,yes,yes,yes,yes,0.1,98.4
-CAMP > NoV GII,undetermined,37.1,41.2,yes,yes,yes,yes,yes,0.0,100.0
-CAMP > CPERF,undetermined,35.5,120.6,yes,yes,yes,yes,yes,1.8,100.0
-NoV GII > NoV GI,undetermined,4.2,7.75,yes,yes,no,no,no,0.0,35.2
-NoV GII > CPERF,undetermined,3.7,4.99,yes,yes,no,no,no,0.0,33.1
-CPERF > NoV GI,undetermined,0.19,1.19,no,no,no,no,no,0.0,0.0
+Ordering at δ = 0,Worst case,δ* (pp),OR Γ*,CM α=0.5,δ = 5 pp,δ = 10 pp,Asym (−15/+5),"Boot det., worst (%)","Boot det., δ = 5 (%)"
+STEC > CAMP,determined,∞,∞,yes,yes,yes,yes,97.0,100.0
+STEC > CPERF,determined,∞,∞,yes,yes,yes,yes,91.6,100.0
+STEC > NoV GI,determined,∞,∞,yes,yes,yes,yes,93.6,100.0
+STEC > NoV GII,determined,∞,∞,yes,yes,yes,yes,100.0,100.0
+SAL > NoV GII,undetermined,81.6,342.1,yes,yes,yes,yes,14.2,100.0
+SAL > NoV GI,undetermined,76.5,1420.4,yes,yes,yes,yes,14.5,100.0
+SAL > CPERF,undetermined,72.1,∞†,yes,yes,yes,yes,24.8,100.0
+SAL > CAMP,undetermined,51.1,17.5,yes,yes,yes,yes,4.2,100.0
+STEC > SAL,undetermined,41.3,8.41,yes,yes,yes,yes,0.6,100.0
+CAMP > NoV GI,undetermined,37.8,115.9,yes,yes,yes,yes,0.1,98.4
+CAMP > NoV GII,undetermined,37.1,41.2,yes,yes,yes,yes,0.0,100.0
+CAMP > CPERF,undetermined,35.5,120.6,yes,yes,yes,yes,1.8,100.0
+NoV GII > NoV GI,undetermined,4.2,7.75,yes,no,no,no,0.0,35.2
+NoV GII > CPERF,undetermined,3.7,4.99,yes,no,no,no,0.0,33.1
+CPERF > NoV GI,undetermined,0.19,1.19,yes,no,no,no,0.0,0.0

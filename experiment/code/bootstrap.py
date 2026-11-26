@@ -104,9 +104,9 @@ def _qn(x, q):
     return None if not np.isfinite(v) else v
 
 
-def _nongaussian_max_t_30(groups: list, pairs_30: list[tuple[int, int]], dL_hat: np.ndarray,
-                           dL_boot: np.ndarray, alpha: float = 0.05) -> OrderedDict:
-    """Studentized non-Gaussian Romano-Wolf Max-T stepdown over all 30 ordered pairs."""
+def _standardized_boot_max_t_30(groups: list, pairs_30: list[tuple[int, int]], dL_hat: np.ndarray,
+                                dL_boot: np.ndarray, alpha: float = 0.05) -> OrderedDict:
+    """Fixed-scale (standardized) Romano-Wolf Max-T stepdown over all 30 ordered hypotheses."""
     B, M = dL_boot.shape
     sd = np.maximum(np.std(dL_boot, axis=0, ddof=1), 1e-20)
     t_obs = dL_hat / sd
@@ -115,13 +115,22 @@ def _nongaussian_max_t_30(groups: list, pairs_30: list[tuple[int, int]], dL_hat:
 
     order = np.argsort(-t_obs, kind="mergesort")
     adj_p = np.zeros(M)
+    mc_se = np.zeros(M)
     prev_p = 0.0
+    prev_se = 0.0
     for step in range(M):
         active = order[step:]
         max_t = T_boot[:, active].max(axis=1)
         p_raw = float((1.0 + np.sum(max_t >= t_obs[order[step]])) / (B + 1.0))
-        prev_p = max(prev_p, p_raw)
-        adj_p[order[step]] = prev_p
+        se_raw = float(np.sqrt(max(p_raw * (1.0 - p_raw), 0.0) / B))
+        if p_raw >= prev_p:
+            adj_p[order[step]] = p_raw
+            mc_se[order[step]] = se_raw
+            prev_p = p_raw
+            prev_se = se_raw
+        else:
+            adj_p[order[step]] = prev_p
+            mc_se[order[step]] = prev_se
 
     G = len(groups)
     ranks = OrderedDict()
@@ -134,6 +143,7 @@ def _nongaussian_max_t_30(groups: list, pairs_30: list[tuple[int, int]], dL_hat:
         n_hypotheses=int(M),
         c_boot=c_crit,
         p_fwer=[float(x) for x in adj_p],
+        mc_se_p=[float(x) for x in mc_se],
         sd_boot_pp=[float(100.0 * x) for x in sd],
         n_sig=int(sum(x <= alpha for x in adj_p)),
         rank_confidence_sets=ranks,
@@ -231,8 +241,8 @@ def run(main_df, t_main, main_res, B: int = 2000, seed: int = 20261125, workers:
     dL_hat_d5_30 = np.array([L5_hat[h] - U5_hat[l] for h, l in pairs_30])
     dL_boot_d5_30 = np.column_stack([L5[:, h] - U5[:, l] for h, l in pairs_30])
 
-    ng_wc = _nongaussian_max_t_30(groups, pairs_30, dL_hat_wc_30, dL_boot_wc_30, alpha=0.05)
-    ng_d5 = _nongaussian_max_t_30(groups, pairs_30, dL_hat_d5_30, dL_boot_d5_30, alpha=0.05)
+    ng_wc = _standardized_boot_max_t_30(groups, pairs_30, dL_hat_wc_30, dL_boot_wc_30, alpha=0.05)
+    ng_d5 = _standardized_boot_max_t_30(groups, pairs_30, dL_hat_d5_30, dL_boot_d5_30, alpha=0.05)
 
     dL_cov = np.cov(dL_mat, rowvar=False, ddof=1)
     dL_cov_30 = np.cov(dL_boot_wc_30, rowvar=False, ddof=1)
@@ -247,7 +257,7 @@ def run(main_df, t_main, main_res, B: int = 2000, seed: int = 20261125, workers:
         pair_dL_worst_cov=[[float(x) for x in row] for row in dL_cov],
         pair_order_30=pair_names_30,
         pair_dL_worst_cov_30=[[float(x) for x in row] for row in dL_cov_30],
-        nongaussian_max_t=OrderedDict(worst=ng_wc, delta5=ng_d5),
+        standardized_boot_max_t=OrderedDict(worst=ng_wc, delta5=ng_d5),
         n_determined_worst_distribution=dist(worst), n_determined_delta5_distribution=dist(d5),
         jsonl="logs/bootstrap_replicates.jsonl",
     )

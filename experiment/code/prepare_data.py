@@ -74,6 +74,7 @@ def build_cohort(df: pd.DataFrame):
         base = OrderedDict(
             outbreak_id=r[":id"], year=int(r["year"]), month=r["month"], state=r["state"],
             etiology=r["etiology"], etiology_status=r["etiology_status"],
+            serotype_or_genotype=r.get("serotype_or_genotype", ""),
             n_etiology_entries=n_entries, flow_category=cat,
         )
         if ambiguous:
@@ -283,9 +284,10 @@ def _summarize_excluded_group(rows: list[dict]) -> OrderedDict:
     )
 
 
-def build_suspected_and_excluded(food: pd.DataFrame) -> tuple[pd.DataFrame, OrderedDict]:
-    """Build suspected-etiology cohort (for R8) and summary of excluded outbreak categories."""
+def build_suspected_and_excluded(food: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame, OrderedDict]:
+    """Build suspected cohort (R8), confirmed unspecified-norovirus cohort (R7b), and excluded summaries."""
     suspected_rows = []
+    unspec_nov_rows = []
     buckets = OrderedDict([
         ("suspected_study_group", []),
         ("norovirus_unspecified_confirmed", []),
@@ -310,33 +312,36 @@ def build_suspected_and_excluded(food: pd.DataFrame) -> tuple[pd.DataFrame, Orde
             H_rec=a["H_rec"] or 0.0,
             K_rec=a["K_rec"] or 0.0,
         )
+        row_dict = OrderedDict(
+            outbreak_id=r[":id"], year=int(r["year"]), month=r["month"], state=r["state"],
+            etiology=r["etiology"], etiology_status=r["etiology_status"],
+            serotype_or_genotype=r.get("serotype_or_genotype", ""),
+            n_etiology_entries=n_entries, flow_category=cat,
+            group=(grp or "NOV_UNSPEC"), pilot_group="", in_main=False,
+            single_etiology=(n_entries == 1),
+            in_pilot_eligible=False, in_pilot_rule=False,
+            setting_raw=r["setting"], setting_group=setting_group, period=period,
+            cell=f"{setting_group} | {period}", is_healthcare=is_hc,
+            C_raw=r["illnesses"], H_raw=r["hospitalizations"], K_raw=r["info_on_hospitalizations"],
+            audit_category=a["category"], audit_detail=a["detail"],
+            handling=R.AUDIT_HANDLING[a["category"]], kept=a["kept"],
+            C=a["C"], H=a["H"], K_eff=a["K_eff"], U=a["U"], H_rec=a["H_rec"], K_rec=a["K_rec"],
+            recorded=a["recorded"],
+            in_complete_only=(a["category"] == "complete_consistent"),
+        )
         if cat in ("single_target_suspected_or_blank", "multi_same_group_unconfirmed"):
             buckets["suspected_study_group"].append(summary_rec)
-            suspected_rows.append(OrderedDict(
-                outbreak_id=r[":id"], year=int(r["year"]), month=r["month"], state=r["state"],
-                etiology=r["etiology"], etiology_status=r["etiology_status"],
-                n_etiology_entries=n_entries, flow_category=cat,
-                group=grp, pilot_group="", in_main=False,
-                single_etiology=(n_entries == 1),
-                in_pilot_eligible=False, in_pilot_rule=False,
-                setting_raw=r["setting"], setting_group=setting_group, period=period,
-                cell=f"{setting_group} | {period}", is_healthcare=is_hc,
-                C_raw=r["illnesses"], H_raw=r["hospitalizations"], K_raw=r["info_on_hospitalizations"],
-                audit_category=a["category"], audit_detail=a["detail"],
-                handling=R.AUDIT_HANDLING[a["category"]], kept=a["kept"],
-                C=a["C"], H=a["H"], K_eff=a["K_eff"], U=a["U"], H_rec=a["H_rec"], K_rec=a["K_rec"],
-                recorded=a["recorded"],
-                in_complete_only=(a["category"] == "complete_consistent"),
-            ))
+            suspected_rows.append(row_dict)
         elif cat == "norovirus_unspecified_confirmed":
             buckets["norovirus_unspecified_confirmed"].append(summary_rec)
+            unspec_nov_rows.append(row_dict)
         else:
             buckets["multi_cross_group_or_nontarget"].append(summary_rec)
             if R.is_ambiguous_etiology(r["etiology"], r["etiology_status"]):
                 buckets["multi_cross_with_confirmed_target"].append(summary_rec)
 
     excl_summary = OrderedDict((k, _summarize_excluded_group(v)) for k, v in buckets.items())
-    return pd.DataFrame(suspected_rows), excl_summary
+    return pd.DataFrame(suspected_rows), pd.DataFrame(unspec_nov_rows), excl_summary
 
 
 def write_json(obj, path: Path, indent: int = 1):
@@ -361,11 +366,12 @@ def main(argv=None):
         print(f"raw sha256 OK {raw_sha}")
     df = load_raw(args.raw)
     food, cohort, audit = build_cohort(df)
-    suspected_cohort, excluded_summary = build_suspected_and_excluded(food)
+    suspected_cohort, unspec_nov_cohort, excluded_summary = build_suspected_and_excluded(food)
     main_df = main_cohort(cohort)
 
     cohort.to_csv(args.out / "cohort_outbreaks.csv", index=False, lineterminator="\n")
     suspected_cohort.to_csv(args.out / "suspected_cohort_outbreaks.csv", index=False, lineterminator="\n")
+    unspec_nov_cohort.to_csv(args.out / "unspecified_norovirus_outbreaks.csv", index=False, lineterminator="\n")
     audit.to_csv(args.out / "record_audit.csv", index=False, lineterminator="\n")
     etiology_mapping(food).to_csv(args.out / "etiology_mapping.csv", index=False, lineterminator="\n")
     setting_mapping(food).to_csv(args.out / "setting_mapping.csv", index=False, lineterminator="\n")

@@ -3,7 +3,7 @@
 \scriptsize
 \setlength{\tabcolsep}{2.3pt}
 \renewcommand{\arraystretch}{1.12}
-\caption{Bootstrap-world stratified Monte Carlo calibration (500 resamples preserving n\_js) comparing analytic HC1 SEs with empirical sampling SDs and 30-hypothesis FWER across five inferential procedures.}
+\caption{Bootstrap-world stratified Monte Carlo calibration (500 resamples preserving n\_js; no state dependence simulated) evaluating statistic-matched 30-hypothesis FWER across six procedures.}
 \label{tab:small_cal}
 \begin{tabular}{>{\raggedright\arraybackslash}p{2.2cm}>{\raggedleft\arraybackslash}p{1.75cm}>{\raggedleft\arraybackslash}p{1.85cm}>{\raggedleft\arraybackslash}p{1.9cm}>{\raggedleft\arraybackslash}p{1.75cm}>{\raggedleft\arraybackslash}p{1.85cm}>{\raggedleft\arraybackslash}p{1.9cm}}
 \toprule
@@ -17,5 +17,5 @@ C. perfringens & 0.16 & 0.15 & 0.917 & 4.67 & 3.52 & 0.754 \\
 Norovirus GI & 0.11 & 0.10 & 0.926 & 3.83 & 3.48 & 0.910 \\
 \bottomrule
 \end{tabular}
-\par\smallskip\parbox{0.97\linewidth}{\footnotesize IM 95\% empirical boundary coverage across the 15 primary pairs was 76.4\% (min) to 87.4\% (median) under HC1 (75.4\%--86.0\% HC0). Empirical 30-test Max-T FWER (nominal 5\%; worst case / $\delta$ = 5): HC0 32.8\%/20.8\%; HC1 29.8\%/18.0\%; boot-crit 25.6\%/12.6\%; 53-state 21.4\%/8.8\%; WCB 20.6\%/8.0\%.}
+\par\smallskip\parbox{0.97\linewidth}{\footnotesize IM 95\% boundary coverage (15 primary pairs): 76.4\% min to 87.4\% median (HC1). Empirical 30-test Max-T FWER (nominal 5\%; worst / $\delta$ = 5): HC0 32.8\%/20.8\%; HC1 29.8\%/18.0\%; 53-cluster 21.4\%/8.8\%; WCB 20.6\%/8.0\%; fixed-scale boot 5.0\%/4.4\%; studentized boot-t 3.8\%/5.8\%. Top worst-case HC1 exceedance drivers: NOV\_GII-$>$CPERF (8.8\%); NOV\_GI-$>$CPERF (8.8\%); SAL-$>$CPERF (8.2\%).}
 \end{table}

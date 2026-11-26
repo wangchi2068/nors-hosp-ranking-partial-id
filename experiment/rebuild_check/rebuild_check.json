@@ -1,20 +1,20 @@
 {
   "preserved": "results.json",
-  "preserved_sha256": "3523690cc5b823016e657021c4aa1ae35020f39f2f7c42b3f742be0d06018d7b",
+  "preserved_sha256": "5ce23d5eb782b599430aabb1cb48bb4444714de1348912ba78000e2c4362d1b5",
   "rebuilt": "results_rebuilt.json",
-  "rebuilt_sha256": "13a29f6aa578e57dbda28dae438aba707e885713e5c2d88887cea2d89882ec4d",
+  "rebuilt_sha256": "5c1e0650217999c1f1548848dda099d23bb945eec7ce2aac7568ed099e5fa340",
   "tolerance_abs": 1e-09,
   "rules": "ints/bools/strings/nulls identical; floats |diff| <= tolerance; run metadata excluded",
   "totals": {
-    "n_leaves": 20990,
-    "exact": 20990,
+    "n_leaves": 23061,
+    "exact": 23061,
     "float_close": 0,
     "not_matched": 0,
     "max_abs_float_deviation": 0.0
   },
   "totals_excluding_bootstrap": {
-    "n_leaves": 19391,
-    "exact": 19391,
+    "n_leaves": 21402,
+    "exact": 21402,
     "float_close": 0,
     "not_matched": 0,
     "max_abs_float_deviation": 0.0
@@ -2678,8 +2678,8 @@
       "status": "exact"
     },
     "main": {
-      "n_leaves": 3504,
-      "exact": 3504,
+      "n_leaves": 3511,
+      "exact": 3511,
       "float_close": 0,
       "not_matched": 0,
       "max_abs_float_deviation": 0.0,
@@ -2797,6 +2797,14 @@
       "max_abs_float_deviation": 0.0,
       "status": "exact"
     },
+    "robustness.R7b_norovirus_all_confirmed": {
+      "n_leaves": 301,
+      "exact": 301,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
     "robustness.R8_include_suspected": {
       "n_leaves": 541,
       "exact": 541,
@@ -2829,6 +2837,22 @@
       "max_abs_float_deviation": 0.0,
       "status": "exact"
     },
+    "robustness.R12_stec_o157_only": {
+      "n_leaves": 531,
+      "exact": 531,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
+    "robustness.R13_outbreak_level_mar": {
+      "n_leaves": 534,
+      "exact": 534,
+      "float_close": 0,
+      "not_matched": 0,
+      "max_abs_float_deviation": 0.0,
+      "status": "exact"
+    },
     "retention": {
       "n_leaves": 165,
       "exact": 165,
@@ -2846,8 +2870,8 @@
       "status": "exact"
     },
     "bootstrap": {
-      "n_leaves": 1599,
-      "exact": 1599,
+      "n_leaves": 1659,
+      "exact": 1659,
       "float_close": 0,
       "not_matched": 0,
       "max_abs_float_deviation": 0.0,
@@ -2870,32 +2894,32 @@
       "status": "exact"
     },
     "stacked_inference": {
-      "n_leaves": 1064,
-      "exact": 1064,
+      "n_leaves": 1532,
+      "exact": 1532,
       "float_close": 0,
       "not_matched": 0,
       "max_abs_float_deviation": 0.0,
       "status": "exact"
     },
     "cluster_diagnostics": {
-      "n_leaves": 563,
-      "exact": 563,
+      "n_leaves": 623,
+      "exact": 623,
       "float_close": 0,
       "not_matched": 0,
       "max_abs_float_deviation": 0.0,
       "status": "exact"
     },
     "small_sample_calibration": {
-      "n_leaves": 71,
-      "exact": 71,
+      "n_leaves": 93,
+      "exact": 93,
       "float_close": 0,
       "not_matched": 0,
       "max_abs_float_deviation": 0.0,
       "status": "exact"
     },
     "empirical_calibration": {
-      "n_leaves": 416,
-      "exact": 416,
+      "n_leaves": 504,
+      "exact": 504,
       "float_close": 0,
       "not_matched": 0,
       "max_abs_float_deviation": 0.0,
@@ -2930,14 +2954,14 @@
     {
       "path": "provenance.timestamp",
       "status": "value_differs",
-      "preserved": "2026-11-26T02:37:26Z",
-      "rebuilt": "2026-11-26T02:45:02Z"
+      "preserved": "2026-11-26T05:42:36Z",
+      "rebuilt": "2026-11-26T05:54:57Z"
     },
     {
       "path": "provenance.wall_clock_seconds",
       "status": "float_differs",
-      "preserved": 105.9,
-      "rebuilt": 106.7
+      "preserved": 150.3,
+      "rebuilt": 173.6
     }
   ],
   "added_keys_in_rebuilt": []

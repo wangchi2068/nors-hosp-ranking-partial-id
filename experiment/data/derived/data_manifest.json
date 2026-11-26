@@ -3,16 +3,17 @@
  "raw_sha256": "6005ac026ef124a5a1e5b9bd1f5aafc791184976f4518368bb5cd5aa059e82e9",
  "raw_rows": 66713,
  "outputs": {
-  "cohort_outbreaks.csv": "61305e507eb2a9b20f6a0e28a04a94a44995775043b8d8ffe7d2f0c619e5dc6f",
+  "cohort_outbreaks.csv": "87d511d1eea5c51f8241d81ee547dd641fd8cde6155412e6c58856a840207154",
   "eligibility_flow.json": "c2cd575e9084a327ab87cfb4ddbeabadce2ab9ce2753d0ed80a230f7bd290d5e",
   "etiology_mapping.csv": "1a094117d37a85d45cd2f90193a33361f600314729548d69084fa6763ef3b24b",
   "excluded_outbreaks_summary.json": "db12a59828ef0873ebab676c7e68689c81a9f7ac7b1fb9bc0447c011cee70aa7",
   "pilot_reproduction.csv": "0937f5a7f16b1f4b8e2d66fc0ebcb8d46e8a02cc933eb40fd9402021541e6372",
-  "record_audit.csv": "000c079ee965638d2b26b1fcc5ece44f20b893d0b7e95f538564a4cacf517aec",
+  "record_audit.csv": "54ffe3f6b39e3680a2033fa17b92c7043bc6a0ef31322d517901df8d692ab5e5",
   "record_audit_summary.json": "fa380abcb6afa43c3a2f4cee0e1d9753bd8cb38ba28be3feb4225b266133834a",
   "setting_mapping.csv": "bcbebe80bc0e0f00fb93dcaf287962cc5e0985545cbc7a9ed517c64f18bf237e",
   "strata_counts.csv": "f171061318ae60dcabf2881e93c83394f1f727afca9394bf187a0224cdf94133",
   "support_cells.csv": "e3aca9fdcb6621ce7a3a4717b523dd7f757b35bbfcfbe11b1dab74280a6c00bd",
-  "suspected_cohort_outbreaks.csv": "98b71a7b44a90a65841a7cb90657d78759a4708af48130452e210407659e48a7"
+  "suspected_cohort_outbreaks.csv": "787540454f4b2c8f6bb7aa647608d3a05c92f91001e111374534b3649445b7fa",
+  "unspecified_norovirus_outbreaks.csv": "9e42edff5e1b8d6ffc72eb8108b9a3ee79f0acf1d986824fe25baf2ab69140ed"
  }
 }

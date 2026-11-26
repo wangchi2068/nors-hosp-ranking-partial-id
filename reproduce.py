@@ -5,7 +5,7 @@ Runs from the repository root:
     python reproduce.py [--B 2000] [--workers 2] [--render-outputs]
 
 Writes all regenerated outputs into experiment/rerun/ without modifying committed artifacts,
-then verifies bit-for-bit equality against experiment/analysis/results.json and all 10 CSV tables.
+then verifies equality against experiment/analysis/results.json and all 14 CSV tables.
 """
 from __future__ import annotations
 

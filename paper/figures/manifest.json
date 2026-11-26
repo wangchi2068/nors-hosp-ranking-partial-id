@@ -3,7 +3,7 @@
   "id": "fig_02_verdict_matrix",
   "path_pdf": "fig_02_verdict_matrix.pdf",
   "path_png": "fig_02_verdict_matrix.png",
-  "caption": "Pairwise ordering verdicts and δ*.",
+  "caption": "Pairwise ordering verdicts and $\\delta^*$.",
   "section": "results",
   "generator": "code/make_outputs.py",
   "data_source": "analysis/results.json"
@@ -21,7 +21,7 @@
   "id": "fig_04_calibrated_2d",
   "path_pdf": "fig_04_calibrated_2d.pdf",
   "path_png": "fig_04_calibrated_2d.png",
-  "caption": "2D asymmetric stress-test sensitivity across 15 pairs.",
+  "caption": "2D breakdown frontiers across 15 pairs.",
   "section": "results",
   "generator": "code/make_outputs.py",
   "data_source": "analysis/results.json"
@@ -30,7 +30,7 @@
   "id": "fig_05_inference_followup",
   "path_pdf": "fig_05_inference_followup.pdf",
   "path_png": "fig_05_inference_followup.png",
-  "caption": "30-hypothesis tipping points and cost-conditional follow-up.",
+  "caption": "Sample and statistical 30-hypothesis breakdown points alongside common-mechanism proportional scaling.",
   "section": "results",
   "generator": "code/make_outputs.py",
   "data_source": "analysis/results.json"
@@ -48,7 +48,7 @@
   "id": "fig_s2_robustness",
   "path_pdf": "fig_s2_robustness.pdf",
   "path_png": "fig_s2_robustness.png",
-  "caption": "Sensitivity verdicts across all 16 six-group specifications.",
+  "caption": "Sensitivity verdicts across all 18 six-group specifications.",
   "section": "supplementary",
   "generator": "code/make_outputs.py",
   "data_source": "analysis/results.json"
@@ -57,7 +57,7 @@
   "id": "fig_s3_followup_sensitivity",
   "path_pdf": "fig_s3_followup_sensitivity.pdf",
   "path_png": "fig_s3_followup_sensitivity.png",
-  "caption": "Mixed-cost follow-up comparison and heuristic DPI / non-MCAR / partial-yield sensitivity checks.",
+  "caption": "Follow-up benchmarks across per-case, per-outbreak, mixed-cost, and MNAR masking regimes.",
   "section": "supplementary",
   "generator": "code/make_outputs.py",
   "data_source": "analysis/results.json"

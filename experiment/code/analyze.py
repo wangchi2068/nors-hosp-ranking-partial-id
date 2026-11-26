@@ -147,9 +147,12 @@ def delta_fine(t: S.Table) -> OrderedDict:
 
 
 # --------------------------------------------------------------------------- cohorts
-def cohorts(cohort: pd.DataFrame, suspected: pd.DataFrame | None = None) -> dict:
+def cohorts(cohort: pd.DataFrame, suspected: pd.DataFrame | None = None,
+            unspec_nov: pd.DataFrame | None = None) -> dict:
     kept = cohort[cohort["kept"]]
     main = kept[kept["in_main"]].copy()
+    is_stec = main["group"] == "STEC"
+    sg_col = main["serotype_or_genotype"].astype(str).str.upper() if "serotype_or_genotype" in main.columns else pd.Series("", index=main.index)
     out = {
         "keep_main": main,
         "keep_single_etiology": main[main["single_etiology"]].copy(),
@@ -157,12 +160,18 @@ def cohorts(cohort: pd.DataFrame, suspected: pd.DataFrame | None = None) -> dict
         "keep_pilot_rule": kept[kept["in_pilot_rule"]].assign(group=lambda d: d["pilot_group"]).copy(),
         "keep_excl_healthcare": main[~main["is_healthcare"].astype(bool)].copy(),
         "keep_single_state": main[main["state"].astype(str) != "Multistate"].copy(),
+        "keep_stec_o157": main[(~is_stec) | sg_col.str.contains("O157")].copy(),
     }
     if suspected is not None and len(suspected) > 0:
         sus_kept = suspected[suspected["kept"]].copy()
         out["keep_include_suspected"] = pd.concat([main, sus_kept], ignore_index=True)
     else:
         out["keep_include_suspected"] = main.copy()
+    if unspec_nov is not None and len(unspec_nov) > 0:
+        un_kept = unspec_nov[unspec_nov["kept"]].copy()
+        out["keep_norovirus_all_confirmed"] = pd.concat([main, un_kept], ignore_index=True)
+    else:
+        out["keep_norovirus_all_confirmed"] = main.copy()
     return out
 
 
@@ -181,11 +190,104 @@ ROBUSTNESS = OrderedDict([
     ("R6b_w_pooled_outbreaks", ("Weights: pooled outbreak mix", {"weights": "pooled_outbreaks"})),
     ("R6c_w_uniform", ("Weights: uniform over cells", {"weights": "uniform"})),
     ("R7_norovirus_combined", ("Norovirus GI+GII combined (5 groups, 10 pairs)", {"combined": True})),
+    ("R7b_norovirus_all_confirmed", ("All confirmed norovirus GI+GII+unspecified (5 groups, 10 pairs)",
+                                     {"combined": True, "cohort": "keep_norovirus_all_confirmed"})),
     ("R8_include_suspected", ("Cohort: include suspected study-group etiologies", {"cohort": "keep_include_suspected"})),
     ("R9_excl_healthcare", ("Cohort: exclude healthcare/LTCF outbreaks", {"cohort": "keep_excl_healthcare"})),
     ("R10_outbreak_weighted", ("Within-cell aggregation: equal weight per outbreak", {"kind": "outbreak_weighted", "cohort": "keep_main"})),
     ("R11_single_state_only", ("Cohort: single-state outbreaks only (exclude multistate)", {"cohort": "keep_single_state"})),
+    ("R12_stec_o157_only", ("Cohort: restrict STEC to confirmed O157 serogroup", {"cohort": "keep_stec_o157"})),
+    ("R13_outbreak_level_mar", ("Anchor: outbreak-level H_i/K_i MAR within common support", {"kind": "outbreak_mar", "cohort": "keep_main"})),
 ])
+
+
+def _analyze_outbreak_mar(cohort: pd.DataFrame, main_cells: list, main_weights: np.ndarray | None) -> tuple[S.Table, OrderedDict]:
+    """Outbreak-level MAR sensitivity anchor: each outbreak uses its own recorded rate H_rec/K_rec
+    when K_rec > 0, falling back to cell p_js only when K_rec == 0."""
+    sub = cohort[cohort["cell"].isin(main_cells)].copy()
+    t_base = S.build(sub, R.GROUPS, "setting_period", fixed_cells=main_cells)
+    if main_weights is not None:
+        t_base.w = main_weights.copy()
+    groups = t_base.groups
+    cells = t_base.cells
+    G, K = len(groups), len(cells)
+    gi_map = {g: i for i, g in enumerate(groups)}
+    ci_map = {c: j for j, c in enumerate(cells)}
+
+    def ob_bounds_table(d_frac: float):
+        L_mat = np.zeros((G, K)); U_mat = np.zeros((G, K)); T0_mat = np.zeros((G, K))
+        for _, row in sub.iterrows():
+            gi = gi_map[row["group"]]; ci = ci_map[row["cell"]]
+            h_i = float(row["H"]); u_i = float(row["U"])
+            kr_i = float(row["K_rec"]); hr_i = float(row["H_rec"])
+            p_i = (hr_i / kr_i) if kr_i > 0 else float(t_base.p_obs[gi, ci])
+            L_mat[gi, ci] += h_i + u_i * max(0.0, p_i - d_frac)
+            U_mat[gi, ci] += h_i + u_i * min(1.0, p_i + d_frac)
+            T0_mat[gi, ci] += h_i + u_i * p_i
+        return L_mat / t_base.C, U_mat / t_base.C, T0_mat / t_base.C
+
+    w = t_base.w
+    Lw_arr, Uw_arr, _ = ob_bounds_table(1.0)
+    L0_arr, _, T0_arr = ob_bounds_table(0.0)
+    Lw_v = Lw_arr @ w; Uw_v = Uw_arr @ w; T0_v = T0_arr @ w
+    bd_grid = {d: ob_bounds_table(d / 100.0)[:2] for d in DELTA_GRID_PP}
+    per_group = OrderedDict()
+    lab = labels_for(groups)
+    for i, g in enumerate(groups):
+        bd = OrderedDict()
+        for d in DELTA_GRID_PP:
+            bd[str(d)] = OrderedDict(L=float(bd_grid[d][0][i] @ w), U=float(bd_grid[d][1][i] @ w))
+        cases = float(t_base.C[i].sum()); unk = float(t_base.U[i].sum())
+        per_group[g] = OrderedDict(
+            label=lab[g], L_worst=float(Lw_v[i]), U_worst=float(Uw_v[i]), width_worst=float(Uw_v[i] - Lw_v[i]),
+            theta_delta0=float(T0_v[i]), delta0_interval=[float(T0_v[i]), float(T0_v[i])],
+            strata_without_recorded_rate=0, bounds_by_delta_pp=bd,
+            cases=cases, unknown_cases=unk, hospitalized_known=float(t_base.H[i].sum()),
+            unknown_share=unk / cases, outbreaks=int(t_base.n[i].sum()),
+        )
+    pairs = OrderedDict()
+    for i, j in pair_list(groups):
+        a, b = groups[i], groups[j]
+        wc = B.verdict(float(Lw_v[i]), float(Uw_v[i]), float(Lw_v[j]), float(Uw_v[j]), a, b)
+        h, l = (i, j) if T0_v[i] >= T0_v[j] else (j, i)
+        # Solve exact root via bisection over [0, 1]
+        if (Lw_v[h] - Uw_v[l]) > 0:
+            ds_pp = None
+        else:
+            def g_ob(d_val):
+                lm, um, _ = ob_bounds_table(d_val)
+                return float((lm[h] - um[l]) @ w)
+            if g_ob(0.0) <= 0:
+                ds_pp = 0.0
+            else:
+                lo, hi = 0.0, 1.0
+                for _ in range(60):
+                    mid = 0.5 * (lo + hi)
+                    if g_ob(mid) > 0:
+                        lo = mid
+                    else:
+                        hi = mid
+                ds_pp = 100.0 * hi
+        vb = OrderedDict()
+        for d in DELTA_GRID_PP:
+            La = float(bd_grid[d][0][i] @ w); Ua = float(bd_grid[d][1][i] @ w)
+            Lb = float(bd_grid[d][0][j] @ w); Ub = float(bd_grid[d][1][j] @ w)
+            vb[str(d)] = B.verdict(La, Ua, Lb, Ub, a, b)
+        pairs[f"{a}|{b}"] = OrderedDict(
+            A=a, B=b, worst_case=wc, higher_at_delta0=groups[h], lower_at_delta0=groups[l],
+            holds_without_assumption=wc != B.UNDET, delta_star_pp=ds_pp, delta_star_bisect_pp=ds_pp,
+            verdict_by_delta_pp=vb,
+            worst_case_overlap=float(Uw_v[l] - Lw_v[h]) if wc == B.UNDET else None,
+        )
+    n_det = OrderedDict(worst_case=sum(p["worst_case"] != B.UNDET for p in pairs.values()))
+    for d in DELTA_GRID_PP:
+        n_det[str(d)] = sum(p["verdict_by_delta_pp"][str(d)] != B.UNDET for p in pairs.values())
+    order = sorted(groups, key=lambda g: -per_group[g]["theta_delta0"])
+    return t_base, OrderedDict(
+        groups=list(groups), n_pairs=len(pairs),
+        cells=[OrderedDict(cell=c, weight=float(w_s)) for c, w_s in zip(cells, w)], n_cells=len(cells),
+        per_group=per_group, pairs=pairs, n_determined=n_det, order_by_delta0=order,
+    )
 
 
 def variant_table(spec: dict, co: dict, main_cells: list, main_weights: np.ndarray | None = None) -> tuple[S.Table, int]:
@@ -208,7 +310,7 @@ def variant_table(spec: dict, co: dict, main_cells: list, main_weights: np.ndarr
             t_ow.w = main_weights.copy()
         return t_ow, len(cohort)
     if spec.get("combined"):
-        c2 = cohort.assign(group=cohort["group"].replace({"NOV_GI": "NOV", "NOV_GII": "NOV"}))
+        c2 = cohort.assign(group=cohort["group"].replace({"NOV_GI": "NOV", "NOV_GII": "NOV", "NOV_UNSPEC": "NOV"}))
         groups = ["SAL", "STEC", "CAMP", "CPERF", "NOV"]
         return S.build(c2, groups, "setting_period", threshold=THRESHOLD), len(cohort)
     return S.build(cohort, R.GROUPS, "setting_period", threshold=spec.get("threshold", THRESHOLD),
@@ -231,8 +333,12 @@ def changes_vs_main(main_res, var_res):
 def robustness(co: dict, main_res, main_cells, main_weights: np.ndarray | None = None) -> OrderedDict:
     out = OrderedDict()
     for key, (label, spec) in ROBUSTNESS.items():
-        t, n_coh = variant_table(spec, co, main_cells, main_weights=main_weights)
-        res = analyze_table(t)
+        if spec.get("kind") == "outbreak_mar":
+            n_coh = len(co[spec.get("cohort", "keep_main")])
+            _, res = _analyze_outbreak_mar(co["keep_main"], main_cells, main_weights)
+        else:
+            t, n_coh = variant_table(spec, co, main_cells, main_weights=main_weights)
+            res = analyze_table(t)
         res["n_outbreaks_in_cohort"] = int(n_coh)
         res["label"] = label
         res["spec"] = spec
@@ -389,10 +495,36 @@ def main(argv=None):
     sus_path = args.derived / "suspected_cohort_outbreaks.csv"
     suspected = pd.read_csv(sus_path, dtype={"H_raw": str, "K_raw": str, "C_raw": str, "month": str},
                             keep_default_na=False, na_values=[""]) if sus_path.exists() else None
-    co = cohorts(cohort, suspected=suspected)
+    unspec_path = args.derived / "unspecified_norovirus_outbreaks.csv"
+    unspec_nov = pd.read_csv(unspec_path, dtype={"H_raw": str, "K_raw": str, "C_raw": str, "month": str},
+                             keep_default_na=False, na_values=[""]) if unspec_path.exists() else None
+    co = cohorts(cohort, suspected=suspected, unspec_nov=unspec_nov)
     main_df = co["keep_main"]
     t_main = S.build(main_df, R.GROUPS, "setting_period", threshold=THRESHOLD)
     main_res = analyze_table(t_main, detail=True)
+    # Blank-K conservative delta=5 lower-bound check (Minor 1: blank-K lower bound fixed at H_i)
+    bk_df = main_df[main_df["cell"].isin(t_main.cells)].copy()
+    is_bk = bk_df["audit_category"] == "single_missing_K"
+    bk_L_delta5 = OrderedDict()
+    for i, g in enumerate(t_main.groups):
+        L_adj = 0.0
+        for s_idx, c in enumerate(t_main.cells):
+            sub_gc = bk_df[(bk_df["group"] == g) & (bk_df["cell"] == c)]
+            p_js = float(t_main.p_obs[i, s_idx])
+            num = 0.0
+            for _, rw in sub_gc.iterrows():
+                if rw["audit_category"] == "single_missing_K":
+                    num += float(rw["H"])  # K in [H, C] allows 0 among C-H unrecorded
+                else:
+                    num += float(rw["H"]) + float(rw["U"]) * max(0.0, p_js - 0.05)
+            L_adj += float(t_main.w[s_idx]) * num / float(t_main.C[i, s_idx])
+        bk_L_delta5[g] = float(L_adj)
+    bk_det = sum(
+        (bk_L_delta5[p["higher_at_delta0"]] > main_res["per_group"][p["lower_at_delta0"]]["bounds_by_delta_pp"]["5"]["U"])
+        for p in main_res["pairs"].values()
+    )
+    main_res["checks"]["blank_k_conservative_delta5_L"] = bk_L_delta5
+    main_res["checks"]["blank_k_conservative_delta5_determined"] = int(bk_det)
     print(f"main: {main_res['n_cells']} cells, determined {dict(main_res['n_determined'])}", flush=True)
 
     res = OrderedDict()
@@ -412,7 +544,7 @@ def main(argv=None):
             (Path(__file__).parent / f).read_text(encoding="utf-8")
             for f in ("analyze.py", "bounds.py", "strata.py", "nors_rules.py", "bootstrap.py", "inference_voi.py")
             if (Path(__file__).parent / f).exists()).encode()).hexdigest()[:16],
-        analysis_version="4.0", hardware="CPU only", wall_clock_seconds=None,
+        analysis_version="5.0", hardware="CPU only", wall_clock_seconds=None,
     )
     res["summary"] = summary_block(main_res)
     res["groups"] = OrderedDict((g, R.GROUP_LABELS[g]) for g in R.GROUPS)

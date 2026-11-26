@@ -1,21 +1,21 @@
 \begin{table}[!tbp]
 \centering
 \scriptsize
-\setlength{\tabcolsep}{2.3pt}
+\setlength{\tabcolsep}{2.1pt}
 \renewcommand{\arraystretch}{1.12}
-\caption{Outbreak-cluster concentration diagnostics across the 12 common-support cells and standard error comparison across HC0, HC1, stratified bootstrap SD (2,000 replicates), and 53-state clustering.}
+\caption{Outbreak-cluster concentration, Multistate unrecorded case share, and standard errors across HC0, HC1, bootstrap SD (2,000 replicates), and 53 exposure-state clusters.}
 \label{tab:cluster_diag}
-\begin{tabular}{>{\raggedright\arraybackslash}p{1.9cm}>{\raggedleft\arraybackslash}p{1.8cm}>{\raggedleft\arraybackslash}p{2.1cm}>{\raggedleft\arraybackslash}p{1.3cm}>{\raggedleft\arraybackslash}p{3.45cm}>{\raggedleft\arraybackslash}p{3.45cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{1.85cm}>{\raggedleft\arraybackslash}p{1.75cm}>{\raggedleft\arraybackslash}p{2.05cm}>{\raggedleft\arraybackslash}p{1.55cm}>{\raggedleft\arraybackslash}p{3.4cm}>{\raggedleft\arraybackslash}p{3.4cm}}
 \toprule
-Group & Min/Med/Max n & Max HHI (min N\_eff) & Max share (\%) & SE(L) HC0/HC1/Boot/St (pp) & SE(U) HC0/HC1/Boot/St (pp) \\
+Group & Min/Med/Max n & Max HHI (min N\_eff) & Multistate unrec (\%) & SE(L) HC0/HC1/Boot/St (pp) & SE(U) HC0/HC1/Boot/St (pp) \\
 \midrule
-STEC & 3/22/40 & 0.479 (2.09) & 63.3 & 1.54/1.63/1.82/1.23 & 2.17/2.26/2.47/5.48 \\
-Salmonella & 31/85/274 & 0.133 (7.49) & 33.0 & 0.65/0.66/0.67/1.10 & 1.96/1.98/1.88/4.83 \\
-Campylobacter & 3/18/45 & 0.491 (2.04) & 65.5 & 0.81/0.84/0.87/0.88 & 2.63/2.75/2.66/2.20 \\
-Norovirus GII & 16/30/301 & 0.218 (4.58) & 43.4 & 0.14/0.14/0.14/0.13 & 2.07/2.10/2.04/2.24 \\
-C. perfringens & 4/10/32 & 0.501 (2.00) & 69.2 & 0.14/0.15/0.18/0.13 & 4.09/4.33/4.93/4.35 \\
-Norovirus GI & 3/9/66 & 0.508 (1.97) & 62.1 & 0.10/0.11/0.11/0.13 & 3.73/3.97/3.86/3.51 \\
+STEC & 3/22/40 & 0.479 (2.09) & 84.8 & 1.54/1.63/1.82/1.23 & 2.17/2.26/2.47/5.48 \\
+Salmonella & 31/85/274 & 0.133 (7.49) & 52.8 & 0.65/0.66/0.67/1.10 & 1.96/1.98/1.88/4.83 \\
+Campylobacter & 3/18/45 & 0.491 (2.04) & 0.8 & 0.81/0.84/0.87/0.88 & 2.63/2.75/2.66/2.20 \\
+Norovirus GII & 16/30/301 & 0.218 (4.58) & 1.5 & 0.14/0.14/0.14/0.13 & 2.07/2.10/2.04/2.24 \\
+C. perfringens & 4/10/32 & 0.501 (2.00) & 0.0 & 0.14/0.15/0.18/0.13 & 4.09/4.33/4.93/4.35 \\
+Norovirus GI & 3/9/66 & 0.508 (1.97) & 5.0 & 0.10/0.11/0.11/0.13 & 3.73/3.97/3.86/3.51 \\
 \bottomrule
 \end{tabular}
-\par\smallskip\parbox{0.97\linewidth}{\footnotesize Boot reports the empirical SD of the 2,000 bootstrap bound estimates. Closed-form IF covariances match central-difference Jacobians to 1.64e-12 (worst case), 2.92e-13 ($\delta$ = 5), and 4.00e-13 ($-$15/+5 pp); zero cells sat at $\delta$ = 5 kinks.}
+\par\smallskip\parbox{0.97\linewidth}{\footnotesize MNW (2023) score leverage across 53 exposure-state clusters: max share = 48.3\% (worst case) and 66.8\% ($\delta$ = 5 pp) in Multistate; G\_eff = 4.04 / 2.21. Treating 219 Multistate outbreaks as singletons (271 clusters) or clustering inside 52 single states (R11) yields 0 / 0 worst-case and 12 / 12 $\delta$ = 5 significant pairs.}
 \end{table}

@@ -1,4 +1,4 @@
-Group,Outbreaks,Cases,Unrecorded status (%),Worst-case interval (%),δ = 5 interval (%),δ = 0 value (%),Bootstrap range of lower bound (%),Bootstrap range of upper bound (%)
+Group,Outbreaks,Cases,Unrecorded status (%),Worst-case interval (%),δ = 5 pp interval (%),δ = 0 value (%),Bootstrap range of lower bound (%),Bootstrap range of upper bound (%)
 STEC,268,"3,943",12.7,24.7–36.8,27.9–29.1,28.5,21.7–29.3,32.6–42.3
 Salmonella,"1,277","29,151",18.1,14.5–31.7,16.8–18.5,17.6,13.3–15.9,28.2–35.5
 Campylobacter,237,"2,644",14.5,7.4–19.3,7.9–9.1,8.5,6.2–9.6,14.2–24.4

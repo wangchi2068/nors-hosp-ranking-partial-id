@@ -116,3 +116,37 @@ We thank the Round 2 referee for an exceptionally sharp and constructive evaluat
 13. Added verified DOIs across `bibliography.bib` and confirmed `Horowitz & Manski (2000)` (`pages = 77–84`) and `CDC (2026)` publication details.
 14. Elevated cost-normalized width reduction (`Eq. 5`) as primary follow-up rule and placed heuristic DPI in Supplement.
 
+---
+
+# Round 3 Revision Summary (v4.0 → v5.0)
+
+We thank the Round 3 referee for pinpointing the tension between nominal Gaussian significance and our finite-sample calibration, the `%` truncation bug in §3.1, the Discussion rank-set error, the exposure-state Multistate pseudo-cluster, and all remaining bibliographic and graphical details. All 8 Major (M1–M8) and 19 Minor comments are addressed in `v5.0`:
+
+## Major Comments (M1–M8)
+
+### M1 & M2: True Studentized Bootstrap-$t$ Calibration & Matched 6-Procedure Calibration Loop (`bootstrap.py`, `inference_voi.py`, Table 3, Table S8)
+- Renamed the `bootstrap.py` fixed-scale test accurately to **standardized (fixed-scale) bootstrap Max-$T$** (removing erroneous `"studentized"` label) and reported explicit Monte Carlo SEs (`0.0045` for `p = 0.043`; `0.0097` for bootstrap-$t$).
+- Implemented true replicate-studentized **bootstrap-$t$ Max-$T$** ($T^{(b)}_m = (\Delta^{L,(b)}_m - \widehat{\Delta}^L_m)/\widehat{\sigma}^{(b)}_{\text{HC1},m}$, $B=2,000$): worst-case critical value $c_{\text{bt}} = 4.519$, **STEC > Norovirus GII** $p = 0.249$ (0 rejections overall; calibrated worst-case ranks `[1, 6]` for all pathogens), whereas at $\delta = 5$ pp ($c_{\text{bt}} = 3.369$), all 12 upper-tier orderings remain jointly significant ($p \le 0.0020$).
+- Fixed the calibration loop so every procedure compares **its own exact statistic** (`fixed_scale_boot` = `5.0%` / `4.4%`; `bootstrap_t` = `3.8%` / `5.8%`; vs. nominal `29.8%` HC1 and `20.6%` WCB at worst case), and listed top exceedance drivers (`NOV_GII->CPERF`, `NOV_GI->CPERF`, `SAL->CPERF`, Minor 9).
+- Placed calibrated worst-case results and worst-case rank sets first in the Abstract, Results, Table 3, and Conclusions.
+
+### M3 & M4: Table S4 Direction Correction, Breakdown Frontiers, Common-Mechanism Scaling & Outbreak-MAR (`inference_voi.py`, `analyze.py`, Fig. 5, Table S4, Table S5)
+- Corrected Discussion §4 to report accurately that Table S4's `Within-cell Δ` and `Single-state Δ` are **positive in all six pathogen groups** (`+0.19` to `+9.02` pp; `+0.28` to `+8.37` pp), presenting both compatible interpretations (outcome-dependent recording and outbreak-size/multistate heterogeneity).
+- Fixed the factual error on Discussion p.\ 13 (worst-case nominal ranks are `[1,5], [2,6], [1,6]` and calibrated ranks `[1,6]`, not `[1,1]`).
+- Positioned $\delta^*, \Gamma^*, \delta^*_{0.95}$ as **breakdown points** and 2D planes as **breakdown frontiers** (Kline & Santos 2013; Masten & Poirier 2020; Liublinska & Rubin 2014), computed explicit **rank breakdown points** (`15.0–15.9 pp` calibrated bootstrap-$t$; `18.0–20.0 pp` nominal), added **common-mechanism proportional scaling** ($\alpha \in [0.00, 2.00]$, Fig. 5b), and added outbreak-level $H_i/K_i$ MAR anchor (**variant R13**).
+
+### M5: Estimand Weighting Justification, Effective Period, & `Illnesses` Missing Types (`methods.tex`, `results.tex`, `discussion.tex`)
+- Stated 90.4% (2009–2018) weight concentration in Abstract; elevated R10 (`equal within-cell outbreak weighting`: `7` worst-case, `14` at $\delta=5$) beside main case-weighted findings in Results and Discussion; discussed `Illnesses` estimated-total mixed "missing types" (Jiang & Ding 2018).
+
+### M6: Exposure-State Labelling, Multistate Leverage & Splits (`inference_voi.py`, Table S7)
+- Corrected field description to **state of exposure** (`52 jurisdictions + CDC-coordinated Multistate cluster`, `84.8%` of unrecorded STEC cases; corrected `"top three states"` to `Multistate 84.8%, Ohio 4.8%, Tennessee 1.8%`).
+- Reported MacKinnon–Nielsen--Webb (2023) score leverage (`48.3%` worst case / `66.8%` at $\delta=5$ in Multistate; $G_{\text{eff}} = 4.04 / 2.21$) and confirmed **zero worst-case rejections** both when splitting Multistate into 219 singletons (`271` clusters) and clustering inside the 52 single states (`R11`). Corrected MacKinnon & Webb (2017) & Canay et al. (2021) on WCB failure under dominant clusters, and explicitly noted calibration does not model state correlation.
+
+### M7 & M8: Tempering Follow-Up, Table S10/Fig. S3b Completeness & Streamlining Presentation
+- Removed `"optimal"`, `"dominates"`, and `"across all cost regimes"`; tabulated **all** mixed budgets (`500, 1000, 2000, 5000`, showing `Per-case 9.72 > Mixed 9.22` at 5,000 units) in Table S10; plotted **baseline 6.61 & MNAR random 8.34** in Fig. S3d; refocused Main Fig. 5 on breakdown points + common-mechanism scaling and restructured Results around three core questions.
+
+## Minor & Presentation Fixes (§4.2–4.4)
+- **§4.4 item 1:** Fixed unescaped `%` in `paper/sections/results.tex` line 7 (`13.5\%`), restoring all omitted §3.1 text in `paper.pdf`.
+- **Minor 1–19:** Verified conservative blank-$K$ lower bound (STEC `27.48%` vs `27.94%`, `SAL` `16.33%` vs `16.76%`, 0 verdict changes); listed all 7 variants changing a $\delta=0$ direction (R1a, R2, R4a, R5, R6b, R8, R13); separated five-group R7/R7b (`3/10` and `9/10`) from 18 six-group variants; corrected to `"30 one-sided hypotheses"`; reported post-selection R4a/R4b rank sets; corrected Scallan/Tack denominator discussion; labeled IM CIs `"pointwise 95%"`; added **R7b** (304 unspecified norovirus) and **R12** (O157 STEC only); fixed Table 2 $\Gamma^* = 955.7$ ref; added Wilson CIs for 11 low-missingness states; checked kink proximity at roots & cited Fang & Santos (2019); expanded **Table S12** to the full 22-item STROBE/RECORD checklist with exact section/page references; updated `bibliography.bib` with verified DOIs and all 14 §4.3 references; fixed Fig. 4/5/S3 subscripts, legend spacing, `CPERF > NoV GI` label, Table S6 2-decimal precision, unit consistency (`pp`), Table 1–3 abbreviation definitions, and `reproduce.py` `"14 CSV tables"` docstring.
+
+

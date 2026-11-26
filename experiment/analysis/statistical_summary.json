@@ -1,7 +1,7 @@
 {
  "source": "analysis/results.json",
- "spec_hash": "347de14540fb9194",
- "analysis_version": "4.0",
+ "spec_hash": "e9c1391390ed0bdf",
+ "analysis_version": "5.0",
  "n_pairs": 15,
  "n_common_support_cells": 12,
  "determined_pairs": {
@@ -163,6 +163,12 @@
    "determined_delta5": 9,
    "n_pairs": 10
   },
+  "R7b_norovirus_all_confirmed": {
+   "cells": 12,
+   "determined_worst_case": 3,
+   "determined_delta5": 9,
+   "n_pairs": 10
+  },
   "R8_include_suspected": {
    "cells": 16,
    "determined_worst_case": 5,
@@ -185,6 +191,18 @@
    "cells": 12,
    "determined_worst_case": 4,
    "determined_delta5": 12,
+   "n_pairs": 15
+  },
+  "R12_stec_o157_only": {
+   "cells": 11,
+   "determined_worst_case": 4,
+   "determined_delta5": 12,
+   "n_pairs": 15
+  },
+  "R13_outbreak_level_mar": {
+   "cells": 12,
+   "determined_worst_case": 4,
+   "determined_delta5": 14,
    "n_pairs": 15
   }
  },
@@ -228,130 +246,28 @@
  },
  "stacked_inference": {
   "n_hypotheses": 30,
-  "n_im_excludes_zero": 2,
   "n_fwer_worst_sig": 1,
-  "n_fwer_delta5_sig": 12,
-  "n_fwer_state_worst_sig": 1,
-  "n_fwer_wcb_worst_sig": 1,
-  "n_fwer_boot_ng_worst_sig": 1,
-  "c_sim_worst": 2.6105908440511034,
-  "c_sim_delta5": 2.7298072436073566,
-  "c_boot_nongaussian_worst": 2.725234086935977,
-  "c_boot_nongaussian_delta5": 2.8990316382101406,
-  "rank_sets_worst_hc1": {
-   "SAL": {
-    "rank_lower": 1,
-    "rank_upper": 6,
-    "n_significantly_higher": 0,
-    "n_significantly_lower": 0
+  "n_fwer_boot_t_worst_sig": 0,
+  "n_fwer_boot_t_delta5_sig": 12,
+  "c_bt_worst": 4.519158609896355,
+  "c_bt_delta5": 3.3688244616842953,
+  "rank_breakdown_points_pp": {
+   "hc1": {
+    "STEC_1_1": 19.073664731428924,
+    "SAL_2_2": 19.073664731428924,
+    "CAMP_3_3": 18.541628533538255
    },
-   "STEC": {
-    "rank_lower": 1,
-    "rank_upper": 5,
-    "n_significantly_higher": 0,
-    "n_significantly_lower": 1
+   "state": {
+    "STEC_1_1": 20.046117539076075,
+    "SAL_2_2": 18.24713861682171,
+    "CAMP_3_3": 18.02377981854279
    },
-   "CAMP": {
-    "rank_lower": 1,
-    "rank_upper": 6,
-    "n_significantly_higher": 0,
-    "n_significantly_lower": 0
-   },
-   "CPERF": {
-    "rank_lower": 1,
-    "rank_upper": 6,
-    "n_significantly_higher": 0,
-    "n_significantly_lower": 0
-   },
-   "NOV_GI": {
-    "rank_lower": 1,
-    "rank_upper": 6,
-    "n_significantly_higher": 0,
-    "n_significantly_lower": 0
-   },
-   "NOV_GII": {
-    "rank_lower": 2,
-    "rank_upper": 6,
-    "n_significantly_higher": 1,
-    "n_significantly_lower": 0
-   }
-  },
-  "rank_sets_delta5_hc1": {
-   "SAL": {
-    "rank_lower": 2,
-    "rank_upper": 2,
-    "n_significantly_higher": 1,
-    "n_significantly_lower": 4
-   },
-   "STEC": {
-    "rank_lower": 1,
-    "rank_upper": 1,
-    "n_significantly_higher": 0,
-    "n_significantly_lower": 5
-   },
-   "CAMP": {
-    "rank_lower": 3,
-    "rank_upper": 3,
-    "n_significantly_higher": 2,
-    "n_significantly_lower": 3
-   },
-   "CPERF": {
-    "rank_lower": 4,
-    "rank_upper": 6,
-    "n_significantly_higher": 3,
-    "n_significantly_lower": 0
-   },
-   "NOV_GI": {
-    "rank_lower": 4,
-    "rank_upper": 6,
-    "n_significantly_higher": 3,
-    "n_significantly_lower": 0
-   },
-   "NOV_GII": {
-    "rank_lower": 4,
-    "rank_upper": 6,
-    "n_significantly_higher": 3,
-    "n_significantly_lower": 0
-   }
-  },
-  "rank_sets_asym_15_5_hc1": {
-   "SAL": {
-    "rank_lower": 2,
-    "rank_upper": 2,
-    "n_significantly_higher": 1,
-    "n_significantly_lower": 4
-   },
-   "STEC": {
-    "rank_lower": 1,
-    "rank_upper": 1,
-    "n_significantly_higher": 0,
-    "n_significantly_lower": 5
-   },
-   "CAMP": {
-    "rank_lower": 3,
-    "rank_upper": 3,
-    "n_significantly_higher": 2,
-    "n_significantly_lower": 3
-   },
-   "CPERF": {
-    "rank_lower": 4,
-    "rank_upper": 6,
-    "n_significantly_higher": 3,
-    "n_significantly_lower": 0
-   },
-   "NOV_GI": {
-    "rank_lower": 4,
-    "rank_upper": 6,
-    "n_significantly_higher": 3,
-    "n_significantly_lower": 0
-   },
-   "NOV_GII": {
-    "rank_lower": 4,
-    "rank_upper": 6,
-    "n_significantly_higher": 3,
-    "n_significantly_lower": 0
+   "bootstrap_t": {
+    "STEC_1_1": 15.040500288276471,
+    "SAL_2_2": 15.040500288276471,
+    "CAMP_3_3": 15.933631829940486
    }
   }
  },
- "note": "30-hypothesis two-sided FWER inference across HC1, 53-state clustering, WCB, and non-Gaussian studentized bootstrap."
+ "note": "Canonical summary across sample bounds, 30-hypothesis nominal & calibrated bootstrap-t inference, and 20 variants."
 }

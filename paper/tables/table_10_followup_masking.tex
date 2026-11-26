@@ -3,7 +3,7 @@
 \scriptsize
 \setlength{\tabcolsep}{2.2pt}
 \renewcommand{\arraystretch}{1.12}
-\caption{Cost-conditional follow-up benchmark across 200 MCAR masking trials on all 2,414 fully recorded outbreaks (45,249 cases).}
+\caption{Cost-conditional follow-up benchmark across 200 MCAR masking trials on all 2,414 fully recorded outbreaks (baseline pre-follow-up mean = 1.55 pairs).}
 \label{tab:voi_masking}
 \begin{tabular}{>{\raggedright\arraybackslash}p{3.35cm}>{\raggedright\arraybackslash}p{4.25cm}>{\raggedleft\arraybackslash}p{1.85cm}>{\raggedleft\arraybackslash}p{2.2cm}>{\raggedleft\arraybackslash}p{2.45cm}}
 \toprule
@@ -45,6 +45,11 @@ Per-outbreak: 200 ob & Random & 3638 cases & 4.81 (1.12) & [4.65, 4.97] \\
 Per-outbreak: 200 ob & Largest first & 8052 cases & 11.16 (0.42) & [11.10, 11.22] \\
 Per-outbreak: 200 ob & Per-case w\_s/C\_js & 3719 cases & 12.03 (0.19) & [12.00, 12.05] \\
 Per-outbreak: 200 ob & Per-outbreak w\_s U\_i/C\_js & 7350 cases & 13.20 (0.78) & [13.09, 13.31] \\
+Mixed (20+U\_i): 500 & Random & 491 eq & 1.70 (1.04) & [1.55, 1.84] \\
+Mixed (20+U\_i): 500 & Largest first & 496 eq & 1.76 (1.08) & [1.62, 1.91] \\
+Mixed (20+U\_i): 500 & Per-case w\_s/C\_js & 491 eq & 2.71 (1.06) & [2.56, 2.85] \\
+Mixed (20+U\_i): 500 & Per-outbreak w\_s U\_i/C\_js & 493 eq & 2.86 (1.08) & [2.71, 3.01] \\
+Mixed (20+U\_i): 500 & Mixed (w\_s U\_i/C\_js)/(20+U\_i) & 492 eq & 3.40 (0.90) & [3.27, 3.52] \\
 Mixed (20+U\_i): 1,000 & Random & 991 eq & 1.94 (1.13) & [1.78, 2.09] \\
 Mixed (20+U\_i): 1,000 & Largest first & 998 eq & 1.95 (1.12) & [1.80, 2.10] \\
 Mixed (20+U\_i): 1,000 & Per-case w\_s/C\_js & 990 eq & 3.73 (0.90) & [3.61, 3.86] \\
@@ -55,7 +60,12 @@ Mixed (20+U\_i): 2,000 & Largest first & 1997 eq & 2.60 (1.17) & [2.43, 2.76] \\
 Mixed (20+U\_i): 2,000 & Per-case w\_s/C\_js & 1991 eq & 4.74 (1.16) & [4.58, 4.90] \\
 Mixed (20+U\_i): 2,000 & Per-outbreak w\_s U\_i/C\_js & 1993 eq & 5.05 (1.41) & [4.86, 5.24] \\
 Mixed (20+U\_i): 2,000 & Mixed (w\_s U\_i/C\_js)/(20+U\_i) & 1992 eq & 6.24 (1.36) & [6.05, 6.43] \\
+Mixed (20+U\_i): 5,000 & Random & 4991 eq & 3.77 (1.13) & [3.61, 3.92] \\
+Mixed (20+U\_i): 5,000 & Largest first & 4996 eq & 4.84 (1.21) & [4.67, 5.01] \\
+Mixed (20+U\_i): 5,000 & Per-case w\_s/C\_js & 4992 eq & 9.72 (0.86) & [9.61, 9.84] \\
+Mixed (20+U\_i): 5,000 & Per-outbreak w\_s U\_i/C\_js & 4992 eq & 7.95 (0.54) & [7.87, 8.02] \\
+Mixed (20+U\_i): 5,000 & Mixed (w\_s U\_i/C\_js)/(20+U\_i) & 4992 eq & 9.22 (0.65) & [9.13, 9.32] \\
 \bottomrule
 \end{tabular}
-\par\smallskip\parbox{0.97\linewidth}{\footnotesize All rules use budget-filling selection; baseline pre-follow-up mean = 1.55 (SD 1.02) determined pairs.}
+\par\smallskip\parbox{0.97\linewidth}{\footnotesize All rules use budget-filling selection. Note that at 5,000 mixed-cost units, per-case w\_s/C\_js (9.72) exceeds the mixed greedy ratio (9.22) on the discrete determined-pair count.}
 \end{table}

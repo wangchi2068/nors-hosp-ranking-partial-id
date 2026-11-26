@@ -409,11 +409,16 @@ def cluster_diagnostics(main_df: pd.DataFrame, t_main: S.Table) -> OrderedDict:
         u_by_st = sub_g.groupby("state")["U"].sum().sort_values(ascending=False)
         u_tot_g = float(sub_g["U"].sum())
         top3_share = float(u_by_st.iloc[:3].sum() / u_tot_g) if u_tot_g > 0 else 0.0
+        multi_share = float(u_by_st.get("Multistate", 0.0) / u_tot_g) if u_tot_g > 0 else 0.0
+        top3_named = [OrderedDict(state=str(st), share_pct=float(100.0 * val / u_tot_g))
+                      for st, val in u_by_st.iloc[:3].items()] if u_tot_g > 0 else []
         per_group[g] = OrderedDict(
             min_n=int(min(ns)), median_n=float(np.median(ns)), max_n=int(max(ns)),
             mean_hhi=float(np.mean(hhis)), max_hhi=float(max(hhis)),
             min_neff=float(min(neffs)), max_single_share=float(max(mshs)),
             most_concentrated_cell=max_cell["cell"],
+            multistate_unrecorded_share=multi_share,
+            top3_exposure_states=top3_named,
             top3_states_unrecorded_share=top3_share,
         )
 
@@ -430,14 +435,162 @@ def cluster_diagnostics(main_df: pd.DataFrame, t_main: S.Table) -> OrderedDict:
     return OrderedDict(per_group=per_group, cells=cell_rows, state_missingness=state_summary)
 
 
-def run_small_sample_calibration(inf: StackedInference, c_boot_30_wc: float | None = None,
-                                 c_boot_30_d5: float | None = None, n_mc: int = 500,
+def _eval_resampled_table(inf: StackedInference, res_arrays: dict, delta_val: float,
+                          res_states: dict | None = None):
+    """Fast vectorized closed-form evaluation of bounds, HC1/HC0, and optional state scores."""
+    G, K, P = inf.G, inf.K, inf.P
+    pair_h = np.array([h for h, _ in inf.ordered_pairs], dtype=int)
+    pair_l = np.array([l for _, l in inf.ordered_pairs], dtype=int)
+    sums = np.zeros((G, K, 5))
+    mu_r = np.zeros((G, K, 5))
+    for gi in range(G):
+        for ci in range(K):
+            arr = res_arrays[(gi, ci)]
+            mu_r[gi, ci] = arr.mean(axis=0)
+            sums[gi, ci] = arr.sum(axis=0)
+    tb = S.Table(groups=inf.groups, cells=inf.cells, C=sums[:, :, 0], H=sums[:, :, 1],
+                 U=sums[:, :, 2], H_rec=sums[:, :, 3], K_rec=sums[:, :, 4], n=inf.n.astype(float))
+    tb.w = S.weights(tb, "pooled_cases")
+    q = 3 * G + 2 * P
+    off = 3 * G
+    C_tot = float(tb.C.sum())
+    w = tb.w
+    p_obs = tb.p_obs
+    undef = np.isnan(p_obs)
+    pp = np.where(undef, 0.0, p_obs)
+    if delta_val >= 1.0:
+        qL = np.zeros((G, K)); qU = np.ones((G, K))
+        dL_dp = np.zeros((G, K)); dU_dp = np.zeros((G, K))
+    else:
+        qL = np.where(undef, 0.0, np.maximum(0.0, pp - delta_val))
+        qU = np.where(undef, 1.0, np.minimum(1.0, pp + delta_val))
+        dL_dp = np.where((~undef) & (pp > delta_val), 1.0, 0.0)
+        dU_dp = np.where((~undef) & (pp < 1.0 - delta_val), 1.0, 0.0)
+    rL = (tb.H + tb.U * qL) / tb.C
+    rU = (tb.H + tb.U * qU) / tb.C
+    L_bar = rL @ w
+    U_bar = rU @ w
+    dL_hat = L_bar[pair_h] - U_bar[pair_l]
+    dU_hat = U_bar[pair_h] - L_bar[pair_l]
+
+    V_hc0 = np.zeros((q, q))
+    V_hc1 = np.zeros((q, q))
+    state_scores = np.zeros((inf.n_states, P)) if res_states is not None else None
+    w_L_coeff = (rL - L_bar[:, None]) / C_tot
+    w_U_coeff = (rU - U_bar[:, None]) / C_tot
+
+    for ki in range(G):
+        for ci in range(K):
+            Z = res_arrays[(ki, ci)]
+            m = Z.shape[0]
+            Zc = Z - mu_r[ki, ci]
+            Cc, Hc, Uc, Hrc, Krc = Zc[:, 0], Zc[:, 1], Zc[:, 2], Zc[:, 3], Zc[:, 4]
+            psi = np.zeros((m, q))
+            psi[:, :G] = Cc[:, None] * w_L_coeff[:, ci][None, :]
+            psi[:, G:2 * G] = Cc[:, None] * w_U_coeff[:, ci][None, :]
+            k_rec = float(tb.K_rec[ki, ci])
+            p_tilde = (Hrc - pp[ki, ci] * Krc) / k_rec if k_rec > 0.0 else np.zeros(m)
+            fac = w[ci] / float(tb.C[ki, ci])
+            psi[:, ki] += fac * (Hc + qL[ki, ci] * Uc + dL_dp[ki, ci] * float(tb.U[ki, ci]) * p_tilde - rL[ki, ci] * Cc)
+            psi[:, G + ki] += fac * (Hc + qU[ki, ci] * Uc + dU_dp[ki, ci] * float(tb.U[ki, ci]) * p_tilde - rU[ki, ci] * Cc)
+            psi_dL = psi[:, pair_h] - psi[:, G + pair_l]
+            psi[:, off:off + P] = psi_dL
+            psi[:, off + P:] = psi[:, G + pair_h] - psi[:, pair_l]
+            gram = psi.T @ psi
+            V_hc0 += gram
+            V_hc1 += ((m / (m - 1.0)) if m > 1 else 1.0) * gram
+            if res_states is not None:
+                np.add.at(state_scores, res_states[(ki, ci)], psi_dL)
+
+    if res_states is not None:
+        st_scale = (inf.n_states / (inf.n_states - 1.0)) if inf.n_states > 1 else 1.0
+        V_st_dL = st_scale * (state_scores.T @ state_scores)
+        return L_bar, U_bar, dL_hat, dU_hat, V_hc1, V_hc0, V_st_dL, state_scores
+    return L_bar, U_bar, dL_hat, dU_hat, V_hc1, V_hc0
+
+
+def run_studentized_bootstrap_t(inf: StackedInference, B_bt: int = 2000,
+                                seed: int = 20261125) -> OrderedDict:
+    """True replicate-studentized bootstrap-t Max-T stepdown over all 30 ordered hypotheses."""
+    G, K, P = inf.G, inf.K, inf.P
+    off = 3 * G
+    th_wc, V_wc, _, _ = inf.analytic_covariances(1.0)
+    dL_hat_wc = th_wc[off:off + P]
+    se_hat_wc = np.sqrt(np.maximum(np.diag(V_wc[off:off + P, off:off + P]), 1e-20))
+    t_obs_wc = dL_hat_wc / se_hat_wc
+
+    th_d5, V_d5, _, _ = inf.analytic_covariances(0.05)
+    dL_hat_d5 = th_d5[off:off + P]
+    se_hat_d5 = np.sqrt(np.maximum(np.diag(V_d5[off:off + P, off:off + P]), 1e-20))
+    t_obs_d5 = dL_hat_d5 / se_hat_d5
+
+    T_wc = np.zeros((B_bt, P))
+    T_d5 = np.zeros((B_bt, P))
+    n_degen_wc = 0
+    n_degen_d5 = 0
+
+    for b in range(B_bt):
+        rng_b = np.random.default_rng([seed, b])
+        res_arrs = {}
+        for gi in range(G):
+            for ci in range(K):
+                arr = inf.cell_arrays[(gi, ci)]
+                m = arr.shape[0]
+                idx = rng_b.integers(0, m, size=m)
+                res_arrs[(gi, ci)] = arr[idx]
+
+        _, _, dL_bw, _, V1_bw, _ = _eval_resampled_table(inf, res_arrs, 1.0)
+        se_bw = np.sqrt(np.maximum(np.diag(V1_bw[off:off + P, off:off + P]), 0.0))
+        n_degen_wc += int(np.sum(se_bw < 1e-12))
+        T_wc[b] = (dL_bw - dL_hat_wc) / np.maximum(se_bw, 1e-12)
+
+        _, _, dL_b5, _, V1_b5, _ = _eval_resampled_table(inf, res_arrs, 0.05)
+        se_b5 = np.sqrt(np.maximum(np.diag(V1_b5[off:off + P, off:off + P]), 0.0))
+        n_degen_d5 += int(np.sum(se_b5 < 1e-12))
+        T_d5[b] = (dL_b5 - dL_hat_d5) / np.maximum(se_b5, 1e-12)
+
+    def summarize_bt(t_obs, T_mat):
+        c_crit = float(np.quantile(T_mat.max(axis=1), 0.95))
+        order = np.argsort(-t_obs, kind="mergesort")
+        adj_p = np.zeros(P); mc_se = np.zeros(P)
+        prev_p = 0.0; prev_se = 0.0
+        for step in range(P):
+            active = order[step:]
+            max_t = T_mat[:, active].max(axis=1)
+            p_raw = float((1.0 + np.sum(max_t >= t_obs[order[step]])) / (B_bt + 1.0))
+            se_raw = float(math.sqrt(max(p_raw * (1.0 - p_raw), 0.0) / B_bt))
+            if p_raw >= prev_p:
+                adj_p[order[step]] = p_raw; mc_se[order[step]] = se_raw
+                prev_p = p_raw; prev_se = se_raw
+            else:
+                adj_p[order[step]] = prev_p; mc_se[order[step]] = prev_se
+        ranks = rank_confidence_sets(inf.groups, inf.ordered_pairs, adj_p, 0.05)
+        return OrderedDict(c_bt=c_crit, p_fwer=adj_p.tolist(), mc_se_p=mc_se.tolist(),
+                           n_sig=int(sum(x <= 0.05 for x in adj_p)), rank_confidence_sets=ranks)
+
+    w_res = summarize_bt(t_obs_wc, T_wc)
+    w_res["n_degenerate_se_entries"] = int(n_degen_wc)
+    d_res = summarize_bt(t_obs_d5, T_d5)
+    d_res["n_degenerate_se_entries"] = int(n_degen_d5)
+    return OrderedDict(B_bt=int(B_bt), worst=w_res, delta5=d_res)
+
+
+def run_small_sample_calibration(inf: StackedInference,
+                                 c_std_boot_wc: float | None = None,
+                                 sd_std_boot_wc: np.ndarray | None = None,
+                                 c_std_boot_d5: float | None = None,
+                                 sd_std_boot_d5: np.ndarray | None = None,
+                                 c_bt_wc: float | None = None,
+                                 c_bt_d5: float | None = None,
+                                 n_mc: int = 500,
                                  seed: int = 20261125) -> OrderedDict:
     """Bootstrap-world stratified Monte Carlo calibration over all 30 hypotheses.
 
-    Evaluates IM 95% boundary coverage (15 primary pairs) and empirical 30-hypothesis Max-T FWER
-    for: (1) outbreak-HC0, (2) outbreak-HC1, (3) 53-state clustering, (4) 53-state wild cluster
-    bootstrap, and (5) non-Gaussian bootstrap studentized critical value (c_boot_30).
+    Evaluates exact statistic-matched 30-hypothesis Max-T FWER for:
+      (1) HC0 Gaussian, (2) HC1 Gaussian, (3) Fixed-scale standardized bootstrap (actual statistic),
+      (4) Calibrated studentized bootstrap-t (HC1 statistic vs c_bt),
+      (5) 53-exposure-state Gaussian, (6) Score/multiplier WCB.
+    Note: Stratified outbreak resampling assumes independent strata and does not simulate state-level correlation.
     """
     G, K, P = inf.G, inf.K, inf.P
     P15 = P // 2
@@ -449,73 +602,6 @@ def run_small_sample_calibration(inf: StackedInference, c_boot_30_wc: float | No
     dL0_wc, dU0_wc = th0_wc[off:off + P], th0_wc[off + P:]
     th0_d5, _, _, _ = inf.analytic_covariances(0.05)
     dL0_d5 = th0_d5[off:off + P]
-
-    pair_h = np.array([h for h, _ in inf.ordered_pairs], dtype=int)
-    pair_l = np.array([l for _, l in inf.ordered_pairs], dtype=int)
-
-    def eval_resampled(res_arrays, res_states, delta_val: float):
-        sums = np.zeros((G, K, 5))
-        mu_r = np.zeros((G, K, 5))
-        for gi in range(G):
-            for ci in range(K):
-                arr = res_arrays[(gi, ci)]
-                mu_r[gi, ci] = arr.mean(axis=0)
-                sums[gi, ci] = arr.sum(axis=0)
-        tb = S.Table(groups=inf.groups, cells=inf.cells, C=sums[:, :, 0], H=sums[:, :, 1],
-                     U=sums[:, :, 2], H_rec=sums[:, :, 3], K_rec=sums[:, :, 4], n=inf.n.astype(float))
-        tb.w = S.weights(tb, "pooled_cases")
-        q = 3 * G + 2 * P
-        C_tot = float(tb.C.sum())
-        w = tb.w
-        p_obs = tb.p_obs
-        undef = np.isnan(p_obs)
-        pp = np.where(undef, 0.0, p_obs)
-        if delta_val >= 1.0:
-            qL = np.zeros((G, K)); qU = np.ones((G, K))
-            dL_dp = np.zeros((G, K)); dU_dp = np.zeros((G, K))
-        else:
-            qL = np.where(undef, 0.0, np.maximum(0.0, pp - delta_val))
-            qU = np.where(undef, 1.0, np.minimum(1.0, pp + delta_val))
-            dL_dp = np.where((~undef) & (pp > delta_val), 1.0, 0.0)
-            dU_dp = np.where((~undef) & (pp < 1.0 - delta_val), 1.0, 0.0)
-        rL = (tb.H + tb.U * qL) / tb.C
-        rU = (tb.H + tb.U * qU) / tb.C
-        L_bar = rL @ w
-        U_bar = rU @ w
-        dL_hat = L_bar[pair_h] - U_bar[pair_l]
-        dU_hat = U_bar[pair_h] - L_bar[pair_l]
-
-        V_hc0 = np.zeros((q, q))
-        V_hc1 = np.zeros((q, q))
-        state_scores = np.zeros((inf.n_states, P))
-        w_L_coeff = (rL - L_bar[:, None]) / C_tot
-        w_U_coeff = (rU - U_bar[:, None]) / C_tot
-
-        for ki in range(G):
-            for ci in range(K):
-                Z = res_arrays[(ki, ci)]
-                m = Z.shape[0]
-                Zc = Z - mu_r[ki, ci]
-                Cc, Hc, Uc, Hrc, Krc = Zc[:, 0], Zc[:, 1], Zc[:, 2], Zc[:, 3], Zc[:, 4]
-                psi = np.zeros((m, q))
-                psi[:, :G] = Cc[:, None] * w_L_coeff[:, ci][None, :]
-                psi[:, G:2 * G] = Cc[:, None] * w_U_coeff[:, ci][None, :]
-                k_rec = float(tb.K_rec[ki, ci])
-                p_tilde = (Hrc - pp[ki, ci] * Krc) / k_rec if k_rec > 0.0 else np.zeros(m)
-                fac = w[ci] / float(tb.C[ki, ci])
-                psi[:, ki] += fac * (Hc + qL[ki, ci] * Uc + dL_dp[ki, ci] * float(tb.U[ki, ci]) * p_tilde - rL[ki, ci] * Cc)
-                psi[:, G + ki] += fac * (Hc + qU[ki, ci] * Uc + dU_dp[ki, ci] * float(tb.U[ki, ci]) * p_tilde - rU[ki, ci] * Cc)
-                psi_dL = psi[:, pair_h] - psi[:, G + pair_l]
-                psi[:, off:off + P] = psi_dL
-                psi[:, off + P:] = psi[:, G + pair_h] - psi[:, pair_l]
-                gram = psi.T @ psi
-                V_hc0 += gram
-                V_hc1 += ((m / (m - 1.0)) if m > 1 else 1.0) * gram
-                np.add.at(state_scores, res_states[(ki, ci)], psi_dL)
-
-        st_scale = (inf.n_states / (inf.n_states - 1.0)) if inf.n_states > 1 else 1.0
-        V_st_dL = st_scale * (state_scores.T @ state_scores)
-        return L_bar, U_bar, dL_hat, dU_hat, V_hc1, V_hc0, V_st_dL, state_scores
 
     def wcb_exceeds(dL_diff: np.ndarray, state_scores_dL: np.ndarray, rng_wcb, B_wcb_cal: int = 199) -> bool:
         G_st = state_scores_dL.shape[0]
@@ -532,8 +618,11 @@ def run_small_sample_calibration(inf: StackedInference, c_boot_30_wc: float | No
 
     im_cov_lo_hc1 = np.zeros(P15); im_cov_hi_hc1 = np.zeros(P15)
     im_cov_lo_hc0 = np.zeros(P15); im_cov_hi_hc0 = np.zeros(P15)
-    fwer_wc = {"hc0": 0, "hc1": 0, "state": 0, "wcb": 0, "bootcrit": 0}
-    fwer_d5 = {"hc0": 0, "hc1": 0, "state": 0, "wcb": 0, "bootcrit": 0}
+    keys_m = ("hc0", "hc1", "fixed_scale_boot", "bootstrap_t", "state", "wcb")
+    fwer_wc = {k: 0 for k in keys_m}
+    fwer_d5 = {k: 0 for k in keys_m}
+    exceed_hc1_wc = np.zeros(P, dtype=int)
+    exceed_hc1_d5 = np.zeros(P, dtype=int)
 
     L_draws = np.zeros((n_mc, G)); U_draws = np.zeros((n_mc, G))
     seL_draws_hc1 = np.zeros((n_mc, G)); seU_draws_hc1 = np.zeros((n_mc, G))
@@ -552,7 +641,7 @@ def run_small_sample_calibration(inf: StackedInference, c_boot_30_wc: float | No
                 res_arrs[(gi, ci)] = arr[idx]
                 res_sts[(gi, ci)] = st_arr[idx]
 
-        L_r, U_r, dL_r, dU_r, V1_wc, V0_wc, Vst_wc, st_sc_wc = eval_resampled(res_arrs, res_sts, 1.0)
+        L_r, U_r, dL_r, dU_r, V1_wc, V0_wc, Vst_wc, st_sc_wc = _eval_resampled_table(inf, res_arrs, 1.0, res_sts)
         L_draws[r_idx] = L_r; U_draws[r_idx] = U_r
         seL_draws_hc1[r_idx] = np.sqrt(np.maximum(np.diag(V1_wc[:G, :G]), 0.0))
         seU_draws_hc1[r_idx] = np.sqrt(np.maximum(np.diag(V1_wc[G:2 * G, G:2 * G]), 0.0))
@@ -574,36 +663,41 @@ def run_small_sample_calibration(inf: StackedInference, c_boot_30_wc: float | No
         _, _, cmax1 = max_t_stepdown(dummy_t, V1_wc[off:off + P, off:off + P], 0.05, Z_std=Z_std_mc)
         _, _, cmax0 = max_t_stepdown(dummy_t, V0_wc[off:off + P, off:off + P], 0.05, Z_std=Z_std_mc)
         _, _, cmax_st = max_t_stepdown(dummy_t, Vst_wc, 0.05, Z_std=Z_std_mc)
-        tmax1 = float(np.max((dL_r - dL0_wc) / seL1))
-        if tmax1 > cmax1:
-            fwer_wc["hc1"] += 1
-        if np.max((dL_r - dL0_wc) / seL0) > cmax0:
-            fwer_wc["hc0"] += 1
-        if np.max((dL_r - dL0_wc) / seLst) > cmax_st:
-            fwer_wc["state"] += 1
-        if wcb_exceeds(dL_r - dL0_wc, st_sc_wc, rng_wcb):
-            fwer_wc["wcb"] += 1
-        if c_boot_30_wc is not None and tmax1 > c_boot_30_wc:
-            fwer_wc["bootcrit"] += 1
+        tvec1 = (dL_r - dL0_wc) / seL1
+        exceed_hc1_wc += (tvec1 > cmax1).astype(int)
+        tmax1 = float(np.max(tvec1))
+        fwer_wc["hc1"] += int(tmax1 > cmax1)
+        fwer_wc["hc0"] += int(np.max((dL_r - dL0_wc) / seL0) > cmax0)
+        fwer_wc["state"] += int(np.max((dL_r - dL0_wc) / seLst) > cmax_st)
+        fwer_wc["wcb"] += int(wcb_exceeds(dL_r - dL0_wc, st_sc_wc, rng_wcb))
+        if c_std_boot_wc is not None and sd_std_boot_wc is not None:
+            fwer_wc["fixed_scale_boot"] += int(np.max((dL_r - dL0_wc) / sd_std_boot_wc) > c_std_boot_wc)
+        if c_bt_wc is not None:
+            fwer_wc["bootstrap_t"] += int(tmax1 > c_bt_wc)
 
-        _, _, dL_5r, _, V1_5, V0_5, Vst_5, st_sc_5 = eval_resampled(res_arrs, res_sts, 0.05)
+        _, _, dL_5r, _, V1_5, V0_5, Vst_5, st_sc_5 = _eval_resampled_table(inf, res_arrs, 0.05, res_sts)
         seL1_5 = np.sqrt(np.maximum(np.diag(V1_5[off:off + P, off:off + P]), 1e-20))
         seL0_5 = np.sqrt(np.maximum(np.diag(V0_5[off:off + P, off:off + P]), 1e-20))
         seLst_5 = np.sqrt(np.maximum(np.diag(Vst_5), 1e-20))
         _, _, cmax1_5 = max_t_stepdown(dummy_t, V1_5[off:off + P, off:off + P], 0.05, Z_std=Z_std_mc)
         _, _, cmax0_5 = max_t_stepdown(dummy_t, V0_5[off:off + P, off:off + P], 0.05, Z_std=Z_std_mc)
         _, _, cmaxst_5 = max_t_stepdown(dummy_t, Vst_5, 0.05, Z_std=Z_std_mc)
-        tmax1_5 = float(np.max((dL_5r - dL0_d5) / seL1_5))
-        if tmax1_5 > cmax1_5:
-            fwer_d5["hc1"] += 1
-        if np.max((dL_5r - dL0_d5) / seL0_5) > cmax0_5:
-            fwer_d5["hc0"] += 1
-        if np.max((dL_5r - dL0_d5) / seLst_5) > cmaxst_5:
-            fwer_d5["state"] += 1
-        if wcb_exceeds(dL_5r - dL0_d5, st_sc_5, rng_wcb):
-            fwer_d5["wcb"] += 1
-        if c_boot_30_d5 is not None and tmax1_5 > c_boot_30_d5:
-            fwer_d5["bootcrit"] += 1
+        tvec1_5 = (dL_5r - dL0_d5) / seL1_5
+        exceed_hc1_d5 += (tvec1_5 > cmax1_5).astype(int)
+        tmax1_5 = float(np.max(tvec1_5))
+        fwer_d5["hc1"] += int(tmax1_5 > cmax1_5)
+        fwer_d5["hc0"] += int(np.max((dL_5r - dL0_d5) / seL0_5) > cmax0_5)
+        fwer_d5["state"] += int(np.max((dL_5r - dL0_d5) / seLst_5) > cmaxst_5)
+        fwer_d5["wcb"] += int(wcb_exceeds(dL_5r - dL0_d5, st_sc_5, rng_wcb))
+        if c_std_boot_d5 is not None and sd_std_boot_d5 is not None:
+            fwer_d5["fixed_scale_boot"] += int(np.max((dL_5r - dL0_d5) / sd_std_boot_d5) > c_std_boot_d5)
+        if c_bt_d5 is not None:
+            fwer_d5["bootstrap_t"] += int(tmax1_5 > c_bt_d5)
+
+    def top_drivers(counts):
+        idx_sort = np.argsort(-counts, kind="mergesort")[:5]
+        return [OrderedDict(hypothesis=f"{inf.groups[inf.ordered_pairs[i][0]]}->{inf.groups[inf.ordered_pairs[i][1]]}",
+                            exceed_rate=float(counts[i] / n_mc)) for i in idx_sort]
 
     cov_worst_hc1 = np.minimum(im_cov_lo_hc1, im_cov_hi_hc1) / n_mc
     cov_worst_hc0 = np.minimum(im_cov_lo_hc0, im_cov_hi_hc0) / n_mc
@@ -626,7 +720,7 @@ def run_small_sample_calibration(inf: StackedInference, c_boot_30_wc: float | No
         n_hypotheses=int(P),
         seed=int(seed + 17),
         nominal_alpha=0.05,
-        design="bootstrap-world stratified resample preserving observed stratum counts n_js",
+        design="bootstrap-world stratified resample preserving observed stratum counts n_js (no state dependence simulated)",
         im95_min_endpoint_cov_hc1=float(cov_worst_hc1.min()),
         im95_median_endpoint_cov_hc1=float(np.median(cov_worst_hc1)),
         im95_mean_endpoint_cov_hc1=float(cov_worst_hc1.mean()),
@@ -635,6 +729,8 @@ def run_small_sample_calibration(inf: StackedInference, c_boot_30_wc: float | No
         im95_per_pair_min_cov_hc1=[float(x) for x in cov_worst_hc1],
         fwer_worst=OrderedDict((k, float(v / n_mc)) for k, v in fwer_wc.items()),
         fwer_delta5=OrderedDict((k, float(v / n_mc)) for k, v in fwer_d5.items()),
+        top_fwer_drivers_wc=top_drivers(exceed_hc1_wc),
+        top_fwer_drivers_d5=top_drivers(exceed_hc1_d5),
         per_group=per_grp_cal,
     )
 
@@ -704,13 +800,40 @@ def empirical_delta_calibration(main_df: pd.DataFrame, t_main: S.Table,
     hi_states = st_grp[(st_grp["C"] >= 200) & (st_grp["U"] / st_grp["C"] < 0.05)].index.tolist()
     hi_df = sup_df[sup_df["state"].isin(hi_states)]
     hi_rates = OrderedDict()
+    z975 = float(norm.ppf(0.975))
     for g in t_main.groups:
         hg = hi_df[hi_df["group"] == g]
         kr = float(hg["K_rec"].sum())
+        hr = float(hg["H_rec"].sum())
+        if kr > 0:
+            p_w = hr / kr
+            denom_w = 1.0 + z975 * z975 / kr
+            center_w = (p_w + z975 * z975 / (2.0 * kr)) / denom_w
+            half_w = (z975 * math.sqrt((p_w * (1.0 - p_w) + z975 * z975 / (4.0 * kr)) / kr)) / denom_w
+            ci_w = [max(0.0, center_w - half_w), min(1.0, center_w + half_w)]
+        else:
+            p_w = None; ci_w = None
         hi_rates[g] = OrderedDict(
+            outbreaks=int(len(hg)),
             cases=float(hg["C"].sum()),
+            known_cases=kr,
             unrecorded_share=float(hg["U"].sum() / hg["C"].sum()) if hg["C"].sum() > 0 else None,
-            recorded_hosp_rate=float(hg["H_rec"].sum() / kr) if kr > 0 else None,
+            recorded_hosp_rate=p_w,
+            ci95_wilson=ci_w,
+        )
+
+    # Common-mechanism proportional scaling scenario: q_js = clip(alpha * p_js, 0, 1) across ALL groups
+    cm_alphas = [0.0, 0.25, 0.50, 0.75, 1.0, 1.25, 1.50, 2.00]
+    cm_results = OrderedDict()
+    p_obs_valid = np.where(np.isnan(t_main.p_obs), 0.0, t_main.p_obs)
+    for al in cm_alphas:
+        q_mat = np.clip(al * p_obs_valid, 0.0, 1.0)
+        rates_al = OrderedDict()
+        for gi, g in enumerate(t_main.groups):
+            rates_al[g] = float(np.sum(t_main.w * (t_main.H[gi] + t_main.U[gi] * q_mat[gi]) / t_main.C[gi]))
+        pair_pos = sum(1 for h, l in ordered_pairs_15 if rates_al[t_main.groups[h]] > rates_al[t_main.groups[l]])
+        cm_results[f"{al:.2f}"] = OrderedDict(
+            alpha=float(al), rates=rates_al, n_main_direction_preserved=int(pair_pos),
         )
 
     asym_scenarios = [
@@ -763,6 +886,7 @@ def empirical_delta_calibration(main_df: pd.DataFrame, t_main: S.Table,
     return OrderedDict(
         per_group=per_group,
         high_completeness_states=OrderedDict(n_states=int(len(hi_states)), states=hi_states, per_group=hi_rates),
+        common_mechanism=cm_results,
         asymmetric=asym_results,
         odds_ratio=or_pure,
         odds_ratio_floor_001=or_floor,
@@ -1288,15 +1412,118 @@ def run_all(main_df: pd.DataFrame, t_main: S.Table, main_res: dict, seed: int = 
     grid_d, grid_c_hc1 = dynamic_csim_grid(inf, "hc1", Z_std_30, alpha=0.05, n_grid=21)
     _, grid_c_st = dynamic_csim_grid(inf, "state", Z_std_30, alpha=0.05, n_grid=21)
 
-    # Extract non-Gaussian bootstrap 30-hypothesis results if bootstrap block supplied
-    ng_wc = (boot_block or {}).get("nongaussian_max_t", {}).get("worst", {})
-    ng_d5 = (boot_block or {}).get("nongaussian_max_t", {}).get("delta5", {})
-    p_ng_wc = ng_wc.get("p_fwer", [None] * P30)
-    p_ng_d5 = ng_d5.get("p_fwer", [None] * P30)
+    # Fixed-scale standardized bootstrap (from bootstrap.py) & true studentized bootstrap-t (B=2000)
+    sb_blk = (boot_block or {}).get("standardized_boot_max_t") or (boot_block or {}).get("nongaussian_max_t", {})
+    sb_wc = sb_blk.get("worst", {})
+    sb_d5 = sb_blk.get("delta5", {})
+    p_sb_wc = sb_wc.get("p_fwer", [None] * P30)
+    p_sb_d5 = sb_d5.get("p_fwer", [None] * P30)
+    sd_sb_wc = np.asarray(sb_wc["sd_boot_pp"], dtype=float) / 100.0 if "sd_boot_pp" in sb_wc else None
+    sd_sb_d5 = np.asarray(sb_d5["sd_boot_pp"], dtype=float) / 100.0 if "sd_boot_pp" in sb_d5 else None
+
+    bt_true = run_studentized_bootstrap_t(inf, B_bt=2000, seed=seed)
+    bt_wc = bt_true["worst"]; bt_d5 = bt_true["delta5"]
+    c_bt_wc = float(bt_wc["c_bt"]); c_bt_d5 = float(bt_d5["c_bt"])
+
+    # Exposure-state cluster leverage (MacKinnon-Nielsen-Webb 2023) & Multistate sensitivity checks
+    def mnw_leverage(scores_dL: np.ndarray):
+        l2_sq = np.sum(scores_dL ** 2, axis=1)
+        tot = float(l2_sq.sum())
+        shares = l2_sq / tot if tot > 0 else np.zeros_like(l2_sq)
+        idx_max = int(np.argmax(shares))
+        g_eff = float(1.0 / np.sum(shares ** 2)) if np.sum(shares ** 2) > 0 else 0.0
+        return OrderedDict(
+            n_clusters=int(len(shares)),
+            max_leverage_share=float(shares[idx_max]),
+            max_leverage_cluster=inf.unique_states[idx_max],
+            effective_clusters_g_eff=g_eff,
+        )
+
+    mnw_wc = mnw_leverage(st_scores_wc[:, off:off + P30])
+    mnw_d5 = mnw_leverage(st_scores_d5[:, off:off + P30])
+
+    # Multistate split as singleton clusters (52 jurisdictions + 219 singleton Multistate outbreaks)
+    def eval_multistate_singleton_cov(delta_val: float):
+        multi_idx = inf.state_map.get("Multistate")
+        n_sing = 0
+        for ki in range(G):
+            for ci in range(K):
+                n_sing += int(np.sum(inf.cell_states[(ki, ci)] == multi_idx)) if multi_idx is not None else 0
+        other_states = [s for s in inf.unique_states if s != "Multistate"]
+        omap = {inf.state_map[s]: idx for idx, s in enumerate(other_states)}
+        n_cl = len(other_states) + n_sing
+        _, V_h1, _, _ = inf.analytic_covariances(delta_val)
+        # Recompute cluster scores cleanly
+        t = inf.t_main; C_tot = float(t.C.sum()); w = t.w
+        undef = np.isnan(t.p_obs); pp = np.where(undef, 0.0, t.p_obs)
+        qL = np.zeros((G, K)) if delta_val >= 1.0 else np.where(undef, 0.0, np.maximum(0.0, pp - delta_val))
+        qU = np.ones((G, K)) if delta_val >= 1.0 else np.where(undef, 1.0, np.minimum(1.0, pp + delta_val))
+        dL_dp = np.zeros((G, K)) if delta_val >= 1.0 else np.where((~undef) & (pp > delta_val), 1.0, 0.0)
+        dU_dp = np.zeros((G, K)) if delta_val >= 1.0 else np.where((~undef) & (pp < 1.0 - delta_val), 1.0, 0.0)
+        rL = (t.H + t.U * qL) / t.C; rU = (t.H + t.U * qU) / t.C
+        L_b = rL @ w; U_b = rU @ w
+        ph = np.array([h for h, _ in inf.ordered_pairs], dtype=int)
+        pl = np.array([l for _, l in inf.ordered_pairs], dtype=int)
+        scores_sg = np.zeros((n_cl, P30))
+        sing_ptr = len(other_states)
+        for ki in range(G):
+            for ci in range(K):
+                Z = inf.cell_arrays[(ki, ci)]; st_arr = inf.cell_states[(ki, ci)]
+                m = Z.shape[0]; Zc = Z - inf.mu[ki, ci]
+                Cc, Hc, Uc, Hrc, Krc = Zc[:, 0], Zc[:, 1], Zc[:, 2], Zc[:, 3], Zc[:, 4]
+                psiL = Cc[:, None] * ((rL - L_b[:, None]) / C_tot)[:, ci][None, :]
+                psiU = Cc[:, None] * ((rU - U_b[:, None]) / C_tot)[:, ci][None, :]
+                k_rec = float(t.K_rec[ki, ci])
+                p_tilde = (Hrc - pp[ki, ci] * Krc) / k_rec if k_rec > 0.0 else np.zeros(m)
+                fac = w[ci] / float(t.C[ki, ci])
+                psiL[:, ki] += fac * (Hc + qL[ki, ci] * Uc + dL_dp[ki, ci] * float(t.U[ki, ci]) * p_tilde - rL[ki, ci] * Cc)
+                psiU[:, ki] += fac * (Hc + qU[ki, ci] * Uc + dU_dp[ki, ci] * float(t.U[ki, ci]) * p_tilde - rU[ki, ci] * Cc)
+                psi_dL = psiL[:, ph] - psiU[:, pl]
+                for row_i in range(m):
+                    if st_arr[row_i] == multi_idx:
+                        scores_sg[sing_ptr] += psi_dL[row_i]
+                        sing_ptr += 1
+                    else:
+                        scores_sg[omap[int(st_arr[row_i])]] += psi_dL[row_i]
+        return (n_cl / (n_cl - 1.0)) * (scores_sg.T @ scores_sg), n_cl
+
+    V_sg_wc, n_cl_sg = eval_multistate_singleton_cov(1.0)
+    se_sg_wc = np.sqrt(np.maximum(np.diag(V_sg_wc), 1e-20))
+    p30_sg_wc, _, c30_sg_wc = max_t_stepdown(dL_wc / se_sg_wc, V_sg_wc, 0.05, Z_std=Z_std_30)
+    V_sg_d5, _ = eval_multistate_singleton_cov(0.05)
+    se_sg_d5 = np.sqrt(np.maximum(np.diag(V_sg_d5), 1e-20))
+    p30_sg_d5, _, c30_sg_d5 = max_t_stepdown(dL_d5 / se_sg_d5, V_sg_d5, 0.05, Z_std=Z_std_30)
+
+    # Single-state-only (R11) 52-state clustered inference
+    r11_df = main_df[main_df["state"].astype(str) != "Multistate"].copy()
+    t_r11 = S.build(r11_df, R.GROUPS, "setting_period", threshold=3)
+    inf_r11 = StackedInference(r11_df, t_r11, ordered_30)
+    th_r11_wc, _, _, V_r11_st_wc = inf_r11.analytic_covariances(1.0)
+    th_r11_d5, _, _, V_r11_st_d5 = inf_r11.analytic_covariances(0.05)
+    cV_r11_wc = V_r11_st_wc[off:off + P30, off:off + P30]
+    p30_r11_wc, _, c30_r11_wc = max_t_stepdown(th_r11_wc[off:off + P30] / np.sqrt(np.maximum(np.diag(cV_r11_wc), 1e-20)), cV_r11_wc, 0.05, Z_std=Z_std_30)
+    cV_r11_d5 = V_r11_st_d5[off:off + P30, off:off + P30]
+    p30_r11_d5, _, c30_r11_d5 = max_t_stepdown(th_r11_d5[off:off + P30] / np.sqrt(np.maximum(np.diag(cV_r11_d5), 1e-20)), cV_r11_d5, 0.05, Z_std=Z_std_30)
+
+    # Post-selection rank sets under R4a (threshold 2) and R4b (threshold 5)
+    r4_rank_sets = OrderedDict()
+    for rcode, thr in (("R4a_threshold_2", 2), ("R4b_threshold_5", 5)):
+        t_r = S.build(main_df, R.GROUPS, "setting_period", threshold=thr)
+        inf_r = StackedInference(main_df, t_r, ordered_30)
+        th_rw, V_rw, _, _ = inf_r.analytic_covariances(1.0)
+        p_rw, _, _ = max_t_stepdown(th_rw[off:off + P30] / np.sqrt(np.maximum(np.diag(V_rw[off:off + P30, off:off + P30]), 1e-20)), V_rw[off:off + P30, off:off + P30], 0.05, Z_std=Z_std_30)
+        th_r5, V_r5, _, _ = inf_r.analytic_covariances(0.05)
+        p_r5, _, _ = max_t_stepdown(th_r5[off:off + P30] / np.sqrt(np.maximum(np.diag(V_r5[off:off + P30, off:off + P30]), 1e-20)), V_r5[off:off + P30, off:off + P30], 0.05, Z_std=Z_std_30)
+        r4_rank_sets[rcode] = OrderedDict(
+            worst=rank_confidence_sets(inf.groups, ordered_30, p_rw, 0.05),
+            delta5=rank_confidence_sets(inf.groups, ordered_30, p_r5, 0.05),
+        )
 
     z_pw = float(norm.ppf(0.95))
     pairs = OrderedDict()
     max_dyn_err = 0.0
+    kink_dists = []
+    bps_all = np.concatenate([p_valid, 1.0 - p_valid])
     for idx, (key, p) in enumerate(sorted_p):
         c_im = imbens_manski_crit(float(dU_wc[idx] - dL_wc[idx]), float(seL_wc[idx]), float(seU_wc[idx]), 0.05)
         ci_lo = float(dL_wc[idx] - c_im * seL_wc[idx])
@@ -1312,7 +1539,9 @@ def run_all(main_df: pd.DataFrame, t_main: S.Table, main_res: dict, seed: int = 
             _, V_ex, _, _ = inf.analytic_covariances(ds_sim / 100.0)
             _, _, c_exact = max_t_stepdown(np.zeros(P30), V_ex[off:off + P30, off:off + P30], 0.05, Z_std=Z_std_30)
             max_dyn_err = max(max_dyn_err, abs(c_exact - c_interp))
+            kink_dists.append(float(np.min(np.abs(bps_all - ds_sim / 100.0))) * 100.0)
         ds_sim_st, _ = confidence_tipping_point_dynamic(inf, idx, "state", grid_d=grid_d, grid_c=grid_c_st)
+        ds_bt, _ = confidence_tipping_point_dynamic(inf, idx, "hc1", fixed_c=c_bt_d5)
 
         pairs[key] = OrderedDict(
             higher_at_delta0=p["higher_at_delta0"],
@@ -1343,13 +1572,37 @@ def run_all(main_df: pd.DataFrame, t_main: S.Table, main_res: dict, seed: int = 
             p_fwer_wcb_delta5=float(wcb_d5["p_fwer_wcb"][idx]),
             p_fwer_asym_15_5_hc1=float(p30_asym_hc1[idx]),
             p_fwer_asym_15_5_state=float(p30_asym_st[idx]),
-            p_fwer_boot_ng_worst=(None if p_ng_wc[idx] is None else float(p_ng_wc[idx])),
-            p_fwer_boot_ng_delta5=(None if p_ng_d5[idx] is None else float(p_ng_d5[idx])),
+            p_fwer_boot_std_worst=(None if p_sb_wc[idx] is None else float(p_sb_wc[idx])),
+            p_fwer_boot_std_delta5=(None if p_sb_d5[idx] is None else float(p_sb_d5[idx])),
+            p_fwer_boot_t_worst=float(bt_wc["p_fwer"][idx]),
+            mc_se_boot_t_worst=float(bt_wc["mc_se_p"][idx]),
+            p_fwer_boot_t_delta5=float(bt_d5["p_fwer"][idx]),
+            mc_se_boot_t_delta5=float(bt_d5["mc_se_p"][idx]),
+            p_fwer_singleton_worst=float(p30_sg_wc[idx]),
+            p_fwer_singleton_delta5=float(p30_sg_d5[idx]),
+            p_fwer_r11_state_worst=float(p30_r11_wc[idx]),
+            p_fwer_r11_state_delta5=float(p30_r11_d5[idx]),
             delta_star_pt_pp=p["delta_star_pp"],
             delta_star_95_pw_pp=ds_pw,
             delta_star_95_sim_pp=ds_sim,
             delta_star_95_sim_state_pp=ds_sim_st,
+            delta_star_95_bt_pp=ds_bt,
         )
+
+    # Compute exact simultaneous rank breakdown points for upper-tier rank intervals
+    def rank_bp(crit_field: str):
+        val = lambda k: 100.0 if pairs[k][crit_field] is None else pairs[k][crit_field]
+        return OrderedDict(
+            STEC_1_1=min(val(f"SAL|STEC"), val("STEC|CAMP"), val("STEC|CPERF"), val("STEC|NOV_GI"), val("STEC|NOV_GII")),
+            SAL_2_2=min(val("SAL|STEC"), val("SAL|CAMP"), val("SAL|CPERF"), val("SAL|NOV_GI"), val("SAL|NOV_GII")),
+            CAMP_3_3=min(val("SAL|CAMP"), val("STEC|CAMP"), val("CAMP|CPERF"), val("CAMP|NOV_GI"), val("CAMP|NOV_GII")),
+        )
+
+    rank_breakdown = OrderedDict(
+        hc1=rank_bp("delta_star_95_sim_pp"),
+        state=rank_bp("delta_star_95_sim_state_pp"),
+        bootstrap_t=rank_bp("delta_star_95_bt_pp"),
+    )
 
     per_group = OrderedDict()
     for gi, g in enumerate(inf.groups):
@@ -1368,20 +1621,40 @@ def run_all(main_df: pd.DataFrame, t_main: S.Table, main_res: dict, seed: int = 
         worst_hc1=rank_confidence_sets(inf.groups, ordered_30, p30_wc, 0.05),
         worst_state=rank_confidence_sets(inf.groups, ordered_30, p30_st_wc, 0.05),
         worst_wcb=rank_confidence_sets(inf.groups, ordered_30, wcb_wc["p_fwer_wcb"], 0.05),
-        worst_boot_ng=ng_wc.get("rank_confidence_sets"),
+        worst_boot_std=sb_wc.get("rank_confidence_sets"),
+        worst_boot_t=bt_wc["rank_confidence_sets"],
         delta5_hc1=rank_confidence_sets(inf.groups, ordered_30, p30_d5, 0.05),
         delta5_state=rank_confidence_sets(inf.groups, ordered_30, p30_st_d5, 0.05),
         delta5_wcb=rank_confidence_sets(inf.groups, ordered_30, wcb_d5["p_fwer_wcb"], 0.05),
-        delta5_boot_ng=ng_d5.get("rank_confidence_sets"),
+        delta5_boot_std=sb_d5.get("rank_confidence_sets"),
+        delta5_boot_t=bt_d5["rank_confidence_sets"],
         asym_15_5_hc1=rank_confidence_sets(inf.groups, ordered_30, p30_asym_hc1, 0.05),
         asym_15_5_state=rank_confidence_sets(inf.groups, ordered_30, p30_asym_st, 0.05),
+        r4a_r4b=r4_rank_sets,
     )
 
     clust = cluster_diagnostics(main_df, t_main)
+    clust["mnw_cluster_leverage"] = OrderedDict(worst=mnw_wc, delta5=mnw_d5)
+    clust["multistate_sensitivity"] = OrderedDict(
+        n_singleton_clusters=int(n_cl_sg),
+        c_sim_singleton_worst=float(c30_sg_wc),
+        c_sim_singleton_delta5=float(c30_sg_d5),
+        n_sig_singleton_worst=int(sum(x <= 0.05 for x in p30_sg_wc)),
+        n_sig_singleton_delta5=int(sum(x <= 0.05 for x in p30_sg_d5)),
+        n_r11_state_clusters=int(inf_r11.n_states),
+        c_sim_r11_state_worst=float(c30_r11_wc),
+        c_sim_r11_state_delta5=float(c30_r11_d5),
+        n_sig_r11_state_worst=int(sum(x <= 0.05 for x in p30_r11_wc)),
+        n_sig_r11_state_delta5=int(sum(x <= 0.05 for x in p30_r11_d5)),
+    )
     small_cal = run_small_sample_calibration(
         inf,
-        c_boot_30_wc=ng_wc.get("c_boot"),
-        c_boot_30_d5=ng_d5.get("c_boot"),
+        c_std_boot_wc=sb_wc.get("c_boot"),
+        sd_std_boot_wc=sd_sb_wc,
+        c_std_boot_d5=sb_d5.get("c_boot"),
+        sd_std_boot_d5=sd_sb_d5,
+        c_bt_wc=c_bt_wc,
+        c_bt_d5=c_bt_d5,
         n_mc=500, seed=seed,
     )
     emp_cal = empirical_delta_calibration(main_df, t_main, ordered_15)
@@ -1402,8 +1675,10 @@ def run_all(main_df: pd.DataFrame, t_main: S.Table, main_res: dict, seed: int = 
         c_sim_15_worst=float(c15_wc),
         c_sim_15_delta5=float(c15_d5),
         c_sim_15_state_worst=float(c15_st_wc),
-        c_boot_nongaussian_worst=ng_wc.get("c_boot"),
-        c_boot_nongaussian_delta5=ng_d5.get("c_boot"),
+        c_boot_std_worst=sb_wc.get("c_boot"),
+        c_boot_std_delta5=sb_d5.get("c_boot"),
+        c_bt_worst=float(c_bt_wc),
+        c_bt_delta5=float(c_bt_d5),
         c_bonferroni_two_sided_30=float(norm.ppf(1.0 - 0.05 / P30)),
         n_im_excludes_zero=sum(v["im_excludes_zero"] for v in pairs.values()),
         n_im_state_excludes_zero=sum(v["im_state_excludes_zero"] for v in pairs.values()),
@@ -1415,8 +1690,11 @@ def run_all(main_df: pd.DataFrame, t_main: S.Table, main_res: dict, seed: int = 
         n_fwer_wcb_delta5_sig=int(sum(x <= 0.05 for x in wcb_d5["p_fwer_wcb"])),
         n_fwer_asym_15_5_hc1_sig=int(sum(x <= 0.05 for x in p30_asym_hc1)),
         n_fwer_asym_15_5_state_sig=int(sum(x <= 0.05 for x in p30_asym_st)),
-        n_fwer_boot_ng_worst_sig=ng_wc.get("n_sig"),
-        n_fwer_boot_ng_delta5_sig=ng_d5.get("n_sig"),
+        n_fwer_boot_std_worst_sig=sb_wc.get("n_sig"),
+        n_fwer_boot_std_delta5_sig=sb_d5.get("n_sig"),
+        n_fwer_boot_t_worst_sig=int(bt_wc["n_sig"]),
+        n_fwer_boot_t_delta5_sig=int(bt_d5["n_sig"]),
+        studentized_bootstrap_t=bt_true,
         state_se_ratio_min=float(min(ratios_st)),
         state_se_ratio_max=float(max(ratios_st)),
         wild_cluster_bootstrap=OrderedDict(worst=wcb_wc, delta5=wcb_d5),
@@ -1424,6 +1702,7 @@ def run_all(main_df: pd.DataFrame, t_main: S.Table, main_res: dict, seed: int = 
                                       hc1=grid_c_hc1.tolist(),
                                       state=grid_c_st.tolist()),
         rank_confidence_sets=ranks,
+        rank_breakdown_points_pp=rank_breakdown,
         per_group=per_group,
         pairs=pairs,
         checks=OrderedDict(
@@ -1434,6 +1713,7 @@ def run_all(main_df: pd.DataFrame, t_main: S.Table, main_res: dict, seed: int = 
             max_abs_diff_dynamic_vs_exact_csim=float(max_dyn_err),
             max_abs_diff_theta_hat=float(np.max(np.abs(th_fd_wc - th_hc1))),
             n_kink_cells_delta5=n_kinks_d5,
+            min_dist_to_kink_roots_pp=(float(min(kink_dists)) if kink_dists else None),
             n_strata=int(G * K),
             n_state_clusters=int(inf.n_states),
         ),
