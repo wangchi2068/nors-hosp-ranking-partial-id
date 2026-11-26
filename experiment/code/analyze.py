@@ -156,6 +156,7 @@ def cohorts(cohort: pd.DataFrame, suspected: pd.DataFrame | None = None) -> dict
         "keep_complete_only": main[main["in_complete_only"]].copy(),
         "keep_pilot_rule": kept[kept["in_pilot_rule"]].assign(group=lambda d: d["pilot_group"]).copy(),
         "keep_excl_healthcare": main[~main["is_healthcare"].astype(bool)].copy(),
+        "keep_single_state": main[main["state"].astype(str) != "Multistate"].copy(),
     }
     if suspected is not None and len(suspected) > 0:
         sus_kept = suspected[suspected["kept"]].copy()
@@ -183,6 +184,7 @@ ROBUSTNESS = OrderedDict([
     ("R8_include_suspected", ("Cohort: include suspected study-group etiologies", {"cohort": "keep_include_suspected"})),
     ("R9_excl_healthcare", ("Cohort: exclude healthcare/LTCF outbreaks", {"cohort": "keep_excl_healthcare"})),
     ("R10_outbreak_weighted", ("Within-cell aggregation: equal weight per outbreak", {"kind": "outbreak_weighted", "cohort": "keep_main"})),
+    ("R11_single_state_only", ("Cohort: single-state outbreaks only (exclude multistate)", {"cohort": "keep_single_state"})),
 ])
 
 
@@ -410,7 +412,7 @@ def main(argv=None):
             (Path(__file__).parent / f).read_text(encoding="utf-8")
             for f in ("analyze.py", "bounds.py", "strata.py", "nors_rules.py", "bootstrap.py", "inference_voi.py")
             if (Path(__file__).parent / f).exists()).encode()).hexdigest()[:16],
-        analysis_version="3.0", hardware="CPU only", wall_clock_seconds=None,
+        analysis_version="4.0", hardware="CPU only", wall_clock_seconds=None,
     )
     res["summary"] = summary_block(main_res)
     res["groups"] = OrderedDict((g, R.GROUP_LABELS[g]) for g in R.GROUPS)
@@ -434,22 +436,26 @@ def main(argv=None):
         excluded_outbreaks_summary=(json.load(open(excl_path)) if excl_path.exists() else None),
     )
     res["pilot"] = OrderedDict(targets=PILOT_TARGETS, grid=pilot_grid(co), note=TEXT["pilot_note"])
-    up = IV.run_all(main_df, t_main, main_res, seed=SEED)
-    if res.get("bootstrap") and "pair_dL_worst_cov" in res["bootstrap"]:
-        bt_cov_raw = np.asarray(res["bootstrap"]["pair_dL_worst_cov"], dtype=float)
-        raw_keys = list(main_res["pairs"].keys())
-        raw_idx = {k: i for i, k in enumerate(raw_keys)}
+    up = IV.run_all(main_df, t_main, main_res, seed=SEED, boot_block=res.get("bootstrap"))
+    if res.get("bootstrap") and "pair_dL_worst_cov_30" in res["bootstrap"]:
+        bt_cov_30 = np.asarray(res["bootstrap"]["pair_dL_worst_cov_30"], dtype=float)
         st_pairs = up["stacked_inference"]["pairs"]
-        perm = [raw_idx[k] for k in st_pairs.keys()]
-        bt_cov = bt_cov_raw[np.ix_(perm, perm)]
-        dL_vec = np.array([st_pairs[k]["dL_worst"] for k in st_pairs], dtype=float)
-        bt_se = np.sqrt(np.maximum(np.diag(bt_cov), 1e-20))
-        p_bt, _, c_bt = IV.max_t_stepdown(dL_vec / bt_se, bt_cov, alpha=0.05, n_sim=200000, seed=SEED)
+        dL_fwd = np.array([st_pairs[k]["dL_worst"] for k in st_pairs], dtype=float)
+        # Reconstruct reverse dL_worst using per_group bounds for pairs_30 = fwd_15 + rev_15
+        pg_b = up["stacked_inference"]["per_group"]
+        dL_rev = np.array([
+            pg_b[st_pairs[k]["lower_at_delta0"]]["L_worst"] - pg_b[st_pairs[k]["higher_at_delta0"]]["U_worst"]
+            for k in st_pairs
+        ], dtype=float)
+        dL_vec_30 = np.concatenate([dL_fwd, dL_rev])
+        bt_se_30 = np.sqrt(np.maximum(np.diag(bt_cov_30), 1e-20))
+        p_bt_30, _, c_bt_30 = IV.max_t_stepdown(dL_vec_30 / bt_se_30, bt_cov_30, alpha=0.05, n_sim=200000, seed=SEED)
         up["stacked_inference"]["bootstrap_cov_fwer"] = OrderedDict(
-            c_sim_boot=float(c_bt),
-            p_fwer_boot=[float(x) for x in p_bt],
-            n_sig_boot=int(sum(x <= 0.05 for x in p_bt)),
-            pair_order=list(st_pairs.keys()),
+            n_hypotheses=30,
+            c_sim_boot=float(c_bt_30),
+            p_fwer_boot=[float(x) for x in p_bt_30],
+            n_sig_boot=int(sum(x <= 0.05 for x in p_bt_30)),
+            pair_order_30=res["bootstrap"]["pair_order_30"],
         )
     res["stacked_inference"] = up["stacked_inference"]
     res["cluster_diagnostics"] = up["cluster_diagnostics"]

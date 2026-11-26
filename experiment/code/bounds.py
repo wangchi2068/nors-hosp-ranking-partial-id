@@ -139,15 +139,17 @@ def group_bounds_asym(t, i: int, d_down: float, d_up: float) -> tuple[float, flo
     return L, Uu
 
 
-def group_bounds_or(t, i: int, gamma: float) -> tuple[float, float]:
+def group_bounds_or(t, i: int, gamma: float, floor: float = 0.0) -> tuple[float, float]:
     """Standardized (L, U) of group index i under odds-ratio pattern-mixture factor Gamma >= 1.
 
     Unrecorded-status odds in cell s lie within [odds(p_js) / Gamma, Gamma * odds(p_js)].
-    For cells with p_js == 0, pure OR scaling keeps 0; for p_js == 1, it keeps 1.
+    When floor == 0.0, cells with p_js == 0 keep 0; when floor > 0, zero rates are floored at floor.
     """
     C, H, U, p, w = t.C[i], t.H[i], t.U[i], t.p_obs[i], t.w
     undefined = np.isnan(p)
     pp = np.where(undefined, 0.0, p)
+    if floor > 0.0:
+        pp = np.where((~undefined) & (pp == 0.0), floor, pp)
     denom_lo = pp + gamma * (1.0 - pp)
     denom_hi = gamma * pp + (1.0 - pp)
     lo_rate = np.where(undefined, 0.0, np.where(denom_lo > 0.0, pp / denom_lo, 0.0))
@@ -157,17 +159,17 @@ def group_bounds_or(t, i: int, gamma: float) -> tuple[float, float]:
     return L, Uu
 
 
-def gamma_star(t, h: int, l: int, max_gamma: float = 1e6) -> float | None:
+def gamma_star(t, h: int, l: int, max_gamma: float = 1e6, floor: float = 0.0) -> float | None:
     """Smallest odds-ratio sensitivity parameter Gamma >= 1 where L_h^OR(Gamma) <= U_l^OR(Gamma).
 
     Returns None if L_h^OR(max_gamma) > U_l^OR(max_gamma) (including pairs that hold even under
-    worst-case bounds or when cell p_ls == 0 caps OR upward movement below L_h).
+    worst-case bounds or when cell p_ls == 0 caps OR upward movement when floor == 0.0).
     """
     from scipy.optimize import brentq
 
     def gap_or(g: float) -> float:
-        lh, _ = group_bounds_or(t, h, g)
-        _, ul = group_bounds_or(t, l, g)
+        lh, _ = group_bounds_or(t, h, g, floor=floor)
+        _, ul = group_bounds_or(t, l, g, floor=floor)
         return lh - ul
 
     if gap_or(1.0) <= 0.0:

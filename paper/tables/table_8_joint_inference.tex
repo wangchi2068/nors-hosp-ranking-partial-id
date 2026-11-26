@@ -1,30 +1,30 @@
 \begin{table}[!tbp]
 \centering
 \scriptsize
-\setlength{\tabcolsep}{2.3pt}
+\setlength{\tabcolsep}{2.1pt}
 \renewcommand{\arraystretch}{1.12}
-\caption{Joint M-estimation inference for the 15 pairwise standardized differences combining outbreak-HC1 and 53-state-clustered sandwich covariances, Imbens--Manski 95\% CIs, 200,000-draw Gaussian multiplier Max-T FWER p-values, and dynamic simultaneous 95\% confidence tipping points.}
+\caption{Joint 30-hypothesis two-sided FWER inference combining Imbens--Manski 95\% CIs, outbreak-HC1 and 53-state Gaussian Max-T stepdown, studentized non-Gaussian bootstrap Max-T, and dynamic 95\% confidence tipping points.}
 \label{tab:joint_inference}
-\begin{tabular}{>{\raggedright\arraybackslash}p{2.4cm}>{\raggedleft\arraybackslash}p{1.95cm}>{\raggedleft\arraybackslash}p{2.05cm}>{\raggedleft\arraybackslash}p{2.2cm}>{\raggedleft\arraybackslash}p{2.2cm}>{\raggedleft\arraybackslash}p{1.05cm}>{\raggedleft\arraybackslash}p{2.25cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.35cm}>{\raggedleft\arraybackslash}p{1.95cm}>{\raggedleft\arraybackslash}p{2.15cm}>{\raggedleft\arraybackslash}p{2.15cm}>{\raggedleft\arraybackslash}p{2.15cm}>{\raggedleft\arraybackslash}p{1.0cm}>{\raggedleft\arraybackslash}p{2.2cm}}
 \toprule
-Ordering at $\delta$ = 0 & ID bounds (pp) & IM 95\% CI (pp) & HC1 FWER p (w / $\delta$=5) & State FWER p (w / $\delta$=5) & $\delta^{*}$ (pt) & 95\% $\delta^{*}$ (HC1 / State) \\
+Ordering at $\delta$ = 0 & IM 95\% CI (pp) & HC1 FWER p (w / $\delta$=5) & State FWER p (w / $\delta$=5) & Boot-NG p (w / $\delta$=5) & $\delta^{*}$ (pt) & 95\% $\delta^{*}$ (HC1 / State) \\
 \midrule
-STEC $>$ CAMP & [+5.5, +29.3] & [+0.2, +33.3] & 0.260 / <0.001 & 0.115 / <0.001 & $\infty$ & 75.4 / 83.9 \\
-STEC $>$ CPERF & [+5.0, +36.4] & [-2.5, +40.1] & 0.572 / <0.001 & 0.518 / <0.001 & $\infty$ & 76.6 / 78.2 \\
-STEC $>$ NoV GI & [+6.0, +36.3] & [-1.0, +40.1] & 0.393 / <0.001 & 0.186 / <0.001 & $\infty$ & 82.2 / 91.2 \\
-STEC $>$ NoV GII & [+7.5, +35.4] & [+3.2, +39.2] & 0.018 / <0.001 & 0.027 / <0.001 & $\infty$ & $\infty$ / $\infty$ \\
-SAL $>$ NoV GII & [-2.7, +30.4] & [-6.3, +33.6] & 1.000 / <0.001 & 1.000 / <0.001 & 81.6 & 58.6 / 55.4 \\
-SAL $>$ NoV GI & [-4.2, +31.3] & [-10.7, +34.5] & 1.000 / <0.001 & 1.000 / <0.001 & 76.5 & 48.3 / 50.4 \\
-SAL $>$ CPERF & [-5.2, +31.3] & [-12.3, +34.6] & 1.000 / <0.001 & 1.000 / <0.001 & 72.1 & 45.0 / 43.6 \\
-SAL $>$ CAMP & [-4.7, +24.2] & [-9.4, +27.8] & 1.000 / <0.001 & 1.000 / <0.001 & 51.1 & 21.5 / 19.3 \\
-STEC $>$ SAL & [-7.0, +22.2] & [-11.1, +26.0] & 1.000 / <0.001 & 1.000 / <0.001 & 41.3 & 20.1 / 20.6 \\
-CAMP $>$ NoV GI & [-11.2, +18.8] & [-17.9, +23.4] & 1.000 / <0.001 & 1.000 / <0.001 & 37.8 & 20.9 / 22.1 \\
-CAMP $>$ NoV GII & [-9.7, +17.9] & [-13.4, +22.5] & 1.000 / <0.001 & 1.000 / <0.001 & 37.1 & 21.3 / 20.8 \\
-CAMP $>$ CPERF & [-12.2, +18.9] & [-19.5, +23.4] & 1.000 / <0.001 & 1.000 / <0.001 & 35.5 & 19.2 / 18.6 \\
-NoV GII $>$ NoV GI & [-17.4, +16.8] & [-23.9, +20.2] & 1.000 / 0.931 & 1.000 / 0.938 & 4.2 & 1.5 / 1.5 \\
-NoV GII $>$ CPERF & [-18.4, +16.8] & [-25.5, +20.2] & 1.000 / 0.963 & 1.000 / 0.962 & 3.7 & 1.0 / 1.0 \\
-CPERF $>$ NoV GI & [-18.3, +19.3] & [-24.8, +26.4] & 1.000 / 1.000 & 1.000 / 1.000 & 0.19 & 0.00 / 0.00 \\
+STEC $>$ CAMP & [+0.2, +33.3] & 0.345 / <0.001 & 0.137 / <0.001 & 0.412 / <0.001 & $\infty$ & 73.2 / 82.7 \\
+STEC $>$ CPERF & [-2.5, +40.1] & 0.697 / <0.001 & 0.579 / <0.001 & 0.844 / <0.001 & $\infty$ & 75.0 / 77.3 \\
+STEC $>$ NoV GI & [-1.0, +40.1] & 0.509 / <0.001 & 0.225 / <0.001 & 0.593 / <0.001 & $\infty$ & 80.6 / 90.3 \\
+STEC $>$ NoV GII & [+3.2, +39.2] & 0.024 / <0.001 & 0.033 / <0.001 & 0.043 / <0.001 & $\infty$ & $\infty$ / $\infty$ \\
+SAL $>$ NoV GII & [-6.3, +33.6] & 1.000 / <0.001 & 1.000 / <0.001 & 1.000 / <0.001 & 81.6 & 57.7 / 54.7 \\
+SAL $>$ NoV GI & [-10.7, +34.5] & 1.000 / <0.001 & 1.000 / <0.001 & 1.000 / <0.001 & 76.5 & 47.3 / 49.8 \\
+SAL $>$ CPERF & [-12.3, +34.6] & 1.000 / <0.001 & 1.000 / <0.001 & 1.000 / <0.001 & 72.1 & 44.0 / 42.9 \\
+SAL $>$ CAMP & [-9.4, +27.8] & 1.000 / <0.001 & 1.000 / <0.001 & 1.000 / <0.001 & 51.1 & 20.5 / 18.2 \\
+STEC $>$ SAL & [-11.1, +26.0] & 1.000 / <0.001 & 1.000 / <0.001 & 1.000 / <0.001 & 41.3 & 19.1 / 20.0 \\
+CAMP $>$ NoV GI & [-17.9, +23.4] & 1.000 / <0.001 & 1.000 / <0.001 & 1.000 / 0.002 & 37.8 & 20.2 / 21.6 \\
+CAMP $>$ NoV GII & [-13.4, +22.5] & 1.000 / <0.001 & 1.000 / <0.001 & 1.000 / <0.001 & 37.1 & 20.5 / 20.1 \\
+CAMP $>$ CPERF & [-19.5, +23.4] & 1.000 / <0.001 & 1.000 / <0.001 & 1.000 / <0.001 & 35.5 & 18.5 / 18.0 \\
+NoV GII $>$ NoV GI & [-23.9, +20.2] & 1.000 / 1.000 & 1.000 / 1.000 & 1.000 / 1.000 & 4.2 & 1.3 / 1.2 \\
+NoV GII $>$ CPERF & [-25.5, +20.2] & 1.000 / 1.000 & 1.000 / 1.000 & 1.000 / 1.000 & 3.7 & 0.88 / 0.90 \\
+CPERF $>$ NoV GI & [-24.8, +26.4] & 1.000 / 1.000 & 1.000 / 1.000 & 1.000 / 1.000 & 0.19 & 0.00 / 0.00 \\
 \bottomrule
 \end{tabular}
-\par\smallskip\parbox{0.97\linewidth}{\footnotesize Outbreak-HC1 critical values: c\_sim = 2.49 (worst case), 2.53 ($\delta$ = 5); state-clustered: 2.46 / 2.49 (wild cluster bootstrap STEC $>$ NoV GII p = 0.028). 95\% $\delta^{*}$ uses dynamic c\_sim($\delta$). Simultaneous 95\% rank confidence sets at $\delta$ = 5: STEC [1,1]; SAL [2,2]; CAMP [3,3]; NoV GII [4,6]; CPERF [4,6]; NoV GI [4,6] (worst case: STEC [1,5], NoV GII [2,6], others [1,6]).}
+\par\smallskip\parbox{0.97\linewidth}{\footnotesize All p-values control FWER across all 30 ordered two-sided hypotheses. Critical values (worst / $\delta$ = 5): HC1 2.61 / 2.73; 53-state 2.54 / 2.68; non-Gaussian bootstrap 2.73 / 2.90 (wild cluster bootstrap STEC $>$ NoV GII p = 0.031). Joint 95\% rank sets: worst case STEC [1,5], NoV GII [2,6], others [1,6]; at $\delta$ = 5 and $-$15/+5 pp: STEC [1,1]; SAL [2,2]; CAMP [3,3]; NoV GII [4,6]; CPERF [4,6]; NoV GI [4,6] (identical across HC1, state, WCB, non-Gaussian bootstrap, and $-$15/+5 pp).}
 \end{table}

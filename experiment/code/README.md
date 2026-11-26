@@ -1,6 +1,6 @@
 # Experiment Pipeline (`experiment/code/`)
 
-Deterministic and seeded computational pipeline (`analysis_version: 3.0`) for the NORS partial-identification hospitalization ranking study.
+Deterministic and seeded computational pipeline (`analysis_version: 4.0`) for the NORS partial-identification hospitalization ranking study.
 
 ## Scripts
 

@@ -1,9 +1,9 @@
 \begin{table}[!tbp]
 \centering
 \scriptsize
-\setlength{\tabcolsep}{2.4pt}
+\setlength{\tabcolsep}{2.3pt}
 \renewcommand{\arraystretch}{1.12}
-\caption{Small-sample stratified Monte Carlo calibration (500 resamples preserving observed stratum sizes n\_js) comparing analytic HC1 sandwich SEs against empirical sampling SDs.}
+\caption{Bootstrap-world stratified Monte Carlo calibration (500 resamples preserving n\_js) comparing analytic HC1 SEs with empirical sampling SDs and 30-hypothesis FWER across five inferential procedures.}
 \label{tab:small_cal}
 \begin{tabular}{>{\raggedright\arraybackslash}p{2.2cm}>{\raggedleft\arraybackslash}p{1.75cm}>{\raggedleft\arraybackslash}p{1.85cm}>{\raggedleft\arraybackslash}p{1.9cm}>{\raggedleft\arraybackslash}p{1.75cm}>{\raggedleft\arraybackslash}p{1.85cm}>{\raggedleft\arraybackslash}p{1.9cm}}
 \toprule
@@ -17,5 +17,5 @@ C. perfringens & 0.16 & 0.15 & 0.917 & 4.67 & 3.52 & 0.754 \\
 Norovirus GI & 0.11 & 0.10 & 0.926 & 3.83 & 3.48 & 0.910 \\
 \bottomrule
 \end{tabular}
-\par\smallskip\parbox{0.97\linewidth}{\footnotesize Across the 15 pairs, Imbens--Manski 95\% empirical boundary coverage ranged from 76.4\% (min) to 87.4\% (median) under HC1 versus 75.4\%--86.0\% under HC0; empirical Max-T FWER was 30.8\% (worst case) and 15.8\% ($\delta$ = 5) under HC1, reflecting sparse high-HHI strata (N\_eff ≈ 2).}
+\par\smallskip\parbox{0.97\linewidth}{\footnotesize IM 95\% empirical boundary coverage across the 15 primary pairs was 76.4\% (min) to 87.4\% (median) under HC1 (75.4\%--86.0\% HC0). Empirical 30-test Max-T FWER (nominal 5\%; worst case / $\delta$ = 5): HC0 32.8\%/20.8\%; HC1 29.8\%/18.0\%; boot-crit 25.6\%/12.6\%; 53-state 21.4\%/8.8\%; WCB 20.6\%/8.0\%.}
 \end{table}

@@ -104,6 +104,42 @@ def _qn(x, q):
     return None if not np.isfinite(v) else v
 
 
+def _nongaussian_max_t_30(groups: list, pairs_30: list[tuple[int, int]], dL_hat: np.ndarray,
+                           dL_boot: np.ndarray, alpha: float = 0.05) -> OrderedDict:
+    """Studentized non-Gaussian Romano-Wolf Max-T stepdown over all 30 ordered pairs."""
+    B, M = dL_boot.shape
+    sd = np.maximum(np.std(dL_boot, axis=0, ddof=1), 1e-20)
+    t_obs = dL_hat / sd
+    T_boot = (dL_boot - dL_hat[None, :]) / sd[None, :]
+    c_crit = float(np.quantile(T_boot.max(axis=1), 1.0 - alpha))
+
+    order = np.argsort(-t_obs, kind="mergesort")
+    adj_p = np.zeros(M)
+    prev_p = 0.0
+    for step in range(M):
+        active = order[step:]
+        max_t = T_boot[:, active].max(axis=1)
+        p_raw = float((1.0 + np.sum(max_t >= t_obs[order[step]])) / (B + 1.0))
+        prev_p = max(prev_p, p_raw)
+        adj_p[order[step]] = prev_p
+
+    G = len(groups)
+    ranks = OrderedDict()
+    for j, g in enumerate(groups):
+        n_above = sum(1 for idx, (h, l) in enumerate(pairs_30) if adj_p[idx] <= alpha and l == j)
+        n_below = sum(1 for idx, (h, l) in enumerate(pairs_30) if adj_p[idx] <= alpha and h == j)
+        ranks[g] = OrderedDict(rank_lower=int(1 + n_above), rank_upper=int(G - n_below))
+
+    return OrderedDict(
+        n_hypotheses=int(M),
+        c_boot=c_crit,
+        p_fwer=[float(x) for x in adj_p],
+        sd_boot_pp=[float(100.0 * x) for x in sd],
+        n_sig=int(sum(x <= alpha for x in adj_p)),
+        rank_confidence_sets=ranks,
+    )
+
+
 def run(main_df, t_main, main_res, B: int = 2000, seed: int = 20261125, workers: int = 2, jsonl=None,
         order: str = "group_cell", draw: str = "integers"):
     groups, cells, arrs = _prepare(main_df, t_main)
@@ -111,6 +147,7 @@ def run(main_df, t_main, main_res, B: int = 2000, seed: int = 20261125, workers:
     G = len(groups)
     pkeys = list(main_pairs.keys())
     L = np.zeros((B, G)); U = np.zeros((B, G)); T0 = np.zeros((B, G))
+    L5 = np.zeros((B, G)); U5 = np.zeros((B, G))
     worst = np.empty((B, len(pkeys)), dtype=object); d5 = np.empty_like(worst); hi0 = np.empty_like(worst)
     ds = np.zeros((B, len(pkeys)))
     n_undef = 0
@@ -128,6 +165,7 @@ def run(main_df, t_main, main_res, B: int = 2000, seed: int = 20261125, workers:
     for rec in it:
         b = rec["b"]
         L[b], U[b], T0[b] = rec["L"], rec["U"], rec["theta0"]
+        L5[b], U5[b] = rec["L5"], rec["U5"]
         n_undef += rec["undefined_strata"] > 0
         for k, p in enumerate(rec["pairs"]):
             worst[b, k], d5[b, k], hi0[b, k] = p["worst"], p["delta5"], p["higher0"]
@@ -175,7 +213,29 @@ def run(main_df, t_main, main_res, B: int = 2000, seed: int = 20261125, workers:
         vals, c = np.unique(cnt, return_counts=True)
         return OrderedDict((str(int(v)), float(x / len(cnt))) for v, x in zip(vals, c))
 
+    # Full 30 two-sided ordered pairs: first 15 primary (sorted by delta* desc), then 15 reverse
+    sorted_p = sorted(main_pairs.items(),
+                      key=lambda kv: -(np.inf if kv[1]["delta_star_pp"] is None else kv[1]["delta_star_pp"]))
+    fwd_idx = [(groups.index(p["higher_at_delta0"]), groups.index(p["lower_at_delta0"])) for _, p in sorted_p]
+    rev_idx = [(l, h) for h, l in fwd_idx]
+    pairs_30 = fwd_idx + rev_idx
+    pair_names_30 = [f"{groups[h]}->{groups[l]}" for h, l in pairs_30]
+
+    Lw_hat = np.array([BD.worst_bounds(t_main, i)[0] for i in range(G)])
+    Uw_hat = np.array([BD.worst_bounds(t_main, i)[1] for i in range(G)])
+    L5_hat = np.array([BD.group_bounds(t_main, i, 0.05)[0] for i in range(G)])
+    U5_hat = np.array([BD.group_bounds(t_main, i, 0.05)[1] for i in range(G)])
+
+    dL_hat_wc_30 = np.array([Lw_hat[h] - Uw_hat[l] for h, l in pairs_30])
+    dL_boot_wc_30 = np.column_stack([L[:, h] - U[:, l] for h, l in pairs_30])
+    dL_hat_d5_30 = np.array([L5_hat[h] - U5_hat[l] for h, l in pairs_30])
+    dL_boot_d5_30 = np.column_stack([L5[:, h] - U5[:, l] for h, l in pairs_30])
+
+    ng_wc = _nongaussian_max_t_30(groups, pairs_30, dL_hat_wc_30, dL_boot_wc_30, alpha=0.05)
+    ng_d5 = _nongaussian_max_t_30(groups, pairs_30, dL_hat_d5_30, dL_boot_d5_30, alpha=0.05)
+
     dL_cov = np.cov(dL_mat, rowvar=False, ddof=1)
+    dL_cov_30 = np.cov(dL_boot_wc_30, rowvar=False, ddof=1)
 
     return OrderedDict(
         B=B, B_planned=2000, seed=seed,
@@ -185,6 +245,9 @@ def run(main_df, t_main, main_res, B: int = 2000, seed: int = 20261125, workers:
         n_replicates_with_undefined_strata=int(n_undef),
         per_group=per_group, pairs=pairs,
         pair_dL_worst_cov=[[float(x) for x in row] for row in dL_cov],
+        pair_order_30=pair_names_30,
+        pair_dL_worst_cov_30=[[float(x) for x in row] for row in dL_cov_30],
+        nongaussian_max_t=OrderedDict(worst=ng_wc, delta5=ng_d5),
         n_determined_worst_distribution=dist(worst), n_determined_delta5_distribution=dist(d5),
         jsonl="logs/bootstrap_replicates.jsonl",
     )

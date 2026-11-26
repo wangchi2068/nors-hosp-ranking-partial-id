@@ -63,3 +63,56 @@ We thank the referee for an extraordinarily thorough, constructive assessment—
 18. Changed `"developed"` to `"applied and integrated"` in Introduction (MS §1).
 19. Clarified in **Fig. 2** legend and caption that $\delta = 5$ pp is an illustrative scenario threshold.
 20. Overlaid crude **$H/C$** and **$H/K$** points onto **Fig. 3**.
+
+---
+
+# Round 2 Revision Summary (v3.0 → v4.0)
+
+We thank the Round 2 referee for an exceptionally sharp and constructive evaluation—identifying composition confounding in the within-data missingness check, the cost-model dependence of follow-up prioritization, incomplete calibration of the wild cluster bootstrap, the data-directed 15-vs-30 hypothesis family, and the Scallan et al. (2011) norovirus citation error. Every Major (M1–M7) and Minor (1–14) comment is resolved in `v4.0` as follows:
+
+## Major Comments (M1–M7)
+
+### M1: Composition Confounding in Empirical Missingness Calibration (`inference_voi.py`, Supp. Table S4, Fig. 4)
+- Decomposed partially vs. fully recorded comparisons by outbreak size (median 16 vs. 5 for STEC; 19 vs. 7 for *Salmonella*), multistate status (60.0% vs. 11.7% STEC; 34.2% vs. 2.4% *Salmonella*), within-cell standardized rates (`Within-cell Δ = +0.19 pp` for STEC; `+9.02 pp` for *Salmonella*), and single-state vs. multistate strata (`Supp. Table S4`).
+- Explicitly defined signed `Std obs − Full` (`-3.22 pp` STEC; `+2.86 pp` *Salmonella*) in MS §2.2, §3.2, and Table S4.
+- Replaced calibrated MNAR claims with composition-adjusted reporting and converted Main **Fig. 4** strictly into symmetric (`5 × 5 pp`) and asymmetric (`-15/+5 pp`) stress-test boxes.
+
+### M2: Unified Cost-Conditional Follow-Up Framework (`inference_voi.py`, Supp. Table S10, Fig. 5b–c, Fig. S3a)
+- Implemented side-by-side 200-trial budget-filling benchmarks under **three cost models**: per-case ($\text{cost}_i = U_i$), per-outbreak ($\text{cost}_i = 1$), and mixed ($\text{cost}_i = 20 + U_i$ case-equivalents).
+- Confirmed strategy reversal under per-outbreak costs (`Largest-first` `7.90` pairs vs. `Random` `3.27` and `Per-case w_s/C_js` `7.38` at 100 outbreaks) and unified dominance of cost-normalized width reduction `w_s U_i / (C_js * cost_i)` across all budgets (`6.29` per-case at 1,000 cases; `9.12` per-outbreak at 100 outbreaks; `4.09` mixed at 1,000 units).
+- Moved heuristic DPI to Supplement (§S2, Fig. S3b); added masking-cohort representativeness and prospective-only 2009–2018 limitations in §4.1.
+
+### M3: Closed Calibration Loop, Non-Gaussian Bootstrap Max-T, and Uniformity Caveats (`bootstrap.py`, `inference_voi.py`, Table 3, Table S8)
+- Added **studentized non-Gaussian bootstrap Max-T** across all 30 hypotheses directly from the 2,000 bootstrap replicates: `c_boot = 2.725` (worst case) and `2.899` ($\delta = 5$); **STEC > Norovirus GII** $p = 0.0430$ (worst case) and all 12 upper-tier pairs $p \le 0.0020$ at $\delta = 5$.
+- Closed the 500-replicate **bootstrap-world calibration** loop across all **five** procedures (`HC0`, `HC1`, `non-Gaussian boot-crit`, `53-state`, `53-state WCB`): empirical 30-test FWER drops from 32.8% / 29.8% (HC0/HC1) to 21.4% / 20.6% (State/WCB) at worst case and 8.8% / 8.0% at $\delta = 5$; cited MacKinnon & Webb (2017) on unequal cluster sizes and removed any claim that calibration validates WCB.
+- Clarified Stoye (2009) regularity near $\delta \to 0$ and reported `0 / 72` cells within $10^{-6}$ of piecewise kinks at $\delta = 5$ pp.
+
+### M4: Full 30-Hypothesis Two-Sided Family & Exact Rank Confidence Sets (`bootstrap.py`, `inference_voi.py`, Table 3)
+- Upgraded **all** FWER inference (`HC1`, `Bootstrap cov`, `53-State`, `WCB`, `Non-Gaussian Boot`, dynamic $c_{\text{sim},30}(\delta)$) to all **30 ordered two-sided hypotheses** (citing Mogstad et al. 2024, Klein et al. 2020, Andrews et al. 2019).
+- Stated the conservative partial-identification rank-set rule ($\Delta^L_{ij} > 0$) and computed exact 30-test rank confidence sets directly for **worst case**, **$\delta = 5$ pp**, and **asymmetric `-15/+5 pp`** (`STEC [1,1], SAL [2,2], CAMP [3,3], lower [4,6]`).
+
+### M5: Corrected Scallan et al. (2011) Norovirus Burden Comparison (MS §4)
+- Corrected Scallan et al. (2011) norovirus hospitalization proportion to **0.03%** (per estimated community illness), specified distinct pathogen denominators (lab-confirmed vs. total illness vs. outbreak data), and discussed why NORS outbreak-reported norovirus hospitalization (1.6%) is ~50-fold higher than community burden estimates.
+
+### M6: Accurate-$C_i$ Assumption & Single-State Stratification (`analyze.py`, MS §2.2, §4.1, Table S5)
+- Explicitly stated exact-$C_i$/$H_i$/$K_i$ assumption and route-dependent ascertainment bias (Heiman et al. 2015); added sensitivity variant **R11 (`3,659` single-state outbreaks only)** confirming `12` cells, `4` worst-case / `12` $\delta = 5$ verdicts, and `0` reversals.
+
+### M7: Positioning Against Simpson et al. (2022) Preprint & Abstract Condensation
+- Cited and contrasted the full NORS severity-index preprint (`simpson2022severity`, DOI `10.21203/rs.3.rs-1720769/v1`) in Introduction §1; condensed Abstract below 250 words with minimal acronyms.
+
+## Minor Comments (1–14) Summary
+1. Fixed `"12 upper-tier orderings"` (vs. `14/15` total at $\Gamma=3.0$) in MS §4.
+2. Clarified 11 low-missingness states track *fully recorded* rates in MS §4.
+3. Added `0.1%`-floor OR sensitivity (`floor = 0.001`: `SAL > CPERF` $\Gamma^* = 955.7$; 14/15 at $\Gamma \le 3.0$) and flagged $\Gamma^* = \infty^{\dagger}$ in Table 2 & Table S4.
+4. Rephrased to `"approximates the within-cell missing-at-random anchor"` in MS §4.
+5. Replaced `"spuriously raises"` with `"would overstate"` in MS §4.
+6. Replaced agreement-based Table 2 bootstrap columns with determination frequencies (`Boot det., worst (%)` and `Boot det., δ = 5 (%)`).
+7. Noted in MS §3.4 that R1a, R2, R4a, R5, and R6b shift one low-tier $\delta = 0$ direction.
+8. Stated 90.4% (2009–2018) effective weight span in Abstract and data-dependent support selection in MS §2.1 & §4.1.
+9. Narrowed Ebel et al. (2016) scope strictly to FoodNet lab-confirmed bacteria in §4.1.
+10. Added White et al. (2022) full `5–86` per 10M (>40-fold norovirus) reporting range in §4.1.
+11. Condensed Abstract to $\le 250$ words with minimal acronyms.
+12. Cited `Table S9` in MS §3.4 and aligned `Tables S1–S12` across `README.md` and `supplementary.tex`.
+13. Added verified DOIs across `bibliography.bib` and confirmed `Horowitz & Manski (2000)` (`pages = 77–84`) and `CDC (2026)` publication details.
+14. Elevated cost-normalized width reduction (`Eq. 5`) as primary follow-up rule and placed heuristic DPI in Supplement.
+

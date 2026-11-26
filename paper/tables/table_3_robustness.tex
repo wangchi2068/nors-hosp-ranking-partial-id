@@ -3,7 +3,7 @@
 \scriptsize
 \setlength{\tabcolsep}{3pt}
 \renewcommand{\arraystretch}{1.12}
-\caption{Sensitivity analyses across 16 cohort, support, weighting, aggregation, and etiology variants, with common-support cells, determined pairwise orderings under worst-case bounds and at $\delta$ = 5 points, and changes relative to the main analysis.}
+\caption{Sensitivity analyses across 17 cohort, support, weighting, aggregation, and multistate variants, with common-support cells, determined pairwise orderings under worst-case bounds and at $\delta$ = 5 pp, and changes relative to the main analysis.}
 \label{tab:robustness}
 \begin{tabular}{>{\raggedright\arraybackslash}p{1.05cm}>{\raggedright\arraybackslash}p{5.15cm}>{\raggedleft\arraybackslash}p{0.85cm}>{\raggedleft\arraybackslash}p{0.85cm}>{\raggedleft\arraybackslash}p{1.5cm}>{\raggedleft\arraybackslash}p{1.45cm}>{\raggedleft\arraybackslash}p{1.5cm}>{\raggedleft\arraybackslash}p{1.5cm}}
 \toprule
@@ -26,7 +26,8 @@ R7 & Norovirus GI+GII combined (5 groups, 10 pairs) & 12 & 10 & 3 & 9 & NA & NA 
 R8 & Cohort of include suspected study-group etiologies & 16 & 15 & 5 & 13 & 1 & 1 \\
 R9 & Cohort of exclude healthcare/LTCF outbreaks & 12 & 15 & 4 & 12 & 0 & 0 \\
 R10 & Within-cell aggregation: equal weight per outbreak & 12 & 15 & 7 & 14 & 3 & 0 \\
+R11 & Cohort of single-state outbreaks only (exclude multistate) & 12 & 15 & 4 & 12 & 0 & 0 \\
 \bottomrule
 \end{tabular}
-\par\smallskip\parbox{0.97\linewidth}{\footnotesize R7 combines Norovirus GI and GII into five groups (10 pairs), so six-group pair changes are NA. R8 adds 951 suspected study-group outbreaks. R9 excludes 79 hospital/long-term-care outbreaks. R10 weights all outbreaks equally within each cell while retaining the main 12-cell reference distribution.}
+\par\smallskip\parbox{0.97\linewidth}{\footnotesize R7 combines Norovirus GI and GII into five groups (10 pairs), so six-group pair changes are NA. R8 adds 951 suspected study-group outbreaks; R9 excludes 79 healthcare/LTCF outbreaks; R10 weights all outbreaks equally within cells; R11 restricts to 3,659 single-state outbreaks.}
 \end{table}

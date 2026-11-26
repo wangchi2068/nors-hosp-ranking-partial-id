@@ -1,10 +1,10 @@
 # Rebuild check: rebuilt analysis vs preserved results
 
-- Preserved: `results.json` (sha256 `372463400091...`)
-- Rebuilt: `results_rebuilt.json` (sha256 `75fc826541dc...`)
+- Preserved: `results.json` (sha256 `3523690cc5b8...`)
+- Rebuilt: `results_rebuilt.json` (sha256 `13a29f6aa578...`)
 - Rule: integers, booleans, strings and nulls identical; floats within an absolute tolerance of 1e-09; run metadata (timestamp, spec hash, wall clock, version, hardware, cohort file hash) not counted.
-- Everything except the bootstrap: 18,135 result leaves; bit-identical 18,135; within tolerance 0; not matched 0; largest float deviation 0.
-- Including the bootstrap block: 18,654 leaves; not matched 0 (all in the bootstrap block, which uses a different random-stream order; see the Monte Carlo comparison below).
+- Everything except the bootstrap: 19,391 result leaves; bit-identical 19,391; within tolerance 0; not matched 0; largest float deviation 0.
+- Including the bootstrap block: 20,990 leaves; not matched 0 (all in the bootstrap block, which uses a different random-stream order; see the Monte Carlo comparison below).
 
 ## Bootstrap (Monte Carlo comparison)
 
@@ -96,20 +96,21 @@
 | robustness.R8_include_suspected | 541 | 541 | 0 | 0 | 0 | exact |
 | robustness.R9_excl_healthcare | 533 | 533 | 0 | 0 | 0 | exact |
 | robustness.R10_outbreak_weighted | 534 | 534 | 0 | 0 | 0 | exact |
+| robustness.R11_single_state_only | 533 | 533 | 0 | 0 | 0 | exact |
 | retention | 165 | 165 | 0 | 0 | 0 | exact |
 | width_decomposition | 221 | 221 | 0 | 0 | 0 | exact |
-| bootstrap | 519 | 519 | 0 | 0 | 0 | exact |
+| bootstrap | 1599 | 1599 | 0 | 0 | 0 | exact |
 | audit | 212 | 212 | 0 | 0 | 0 | exact |
 | pilot | 125 | 125 | 0 | 0 | 0 | exact |
-| stacked_inference | 779 | 779 | 0 | 0 | 0 | exact |
+| stacked_inference | 1064 | 1064 | 0 | 0 | 0 | exact |
 | cluster_diagnostics | 563 | 563 | 0 | 0 | 0 | exact |
-| small_sample_calibration | 63 | 63 | 0 | 0 | 0 | exact |
-| empirical_calibration | 278 | 278 | 0 | 0 | 0 | exact |
-| followup_masking | 650 | 650 | 0 | 0 | 0 | exact |
+| small_sample_calibration | 71 | 71 | 0 | 0 | 0 | exact |
+| empirical_calibration | 416 | 416 | 0 | 0 | 0 | exact |
+| followup_masking | 942 | 942 | 0 | 0 | 0 | exact |
 | notes | 1 | 1 | 0 | 0 | 0 | exact |
 | estimates_note | 1 | 1 | 0 | 0 | 0 | exact |
 
 ## Run metadata (expected to differ, not counted)
 
-- `provenance.timestamp`: preserved "2026-11-26T01:21:15Z", rebuilt "2026-11-26T01:29:06Z"
-- `provenance.wall_clock_seconds`: preserved 50.8, rebuilt 36.3
+- `provenance.timestamp`: preserved "2026-11-26T02:37:26Z", rebuilt "2026-11-26T02:45:02Z"
+- `provenance.wall_clock_seconds`: preserved 105.9, rebuilt 106.7

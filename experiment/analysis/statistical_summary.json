@@ -1,7 +1,7 @@
 {
  "source": "analysis/results.json",
- "spec_hash": "9ee0d39fc6b50d0f",
- "analysis_version": "3.0",
+ "spec_hash": "347de14540fb9194",
+ "analysis_version": "4.0",
  "n_pairs": 15,
  "n_common_support_cells": 12,
  "determined_pairs": {
@@ -180,29 +180,35 @@
    "determined_worst_case": 7,
    "determined_delta5": 14,
    "n_pairs": 15
+  },
+  "R11_single_state_only": {
+   "cells": 12,
+   "determined_worst_case": 4,
+   "determined_delta5": 12,
+   "n_pairs": 15
   }
  },
  "bootstrap": {
   "B": 2000,
   "seed": 20261125,
-  "share_reproducing_main_worst_case_verdict": {
-   "STEC > Salmonella": 0.994,
-   "Salmonella > Campylobacter": 0.958,
-   "Salmonella > C. perfringens": 0.752,
-   "Salmonella > Norovirus GI": 0.8545,
-   "Salmonella > Norovirus GII": 0.8575,
+  "share_determined_worst_case": {
+   "STEC > Salmonella": 0.006,
+   "Salmonella > Campylobacter": 0.042,
+   "Salmonella > C. perfringens": 0.248,
+   "Salmonella > Norovirus GI": 0.1455,
+   "Salmonella > Norovirus GII": 0.1425,
    "STEC > Campylobacter": 0.9705,
    "STEC > C. perfringens": 0.916,
    "STEC > Norovirus GI": 0.936,
    "STEC > Norovirus GII": 0.9995,
-   "Campylobacter > C. perfringens": 0.9815,
-   "Campylobacter > Norovirus GI": 0.9985,
-   "Campylobacter > Norovirus GII": 1.0,
-   "C. perfringens > Norovirus GI": 1.0,
-   "Norovirus GII > C. perfringens": 1.0,
-   "Norovirus GII > Norovirus GI": 1.0
+   "Campylobacter > C. perfringens": 0.0185,
+   "Campylobacter > Norovirus GI": 0.0015,
+   "Campylobacter > Norovirus GII": 0.0,
+   "C. perfringens > Norovirus GI": 0.0,
+   "Norovirus GII > C. perfringens": 0.0,
+   "Norovirus GII > Norovirus GI": 0.0
   },
-  "share_reproducing_main_delta5_verdict": {
+  "share_determined_delta5": {
    "STEC > Salmonella": 1.0,
    "Salmonella > Campylobacter": 1.0,
    "Salmonella > C. perfringens": 1.0,
@@ -215,19 +221,23 @@
    "Campylobacter > C. perfringens": 1.0,
    "Campylobacter > Norovirus GI": 0.984,
    "Campylobacter > Norovirus GII": 1.0,
-   "C. perfringens > Norovirus GI": 0.9995,
-   "Norovirus GII > C. perfringens": 0.6695,
-   "Norovirus GII > Norovirus GI": 0.648
+   "C. perfringens > Norovirus GI": 0.0004999999999999449,
+   "Norovirus GII > C. perfringens": 0.3305,
+   "Norovirus GII > Norovirus GI": 0.352
   }
  },
  "stacked_inference": {
+  "n_hypotheses": 30,
   "n_im_excludes_zero": 2,
   "n_fwer_worst_sig": 1,
   "n_fwer_delta5_sig": 12,
   "n_fwer_state_worst_sig": 1,
   "n_fwer_wcb_worst_sig": 1,
-  "c_sim_worst": 2.487273179613307,
-  "c_sim_delta5": 2.5323593450426576,
+  "n_fwer_boot_ng_worst_sig": 1,
+  "c_sim_worst": 2.6105908440511034,
+  "c_sim_delta5": 2.7298072436073566,
+  "c_boot_nongaussian_worst": 2.725234086935977,
+  "c_boot_nongaussian_delta5": 2.8990316382101406,
   "rank_sets_worst_hc1": {
    "SAL": {
     "rank_lower": 1,
@@ -303,7 +313,45 @@
     "n_significantly_higher": 3,
     "n_significantly_lower": 0
    }
+  },
+  "rank_sets_asym_15_5_hc1": {
+   "SAL": {
+    "rank_lower": 2,
+    "rank_upper": 2,
+    "n_significantly_higher": 1,
+    "n_significantly_lower": 4
+   },
+   "STEC": {
+    "rank_lower": 1,
+    "rank_upper": 1,
+    "n_significantly_higher": 0,
+    "n_significantly_lower": 5
+   },
+   "CAMP": {
+    "rank_lower": 3,
+    "rank_upper": 3,
+    "n_significantly_higher": 2,
+    "n_significantly_lower": 3
+   },
+   "CPERF": {
+    "rank_lower": 4,
+    "rank_upper": 6,
+    "n_significantly_higher": 3,
+    "n_significantly_lower": 0
+   },
+   "NOV_GI": {
+    "rank_lower": 4,
+    "rank_upper": 6,
+    "n_significantly_higher": 3,
+    "n_significantly_lower": 0
+   },
+   "NOV_GII": {
+    "rank_lower": 4,
+    "rank_upper": 6,
+    "n_significantly_higher": 3,
+    "n_significantly_lower": 0
+   }
   }
  },
- "note": "Sample intervals are identification bounds; Imbens-Manski 95% CIs, outbreak-HC1 and state-clustered Max-T FWER p-values, and rank confidence sets appear in stacked_inference."
+ "note": "30-hypothesis two-sided FWER inference across HC1, 53-state clustering, WCB, and non-Gaussian studentized bootstrap."
 }

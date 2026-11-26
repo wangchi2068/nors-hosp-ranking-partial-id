@@ -16,3 +16,4 @@ R7,"Norovirus GI+GII combined (5 groups, 10 pairs)",12,10,3,9,NA,NA
 R8,Cohort of include suspected study-group etiologies,16,15,5,13,1,1
 R9,Cohort of exclude healthcare/LTCF outbreaks,12,15,4,12,0,0
 R10,Within-cell aggregation: equal weight per outbreak,12,15,7,14,3,0
+R11,Cohort of single-state outbreaks only (exclude multistate),12,15,4,12,0,0
