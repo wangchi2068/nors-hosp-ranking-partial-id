@@ -1,0 +1,30 @@
+\begin{table}[!tbp]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.2pt}
+\renewcommand{\arraystretch}{1.12}
+\caption{Outbreak-level bootstrap (2,000 replicates, seed 20261125; 88/2,000 draws had $\geq$1 stratum lacking $K_{\mathrm{rec}}$), with conditional studentized bootstrap-t check over complete-$K_{\mathrm{rec}}$ draws.}
+\label{tab:bootstrap}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.6cm}>{\raggedleft\arraybackslash}p{2.0cm}>{\raggedleft\arraybackslash}p{2.2cm}>{\raggedleft\arraybackslash}p{2.0cm}>{\raggedleft\arraybackslash}p{2.0cm}>{\raggedleft\arraybackslash}p{2.6cm}}
+\toprule
+Ordering at $\delta$ = 0 & Same $\delta$ = 0 direction (\%) & Worst case, higher $>$ lower (\%) & Worst case, undetermined (\%) & Determined at $\delta$ = 5 pp (\%) & $\delta^{*}$ 2.5th--97.5th percentile (pp) \\
+\midrule
+STEC $>$ CAMP & 100.00 & 97.05 & 2.95 & 100.00 & 90.0--$\infty$ \\
+STEC $>$ CPERF & 100.00 & 91.60 & 8.40 & 100.00 & 87.8--$\infty$ \\
+STEC $>$ NoV GI & 100.00 & 93.60 & 6.40 & 100.00 & 89.6--$\infty$ \\
+STEC $>$ NoV GII & 100.00 & 99.95 & 0.05 & 100.00 & $\infty$--$\infty$ \\
+SAL $>$ NoV GII & 100.00 & 14.25 & 85.75 & 100.00 & 64.2--$\infty$ \\
+SAL $>$ NoV GI & 100.00 & 14.55 & 85.45 & 100.00 & 47.2--$\infty$ \\
+SAL $>$ CPERF & 100.00 & 24.80 & 75.20 & 100.00 & 49.6--$\infty$ \\
+SAL $>$ CAMP & 100.00 & 4.20 & 95.80 & 100.00 & 23.3--$\infty$ \\
+STEC $>$ SAL & 100.00 & 0.60 & 99.40 & 100.00 & 24.8--71.1 \\
+CAMP $>$ NoV GI & 100.00 & 0.15 & 99.85 & 98.40 & 8.4--67.9 \\
+CAMP $>$ NoV GII & 100.00 & 0.00 & 100.00 & 100.00 & 27.1--59.3 \\
+CAMP $>$ CPERF & 100.00 & 1.85 & 98.15 & 100.00 & 23.7--92.5 \\
+NoV GII $>$ NoV GI & 95.60 & 0.00 & 100.00 & 35.20 & 0.0--8.2 \\
+NoV GII $>$ CPERF & 100.00 & 0.00 & 100.00 & 33.05 & 1.3--10.7 \\
+CPERF $>$ NoV GI & 60.20 & 0.00 & 100.00 & 0.05 & 0.0--2.6 \\
+\bottomrule
+\end{tabular}
+\par\smallskip\parbox{0.97\linewidth}{\footnotesize Conditioning on the 1912/2000 draws where every cell has $K_{\mathrm{rec}}$ $>$ 0 gives $c_{\mathrm{bt}}$ = 4.456 worst case (0 sig; cf. unconditional 4.519) and 3.370 at $\delta$ = 5 pp (12 sig; cf. 3.369).}
+\end{table}

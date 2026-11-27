@@ -1,9 +1,5 @@
 % =================================================================
-% RESEARCH PAPER MAIN MANUSCRIPT
-% =================================================================
-% Standard single-column journal submission layout (11pt, 1in margins,
-% 1.15 line spacing). Supplementary tables and figures are compiled
-% separately in supplementary.tex -> supplementary.pdf.
+% RESEARCH PAPER MAIN MANUSCRIPT (v8.0 clean-slate refactor)
 % =================================================================
 \documentclass[11pt,a4paper]{article}
 \usepackage{iftex}
@@ -12,12 +8,6 @@
 \fi
 \usepackage{fontspec}
 \IfFontExistsTF{Liberation Serif}{\setmainfont{Liberation Serif}}{\setmainfont{Times New Roman}}
-\makeatletter
-\@ifclassloaded{ctexart}{
-  \setCJKmainfont{Noto Serif CJK SC}
-  \setCJKsansfont{Noto Sans CJK SC}
-}{}
-\makeatother
 \usepackage{graphicx}
 \usepackage{amsmath,amssymb,amsfonts}
 \usepackage[a4paper, margin=1in]{geometry}
@@ -78,9 +68,9 @@
 \newunicodechar{δ}{\ensuremath{\delta}}
 \newunicodechar{Γ}{\ensuremath{\Gamma}}
 
-\title{\textbf{Hospitalization Orderings among Reported Outbreak Cases across Six Foodborne Pathogen Groups with Incompletely Recorded Outcomes, United States, 2009--2023}}
+\title{\textbf{Partial Identification and Simultaneous Rank Inference for Pathogen Hospitalization Comparisons among Reported Foodborne Outbreak Cases, United States, 2009--2023}}
 \author{Chi Wang}
-\date{November 26, 2026}
+\date{November 27, 2026}
 
 \begin{document}
 \maketitle
@@ -91,6 +81,7 @@
 \input{sections/methods}
 \input{sections/results}
 \input{sections/discussion}
+\clearpage
 \input{sections/declarations}
 
 \FloatBarrier

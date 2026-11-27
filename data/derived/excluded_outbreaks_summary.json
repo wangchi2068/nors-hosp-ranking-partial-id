@@ -1,0 +1,118 @@
+{
+ "suspected_study_group": {
+  "n_outbreaks": 951,
+  "n_kept_valid_counts": 951,
+  "total_cases": 12965.0,
+  "median_cases": 6.0,
+  "iqr_cases": [
+   3.0,
+   14.0
+  ],
+  "top_settings": [
+   {
+    "setting": "Restaurant",
+    "outbreaks": 515,
+    "share_pct": 54.153522607781284
+   },
+   {
+    "setting": "Catering/banquet",
+    "outbreaks": 112,
+    "share_pct": 11.77707676130389
+   },
+   {
+    "setting": "Private home",
+    "outbreaks": 92,
+    "share_pct": 9.674027339642482
+   }
+  ],
+  "recorded_hosp_rate": 0.018186680930730142,
+  "unrecorded_status_share": 0.13467026610104127
+ },
+ "norovirus_unspecified_confirmed": {
+  "n_outbreaks": 304,
+  "n_kept_valid_counts": 304,
+  "total_cases": 7679.0,
+  "median_cases": 16.0,
+  "iqr_cases": [
+   8.0,
+   28.0
+  ],
+  "top_settings": [
+   {
+    "setting": "Restaurant",
+    "outbreaks": 174,
+    "share_pct": 57.23684210526316
+   },
+   {
+    "setting": "Catering/banquet",
+    "outbreaks": 44,
+    "share_pct": 14.473684210526315
+   },
+   {
+    "setting": "Unknown",
+    "outbreaks": 28,
+    "share_pct": 9.210526315789474
+   }
+  ],
+  "recorded_hosp_rate": 0.009675303378156773,
+  "unrecorded_status_share": 0.20588618309675738
+ },
+ "multi_cross_group_or_nontarget": {
+  "n_outbreaks": 300,
+  "n_kept_valid_counts": 299,
+  "total_cases": 8480.0,
+  "median_cases": 10.0,
+  "iqr_cases": [
+   5.0,
+   24.5
+  ],
+  "top_settings": [
+   {
+    "setting": "Restaurant",
+    "outbreaks": 150,
+    "share_pct": 50.0
+   },
+   {
+    "setting": "Catering/banquet",
+    "outbreaks": 34,
+    "share_pct": 11.333333333333334
+   },
+   {
+    "setting": "Other",
+    "outbreaks": 32,
+    "share_pct": 10.666666666666666
+   }
+  ],
+  "recorded_hosp_rate": 0.03980936361087749,
+  "unrecorded_status_share": 0.15790094339622643
+ },
+ "multi_cross_with_confirmed_target": {
+  "n_outbreaks": 104,
+  "n_kept_valid_counts": 104,
+  "total_cases": 4541.0,
+  "median_cases": 15.5,
+  "iqr_cases": [
+   7.0,
+   42.0
+  ],
+  "top_settings": [
+   {
+    "setting": "Restaurant",
+    "outbreaks": 41,
+    "share_pct": 39.42307692307692
+   },
+   {
+    "setting": "Other",
+    "outbreaks": 15,
+    "share_pct": 14.423076923076923
+   },
+   {
+    "setting": "Private home",
+    "outbreaks": 15,
+    "share_pct": 14.423076923076923
+   }
+  ],
+  "recorded_hosp_rate": 0.04240189623386884,
+  "unrecorded_status_share": 0.16229905307201056
+ }
+}

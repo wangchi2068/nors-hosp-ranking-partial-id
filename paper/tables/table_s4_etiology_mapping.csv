@@ -1,0 +1,18 @@
+Raw NORS etiology string,Assigned study group,Food 2009–23 entries,In R3c exact-string pilot
+Salmonella enterica,Salmonella,1984,Yes
+Norovirus Genogroup II,Norovirus GII,1747,Yes
+"Escherichia coli, Shiga toxin-producing",STEC,484,Yes
+Clostridium perfringens,C. perfringens,479,Yes
+Norovirus Genogroup I,Norovirus GI,434,Yes
+Campylobacter jejuni,Campylobacter,299,Yes
+Campylobacter unknown,Campylobacter,94,No
+Salmonella unknown,Salmonella,60,No
+Campylobacter,Campylobacter,47,No
+Campylobacter coli,Campylobacter,29,No
+Salmonella other,Salmonella,18,No
+Salmonella,Salmonella,10,No
+Campylobacter other,Campylobacter,4,No
+Campylobacter lari,Campylobacter,2,No
+Norovirus unknown,Excluded from GI/GII (R7/R7b),929,No
+Norovirus,Excluded from GI/GII (R7/R7b),727,No
+All other non-study foodborne strings (n = 87 distinct strings),Excluded (non-target / multi-group),2036,No

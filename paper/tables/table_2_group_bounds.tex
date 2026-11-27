@@ -1,0 +1,21 @@
+\begin{table}[!tbp]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.1pt}
+\renewcommand{\arraystretch}{1.12}
+\caption{Crude and setting $\times$ period standardized hospitalization proportions among reported outbreak cases (12 common-support cells, pooled-case weights).}
+\label{tab:group_bounds}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.15cm}>{\raggedleft\arraybackslash}p{1.2cm}>{\raggedleft\arraybackslash}p{1.2cm}>{\raggedleft\arraybackslash}p{2.0cm}>{\raggedleft\arraybackslash}p{1.9cm}>{\raggedleft\arraybackslash}p{1.3cm}>{\raggedleft\arraybackslash}p{2.1cm}>{\raggedleft\arraybackslash}p{2.1cm}}
+\toprule
+Pathogen group & Crude H/C (\%) & Crude $\delta$=0 (\%) & Worst-case [L, U] (\%) & $\delta$ = 5 pp [L, U] (\%) & $\delta$ = 0 MAR (\%) & Bootstrap L range (\%) & Bootstrap U range (\%) \\
+\midrule
+STEC & 26.5 & 30.2 & 24.7--36.8 & 27.9--29.1 & 28.5 & 21.7--29.3 & 32.6--42.3 \\
+Salmonella & 15.3 & 18.6 & 14.5--31.7 & 16.8--18.5 & 17.6 & 13.3--15.9 & 28.2--35.5 \\
+Campylobacter & 7.2 & 8.4 & 7.4--19.3 & 7.9--9.1 & 8.5 & 6.2--9.6 & 14.2--24.4 \\
+Norovirus GII & 1.3 & 1.6 & 1.3--17.2 & 1.3--2.4 & 1.6 & 1.1--1.6 & 12.9--20.8 \\
+C. perfringens & 0.4 & 0.5 & 0.4--19.7 & 0.4--1.6 & 0.6 & 0.2--0.9 & 8.5--28.1 \\
+Norovirus GI & 0.4 & 0.4 & 0.4--18.7 & 0.4--1.5 & 0.5 & 0.2--0.6 & 11.7--26.8 \\
+\bottomrule
+\end{tabular}
+\par\smallskip\parbox{0.97\linewidth}{\footnotesize Crude $\delta$=0 (\%) = (H + M·p)/C retains known hospitalizations $H_i$ from the 42 blank-$K_i$ records while imputing $C_i$ $-$ $H_i$ at pooled rate p = $H_{\mathrm{rec}}/K_{\mathrm{rec}}$, hence slightly exceeding Table 1 pooled Rec. hosp (\%) whenever blank-$K_i$ records contain hospitalized cases. $\delta$ = 0 MAR uses within-cell recorded rates $p_{js}$; $\delta$ = 5 pp bounds unrecorded rates to $p_{js}$ $\pm$ 5 pp. Bootstrap L and U ranges give 2.5th--97.5th percentiles over 2,000 stratified outbreak-level replicates.}
+\end{table}

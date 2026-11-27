@@ -1,0 +1,23 @@
+Calibration world,Procedure,Worst FWER ± SE (%),δ=5 FWER ± SE (%),World note
+Outbreak (400×499),HC0 Gaussian (df-uncorrected),33.5 ± 2.4,19.8 ± 2.0,No state correlation simulated
+Outbreak (400×499),HC1 Gaussian,30.5 ± 2.3,16.2 ± 1.8,No state correlation simulated
+Outbreak (400×499),Fixed-scale std. bootstrap,25.2 ± 2.2,10.5 ± 1.5,No state correlation simulated
+Outbreak (400×499),53-state CV1 Gaussian,20.5 ± 2.0,9.8 ± 1.5,No state correlation simulated
+Outbreak (400×499),Unrestricted Rademacher WCB,21.0 ± 2.0,11.0 ± 1.6,No state correlation simulated
+Outbreak (400×499),CV3 cluster jackknife,4.0 ± 1.0,1.0 ± 0.5,No state correlation simulated
+Outbreak (400×499),Studentized bootstrap-t,7.2 ± 1.3,7.8 ± 1.3,Boot-t inner c: 3.53–5.33
+Cluster 53-state (300×399),CV1 cluster Gaussian,41.3 ± 2.8,41.0 ± 2.8,"Fixed-size Cluster RE + Beta-Binom (SE/SD: CV1 0.82, CV3 1.06)"
+Cluster 53-state (300×399),Unrestricted Rademacher WCB,42.0 ± 2.8,45.0 ± 2.9,"Fixed-size Cluster RE + Beta-Binom (SE/SD: CV1 0.82, CV3 1.06)"
+Cluster 53-state (300×399),Bayesian cluster boot-t,37.3 ± 2.8,35.0 ± 2.8,"Fixed-size Cluster RE + Beta-Binom (SE/SD: CV1 0.82, CV3 1.06)"
+Cluster 53-state (300×399),CV3 cluster jackknife,18.7 ± 2.2,11.7 ± 1.9,"Fixed-size Cluster RE + Beta-Binom (SE/SD: CV1 0.82, CV3 1.06)"
+Cluster 53-state (300×399),CV3 jackknife (t_{G-1}),15.7 ± 2.1,10.7 ± 1.8,"Fixed-size Cluster RE + Beta-Binom (SE/SD: CV1 0.82, CV3 1.06)"
+Cluster 271-singleton (300×399),CV1 cluster Gaussian,25.3 ± 2.5,23.7 ± 2.5,"Fixed-size Cluster RE + Beta-Binom (SE/SD: CV1 0.82, CV3 1.03)"
+Cluster 271-singleton (300×399),Unrestricted Rademacher WCB,28.0 ± 2.6,29.0 ± 2.6,"Fixed-size Cluster RE + Beta-Binom (SE/SD: CV1 0.82, CV3 1.03)"
+Cluster 271-singleton (300×399),CV3 cluster jackknife,9.7 ± 1.7,9.3 ± 1.7,"Fixed-size Cluster RE + Beta-Binom (SE/SD: CV1 0.82, CV3 1.03)"
+Cluster 271-singleton (300×399),CV3 jackknife (t_{G-1}),9.3 ± 1.7,9.3 ± 1.7,"Fixed-size Cluster RE + Beta-Binom (SE/SD: CV1 0.82, CV3 1.03)"
+Cluster 52-state R11 (300×399),CV1 cluster Gaussian,30.0 ± 2.6,26.3 ± 2.5,"Fixed-size Cluster RE + Beta-Binom (SE/SD: CV1 0.84, CV3 1.06)"
+Cluster 52-state R11 (300×399),Unrestricted Rademacher WCB,29.0 ± 2.6,27.7 ± 2.6,"Fixed-size Cluster RE + Beta-Binom (SE/SD: CV1 0.84, CV3 1.06)"
+Cluster 52-state R11 (300×399),CV3 cluster jackknife,13.3 ± 2.0,9.7 ± 1.7,"Fixed-size Cluster RE + Beta-Binom (SE/SD: CV1 0.84, CV3 1.06)"
+Cluster 52-state R11 (300×399),CV3 jackknife (t_{G-1}),12.7 ± 1.9,8.7 ± 1.6,"Fixed-size Cluster RE + Beta-Binom (SE/SD: CV1 0.84, CV3 1.06)"
+Parametric LogNorm (300×399),HC1 Gaussian,17.3 ± 2.2,14.7 ± 2.0,LogNorm + Beta-Binom (HC1 SE/obs 0.78)
+Parametric LogNorm (300×399),Studentized bootstrap-t,6.3 ± 1.4,2.7 ± 0.9,LogNorm + Beta-Binom (HC1 SE/obs 0.78)

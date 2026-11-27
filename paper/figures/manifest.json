@@ -3,7 +3,7 @@
   "id": "fig_02_verdict_matrix",
   "path_pdf": "fig_02_verdict_matrix.pdf",
   "path_png": "fig_02_verdict_matrix.png",
-  "caption": "Pairwise ordering verdicts and $\\delta^*$.",
+  "caption": "Pairwise sample breakdown matrix across six groups.",
   "section": "results",
   "generator": "code/make_outputs.py",
   "data_source": "analysis/results.json"
@@ -12,7 +12,7 @@
   "id": "fig_03_bound_intervals",
   "path_pdf": "fig_03_bound_intervals.pdf",
   "path_png": "fig_03_bound_intervals.png",
-  "caption": "Standardized bounds with crude H/C and H/K.",
+  "caption": "Standardized bounds overlaid with crude H/C and crude δ = 0.",
   "section": "results",
   "generator": "code/make_outputs.py",
   "data_source": "analysis/results.json"
@@ -21,16 +21,16 @@
   "id": "fig_04_calibrated_2d",
   "path_pdf": "fig_04_calibrated_2d.pdf",
   "path_png": "fig_04_calibrated_2d.png",
-  "caption": "2D breakdown frontiers across lower-tier pairs [0,10] pp and key upper-tier boundary pairs [0,60] pp.",
+  "caption": "2D breakdown frontiers including the binding upper-vs-lower pair CAMP > CPERF.",
   "section": "results",
   "generator": "code/make_outputs.py",
   "data_source": "analysis/results.json"
  },
  {
-  "id": "fig_05_inference_followup",
-  "path_pdf": "fig_05_inference_followup.pdf",
-  "path_png": "fig_05_inference_followup.png",
-  "caption": "Sample and 30-hypothesis statistical breakdown points alongside delta-specific Max-T critical value curves.",
+  "id": "fig_05_breakdown_primary",
+  "path_pdf": "fig_05_breakdown_primary.pdf",
+  "path_png": "fig_05_breakdown_primary.png",
+  "caption": "Sample breakdown points alongside primary Boot-t and CV3 95% breakdown frontiers.",
   "section": "results",
   "generator": "code/make_outputs.py",
   "data_source": "analysis/results.json"
@@ -54,19 +54,10 @@
   "data_source": "analysis/results.json"
  },
  {
-  "id": "fig_s3_followup_sensitivity",
-  "path_pdf": "fig_s3_followup_sensitivity.pdf",
-  "path_png": "fig_s3_followup_sensitivity.png",
-  "caption": "Follow-up benchmarks across per-case, per-outbreak, mixed-cost, and MNAR masking regimes.",
-  "section": "supplementary",
-  "generator": "code/make_outputs.py",
-  "data_source": "analysis/results.json"
- },
- {
-  "id": "fig_s4_common_mechanism",
-  "path_pdf": "fig_s4_common_mechanism.pdf",
-  "path_png": "fig_s4_common_mechanism.png",
-  "caption": "Standardized hospitalization under uniform common-mechanism rate scaling alpha in [0, 2].",
+  "id": "fig_s3_sensitivity_supplement",
+  "path_pdf": "fig_s3_sensitivity_supplement.pdf",
+  "path_png": "fig_s3_sensitivity_supplement.png",
+  "caption": "Common-mechanism proportional scaling and all comparator critical-value curves.",
   "section": "supplementary",
   "generator": "code/make_outputs.py",
   "data_source": "analysis/results.json"

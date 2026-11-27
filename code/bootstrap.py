@@ -1,0 +1,295 @@
+"""Outbreak-level bootstrap of the main analysis.
+
+Scheme: B = 2000 replicates, seed 20261125; replicate b uses its own generator
+numpy.random.default_rng([seed, b]) so that a resumed or parallel run equals an uninterrupted
+one. Within each group x common-support cell the group's outbreaks are resampled with
+replacement (same number); cells are fixed; pooled-case weights are recomputed per replicate.
+A resampled cell without a recorded rate keeps worst-case bounds at every delta; the delta = 0
+direction is then taken from the midpoint and delta* = 0 if the ordering is not guaranteed at
+delta = 0. Replicates are streamed to a JSONL file; only compact per-replicate
+summaries are kept in memory. Quantiles: numpy method 'inverted_cdf' (no interpolation;
+infinite delta* allowed, reported as null).
+
+Usage (stand-alone):
+  python bootstrap.py --derived data/derived --out rebuild/bootstrap_block.json \
+      [--B 2000] [--workers 2] [--jsonl logs/bootstrap_replicates.jsonl]
+      [--order group_cell|cell_group] [--draw integers|choice]
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from collections import OrderedDict
+from multiprocessing import get_all_start_methods, get_context
+from pathlib import Path
+
+sys.dont_write_bytecode = True
+
+import numpy as np
+
+import bounds as BD
+import strata as S
+
+_STATE = {}
+
+
+def _prepare(main_df, t_main):
+    """Per group x cell arrays of outbreak-level counts in cohort-file order."""
+    groups, cells = t_main.groups, t_main.cells
+    arrs = {}
+    for g in groups:
+        for c in cells:
+            d = main_df[(main_df["group"] == g) & (main_df["cell"] == c)]
+            arrs[(g, c)] = np.stack([d[k].to_numpy(dtype=float) for k in ("C", "H", "U", "H_rec", "K_rec")])
+    return groups, cells, arrs
+
+
+def _init(groups, cells, arrs, seed, order, draw, main_pairs):
+    _STATE.update(groups=groups, cells=cells, arrs=arrs, seed=seed, order=order, draw=draw, main_pairs=main_pairs)
+
+
+def _replicate(b: int):
+    st = _STATE
+    groups, cells, arrs = st["groups"], st["cells"], st["arrs"]
+    rng = np.random.default_rng([st["seed"], b])
+    G, K = len(groups), len(cells)
+    sums = np.zeros((5, G, K))
+    n = np.zeros((G, K))
+    if st["order"] == "group_cell":
+        seq = [(i, j) for i in range(G) for j in range(K)]
+    elif st["order"] == "cell_group":
+        seq = [(i, j) for j in range(K) for i in range(G)]
+    else:  # "sorted": alphabetical (group, cell) keys, as pandas groupby would iterate
+        seq = sorted(((i, j) for i in range(G) for j in range(K)), key=lambda ij: (groups[ij[0]], cells[ij[1]]))
+    for i, j in seq:
+        a = arrs[(groups[i], cells[j])]
+        m = a.shape[1]
+        if st["draw"] == "integers":
+            idx = rng.integers(0, m, m)
+        else:
+            idx = rng.choice(m, size=m, replace=True)
+        sums[:, i, j] = a[:, idx].sum(axis=1)
+        n[i, j] = m
+    t = S.Table(groups=list(groups), cells=list(cells), C=sums[0], H=sums[1], U=sums[2], H_rec=sums[3],
+                K_rec=sums[4], n=n)
+    t.w = S.weights(t, "pooled_cases")
+    rec = {"b": b, "L": [], "U": [], "theta0": [], "L5": [], "U5": [], "undefined_strata": int(np.isnan(t.p_obs).sum())}
+    for i in range(G):
+        Lw, Uw = BD.worst_bounds(t, i)
+        L0, U0 = BD.point_delta0(t, i)
+        L5, U5 = BD.group_bounds(t, i, 0.05)
+        rec["L"].append(Lw); rec["U"].append(Uw); rec["theta0"].append((L0 + U0) / 2.0)
+        rec["L5"].append(L5); rec["U5"].append(U5)
+    pairs = []
+    for i in range(G):
+        for j in range(i + 1, G):
+            a, bb = groups[i], groups[j]
+            wc = BD.verdict(rec["L"][i], rec["U"][i], rec["L"][j], rec["U"][j], a, bb)
+            d5 = BD.verdict(rec["L5"][i], rec["U5"][i], rec["L5"][j], rec["U5"][j], a, bb)
+            h, l = BD.direction_delta0(t, i, j)
+            ex, _ = BD.delta_star(t, h, l, bisect=False)
+            pairs.append({"pair": f"{a}|{bb}", "worst": wc, "delta5": d5, "higher0": groups[h],
+                          "delta_star_pp": None if ex is None else ex * 100.0})
+    rec["pairs"] = pairs
+    return rec
+
+
+def _q(x, q):
+    return float(np.quantile(np.asarray(x, dtype=float), q, method="inverted_cdf"))
+
+
+def _qn(x, q):
+    v = _q(x, q)
+    return None if not np.isfinite(v) else v
+
+
+def _standardized_boot_max_t_30(groups: list, pairs_30: list[tuple[int, int]], dL_hat: np.ndarray,
+                                dL_boot: np.ndarray, alpha: float = 0.05) -> OrderedDict:
+    """Fixed-scale (standardized) Romano-Wolf Max-T stepdown over all 30 ordered hypotheses."""
+    B, M = dL_boot.shape
+    sd = np.maximum(np.std(dL_boot, axis=0, ddof=1), 1e-20)
+    t_obs = dL_hat / sd
+    T_boot = (dL_boot - dL_hat[None, :]) / sd[None, :]
+    c_crit = float(np.quantile(T_boot.max(axis=1), 1.0 - alpha))
+
+    order = np.argsort(-t_obs, kind="mergesort")
+    adj_p = np.zeros(M)
+    mc_se = np.zeros(M)
+    prev_p = 0.0
+    prev_se = 0.0
+    for step in range(M):
+        active = order[step:]
+        max_t = T_boot[:, active].max(axis=1)
+        p_raw = float((1.0 + np.sum(max_t >= t_obs[order[step]])) / (B + 1.0))
+        se_raw = float(np.sqrt(max(p_raw * (1.0 - p_raw), 0.0) / B))
+        if p_raw >= prev_p:
+            adj_p[order[step]] = p_raw
+            mc_se[order[step]] = se_raw
+            prev_p = p_raw
+            prev_se = se_raw
+        else:
+            adj_p[order[step]] = prev_p
+            mc_se[order[step]] = prev_se
+
+    G = len(groups)
+    ranks = OrderedDict()
+    for j, g in enumerate(groups):
+        n_above = sum(1 for idx, (h, l) in enumerate(pairs_30) if adj_p[idx] <= alpha and l == j)
+        n_below = sum(1 for idx, (h, l) in enumerate(pairs_30) if adj_p[idx] <= alpha and h == j)
+        ranks[g] = OrderedDict(rank_lower=int(1 + n_above), rank_upper=int(G - n_below))
+
+    return OrderedDict(
+        n_hypotheses=int(M),
+        c_boot=c_crit,
+        p_fwer=[float(x) for x in adj_p],
+        mc_se_p=[float(x) for x in mc_se],
+        sd_boot_pp=[float(100.0 * x) for x in sd],
+        n_sig=int(sum(x <= alpha for x in adj_p)),
+        rank_confidence_sets=ranks,
+    )
+
+
+def run(main_df, t_main, main_res, B: int = 2000, seed: int = 20261125, workers: int = 2, jsonl=None,
+        order: str = "group_cell", draw: str = "integers"):
+    groups, cells, arrs = _prepare(main_df, t_main)
+    main_pairs = main_res["pairs"]
+    G = len(groups)
+    pkeys = list(main_pairs.keys())
+    L = np.zeros((B, G)); U = np.zeros((B, G)); T0 = np.zeros((B, G))
+    L5 = np.zeros((B, G)); U5 = np.zeros((B, G))
+    worst = np.empty((B, len(pkeys)), dtype=object); d5 = np.empty_like(worst); hi0 = np.empty_like(worst)
+    ds = np.zeros((B, len(pkeys)))
+    n_undef = 0
+    fh = open(jsonl, "w", encoding="utf-8", newline="\n") if jsonl else None
+    init = (groups, cells, arrs, seed, order, draw, main_pairs)
+    if workers and workers > 1:
+        method = "fork" if "fork" in get_all_start_methods() else "spawn"
+        ctx = get_context(method)
+        pool = ctx.Pool(min(workers, 2), initializer=_init, initargs=init)
+        it = pool.imap(_replicate, range(B), chunksize=50)
+    else:
+        _init(*init)
+        pool = None
+        it = map(_replicate, range(B))
+    for rec in it:
+        b = rec["b"]
+        L[b], U[b], T0[b] = rec["L"], rec["U"], rec["theta0"]
+        L5[b], U5[b] = rec["L5"], rec["U5"]
+        n_undef += rec["undefined_strata"] > 0
+        for k, p in enumerate(rec["pairs"]):
+            worst[b, k], d5[b, k], hi0[b, k] = p["worst"], p["delta5"], p["higher0"]
+            ds[b, k] = np.inf if p["delta_star_pp"] is None else p["delta_star_pp"]
+        if fh:
+            fh.write(json.dumps(rec, allow_nan=False) + "\n")
+    if pool:
+        pool.close(); pool.join()
+    if fh:
+        fh.close()
+
+    per_group = OrderedDict()
+    for i, g in enumerate(groups):
+        per_group[g] = OrderedDict(
+            L_p2_5=_q(L[:, i], 0.025), L_p50=_q(L[:, i], 0.5), L_p97_5=_q(L[:, i], 0.975),
+            L_sd=float(np.std(L[:, i], ddof=1)),
+            U_p2_5=_q(U[:, i], 0.025), U_p50=_q(U[:, i], 0.5), U_p97_5=_q(U[:, i], 0.975),
+            U_sd=float(np.std(U[:, i], ddof=1)),
+            theta_delta0_p2_5=_q(T0[:, i], 0.025), theta_delta0_p97_5=_q(T0[:, i], 0.975),
+            theta_delta0_sd=float(np.std(T0[:, i], ddof=1)))
+    pairs = OrderedDict()
+    dL_mat = np.zeros((B, len(pkeys)))
+    for k, key in enumerate(pkeys):
+        mp = main_pairs[key]
+        a, bb = mp["A"], mp["B"]
+        hi_idx = groups.index(mp["higher_at_delta0"])
+        lo_idx = groups.index(mp["lower_at_delta0"])
+        dL_mat[:, k] = L[:, hi_idx] - U[:, lo_idx]
+        w, v5 = worst[:, k], d5[:, k]
+        pairs[key] = OrderedDict(
+            share_worst_A=float(np.mean(w == a)), share_worst_B=float(np.mean(w == bb)),
+            share_worst_undetermined=float(np.mean(w == BD.UNDET)),
+            share_worst_main_verdict=float(np.mean(w == mp["worst_case"])),
+            share_delta5_A=float(np.mean(v5 == a)), share_delta5_B=float(np.mean(v5 == bb)),
+            share_delta5_undetermined=float(np.mean(v5 == BD.UNDET)),
+            share_delta5_main_verdict=float(np.mean(v5 == mp["verdict_by_delta_pp"]["5"])),
+            share_same_delta0_direction=float(np.mean(hi0[:, k] == mp["higher_at_delta0"])),
+            share_holds_without_assumption=float(np.mean(w != BD.UNDET)),
+            dL_worst_sd=float(np.std(dL_mat[:, k], ddof=1)),
+            delta_star_pp_p2_5=_qn(ds[:, k], 0.025), delta_star_pp_p50=_qn(ds[:, k], 0.5),
+            delta_star_pp_p97_5=_qn(ds[:, k], 0.975))
+
+    def dist(mat):
+        cnt = np.sum(mat != BD.UNDET, axis=1)
+        vals, c = np.unique(cnt, return_counts=True)
+        return OrderedDict((str(int(v)), float(x / len(cnt))) for v, x in zip(vals, c))
+
+    # Full 30 two-sided ordered pairs: first 15 primary (sorted by delta* desc), then 15 reverse
+    sorted_p = sorted(main_pairs.items(),
+                      key=lambda kv: -(np.inf if kv[1]["delta_star_pp"] is None else kv[1]["delta_star_pp"]))
+    fwd_idx = [(groups.index(p["higher_at_delta0"]), groups.index(p["lower_at_delta0"])) for _, p in sorted_p]
+    rev_idx = [(l, h) for h, l in fwd_idx]
+    pairs_30 = fwd_idx + rev_idx
+    pair_names_30 = [f"{groups[h]}->{groups[l]}" for h, l in pairs_30]
+
+    Lw_hat = np.array([BD.worst_bounds(t_main, i)[0] for i in range(G)])
+    Uw_hat = np.array([BD.worst_bounds(t_main, i)[1] for i in range(G)])
+    L5_hat = np.array([BD.group_bounds(t_main, i, 0.05)[0] for i in range(G)])
+    U5_hat = np.array([BD.group_bounds(t_main, i, 0.05)[1] for i in range(G)])
+
+    dL_hat_wc_30 = np.array([Lw_hat[h] - Uw_hat[l] for h, l in pairs_30])
+    dL_boot_wc_30 = np.column_stack([L[:, h] - U[:, l] for h, l in pairs_30])
+    dL_hat_d5_30 = np.array([L5_hat[h] - U5_hat[l] for h, l in pairs_30])
+    dL_boot_d5_30 = np.column_stack([L5[:, h] - U5[:, l] for h, l in pairs_30])
+
+    ng_wc = _standardized_boot_max_t_30(groups, pairs_30, dL_hat_wc_30, dL_boot_wc_30, alpha=0.05)
+    ng_d5 = _standardized_boot_max_t_30(groups, pairs_30, dL_hat_d5_30, dL_boot_d5_30, alpha=0.05)
+
+    dL_cov = np.cov(dL_mat, rowvar=False, ddof=1)
+    dL_cov_30 = np.cov(dL_boot_wc_30, rowvar=False, ddof=1)
+
+    return OrderedDict(
+        B=B, B_planned=2000, seed=seed,
+        scheme="resample outbreaks with replacement within group x common-support cell; cells fixed; pooled-case "
+               "weights recomputed per replicate",
+        quantile_method="inverted_cdf (no interpolation; infinite delta* allowed)",
+        n_replicates_with_undefined_strata=int(n_undef),
+        per_group=per_group, pairs=pairs,
+        pair_dL_worst_cov=[[float(x) for x in row] for row in dL_cov],
+        pair_order_30=pair_names_30,
+        pair_dL_worst_cov_30=[[float(x) for x in row] for row in dL_cov_30],
+        standardized_boot_max_t=OrderedDict(worst=ng_wc, delta5=ng_d5),
+        n_determined_worst_distribution=dist(worst), n_determined_delta5_distribution=dist(d5),
+        jsonl="logs/bootstrap_replicates.jsonl",
+    )
+
+
+def main(argv=None):
+    import pandas as pd
+    import analyze as A
+    import nors_rules as R
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--derived", required=True, type=Path)
+    ap.add_argument("--out", required=True, type=Path)
+    ap.add_argument("--B", type=int, default=2000)
+    ap.add_argument("--workers", type=int, default=2)
+    ap.add_argument("--jsonl", type=Path, default=None)
+    ap.add_argument("--order", default="group_cell", choices=["group_cell", "cell_group"])
+    ap.add_argument("--draw", default="integers", choices=["integers", "choice"])
+    args = ap.parse_args(argv)
+    cohort = pd.read_csv(args.derived / "cohort_outbreaks.csv", dtype={"H_raw": str, "K_raw": str, "C_raw": str,
+                                                                       "month": str, "pilot_group": str},
+                         keep_default_na=False, na_values=[""])
+    for c in ("H_raw", "K_raw", "C_raw", "pilot_group"):
+        cohort[c] = cohort[c].fillna("")
+    main_df = A.cohorts(cohort)["keep_main"]
+    t = S.build(main_df, R.GROUPS, "setting_period", threshold=A.THRESHOLD)
+    res = A.analyze_table(t)
+    blk = run(main_df, t, res, B=args.B, workers=args.workers, jsonl=args.jsonl, order=args.order, draw=args.draw)
+    args.out.parent.mkdir(parents=True, exist_ok=True)
+    with open(args.out, "w", encoding="utf-8", newline="\n") as out_fh:
+        out_fh.write(json.dumps(blk, indent=2) + "\n")
+    print("wrote", args.out)
+
+
+if __name__ == "__main__":
+    main()

@@ -2,7 +2,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 .pytest_cache/
-experiment/rerun/
+rerun/
+logs/
+rebuild_check/
 *.aux
 *.bbl
 *.blg
@@ -10,8 +12,7 @@ experiment/rerun/
 *.fls
 *.log
 *.out
+*.toc
 *.synctex.gz
-paper/main.pdf
-paper/*.log
 .DS_Store
 Thumbs.db

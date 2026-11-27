@@ -1,0 +1,73 @@
+Group,Setting | Period,Outbreaks,Cases,Unrecorded (%),Max outbreak (%),HHI,N_eff
+Salmonella,Restaurant | 2009-2013,206,"4,130",14.4,8.1,0.021,46.72
+Salmonella,Restaurant | 2014-2018,274,"3,870",12.8,7.3,0.015,67.80
+Salmonella,Restaurant | 2019-2023,159,"2,248",10.4,5.6,0.019,53.89
+Salmonella,Catering/banquet | 2014-2018,35,"1,687",12.5,33.0,0.133,7.49
+Salmonella,Private home | 2009-2013,105,"2,440",19.5,10.7,0.031,32.49
+Salmonella,Private home | 2014-2018,101,"2,009",19.0,21.7,0.070,14.26
+Salmonella,Institution | 2009-2013,31,"1,577",1.8,23.1,0.109,9.20
+Salmonella,Institution | 2014-2018,38,"1,238",24.0,20.4,0.113,8.83
+Salmonella,Other | 2009-2013,63,"1,862",51.3,14.6,0.063,15.96
+Salmonella,Other | 2014-2018,65,"1,907",8.0,14.4,0.062,16.24
+Salmonella,Multiple | 2014-2018,69,"2,854",22.3,9.6,0.040,24.89
+Salmonella,Unknown | 2009-2013,131,"3,329",24.8,19.0,0.058,17.19
+STEC,Restaurant | 2009-2013,38,504,8.7,18.7,0.068,14.60
+STEC,Restaurant | 2014-2018,37,309,12.0,17.2,0.056,17.90
+STEC,Restaurant | 2019-2023,40,511,8.2,21.3,0.078,12.90
+STEC,Catering/banquet | 2014-2018,3,90,0.0,63.3,0.479,2.09
+STEC,Private home | 2009-2013,33,354,29.4,21.8,0.087,11.52
+STEC,Private home | 2014-2018,18,110,13.6,19.1,0.096,10.43
+STEC,Institution | 2009-2013,9,245,9.8,36.7,0.228,4.38
+STEC,Institution | 2014-2018,4,52,0.0,57.7,0.412,2.43
+STEC,Other | 2009-2013,22,238,26.9,16.0,0.080,12.58
+STEC,Other | 2014-2018,22,539,2.0,45.3,0.233,4.29
+STEC,Multiple | 2014-2018,15,749,10.4,31.9,0.201,4.97
+STEC,Unknown | 2009-2013,27,242,33.1,21.5,0.095,10.50
+Campylobacter,Restaurant | 2009-2013,23,218,8.7,26.1,0.103,9.69
+Campylobacter,Restaurant | 2014-2018,45,291,12.0,20.6,0.066,15.21
+Campylobacter,Restaurant | 2019-2023,37,244,4.9,10.2,0.049,20.38
+Campylobacter,Catering/banquet | 2014-2018,8,149,9.4,26.8,0.172,5.82
+Campylobacter,Private home | 2009-2013,12,83,16.9,18.1,0.122,8.19
+Campylobacter,Private home | 2014-2018,18,117,9.4,23.1,0.103,9.70
+Campylobacter,Institution | 2009-2013,3,29,0.0,65.5,0.491,2.04
+Campylobacter,Institution | 2014-2018,7,207,34.3,34.8,0.220,4.55
+Campylobacter,Other | 2009-2013,42,698,15.2,21.2,0.077,13.05
+Campylobacter,Other | 2014-2018,21,238,4.2,41.6,0.199,5.03
+Campylobacter,Multiple | 2014-2018,4,67,0.0,49.3,0.362,2.77
+Campylobacter,Unknown | 2009-2013,17,303,30.4,23.1,0.141,7.07
+C. perfringens,Restaurant | 2009-2013,18,376,1.6,23.9,0.109,9.19
+C. perfringens,Restaurant | 2014-2018,32,"1,286",13.9,50.3,0.271,3.69
+C. perfringens,Restaurant | 2019-2023,10,199,26.6,29.6,0.217,4.60
+C. perfringens,Catering/banquet | 2014-2018,20,955,18.2,29.3,0.128,7.80
+C. perfringens,Private home | 2009-2013,15,739,46.3,47.4,0.274,3.65
+C. perfringens,Private home | 2014-2018,10,431,12.3,30.6,0.155,6.47
+C. perfringens,Institution | 2009-2013,12,804,15.5,31.1,0.164,6.09
+C. perfringens,Institution | 2014-2018,7,425,2.1,39.3,0.267,3.74
+C. perfringens,Other | 2009-2013,4,311,52.4,64.3,0.473,2.11
+C. perfringens,Other | 2014-2018,5,271,0.0,40.2,0.257,3.90
+C. perfringens,Multiple | 2014-2018,7,261,0.4,46.4,0.267,3.75
+C. perfringens,Unknown | 2009-2013,7,510,69.6,69.2,0.501,2.00
+Norovirus GI,Restaurant | 2009-2013,58,"1,141",20.4,17.3,0.065,15.42
+Norovirus GI,Restaurant | 2014-2018,66,"1,802",12.9,21.1,0.085,11.70
+Norovirus GI,Restaurant | 2019-2023,50,"1,288",8.8,24.6,0.107,9.34
+Norovirus GI,Catering/banquet | 2014-2018,17,681,17.6,25.0,0.133,7.50
+Norovirus GI,Private home | 2009-2013,6,81,14.8,37.0,0.225,4.44
+Norovirus GI,Private home | 2014-2018,4,38,13.2,47.4,0.323,3.10
+Norovirus GI,Institution | 2009-2013,3,66,0.0,62.1,0.508,1.97
+Norovirus GI,Institution | 2014-2018,3,267,22.5,57.7,0.422,2.37
+Norovirus GI,Other | 2009-2013,9,267,36.3,36.3,0.216,4.63
+Norovirus GI,Other | 2014-2018,9,274,0.0,44.9,0.251,3.98
+Norovirus GI,Multiple | 2014-2018,9,342,12.9,19.0,0.144,6.93
+Norovirus GI,Unknown | 2009-2013,11,223,58.3,23.3,0.145,6.90
+Norovirus GII,Restaurant | 2009-2013,271,"5,250",14.5,5.4,0.014,70.72
+Norovirus GII,Restaurant | 2014-2018,301,"5,198",14.2,3.0,0.008,120.25
+Norovirus GII,Restaurant | 2019-2023,120,"2,403",21.3,8.0,0.025,39.78
+Norovirus GII,Catering/banquet | 2014-2018,85,"2,644",16.3,5.7,0.019,51.91
+Norovirus GII,Private home | 2009-2013,28,505,2.8,20.0,0.069,14.45
+Norovirus GII,Private home | 2014-2018,16,327,15.3,22.3,0.101,9.86
+Norovirus GII,Institution | 2009-2013,22,"1,104",4.4,18.8,0.089,11.28
+Norovirus GII,Institution | 2014-2018,29,"2,522",28.0,14.9,0.079,12.62
+Norovirus GII,Other | 2009-2013,22,782,42.3,38.7,0.180,5.55
+Norovirus GII,Other | 2014-2018,29,658,3.3,12.9,0.062,16.07
+Norovirus GII,Multiple | 2014-2018,30,"1,152",4.5,43.4,0.218,4.58
+Norovirus GII,Unknown | 2009-2013,49,811,23.3,9.9,0.041,24.15

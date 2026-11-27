@@ -1,0 +1,21 @@
+\begin{table}[!tbp]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.1pt}
+\renewcommand{\arraystretch}{1.12}
+\caption{Outbreak concentration, Multistate score variance share, standard errors across methods, clustering structures, and LOO/LLO influence.}
+\label{tab:cluster_diag}
+\begin{tabular}{>{\raggedright\arraybackslash}p{1.85cm}>{\raggedleft\arraybackslash}p{1.75cm}>{\raggedleft\arraybackslash}p{2.05cm}>{\raggedleft\arraybackslash}p{1.55cm}>{\raggedleft\arraybackslash}p{3.4cm}>{\raggedleft\arraybackslash}p{3.4cm}}
+\toprule
+Group & Min/Med/Max n & Max HHI (min $N_{\mathrm{eff}}$) & Multistate unrec (\%) & SE(L) HC0/HC1/Boot/St (pp) & SE(U) HC0/HC1/Boot/St (pp) \\
+\midrule
+STEC & 3/22/40 & 0.479 (2.09) & 84.8 & 1.54/1.63/1.82/1.39 & 2.17/2.26/2.47/6.01 \\
+Salmonella & 31/85/274 & 0.133 (7.49) & 52.8 & 0.65/0.66/0.67/1.28 & 1.96/1.98/1.88/5.26 \\
+Campylobacter & 3/18/45 & 0.491 (2.04) & 0.8 & 0.81/0.84/0.87/0.88 & 2.63/2.75/2.66/2.23 \\
+Norovirus GII & 16/30/301 & 0.218 (4.58) & 1.5 & 0.14/0.14/0.14/0.14 & 2.07/2.10/2.04/2.22 \\
+C. perfringens & 4/10/32 & 0.501 (2.00) & 0.0 & 0.14/0.15/0.18/0.13 & 4.09/4.33/4.93/4.46 \\
+Norovirus GI & 3/9/66 & 0.508 (1.97) & 5.0 & 0.10/0.11/0.11/0.13 & 3.73/3.97/3.86/3.66 \\
+\bottomrule
+\end{tabular}
+\par\smallskip\parbox{0.97\linewidth}{\footnotesize All 6 procedures at worst case (STEC$>$NoV GII p / $c_{\mathrm{crit}}$ / \# sig.): HC1 0.025/2.61/1; 53-state CV1 0.039/2.54/1; WCB 0.034/2.48/1; CV3 0.239/2.56/0 (t\_52 crit 2.63, p=0.249); cluster boot-t 0.093/3.15/0; boot-t 0.249/4.52/0. At $\delta$ = 5 pp, all reject 12. Multistate score variance share: 51.9\% worst (plug-in $G_{\mathrm{eff}}$ = 3.54) and 72.7\% $\delta$ = 5 ($G_{\mathrm{eff}}$ = 1.88); 271-singleton and 52-state R11 yield 0 worst-case and 12 $\delta$ = 5 rejections. Across 3,176 LOO (and 6-group LLO) deletions, worst-case determined stays 4--4 (4 LLO).}
+\end{table}

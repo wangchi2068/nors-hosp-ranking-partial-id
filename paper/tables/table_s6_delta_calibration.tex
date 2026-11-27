@@ -1,0 +1,21 @@
+\begin{table}[!tbp]
+\centering
+\tiny
+\setlength{\tabcolsep}{1.5pt}
+\renewcommand{\arraystretch}{1.12}
+\caption{Partial-versus-full missingness contrasts with 2,000-replicate bootstrap 95\% CIs (pp) and descriptive 11-state Wilson 95\% CIs.}
+\label{tab:delta_cal}
+\begin{tabular}{>{\raggedright\arraybackslash}p{1.65cm}>{\raggedleft\arraybackslash}p{1.85cm}>{\raggedleft\arraybackslash}p{2.35cm}>{\raggedleft\arraybackslash}p{2.2cm}>{\raggedleft\arraybackslash}p{2.35cm}>{\raggedleft\arraybackslash}p{2.05cm}>{\raggedleft\arraybackslash}p{2.3cm}}
+\toprule
+Group & Full vs Part (\%) & Within-cell $\Delta$ [95\% CI] & Std obs $-$ Full [95\% CI] & Single-state $\Delta$ [95\% CI] & Multistate $\Delta$ [95\% CI] & 11 states rate [95\% CI] \\
+\midrule
+STEC & 25.3 vs 36.2 & +0.19 [-6.95, +11.09] & +0.88 [-2.42, +3.90] & +8.37 [-4.14, +23.54] & -1.28 [-13.18, +10.36] & 26.2 [21.3, 31.9] \\
+Salmonella & 14.1 vs 25.9 & +9.02 [+5.70, +12.44] & +2.86 [+1.71, +4.05] & +4.34 [+0.95, +8.00] & +11.98 [-0.41, +26.71] & 13.0 [11.7, 14.5] \\
+Campylobacter & 7.9 vs 10.8 & +6.59 [+0.34, +28.51] & +0.46 [-1.06, +1.28] & +2.40 [-0.52, +5.71] & +34.62 [-25.00, +90.91] & 8.8 [5.5, 13.6] \\
+Norovirus GII & 1.4 vs 2.1 & +1.79 [+0.21, +7.94] & +0.09 [-0.08, +0.28] & +0.72 [-0.20, +1.85] & -- & 1.3 [0.9, 1.7] \\
+C. perfringens & 0.5 vs 0.7 & +1.38 [-0.71, +2.78] & +0.08 [-0.10, +0.59] & +0.28 [-0.59, +1.81] & -- & 0.0 [0.0, 0.4] \\
+Norovirus GI & 0.3 vs 0.8 & +0.05 [-0.48, +11.47] & +0.07 [-0.10, +0.27] & +0.44 [-0.23, +1.50] & -- & 0.3 [0.1, 1.0] \\
+\bottomrule
+\end{tabular}
+\par\smallskip\parbox{0.97\linewidth}{\footnotesize All contrasts compare identical shared cells (8--12 cells, 79.3\%--100.0\% weight). Bootstrap CIs come from 2,000 stratified resamples; Multistate $\Delta$ for STEC is -1.28 pp (bootstrap CI reflects small multistate full sample). Diagnostic asymmetric scenario (SAL $-$10/+5, CAMP $-$7/+5, others $\pm$5 pp) retains 12/12 upper-tier separations (p $\leq$ 0.05 under HC1/CV1/CV3/Boot-t; $c_{\mathrm{bt}}$ = 3.37).}
+\end{table}

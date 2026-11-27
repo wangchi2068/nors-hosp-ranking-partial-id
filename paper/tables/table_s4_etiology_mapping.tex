@@ -1,0 +1,32 @@
+\begin{table}[!tbp]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.3pt}
+\renewcommand{\arraystretch}{1.12}
+\caption{Complete mapping from raw CDC NORS etiology strings (Food 2009--2023) to the six study pathogen groups (RECORD Item 6.1).}
+\label{tab:etiology_map}
+\begin{tabular}{>{\raggedright\arraybackslash}p{5.6cm}>{\raggedright\arraybackslash}p{3.0cm}>{\raggedleft\arraybackslash}p{2.2cm}>{\raggedleft\arraybackslash}p{2.6cm}}
+\toprule
+Raw NORS etiology string & Assigned study group & Food 2009--23 entries & In R3c exact-string pilot \\
+\midrule
+Salmonella enterica & Salmonella & 1984 & Yes \\
+Norovirus Genogroup II & Norovirus GII & 1747 & Yes \\
+Escherichia coli, Shiga toxin-producing & STEC & 484 & Yes \\
+Clostridium perfringens & C. perfringens & 479 & Yes \\
+Norovirus Genogroup I & Norovirus GI & 434 & Yes \\
+Campylobacter jejuni & Campylobacter & 299 & Yes \\
+Campylobacter unknown & Campylobacter & 94 & No \\
+Salmonella unknown & Salmonella & 60 & No \\
+Campylobacter & Campylobacter & 47 & No \\
+Campylobacter coli & Campylobacter & 29 & No \\
+Salmonella other & Salmonella & 18 & No \\
+Salmonella & Salmonella & 10 & No \\
+Campylobacter other & Campylobacter & 4 & No \\
+Campylobacter lari & Campylobacter & 2 & No \\
+Norovirus unknown & Excluded from GI/GII (R7/R7b) & 929 & No \\
+Norovirus & Excluded from GI/GII (R7/R7b) & 727 & No \\
+All other non-study foodborne strings (n = 87 distinct strings) & Excluded (non-target / multi-group) & 2036 & No \\
+\bottomrule
+\end{tabular}
+\par\smallskip\parbox{0.97\linewidth}{\footnotesize Multi-entry outbreaks are mapped only when every entry maps to the same study group and $\geq$1 entry has status Confirmed (R3a evaluates single-entry only). The 1,656 raw Norovirus / Norovirus unknown entries include suspected and multi-etiology records (corresponding to 304 confirmed single-group ungenotyped norovirus outbreaks in R7/R7b); remaining excluded foodborne strings (n = 87) are summarized at bottom.}
+\end{table}

@@ -1,201 +1,303 @@
 {
- "schema_version": 2,
+ "schema_version": 3,
  "tables": [
   {
-   "id": "tab:group_bounds",
-   "path": "table_1_group_bounds.tex",
-   "csv": "table_1_group_bounds.csv",
-   "sha256": "8a241facc967609f30740e154d0cfa1fa54a1c74172cee6a55ddd875d4c46a76",
-   "generator": "code/make_outputs.py",
-   "data_sources": [
-    "analysis/results.json"
+   "id": "table_1_descriptive",
+   "label": "tab:descriptive",
+   "path_tex": "table_1_descriptive.tex",
+   "path_csv": "table_1_descriptive.csv",
+   "sha256_csv": "5854e0c457499355338bc46120156351495ab52a8894ec12056760124d56bce7",
+   "caption": "Descriptive characteristics of retained common-support outbreaks across six foodborne pathogen groups (12 setting × period cells; 3,176 outbreaks; 72,132 cases).",
+   "shape": [
+    6,
+    10
    ],
-   "display": "raw",
-   "n_seeds": 1,
-   "std_ddof": 0,
-   "caption": "Standardized hospitalization proportion among reported outbreak cases across six pathogen groups (12 common-support setting × period cells, pooled-case weights)."
+   "columns": [
+    "Pathogen group",
+    "Outbreaks",
+    "Cases",
+    "Size med [IQR]",
+    "Rest. cases (%)",
+    "Inst. cases (%)",
+    "Multistate (%)",
+    "2009–18 (%)",
+    "Unrec. (%)",
+    "Rec. hosp (%)"
+   ]
   },
   {
-   "id": "tab:pairwise",
-   "path": "table_2_pairwise.tex",
-   "csv": "table_2_pairwise.csv",
-   "sha256": "ec92d803d4bea65361d2adf64d39b9ff735988a81e625a4a1136dd12a31bd285",
-   "generator": "code/make_outputs.py",
-   "data_sources": [
-    "analysis/results.json"
+   "id": "table_2_group_bounds",
+   "label": "tab:group_bounds",
+   "path_tex": "table_2_group_bounds.tex",
+   "path_csv": "table_2_group_bounds.csv",
+   "sha256_csv": "5452d3dbafe768ece3e9dde294b125dd5601420fa71682871986e9f34875efac",
+   "caption": "Crude and setting × period standardized hospitalization proportions among reported outbreak cases (12 common-support cells, pooled-case weights).",
+   "shape": [
+    6,
+    8
    ],
-   "display": "raw",
-   "n_seeds": 1,
-   "std_ddof": 0,
-   "caption": "Pairwise sample breakdown points (δ*, Γ*), asymmetric (−15/+5 pp) checks, and descriptive bootstrap stability."
+   "columns": [
+    "Pathogen group",
+    "Crude H/C (%)",
+    "Crude δ=0 (%)",
+    "Worst-case [L, U] (%)",
+    "δ = 5 pp [L, U] (%)",
+    "δ = 0 MAR (%)",
+    "Bootstrap L range (%)",
+    "Bootstrap U range (%)"
+   ]
   },
   {
-   "id": "tab:robustness",
-   "path": "table_3_robustness.tex",
-   "csv": "table_3_robustness.csv",
-   "sha256": "3f1a816344f137af16f8369ba6ffe2d8108ea17cc2e26e985dd88d375b606602",
-   "generator": "code/make_outputs.py",
-   "data_sources": [
-    "analysis/results.json"
+   "id": "table_3_pairwise_inference",
+   "label": "tab:pairwise_inference",
+   "path_tex": "table_3_pairwise_inference.tex",
+   "path_csv": "table_3_pairwise_inference.csv",
+   "sha256_csv": "92b900acdd19505b5f52b6d5c60bd2e0225526ef6fe4ca86cb4e4068c949d847",
+   "caption": "Pairwise ordering stability, simultaneous 30-hypothesis FWER p-values (studentized bootstrap-t and CV3 jackknife), additive/OR breakdown thresholds, and implied unrecorded-case hospitalization rates at 95% thresholds.",
+   "shape": [
+    15,
+    8
    ],
-   "display": "raw",
-   "n_seeds": 1,
-   "std_ddof": 0,
-   "caption": "Sensitivity analyses across all 23 cohort, support, weighting, serogroup, outbreak-MAR, and denominator variants."
+   "columns": [
+    "Ordering (δ = 0)",
+    "Bootstrap disjoint w/δ=5 (%)",
+    "Boot-t p (w / δ=5)",
+    "CV3 p (w / δ=5)",
+    "Sample δ*",
+    "95% δ* (Bt / CV3, ss)",
+    "Implied q at Bt δ* (H/L %)",
+    "OR 95% Γ* (Bt / CV3)"
+   ]
   },
   {
-   "id": "tab:retention",
-   "path": "table_4_retention.tex",
-   "csv": "table_4_retention.csv",
-   "sha256": "1808aa208b19ebe4c630533fd7c9509e6c0067e8e53acf21c750691bf303995f",
-   "generator": "code/make_outputs.py",
-   "data_sources": [
-    "analysis/results.json"
+   "id": "table_4_rank_sets_summary",
+   "label": "tab:rank_sets",
+   "path_tex": "table_4_rank_sets_summary.tex",
+   "path_csv": "table_4_rank_sets_summary.csv",
+   "sha256_csv": "29f8377df31a089d922e840e81bede1e334bc37ee86339efbe25b222607521fe",
+   "caption": "Nominal simultaneous 95% rank confidence sets [1 = highest, 6 = lowest] across weighting specifications, explicit plausibility intervals (P1–P2), additive departures, and odds-ratio (OR) scaling.",
+   "shape": [
+    10,
+    7
    ],
-   "display": "raw",
-   "n_seeds": 1,
-   "std_ddof": 0,
-   "caption": "Common-support retention by pathogen group, dropped strata, and crude proportions before/after restriction."
+   "columns": [
+    "Scenario / Procedure",
+    "STEC",
+    "Salmonella",
+    "Campylobacter",
+    "Norovirus GII",
+    "C. perfringens",
+    "Norovirus GI"
+   ]
   },
   {
-   "id": "tab:audit",
-   "path": "table_5_audit.tex",
-   "csv": "table_5_audit.csv",
-   "sha256": "d1d94e61d1d156f6dcee06fef7d2c2dd13f35fe18325daab8203279c98df563e",
-   "generator": "code/make_outputs.py",
-   "data_sources": [
-    "analysis/results.json"
+   "id": "table_s1_audit",
+   "label": "tab:audit",
+   "path_tex": "table_s1_audit.tex",
+   "path_csv": "table_s1_audit.csv",
+   "sha256_csv": "a743600ead366eff46bf7f5b48319ad6cfd2a9ec1fc7576430b5ab1b88a43df4",
+   "caption": "Record audit of outbreak outcome fields (C reported cases, H hospitalized, K known status). Zero count contradictions.",
+   "shape": [
+    6,
+    10
    ],
-   "display": "raw",
-   "n_seeds": 1,
-   "std_ddof": 0,
-   "caption": "Record audit of outbreak outcome fields (C reported cases, H hospitalized, K known status). Zero count contradictions."
+   "columns": [
+    "Audit category",
+    "Outbreaks",
+    "Cases",
+    "SAL",
+    "STEC",
+    "CAMP",
+    "CPERF",
+    "NoV GI",
+    "NoV GII",
+    "Handling"
+   ]
   },
   {
-   "id": "tab:bootstrap",
-   "path": "table_6_bootstrap.tex",
-   "csv": "table_6_bootstrap.csv",
-   "sha256": "ec050e2f6ee5fdda49111d3e833f65066295ea6fe9dc64499e378a271d7f655a",
-   "generator": "code/make_outputs.py",
-   "data_sources": [
-    "analysis/results.json"
+   "id": "table_s2_excluded",
+   "label": "tab:excluded",
+   "path_tex": "table_s2_excluded.tex",
+   "path_csv": "table_s2_excluded.csv",
+   "sha256_csv": "69b56bbeea89cdd749ac53c7a26d5d8f9f9cfec182165c6f7c3059533bdc3a8a",
+   "caption": "Characteristics of excluded foodborne outbreaks (2009–2023) not retained in the primary six-group cohort.",
+   "shape": [
+    4,
+    7
    ],
-   "display": "raw",
-   "n_seeds": 1,
-   "std_ddof": 0,
-   "caption": "Outbreak-level bootstrap (2,000 replicates, seed 20261125; 88/2,000 resamples had >=1 stratum lacking K_rec, 0 degenerate SE entries in studentized bootstrap-t), reporting two-decimal verdict frequencies and δ* percentile intervals."
+   "columns": [
+    "Excluded category",
+    "Outbreaks",
+    "Cases",
+    "Median [IQR] cases",
+    "Top settings",
+    "Rec. hosp (%)",
+    "Unrecorded (%)"
+   ]
   },
   {
-   "id": "tab:width",
-   "path": "table_7_width_decomposition.tex",
-   "csv": "table_7_width_decomposition.csv",
-   "sha256": "131325b6e10d3d195e547d65699be12e0a73689caa2ee2d7124ef47b2b3a76dc",
-   "generator": "code/make_outputs.py",
-   "data_sources": [
-    "analysis/results.json"
+   "id": "table_s3_retention",
+   "label": "tab:retention",
+   "path_tex": "table_s3_retention.tex",
+   "path_csv": "table_s3_retention.csv",
+   "sha256_csv": "17ae2c10a3dbdc1759569edfc86233e9ac3bac824e05bf329d63b65747fd91ac",
+   "caption": "Common-support retention by pathogen group, dropped strata, and crude proportions before/after restriction.",
+   "shape": [
+    6,
+    8
    ],
-   "display": "raw",
-   "n_seeds": 1,
-   "std_ddof": 0,
-   "caption": "Undetermined pairs under worst-case bounds and top unrecorded-status width contributors."
+   "columns": [
+    "Group",
+    "Eligible ob",
+    "Eligible cases",
+    "Retained ob (%)",
+    "Retained cases (%)",
+    "Largest dropped settings (cases)",
+    "Largest dropped periods",
+    "Crude δ=0 bef/aft (%)"
+   ]
   },
   {
-   "id": "tab:joint_inference",
-   "path": "table_8_joint_inference.tex",
-   "csv": "table_8_joint_inference.csv",
-   "sha256": "63f359642539f8abf11ee66baf83fe99fee75bc64265df62063fd50cd784e7f4",
-   "generator": "code/make_outputs.py",
-   "data_sources": [
-    "analysis/results.json"
+   "id": "table_s4_etiology_mapping",
+   "label": "tab:etiology_map",
+   "path_tex": "table_s4_etiology_mapping.tex",
+   "path_csv": "table_s4_etiology_mapping.csv",
+   "sha256_csv": "0cfaf86a8bec483b8e5c8407b8f6c5e57f78dbf83c520884f035ad94968ee29e",
+   "caption": "Complete mapping from raw CDC NORS etiology strings (Food 2009–2023) to the six study pathogen groups (RECORD Item 6.1).",
+   "shape": [
+    17,
+    4
    ],
-   "display": "raw",
-   "n_seeds": 1,
-   "std_ddof": 0,
-   "caption": "Joint 30-hypothesis one-sided (15 pairs × 2 directions) FWER inference: pointwise Imbens–Manski 95% CIs, outbreak-HC1, 53-cluster CV1 and CV3 jackknife Max-T p-values, studentized bootstrap-t p-values, and δ-specific 95% breakdown points."
+   "columns": [
+    "Raw NORS etiology string",
+    "Assigned study group",
+    "Food 2009–23 entries",
+    "In R3c exact-string pilot"
+   ]
   },
   {
-   "id": "tab:cluster_diag",
-   "path": "table_9_cluster_diagnostics.tex",
-   "csv": "table_9_cluster_diagnostics.csv",
-   "sha256": "14268021011080c60dac0233a91269a6054cc3323798ddad263a79518ec2e8cf",
-   "generator": "code/make_outputs.py",
-   "data_sources": [
-    "analysis/results.json"
+   "id": "table_s5_cells_72",
+   "label": "tab:cells_72",
+   "path_tex": "table_s5_cells_72.tex",
+   "path_csv": "table_s5_cells_72.csv",
+   "sha256_csv": "599eb4e5c36ff0b7a78d374162734289ea99c1e5f07d66cddae9147289f208c3",
+   "caption": "Complete 72-stratum (6 groups × 12 common-support cells) outbreak counts, case counts, HHI, and effective cluster size N_eff.",
+   "shape": [
+    72,
+    8
    ],
-   "display": "raw",
-   "n_seeds": 1,
-   "std_ddof": 0,
-   "caption": "Outbreak-cluster concentration, Multistate unrecorded case share, cluster variance share, CV3/R11/R2/R10 inference, and leave-one-outbreak-out influence."
+   "columns": [
+    "Group",
+    "Setting | Period",
+    "Outbreaks",
+    "Cases",
+    "Unrecorded (%)",
+    "Max outbreak (%)",
+    "HHI",
+    "N_eff"
+   ]
   },
   {
-   "id": "tab:voi_masking",
-   "path": "table_10_followup_masking.tex",
-   "csv": "table_10_followup_masking.csv",
-   "sha256": "b16056898ca39d8dc332119188e408e89a654ede6678123a2efa769b8da87e4e",
-   "generator": "code/make_outputs.py",
-   "data_sources": [
-    "analysis/results.json"
+   "id": "table_s6_delta_calibration",
+   "label": "tab:delta_cal",
+   "path_tex": "table_s6_delta_calibration.tex",
+   "path_csv": "table_s6_delta_calibration.csv",
+   "sha256_csv": "5e76eba255e88082dd748843efd2d097a9f64f8e2ad458b9c9d0d0e2907f8092",
+   "caption": "Partial-versus-full missingness contrasts with 2,000-replicate bootstrap 95% CIs (pp) and descriptive 11-state Wilson 95% CIs.",
+   "shape": [
+    6,
+    7
    ],
-   "display": "raw",
-   "n_seeds": 1,
-   "std_ddof": 0,
-   "caption": "Cost-conditional follow-up benchmark across 200 MCAR masking trials on all 2,414 fully recorded outbreaks (baseline pre-follow-up mean = 1.55 pairs)."
+   "columns": [
+    "Group",
+    "Full vs Part (%)",
+    "Within-cell Δ [95% CI]",
+    "Std obs − Full [95% CI]",
+    "Single-state Δ [95% CI]",
+    "Multistate Δ [95% CI]",
+    "11 states rate [95% CI]"
+   ]
   },
   {
-   "id": "tab:excluded",
-   "path": "table_11_excluded_outbreaks.tex",
-   "csv": "table_11_excluded_outbreaks.csv",
-   "sha256": "6d70f8a354bffc429c3881695f4850d062716cdc19897ca2f6fc903f7740325f",
-   "generator": "code/make_outputs.py",
-   "data_sources": [
-    "analysis/results.json"
+   "id": "table_s7_robustness",
+   "label": "tab:robustness",
+   "path_tex": "table_s7_robustness.tex",
+   "path_csv": "table_s7_robustness.csv",
+   "sha256_csv": "7478f2e71a409105e279a309bffa1cf02d8cb28f3781b543f8309701a1d5ec84",
+   "caption": "Sensitivity analyses across all 23 cohort, support, weighting, serogroup, outbreak-MAR, and selection variants.",
+   "shape": [
+    24,
+    8
    ],
-   "display": "raw",
-   "n_seeds": 1,
-   "std_ddof": 0,
-   "caption": "Characteristics of excluded foodborne outbreaks (2009–2023) not retained in the primary six-group cohort."
+   "columns": [
+    "Analysis",
+    "Description",
+    "Cells",
+    "Pairs",
+    "Determined, worst case",
+    "Determined, δ = 5 pp",
+    "Worst-case changed",
+    "δ = 0 reversed"
+   ]
   },
   {
-   "id": "tab:delta_cal",
-   "path": "table_12_delta_calibration.tex",
-   "csv": "table_12_delta_calibration.csv",
-   "sha256": "6bd40623870f312fa9a91b67dd14740645de4bac5349b090d3dcf82d4854d75c",
-   "generator": "code/make_outputs.py",
-   "data_sources": [
-    "analysis/results.json"
+   "id": "table_s8_bootstrap",
+   "label": "tab:bootstrap",
+   "path_tex": "table_s8_bootstrap.tex",
+   "path_csv": "table_s8_bootstrap.csv",
+   "sha256_csv": "1ae0c414804a864c473126154dbafdbe65a8ccdf5cb6ff1a06a7fcdee48dd5a3",
+   "caption": "Outbreak-level bootstrap (2,000 replicates, seed 20261125; 88/2,000 draws had >=1 stratum lacking K_rec), with conditional studentized bootstrap-t check over complete-K_rec draws.",
+   "shape": [
+    15,
+    6
    ],
-   "display": "raw",
-   "n_seeds": 1,
-   "std_ddof": 0,
-   "caption": "Composition-adjusted comparison of fully recorded (M_i = 0) vs. known-status cases in partially recorded outbreaks (M_i > 0, K_rec > 0), and descriptive benchmark rates with 95% Wilson CIs in 11 low-missingness states (<5% unrecorded and ≥200 common-support cases)."
+   "columns": [
+    "Ordering at δ = 0",
+    "Same δ = 0 direction (%)",
+    "Worst case, higher > lower (%)",
+    "Worst case, undetermined (%)",
+    "Determined at δ = 5 pp (%)",
+    "δ* 2.5th–97.5th percentile (pp)"
+   ]
   },
   {
-   "id": "tab:real_followup",
-   "path": "table_13_real_followup_priority.tex",
-   "csv": "table_13_real_followup_priority.csv",
-   "sha256": "12715b0bcec8212139dd314a6c9ece19f8832a787281729c77d6735a4c7f7fbf",
-   "generator": "code/make_outputs.py",
-   "data_sources": [
-    "analysis/results.json"
+   "id": "table_s9_all_inference_cluster",
+   "label": "tab:cluster_diag",
+   "path_tex": "table_s9_all_inference_cluster.tex",
+   "path_csv": "table_s9_all_inference_cluster.csv",
+   "sha256_csv": "0aa120f4da9e91ca5664d76f2c4428c948128cee12bdf51420a332190bc49431",
+   "caption": "Outbreak concentration, Multistate score variance share, standard errors across methods, clustering structures, and LOO/LLO influence.",
+   "shape": [
+    6,
+    6
    ],
-   "display": "raw",
-   "n_seeds": 1,
-   "std_ddof": 0,
-   "caption": "Top 12 incomplete strata in the observed NORS common-support cohort ranked by heuristic DPI and stratum leverage w_s/C_js."
+   "columns": [
+    "Group",
+    "Min/Med/Max n",
+    "Max HHI (min N_eff)",
+    "Multistate unrec (%)",
+    "SE(L) HC0/HC1/Boot/St (pp)",
+    "SE(U) HC0/HC1/Boot/St (pp)"
+   ]
   },
   {
-   "id": "tab:small_cal",
-   "path": "table_14_small_sample_cal.tex",
-   "csv": "table_14_small_sample_cal.csv",
-   "sha256": "29c9646529d55d5ca4d35576d09d6c8b291587ed7678f0576e304e2ef042fdd1",
-   "generator": "code/make_outputs.py",
-   "data_sources": [
-    "analysis/results.json"
+   "id": "table_s10_calibration",
+   "label": "tab:small_cal",
+   "path_tex": "table_s10_calibration.tex",
+   "path_csv": "table_s10_calibration.csv",
+   "sha256_csv": "294517679ccaa7c4642a4306f293a49cc9afb1bc53e4054288de52d0cbf29408",
+   "caption": "Empirical 30-hypothesis FWER (%) under least-favourable boundary nulls (nominal 5.0%) across outbreak, three cluster definitions (53/271/52), and parametric heavy-tail worlds.",
+   "shape": [
+    22,
+    5
    ],
-   "display": "raw",
-   "n_seeds": 1,
-   "std_ddof": 0,
-   "caption": "Empirical 30-hypothesis FWER (%) under least-favourable boundary null (nominal 5.0%): stratified outbreak double bootstrap (400 × 499) and 53-state Bayesian cluster double bootstrap (300 × 399)."
+   "columns": [
+    "Calibration world",
+    "Procedure",
+    "Worst FWER ± SE (%)",
+    "δ=5 FWER ± SE (%)",
+    "World note"
+   ]
   }
  ]
 }

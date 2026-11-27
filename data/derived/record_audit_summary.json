@@ -1,0 +1,182 @@
+{
+ "categories": {
+  "ambiguous_etiology": {
+   "n_outbreaks": 408,
+   "cases": 12220.0,
+   "handling": [
+    "excluded: outcome not attributable to one study group (counted)"
+   ]
+  },
+  "both_missing": {
+   "n_outbreaks": 54,
+   "cases": 3623.0,
+   "handling": [
+    "kept: all C unknown (bounds 0..1)"
+   ]
+  },
+  "complete_consistent": {
+   "n_outbreaks": 3976,
+   "cases": 95781.0,
+   "handling": [
+    "kept as recorded"
+   ]
+  },
+  "single_missing_H_K0": {
+   "n_outbreaks": 28,
+   "cases": 978.0,
+   "handling": [
+    "kept: H=0 implied by H<=K; all C unknown"
+   ]
+  },
+  "single_missing_H_Kpos": {
+   "n_outbreaks": 23,
+   "cases": 321.0,
+   "handling": [
+    "kept: H in [0,K] not identified; all C treated as unknown (bounds 0..1)"
+   ]
+  },
+  "single_missing_K": {
+   "n_outbreaks": 52,
+   "cases": 2337.0,
+   "handling": [
+    "kept: K_eff=H, C-H unknown (bounds H/C..1)"
+   ]
+  }
+ },
+ "by_category_x_group": {
+  "ambiguous_etiology": {
+   "CAMP": 0,
+   "CPERF": 0,
+   "NOV_GI": 0,
+   "NOV_GII": 0,
+   "SAL": 0,
+   "STEC": 0,
+   "none": 408
+  },
+  "both_missing": {
+   "CAMP": 2,
+   "CPERF": 3,
+   "NOV_GI": 3,
+   "NOV_GII": 6,
+   "SAL": 31,
+   "STEC": 9,
+   "none": 0
+  },
+  "complete_consistent": {
+   "CAMP": 292,
+   "CPERF": 180,
+   "NOV_GI": 285,
+   "NOV_GII": 1161,
+   "SAL": 1689,
+   "STEC": 369,
+   "none": 0
+  },
+  "single_missing_H_K0": {
+   "CAMP": 2,
+   "CPERF": 2,
+   "NOV_GI": 1,
+   "NOV_GII": 9,
+   "SAL": 11,
+   "STEC": 3,
+   "none": 0
+  },
+  "single_missing_H_Kpos": {
+   "CAMP": 0,
+   "CPERF": 1,
+   "NOV_GI": 5,
+   "NOV_GII": 15,
+   "SAL": 1,
+   "STEC": 1,
+   "none": 0
+  },
+  "single_missing_K": {
+   "CAMP": 0,
+   "CPERF": 2,
+   "NOV_GI": 3,
+   "NOV_GII": 15,
+   "SAL": 26,
+   "STEC": 6,
+   "none": 0
+  }
+ },
+ "variants": {
+  "main": {
+   "description": "main eligibility (one confirmed study group, genus level, single or same-group multi-entry); keep every record with a valid bound (weaker constraint where a field is missing)",
+   "n_outbreaks": 4133,
+   "by_group": {
+    "SAL": 1758,
+    "STEC": 388,
+    "CAMP": 296,
+    "CPERF": 188,
+    "NOV_GI": 297,
+    "NOV_GII": 1206
+   }
+  },
+  "single_etiology": {
+   "description": "single-etiology Confirmed outbreaks only (the step's original default); main audit rule",
+   "n_outbreaks": 3908,
+   "by_group": {
+    "SAL": 1673,
+    "STEC": 369,
+    "CAMP": 279,
+    "CPERF": 186,
+    "NOV_GI": 279,
+    "NOV_GII": 1122
+   }
+  },
+  "complete_only": {
+   "description": "main eligibility; keep only complete_consistent records (any missing H or K excluded)",
+   "n_outbreaks": 3976,
+   "by_group": {
+    "SAL": 1689,
+    "STEC": 369,
+    "CAMP": 292,
+    "CPERF": 180,
+    "NOV_GI": 285,
+    "NOV_GII": 1161
+   }
+  },
+  "pilot_rule": {
+   "description": "pilot exact species strings, single etiology, Confirmed; exclude records with exactly one of H/K missing, keep both-missing as all-unknown (reproduces the pilot's 3,799 / 96 / 3,703)",
+   "n_outbreaks": 3703,
+   "by_group": {
+    "SAL": 1586,
+    "STEC": 360,
+    "CAMP": 219,
+    "CPERF": 181,
+    "NOV_GI": 271,
+    "NOV_GII": 1086
+   }
+  }
+ },
+ "eligible_detail": {
+  "both_missing": {
+   "hospitalizations and info_on_hospitalizations missing": 54
+  },
+  "complete_consistent": {
+   "all statuses known": 3005,
+   "no hospitalization info (K=0)": 103,
+   "partial info": 868
+  },
+  "single_missing_H_K0": {
+   "hospitalizations missing, K=0": 28
+  },
+  "single_missing_H_Kpos": {
+   "hospitalizations missing, K>0": 23
+  },
+  "single_missing_K": {
+   "info_on_hospitalizations missing": 52
+  }
+ },
+ "unknown_status_cases_share_main": 0.19437111801242235,
+ "pilot_reproduction": [
+  {
+   "eligibility_rule": "pilot exact species strings, single etiology",
+   "exclusion_rule": "exclude exactly-one-of-H/K missing",
+   "eligible": 3799,
+   "excluded": 96,
+   "analysed": 3703,
+   "matches_pilot": true
+  }
+ ]
+}

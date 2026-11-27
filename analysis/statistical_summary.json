@@ -1,0 +1,159 @@
+{
+ "source": "analysis/results.json",
+ "spec_hash": "e17955a01b0ee705",
+ "analysis_version": "8.0",
+ "n_pairs": 15,
+ "n_common_support_cells": 12,
+ "determined_pairs": {
+  "worst_case": 4,
+  "delta_0pp": 15,
+  "delta_1pp": 14,
+  "delta_2pp": 14,
+  "delta_5pp": 12,
+  "delta_10pp": 12
+ },
+ "groups": {
+  "Salmonella": {
+   "L": 0.1450387120483816,
+   "U": 0.31678204560423284,
+   "theta_delta0": 0.17621042388226726,
+   "L_delta5": 0.16763540708535712,
+   "U_delta5": 0.18479759056005982
+  },
+  "STEC": {
+   "L": 0.24711171445756314,
+   "U": 0.3675080529947859,
+   "theta_delta0": 0.2854240312280584,
+   "L_delta5": 0.2794042143011973,
+   "U_delta5": 0.2914438481549195
+  },
+  "Campylobacter": {
+   "L": 0.07442717336345095,
+   "U": 0.19252344064257085,
+   "theta_delta0": 0.08466592117534051,
+   "L_delta5": 0.07876110781138453,
+   "U_delta5": 0.09057073453929651
+  },
+  "C. perfringens": {
+   "L": 0.003787683928861774,
+   "U": 0.19663994396096782,
+   "theta_delta0": 0.005963846252627357,
+   "L_delta5": 0.003787683928861774,
+   "U_delta5": 0.015606459254232659
+  },
+  "Norovirus GI": {
+   "L": 0.004099689616400639,
+   "U": 0.18664670935967903,
+   "theta_delta0": 0.0053922836283591385,
+   "L_delta5": 0.004099689616400639,
+   "U_delta5": 0.014519634615523056
+  },
+  "Norovirus GII": {
+   "L": 0.013063787030946104,
+   "U": 0.17161297057812241,
+   "theta_delta0": 0.015642902345484887,
+   "L_delta5": 0.013063787030946104,
+   "U_delta5": 0.02357036152284371
+  }
+ },
+ "stacked_inference": {
+  "n_hypotheses": 30,
+  "n_fwer_worst_sig": 1,
+  "n_fwer_cv3_worst_sig": 0,
+  "n_fwer_boot_t_worst_sig": 0,
+  "n_fwer_boot_t_delta5_sig": 12,
+  "rank_breakdown_points_pp": {
+   "hc1": {
+    "STEC_1_1": 19.10076951278209,
+    "STEC_1_1_binding_pair": "SAL|STEC",
+    "SAL_2_2": 19.10076951278209,
+    "SAL_2_2_binding_pair": "SAL|STEC",
+    "CAMP_3_3": 18.55826651921634,
+    "CAMP_3_3_binding_pair": "CAMP|CPERF",
+    "within_upper_tier_min": 19.10076951278209,
+    "within_upper_tier_binding_pair": "SAL|STEC",
+    "upper_vs_lower_tier_min": 18.55826651921634,
+    "upper_vs_lower_tier_binding_pair": "CAMP|CPERF",
+    "joint_upper_tier_min": 18.55826651921634,
+    "joint_upper_tier_binding_pair": "CAMP|CPERF"
+   },
+   "state": {
+    "STEC_1_1": 20.0676744721368,
+    "STEC_1_1_binding_pair": "SAL|STEC",
+    "SAL_2_2": 14.892618688499704,
+    "SAL_2_2_binding_pair": "SAL|CAMP",
+    "CAMP_3_3": 14.892618688499704,
+    "CAMP_3_3_binding_pair": "SAL|CAMP",
+    "within_upper_tier_min": 14.892618688499704,
+    "within_upper_tier_binding_pair": "SAL|CAMP",
+    "upper_vs_lower_tier_min": 17.611874534032747,
+    "upper_vs_lower_tier_binding_pair": "CAMP|CPERF",
+    "joint_upper_tier_min": 14.892618688499704,
+    "joint_upper_tier_binding_pair": "SAL|CAMP"
+   },
+   "cv3": {
+    "STEC_1_1": 19.12144000732738,
+    "STEC_1_1_binding_pair": "SAL|STEC",
+    "SAL_2_2": 4.52785902425806,
+    "SAL_2_2_binding_pair": "SAL|CAMP",
+    "CAMP_3_3": 4.52785902425806,
+    "CAMP_3_3_binding_pair": "SAL|CAMP",
+    "within_upper_tier_min": 4.52785902425806,
+    "within_upper_tier_binding_pair": "SAL|CAMP",
+    "upper_vs_lower_tier_min": 12.336767868314602,
+    "upper_vs_lower_tier_binding_pair": "CAMP|CPERF",
+    "joint_upper_tier_min": 4.52785902425806,
+    "joint_upper_tier_binding_pair": "SAL|CAMP"
+   },
+   "cv3_sal_camp_stepdown_pp": 6.551818181818181,
+   "bootstrap_t": {
+    "STEC_1_1": 11.459435614780599,
+    "STEC_1_1_binding_pair": "SAL|STEC",
+    "SAL_2_2": 11.459435614780599,
+    "SAL_2_2_binding_pair": "SAL|STEC",
+    "CAMP_3_3": 13.467097673413427,
+    "CAMP_3_3_binding_pair": "CAMP|CPERF",
+    "within_upper_tier_min": 11.459435614780599,
+    "within_upper_tier_binding_pair": "SAL|STEC",
+    "upper_vs_lower_tier_min": 13.467097673413427,
+    "upper_vs_lower_tier_binding_pair": "CAMP|CPERF",
+    "joint_upper_tier_min": 11.459435614780599,
+    "joint_upper_tier_binding_pair": "SAL|STEC"
+   }
+  }
+ },
+ "cluster_calibrations": {
+  "state_53": {
+   "cv1_state": 0.41333333333333333,
+   "cv3_jackknife": 0.18666666666666668,
+   "cv3_t_df": 0.15666666666666668,
+   "wcb": 0.42,
+   "cluster_boot_t": 0.37333333333333335
+  },
+  "singleton_271": {
+   "cv1_state": 0.25333333333333335,
+   "cv3_jackknife": 0.09666666666666666,
+   "cv3_t_df": 0.09333333333333334,
+   "wcb": 0.28
+  },
+  "r11_52": {
+   "cv1_state": 0.3,
+   "cv3_jackknife": 0.13333333333333333,
+   "cv3_t_df": 0.12666666666666668,
+   "wcb": 0.29
+  }
+ },
+ "plausible_scenarios": {
+  "P1_lower5_upper50pct": {
+   "sample": 12,
+   "boot_t": 12,
+   "cv3": 12
+  },
+  "P2_lower10_upper50pct": {
+   "sample": 12,
+   "boot_t": 12,
+   "cv3": 12
+  }
+ },
+ "note": "Canonical summary across sample bounds, 30-hypothesis simultaneous inference, and 23 variants."
+}

@@ -1,0 +1,20 @@
+\begin{table}[!tbp]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.3pt}
+\renewcommand{\arraystretch}{1.12}
+\caption{Record audit of outbreak outcome fields (C reported cases, H hospitalized, K known status). Zero count contradictions.}
+\label{tab:audit}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.1cm}>{\raggedleft\arraybackslash}p{1.35cm}>{\raggedleft\arraybackslash}p{1.1cm}>{\raggedleft\arraybackslash}p{0.88cm}>{\raggedleft\arraybackslash}p{0.88cm}>{\raggedleft\arraybackslash}p{0.88cm}>{\raggedleft\arraybackslash}p{0.88cm}>{\raggedleft\arraybackslash}p{0.88cm}>{\raggedleft\arraybackslash}p{0.88cm}>{\raggedright\arraybackslash}p{3.6cm}}
+\toprule
+Audit category & Outbreaks & Cases & SAL & STEC & CAMP & CPERF & NoV GI & NoV GII & Handling \\
+\midrule
+Complete and consistent & 3,976 & 95,781 & 1,689 & 369 & 292 & 180 & 285 & 1,161 & as recorded (K = 0 means all status unrecorded) \\
+K blank & 52 & 2,337 & 26 & 6 & 0 & 2 & 3 & 15 & K set to H; C $-$ H cases unrecorded (worst case exact; upper $\delta$ conservative) \\
+H blank, K = 0 & 28 & 978 & 11 & 3 & 2 & 2 & 1 & 9 & H = 0 implied by H $\leq$ K = 0; all cases unrecorded \\
+H blank, K $>$ 0 & 23 & 321 & 1 & 1 & 0 & 1 & 5 & 15 & $K_{\mathrm{rec}}$ set to 0; all cases treated as unrecorded \\
+H and K blank & 54 & 3,623 & 31 & 9 & 2 & 3 & 3 & 6 & all cases treated as unrecorded \\
+Ambiguous etiology & 408 & 12,220 & -- & -- & -- & -- & -- & -- & excluded (outcome not attributable to one group) \\
+\bottomrule
+\end{tabular}
+\end{table}

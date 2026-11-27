@@ -1,0 +1,25 @@
+\begin{table}[!tbp]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2.0pt}
+\renewcommand{\arraystretch}{1.12}
+\caption{Nominal simultaneous 95\% rank confidence sets [1 = highest, 6 = lowest] across weighting specifications, explicit plausibility intervals (P1--P2), additive departures, and odds-ratio (OR) scaling.}
+\label{tab:rank_sets}
+\begin{tabular}{>{\raggedright\arraybackslash}p{4.15cm}>{\raggedleft\arraybackslash}p{1.74cm}>{\raggedleft\arraybackslash}p{1.74cm}>{\raggedleft\arraybackslash}p{1.74cm}>{\raggedleft\arraybackslash}p{1.74cm}>{\raggedleft\arraybackslash}p{1.74cm}>{\raggedleft\arraybackslash}p{1.74cm}}
+\toprule
+Scenario / Procedure & STEC & Salmonella & Campylobacter & Norovirus GII & C. perfringens & Norovirus GI \\
+\midrule
+Worst case: Case-weighted (Boot-t) & [1, 6] & [1, 6] & [1, 6] & [1, 6] & [1, 6] & [1, 6] \\
+Worst case: Case-weighted (HC1 / CV1) & [1, 5] & [1, 6] & [1, 6] & [2, 6] & [1, 6] & [1, 6] \\
+Worst case: R10 Equal outbreak wt. (Boot-t) & [1, 2] & [1, 5] & [2, 6] & [3, 6] & [2, 6] & [2, 6] \\
+Worst case: R2 Period-only / R11 Single-state (Boot-t) & [1, 6] & [1, 6] & [1, 6] & [1, 6] & [1, 6] & [1, 6] \\
+Plausibility P1 (Lower $\leq$5\%, Upper $p_{js}$ $\pm$50\%) (Boot-t) & [1, 1] & [2, 2] & [3, 3] & [4, 6] & [4, 6] & [4, 6] \\
+Plausibility P2 (Lower $\leq$10\%, Upper $p_{js}$ $\pm$50\%) (Boot-t) & [1, 1] & [2, 2] & [3, 3] & [4, 6] & [4, 6] & [4, 6] \\
+Additive $\delta$ = 5 pp (Boot-t / CV3 / Cluster boot-t) & [1, 1] & [2, 2] & [3, 3] & [4, 6] & [4, 6] & [4, 6] \\
+Diagnostic asymmetric (-10/+5 SAL, -7/+5 CAMP) (Boot-t) & [1, 1] & [2, 2] & [3, 3] & [4, 6] & [4, 6] & [4, 6] \\
+OR scale $\Gamma$ = 2.0 (0.1\% floor, Boot-t) & [1, 1] & [2, 2] & [3, 3] & [4, 5] & [4, 6] & [5, 6] \\
+OR scale $\Gamma$ = 3.0 (0.1\% floor, Boot-t) & [1, 2] & [1, 2] & [3, 3] & [4, 6] & [4, 6] & [4, 6] \\
+\bottomrule
+\end{tabular}
+\par\smallskip\parbox{0.97\linewidth}{\footnotesize Sets are nominal 95\% (see Table S10 for empirical FWER: 7.2\%--7.8\% Boot-t in outbreak resampling; 18.7\%/11.7\% CV3 and 15.7\%/10.7\% CV3-t\_52 under 53-cluster RE). R10 rejects 5/30 hypotheses under Boot-t (p = 0.001) and 6/30 under CV3 at worst case, whereas case-weighted R2 (p = 0.051 Boot-t, 0.247 CV3) and R11 (0/30 sig across all 5 methods) yield [1, 6] for all six groups. Both P1 and P2 determine 12/15 pairs in sample and reject 12/30 under Boot-t and CV3. OR scale $\Gamma$ = 2.0 rejects 13/30 hypotheses under stepdown Boot-t (separating Norovirus GII above GI; single-step $\Gamma^{*}$ = 1.94).}
+\end{table}

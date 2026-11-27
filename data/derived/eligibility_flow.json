@@ -1,0 +1,50 @@
+{
+ "snapshot_rows_all_modes_all_years": 66713,
+ "food_2009_2023": 11358,
+ "etiology_category_counts_food_2009_2023": {
+  "single_target_confirmed": 3908,
+  "single_nontarget": 2987,
+  "blank": 2683,
+  "single_target_suspected_or_blank": 926,
+  "norovirus_unspecified_confirmed": 304,
+  "multi_cross_group_or_nontarget": 300,
+  "multi_same_group_confirmed": 225,
+  "multi_same_group_unconfirmed": 25
+ },
+ "eligible_main_rule": 4133,
+ "eligible_by_group_main_rule": {
+  "SAL": 1758,
+  "STEC": 388,
+  "CAMP": 296,
+  "CPERF": 188,
+  "NOV_GI": 297,
+  "NOV_GII": 1206
+ },
+ "eligible_pilot_exact_strings": 3799,
+ "norovirus_unspecified_genogroup_single_confirmed": 304,
+ "norovirus_unspecified_by_string": {
+  "Norovirus unknown": 169,
+  "Norovirus": 132,
+  "Norovirus other": 1,
+  "Norovirus Genogroup IV": 1,
+  "Norovirus Genogroup IX": 1
+ },
+ "eligible_single_etiology_by_group": {
+  "SAL": 1673,
+  "STEC": 369,
+  "CAMP": 279,
+  "CPERF": 186,
+  "NOV_GI": 279,
+  "NOV_GII": 1122
+ },
+ "eligible_multi_same_group_by_group": {
+  "SAL": 85,
+  "STEC": 19,
+  "CAMP": 17,
+  "CPERF": 2,
+  "NOV_GI": 18,
+  "NOV_GII": 84
+ },
+ "retained_main_after_audit": 4133,
+ "excluded_main_by_audit": 0
+}

@@ -1,0 +1,19 @@
+{
+ "raw_snapshot": "nors_soda_full_20261125T040830Z.csv",
+ "raw_sha256": "6005ac026ef124a5a1e5b9bd1f5aafc791184976f4518368bb5cd5aa059e82e9",
+ "raw_rows": 66713,
+ "outputs": {
+  "cohort_outbreaks.csv": "87d511d1eea5c51f8241d81ee547dd641fd8cde6155412e6c58856a840207154",
+  "eligibility_flow.json": "e795f665bbfedbb3be48b0089b281386d3b26af2178b1e597a2d7963a048d1d0",
+  "etiology_mapping.csv": "1a094117d37a85d45cd2f90193a33361f600314729548d69084fa6763ef3b24b",
+  "excluded_outbreaks_summary.json": "49ed021a0f038ff794dc2a9542ec229ba2bca6490e85ce40fb8eede522b41673",
+  "pilot_reproduction.csv": "0937f5a7f16b1f4b8e2d66fc0ebcb8d46e8a02cc933eb40fd9402021541e6372",
+  "record_audit.csv": "54ffe3f6b39e3680a2033fa17b92c7043bc6a0ef31322d517901df8d692ab5e5",
+  "record_audit_summary.json": "8b7c3c847e4d4c09c6db0475cd67ba3f7d7062e902d83dc90f948579f20bcdfc",
+  "setting_mapping.csv": "bcbebe80bc0e0f00fb93dcaf287962cc5e0985545cbc7a9ed517c64f18bf237e",
+  "strata_counts.csv": "f171061318ae60dcabf2881e93c83394f1f727afca9394bf187a0224cdf94133",
+  "support_cells.csv": "e3aca9fdcb6621ce7a3a4717b523dd7f757b35bbfcfbe11b1dab74280a6c00bd",
+  "suspected_cohort_outbreaks.csv": "787540454f4b2c8f6bb7aa647608d3a05c92f91001e111374534b3649445b7fa",
+  "unspecified_norovirus_outbreaks.csv": "9e42edff5e1b8d6ffc72eb8108b9a3ee79f0acf1d986824fe25baf2ab69140ed"
+ }
+}
