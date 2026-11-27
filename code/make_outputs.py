@@ -684,7 +684,7 @@ def make_tables(r: dict, tdir: Path, write_tex: bool = True) -> None:
         {"Report": "Tack et al. (2021)", "Venue / Year": "Microorganisms, 2021", "NORS years": "2010–2017 (STEC)",
          "Reported location": "Table 1 & Section 3 (pp. 4–7)", "Hospitalization denominator": "Total ill (H / C); K not tabulated",
          "Missing-status assumption": "Standardizes on H / C (recovers lower bound L); Limitations (p. 11) note missing hospitalization data may underestimate severity without quantifying [L, U] or δ*."},
-        {"Report": "CDC Annual Report (2019)", "Venue / Year": "CDC NORS Portal, pub. 2026", "NORS years": "2019",
+        {"Report": "CDC Annual Report (2019)", "Venue / Year": "CDC NORS Portal, accessed 2026", "NORS years": "2019",
          "Reported location": "Pathogen summary tables", "Hospitalization denominator": "Total ill (H / C); K not tabulated",
          "Missing-status assumption": "Reports aggregate hospitalizations alongside total outbreak cases (recovers lower bound L) without paired H / K or unrecorded shares M / C."},
         {"Report": "Wikswo et al. (2022)", "Venue / Year": "Clin Infect Dis, 2022", "NORS years": "2009–2019",
@@ -718,7 +718,7 @@ def make_tables(r: dict, tdir: Path, write_tex: bool = True) -> None:
     _emit("tab:prescriptions", "table_s15_prescriptions", pd.DataFrame(rows_rx),
           "Actionable surveillance prescriptions: completeness thresholds (1 − M/C) to eliminate worst-case overlap along all five adjacent steps and sample/cluster multipliers for 80% statistical power across the four separated cross-tier pairs.",
           "".join([Lc(2.8), Lc(2.4), Lc(4.15), Lc(5.15)]),
-          notes="Adjacent rows show uniform M/C cap m* = Δ_0/(1 + Δ_0) and proportional scaling factor f* = Δ_0 / ((θ_h(0)−L_h)+(U_l−θ_l(0))) keeping cell recorded rates p_js fixed. Power multipliers approximate [(c_crit + z_0.80)·SE / (L_h−U_l)] squared relative to the 3,176 common-support outbreaks.",
+          notes="Adjacent rows show uniform M/C cap m* = Δ_0/(1 + Δ_0) (requiring M_js/C_js <= m* across all strata) and proportional scaling factor f* = Δ_0 / ((θ_h(0)−L_h)+(U_l−θ_l(0))) keeping cell recorded rates p_js fixed. Power multipliers approximate [(c_crit + z_0.80)·SE / (L_h−U_l)] squared relative to 3,176 outbreaks: CV3 assumes scaling effective independent clusters rather than adding outbreaks inside pooled Multistate, while Boot-t holds current c_bt = 4.52 fixed.",
           size="tiny", sep="1.8pt")
 
     if write_tex:

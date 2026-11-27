@@ -365,7 +365,7 @@
    "label": "tab:nors_audit",
    "path_tex": "table_s14_nors_report_audit.tex",
    "path_csv": "table_s14_nors_report_audit.csv",
-   "sha256_csv": "8a4688952279be1d77394e3c078d33502a9fc2cd9d1753b4299c46f4e9dff5e8",
+   "sha256_csv": "7ec2d4e0bacfab0860a0dc1b3cb6200375e78e82c41e432fb02fb1e9c2220c9c",
    "caption": "Structured methodological audit of the four published CDC NORS surveillance summaries motivated in Section 1 and Section 4.1.",
    "shape": [
     4,
