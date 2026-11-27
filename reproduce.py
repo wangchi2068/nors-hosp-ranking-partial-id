@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Cross-platform one-command reproduction of the NORS partial-identification study (v10.0).
+"""Cross-platform one-command reproduction of the NORS partial-identification study (v11.0).
 
 Runs from the repository root:
     python reproduce.py [--B 2000] [--workers 2] [--render-outputs]

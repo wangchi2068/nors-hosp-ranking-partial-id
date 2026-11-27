@@ -590,7 +590,7 @@ def main(argv=None):
             (Path(__file__).parent / f).read_text(encoding="utf-8")
             for f in ("analyze.py", "bounds.py", "strata.py", "nors_rules.py", "bootstrap.py", "inference.py")
             if (Path(__file__).parent / f).exists()).encode()).hexdigest()[:16],
-        analysis_version="10.0", hardware="CPU only", wall_clock_seconds=None,
+        analysis_version="11.0", hardware="CPU only", wall_clock_seconds=None,
     )
     res["summary"] = summary_block(main_res)
     res["groups"] = OrderedDict((g, R.GROUP_LABELS[g]) for g in R.GROUPS)

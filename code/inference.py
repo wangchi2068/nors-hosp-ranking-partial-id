@@ -1,6 +1,6 @@
-"""Stacked M-estimation, 30-hypothesis one-sided inference, cluster jackknife/bootstrap, and sensitivity suite (v10.0).
+"""Stacked M-estimation, 30-hypothesis one-sided inference, cluster jackknife/bootstrap, and sensitivity suite (v11.0).
 
-Implements the v10.0 methodological suite:
+Implements the v11.0 methodological suite:
 1. Closed-form outbreak-level influence functions for arbitrary symmetric, asymmetric, OR (Gamma >= 1),
    and explicit plausibility-interval (P1/P2) bands, verified against central-difference Jacobians.
 2. Cross-platform deterministic Cholesky Max-T stepdown (30 hypotheses), outbreak-HC1, 53-state CV1,
@@ -2716,7 +2716,7 @@ def build_supplementary_audits(main_df: pd.DataFrame, t_main: S.Table,
 
 def run_all(main_df: pd.DataFrame, t_main: S.Table, main_res: dict, seed: int = 20261125,
             boot_block: dict | None = None) -> OrderedDict:
-    """Run v10.0 30-hypothesis simultaneous inference, delta=0/delta=5/WC decompositions, stepdown/power calibrations, conventional/EB benchmarks, P_ext, and diagnostics."""
+    """Run v11.0 partial-identification adjacent-chain audit, completeness/power prescriptions, 30-hypothesis simultaneous inference, calibrations, and benchmarks."""
     sorted_p = sorted(
         main_res["pairs"].items(),
         key=lambda kv: -(np.inf if kv[1]["delta_star_pp"] is None else kv[1]["delta_star_pp"]),
@@ -3923,6 +3923,55 @@ def run_all(main_df: pd.DataFrame, t_main: S.Table, main_res: dict, seed: int = 
             n_strata=int(G * K),
             n_state_clusters=int(inf.n_states),
         ),
+    )
+
+    # Adjacent ranking chain overlaps (0/5 separated) and surveillance prescriptions (completeness caps & 80% power multipliers)
+    ord_d0 = list(main_res["order_by_delta0"])
+    adj_list = []
+    for idx_a in range(len(ord_d0) - 1):
+        gh, gl = ord_d0[idx_a], ord_d0[idx_a + 1]
+        pgh, pgl = main_res["per_group"][gh], main_res["per_group"][gl]
+        gap0 = 100.0 * float(pgh["theta_delta0"] - pgl["theta_delta0"])
+        wc_ov = 100.0 * float(pgl["U_worst"] - pgh["L_worst"])
+        down_h = 100.0 * float(pgh["theta_delta0"] - pgh["L_worst"])
+        up_l = 100.0 * float(pgl["U_worst"] - pgl["theta_delta0"])
+        f_star = gap0 / (down_h + up_l) if (down_h + up_l) > 0.0 else 1.0
+        uh, ul = 100.0 * float(pgh["unknown_share"]), 100.0 * float(pgl["unknown_share"])
+        unif_cap = 100.0 * gap0 / (100.0 + gap0)
+        adj_list.append(OrderedDict(
+            pair=f"{gh}>{gl}", higher=gh, lower=gl,
+            gap_delta0_pp=gap0, wc_overlap_pp=wc_ov, separated_wc=bool(wc_ov < 0.0),
+            current_u_high_pct=uh, current_u_low_pct=ul,
+            prop_scale_f_star=float(f_star),
+            req_u_high_pct=float(f_star * uh), req_u_low_pct=float(f_star * ul),
+            uniform_mc_cap_pct=float(unif_cap), min_completeness_pct=float(100.0 - unif_cap),
+        ))
+    z80 = float(norm.ppf(0.80))
+    n_ret_obs = int(t_main.n.sum())
+    pwr_presc = []
+    for pk_wc in ("STEC|NOV_GII", "STEC|NOV_GI", "STEC|CAMP", "STEC|CPERF"):
+        pw_d = pairs[pk_wc]
+        dL_p = 100.0 * float(pw_d["dL_worst"])
+        s_h = 100.0 * float(pw_d["se_dL_hc1"])
+        s_c = 100.0 * float(pw_d["se_dL_cv3"])
+        k_hc1 = float(((float(c30_wc) + z80) * s_h / dL_p) ** 2)
+        k_cv3 = float(((float(c30_cv3_wc) + z80) * s_c / dL_p) ** 2)
+        k_bt = float(((float(c_bt_wc) + z80) * s_h / dL_p) ** 2)
+        pwr_presc.append(OrderedDict(
+            pair=f"{pw_d['higher_at_delta0']}>{pw_d['lower_at_delta0']}",
+            dL_worst_pp=dL_p, se_hc1_pp=s_h, se_cv3_pp=s_c,
+            mult_hc1_80=k_hc1, mult_cv3_80=k_cv3, mult_boot_t_80=k_bt,
+            outbreaks_hc1_80=int(round(k_hc1 * n_ret_obs)),
+            outbreaks_cv3_80=int(round(k_cv3 * n_ret_obs)),
+            outbreaks_boot_t_80=int(round(k_bt * n_ret_obs)),
+        ))
+    supp_audits["adjacent_chain_and_prescriptions"] = OrderedDict(
+        n_adjacent_separated_wc=int(sum(1 for x in adj_list if x["separated_wc"])),
+        n_adjacent_total=int(len(adj_list)),
+        n_cross_tier_separated_wc=int(main_res["n_determined"]["worst_case"]),
+        n_retained_outbreaks=n_ret_obs,
+        adjacent_pairs=adj_list,
+        cross_tier_80pct_power_prescriptions=pwr_presc,
     )
 
     return OrderedDict(

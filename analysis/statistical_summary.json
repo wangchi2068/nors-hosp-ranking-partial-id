@@ -1,7 +1,7 @@
 {
  "source": "analysis/results.json",
  "spec_hash": "5d35e5f2a72b06e6",
- "analysis_version": "10.0",
+ "analysis_version": "11.0",
  "n_pairs": 15,
  "n_common_support_cells": 12,
  "determined_pairs": {

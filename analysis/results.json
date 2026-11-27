@@ -32,7 +32,7 @@
     "cohort_sha256": "87d511d1eea5c51f8241d81ee547dd641fd8cde6155412e6c58856a840207154",
     "timestamp": "2026-11-27T07:18:53Z",
     "spec_hash": "5d35e5f2a72b06e6",
-    "analysis_version": "10.0",
+    "analysis_version": "11.0",
     "hardware": "CPU only",
     "wall_clock_seconds": 978.0
   },
@@ -41537,7 +41537,140 @@
         "n_sig_hc1_d5": 12,
         "n_sig_cv3_d5": 12
       }
-    ]
+    ],
+    "adjacent_chain_and_prescriptions": {
+      "n_adjacent_separated_wc": 0,
+      "n_adjacent_total": 5,
+      "n_cross_tier_separated_wc": 4,
+      "n_retained_outbreaks": 3176,
+      "adjacent_pairs": [
+        {
+          "pair": "STEC>SAL",
+          "higher": "STEC",
+          "lower": "SAL",
+          "gap_delta0_pp": 10.92136073457911,
+          "wc_overlap_pp": 6.967033114666971,
+          "separated_wc": false,
+          "current_u_high_pct": 12.655338574689324,
+          "current_u_low_pct": 18.136599087509865,
+          "prop_scale_f_star": 0.6105277436654493,
+          "req_u_high_pct": 7.726435305327396,
+          "req_u_low_pct": 11.072896918662243,
+          "uniform_mc_cap_pct": 9.846039268047347,
+          "min_completeness_pct": 90.15396073195265
+        },
+        {
+          "pair": "SAL>CAMP",
+          "higher": "SAL",
+          "lower": "CAMP",
+          "gap_delta0_pp": 9.154450270692676,
+          "wc_overlap_pp": 4.748472859418926,
+          "separated_wc": false,
+          "current_u_high_pct": 18.136599087509865,
+          "current_u_low_pct": 14.523449319213313,
+          "prop_scale_f_star": 0.6584550734417527,
+          "req_u_high_pct": 11.942135684149934,
+          "req_u_low_pct": 9.563038888110174,
+          "uniform_mc_cap_pct": 8.38669449389421,
+          "min_completeness_pct": 91.61330550610579
+        },
+        {
+          "pair": "CAMP>NOV_GII",
+          "higher": "CAMP",
+          "lower": "NOV_GII",
+          "gap_delta0_pp": 6.902301882985562,
+          "wc_overlap_pp": 9.718579721467147,
+          "separated_wc": false,
+          "current_u_high_pct": 14.523449319213313,
+          "current_u_low_pct": 16.496831649255007,
+          "prop_scale_f_star": 0.41527892727040694,
+          "req_u_high_pct": 6.031282453549027,
+          "req_u_low_pct": 6.850786550663117,
+          "uniform_mc_cap_pct": 6.456644769483793,
+          "min_completeness_pct": 93.54335523051621
+        },
+        {
+          "pair": "NOV_GII>CPERF",
+          "higher": "NOV_GII",
+          "lower": "CPERF",
+          "gap_delta0_pp": 0.9679056092857531,
+          "wc_overlap_pp": 18.35761569300217,
+          "separated_wc": false,
+          "current_u_high_pct": 16.496831649255007,
+          "current_u_low_pct": 22.228989037758833,
+          "prop_scale_f_star": 0.050084320839053585,
+          "req_u_high_pct": 0.8262326091491413,
+          "req_u_low_pct": 1.1133238188949184,
+          "uniform_mc_cap_pct": 0.958627004734797,
+          "min_completeness_pct": 99.0413729952652
+        },
+        {
+          "pair": "CPERF>NOV_GI",
+          "higher": "CPERF",
+          "lower": "NOV_GI",
+          "gap_delta0_pp": 0.05715626242682181,
+          "wc_overlap_pp": 18.285902543081725,
+          "separated_wc": false,
+          "current_u_high_pct": 22.228989037758833,
+          "current_u_low_pct": 16.182380216383308,
+          "prop_scale_f_star": 0.0031159613580728097,
+          "req_u_high_pct": 0.06926467087068061,
+          "req_u_low_pct": 0.0504236714358923,
+          "uniform_mc_cap_pct": 0.05712361270483656,
+          "min_completeness_pct": 99.94287638729516
+        }
+      ],
+      "cross_tier_80pct_power_prescriptions": [
+        {
+          "pair": "STEC>NOV_GII",
+          "dL_worst_pp": 7.549874387944072,
+          "se_hc1_pp": 2.638012015659915,
+          "se_cv3_pp": 4.108796520613951,
+          "mult_hc1_80": 1.457942005595619,
+          "mult_cv3_80": 3.419243994845196,
+          "mult_boot_t_80": 3.5085690703206,
+          "outbreaks_hc1_80": 4630,
+          "outbreaks_cv3_80": 10860,
+          "outbreaks_boot_t_80": 11143
+        },
+        {
+          "pair": "STEC>NOV_GI",
+          "dL_worst_pp": 6.046500509788416,
+          "se_hc1_pp": 4.2814701066035115,
+          "se_cv3_pp": 4.7005641708690895,
+          "mult_hc1_80": 5.987476292464411,
+          "mult_cv3_80": 6.977053619683567,
+          "mult_boot_t_80": 14.408991611731652,
+          "outbreaks_hc1_80": 19016,
+          "outbreaks_cv3_80": 22159,
+          "outbreaks_boot_t_80": 45763
+        },
+        {
+          "pair": "STEC>CAMP",
+          "dL_worst_pp": 5.458827381499229,
+          "se_hc1_pp": 3.2062974030531164,
+          "se_cv3_pp": 4.215379326695985,
+          "mult_hc1_80": 4.119789687814354,
+          "mult_cv3_80": 6.884222151047231,
+          "mult_boot_t_80": 9.914363273308682,
+          "outbreaks_hc1_80": 13084,
+          "outbreaks_cv3_80": 21864,
+          "outbreaks_boot_t_80": 31488
+        },
+        {
+          "pair": "STEC>CPERF",
+          "dL_worst_pp": 5.047177049659532,
+          "se_hc1_pp": 4.616623724138902,
+          "se_cv3_pp": 8.250228902835117,
+          "mult_hc1_80": 9.991208937839398,
+          "mult_cv3_80": 30.847160537320022,
+          "mult_boot_t_80": 24.044061094249738,
+          "outbreaks_hc1_80": 31732,
+          "outbreaks_cv3_80": 97971,
+          "outbreaks_boot_t_80": 76364
+        }
+      ]
+    }
   },
   "notes": "All numbers are recomputed from the 2026-11-25 snapshot. 'undetermined' means the recorded data do not fix the direction; it does not mean equal. delta is a scenario parameter, not an estimate."
 }

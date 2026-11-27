@@ -89,6 +89,18 @@ def main() -> None:
             f"{100 * spc['outbreak_empirical_power']['wc_stec_nov_gii_power']['hc1']:.1f}%",
         ),
         (
+            "Adjacent pairs separated 0/5",
+            f"{sa['adjacent_chain_and_prescriptions']['n_adjacent_separated_wc']}/5" in corpus
+            or f"{sa['adjacent_chain_and_prescriptions']['n_adjacent_separated_wc']} of 5" in corpus,
+            "0/5",
+        ),
+        (
+            "Uniform M/C cap 6.5% (CAMP > NoV GII)",
+            f"{sa['adjacent_chain_and_prescriptions']['adjacent_pairs'][2]['uniform_mc_cap_pct']:.1f}%"
+            in corpus.replace("\\%", "%"),
+            f"{sa['adjacent_chain_and_prescriptions']['adjacent_pairs'][2]['uniform_mc_cap_pct']:.1f}%",
+        ),
+        (
             "Zero markdown ** remaining in .tex",
             "**" not in corpus,
             "markdown bold check",

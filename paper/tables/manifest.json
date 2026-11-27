@@ -379,6 +379,24 @@
     "Hospitalization denominator",
     "Missing-status assumption"
    ]
+  },
+  {
+   "id": "table_s15_prescriptions",
+   "label": "tab:prescriptions",
+   "path_tex": "table_s15_prescriptions.tex",
+   "path_csv": "table_s15_prescriptions.csv",
+   "sha256_csv": "600d1de3909a83fc4b1ada529fee6200b18145c5df8182599489daecea7ea022",
+   "caption": "Actionable surveillance prescriptions: completeness thresholds (1 − M/C) to eliminate worst-case overlap along all five adjacent steps and sample/cluster multipliers for 80% statistical power across the four separated cross-tier pairs.",
+   "shape": [
+    9,
+    4
+   ],
+   "columns": [
+    "Target / Comparison",
+    "Target regime",
+    "Current metric",
+    "Prescription for separation / 80% power"
+   ]
   }
  ]
 }

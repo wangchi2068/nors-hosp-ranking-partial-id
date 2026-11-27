@@ -1,4 +1,4 @@
-"""Tables, figures, and statistical summary for the NORS hospitalization-ranking analysis (v10.0).
+"""Tables, figures, and statistical summary for the NORS hospitalization-ranking analysis (v11.0).
 
 Reads ONLY analysis/results.json (plus data/derived/etiology_mapping.csv for Supp. Table S4)
 so every table, figure, and text value shares one canonical source. Writes LF-normalized files.
@@ -697,6 +697,30 @@ def make_tables(r: dict, tdir: Path, write_tex: bool = True) -> None:
           notes="None of the four audited summaries was designed as a formal multiplicity-adjusted ranking study; Table 5 provides a drop-in extension adding paired H / K (or H / C), unrecorded shares M / C, standardized bounds, and breakdown points.",
           size="tiny", sep="1.7pt")
 
+    # SUPP TABLE S15: Quantitative Surveillance Prescriptions (Adjacent Completeness Caps & 80% Power Sample Sizes)
+    acp = r["supplementary_audits"]["adjacent_chain_and_prescriptions"]
+    rows_rx = []
+    for ap in acp["adjacent_pairs"]:
+        rows_rx.append({
+            "Target / Comparison": f"Adjacent: {SHORT[ap['higher']]} > {SHORT[ap['lower']]}",
+            "Target regime": "Worst-case point separation",
+            "Current metric": f"Overlap {ap['wc_overlap_pp']:+.2f} pp (M/C {ap['current_u_high_pct']:.1f}% | {ap['current_u_low_pct']:.1f}%)",
+            "Prescription for separation / 80% power": f"Reduce uniform M/C <= {ap['uniform_mc_cap_pct']:.1f}% (completeness >= {ap['min_completeness_pct']:.1f}%; prop. scale {ap['prop_scale_f_star']:.2f}x)",
+        })
+    for pp_r in acp["cross_tier_80pct_power_prescriptions"]:
+        gh_p, gl_p = pp_r["pair"].split(">")
+        rows_rx.append({
+            "Target / Comparison": f"Cross-tier: {SHORT[gh_p]} > {SHORT[gl_p]}",
+            "Target regime": "Worst-case FWER test (80% power)",
+            "Current metric": f"Lower diff. = {pp_r['dL_worst_pp']:.2f} pp (SE {pp_r['se_hc1_pp']:.2f} HC1 / {pp_r['se_cv3_pp']:.2f} CV3)",
+            "Prescription for separation / 80% power": f"{pp_r['mult_cv3_80']:.1f}x CV3 (~{pp_r['outbreaks_cv3_80']:,} ob) | {pp_r['mult_boot_t_80']:.1f}x Boot-t (~{pp_r['outbreaks_boot_t_80']:,} ob) | {pp_r['mult_hc1_80']:.1f}x HC1",
+        })
+    _emit("tab:prescriptions", "table_s15_prescriptions", pd.DataFrame(rows_rx),
+          "Actionable surveillance prescriptions: completeness thresholds (1 − M/C) to eliminate worst-case overlap along all five adjacent steps and sample/cluster multipliers for 80% statistical power across the four separated cross-tier pairs.",
+          "".join([Lc(2.8), Lc(2.4), Lc(4.15), Lc(5.15)]),
+          notes="Adjacent rows show uniform M/C cap m* = Δ_0/(1 + Δ_0) and proportional scaling factor f* = Δ_0 / ((θ_h(0)−L_h)+(U_l−θ_l(0))) keeping cell recorded rates p_js fixed. Power multipliers approximate [(c_crit + z_0.80)·SE / (L_h−U_l)] squared relative to the 3,176 common-support outbreaks.",
+          size="tiny", sep="1.8pt")
+
     if write_tex:
         with open(tdir / "manifest.json", "w", encoding="utf-8", newline="\n") as fh:
             fh.write(json.dumps(dict(schema_version=3, tables=man), indent=1, ensure_ascii=False) + "\n")
@@ -760,37 +784,71 @@ def fig_matrix(r, fdir, man):
 def fig_intervals(r, fdir, man):
     import matplotlib.pyplot as plt
     from matplotlib.lines import Line2D
-    from matplotlib.patches import Patch
+    from matplotlib.patches import Patch, Rectangle
     m, bt, ret = r["main"], r["bootstrap"], r["retention"]["per_group"]
+    acp = r["supplementary_audits"]["adjacent_chain_and_prescriptions"]
     order = m["order_by_delta0"]; y = np.arange(len(order))
-    fig, ax = plt.subplots(figsize=(7.2, 4.4), constrained_layout=True)
+
+    fig, axes = plt.subplots(1, 2, figsize=(8.6, 4.5), constrained_layout=True, gridspec_kw={"width_ratios": [1.45, 1.0]})
+
+    # Panel (a): Standardized bounds with shaded adjacent-step overlaps (0/5 adjacent pairs separated)
+    ax = axes[0]
+    for i in range(len(order) - 1):
+        gh, gl = order[i], order[i + 1]
+        Lh = 100 * m["per_group"][gh]["L_worst"]
+        Ul = 100 * m["per_group"][gl]["U_worst"]
+        if Ul > Lh:
+            ax.add_patch(Rectangle((Lh, i), Ul - Lh, 1.0, facecolor="#F4A582", alpha=0.35, edgecolor="#CA0020", lw=0.7, ls="--", zorder=0))
+            ax.text(0.5 * (Lh + Ul), i + 0.5, f"+{Ul - Lh:.1f} pp", ha="center", va="center", fontsize=6.6, fontweight="bold", color="#99000D")
     for i, g in enumerate(order):
         v, b = m["per_group"][g], bt["per_group"][g]
         cr_hc = 100 * ret[g]["crude_after"]["L"]; cr_hk = 100 * ret[g]["crude_after"]["theta_delta0"]
         Lw, Uw = 100 * v["L_worst"], 100 * v["U_worst"]
         L5, U5 = 100 * v["bounds_by_delta_pp"]["5"]["L"], 100 * v["bounds_by_delta_pp"]["5"]["U"]
         th0 = 100 * v["theta_delta0"]
-        ax.hlines(i, Lw, Uw, color="#A8BCD9", lw=9, zorder=1)
-        ax.hlines(i, L5, U5, color="#0F4D92", lw=4, zorder=2)
-        ax.plot([100 * b["L_p2_5"], 100 * b["L_p97_5"]], [i - 0.19, i - 0.19], color="#555", lw=1.1, marker="|", ms=4)
-        ax.plot([100 * b["U_p2_5"], 100 * b["U_p97_5"]], [i + 0.19, i + 0.19], color="#555", lw=1.1, marker="|", ms=4)
-        ax.scatter([th0], [i], color="white", edgecolor="#0F4D92", s=45, zorder=4)
-        ax.scatter([cr_hc], [i], color="#C44E52", marker="s", s=26, zorder=5)
-        ax.scatter([cr_hk], [i], color="#2CA02C", marker="^", s=30, zorder=5)
-        ax.text(Uw + 0.9, i, f"[{Lw:.1f}, {Uw:.1f}]", va="center", fontsize=8)
-    ax.set_yticks(y); ax.set_yticklabels([NAME[g] for g in order]); ax.set_ylim(len(order) - 0.5, -0.5)
-    ax.set_xlim(-1.5, 48.0); ax.set_xlabel("Standardized hospitalization proportion (%)")
+        ax.hlines(i, Lw, Uw, color="#A8BCD9", lw=8.5, zorder=1)
+        ax.hlines(i, L5, U5, color="#0F4D92", lw=3.8, zorder=2)
+        ax.plot([100 * b["L_p2_5"], 100 * b["L_p97_5"]], [i - 0.19, i - 0.19], color="#555", lw=1.0, marker="|", ms=3.5)
+        ax.plot([100 * b["U_p2_5"], 100 * b["U_p97_5"]], [i + 0.19, i + 0.19], color="#555", lw=1.0, marker="|", ms=3.5)
+        ax.scatter([th0], [i], color="white", edgecolor="#0F4D92", s=38, zorder=4)
+        ax.scatter([cr_hc], [i], color="#C44E52", marker="s", s=22, zorder=5)
+        ax.scatter([cr_hk], [i], color="#2CA02C", marker="^", s=24, zorder=5)
+        ax.text(Uw + 0.8, i, f"[{Lw:.1f}, {Uw:.1f}]", va="center", fontsize=7.0)
+    ax.set_yticks(y); ax.set_yticklabels([NAME[g] for g in order], fontsize=8.0); ax.set_ylim(len(order) - 0.45, -0.55)
+    ax.set_xlim(-1.5, 48.0); ax.set_xlabel("Standardized hospitalization proportion (%)", fontsize=8.2)
+    ax.set_title("(a) Standardized bounds & 0/5 adjacent overlaps", fontsize=8.5, pad=5)
     ax.grid(axis="x", alpha=0.35); ax.grid(axis="y", visible=False)
+
+    # Panel (b): Uniform M/C completeness prescription vs current NORS unrecorded range (12.7% - 22.2%)
+    ax2 = axes[1]
+    adj = acp["adjacent_pairs"]
+    y2 = np.arange(len(adj))
+    caps = [ap["uniform_mc_cap_pct"] for ap in adj]
+    lbls2 = [f"{SHORT[ap['higher']]} > {SHORT[ap['lower']]}" for ap in adj]
+    u_min = min(100 * m["per_group"][g]["unknown_share"] for g in order)
+    u_max = max(100 * m["per_group"][g]["unknown_share"] for g in order)
+    ax2.axvspan(u_min, u_max, color="#E0E0E0", alpha=0.75, zorder=0, label="Current NORS unrecorded range (12.7–22.2%)")
+    ax2.axvline(u_min, color="#666666", ls=":", lw=0.9)
+    ax2.axvline(u_max, color="#666666", ls=":", lw=0.9)
+    bars = ax2.barh(y2, caps, height=0.52, color=["#2B8CBE", "#2B8CBE", "#1B9E77", "#8C96C6", "#8C96C6"], edgecolor="white", zorder=2)
+    for b_rect, cap_v in zip(bars, caps):
+        ax2.text(cap_v + 0.5, b_rect.get_y() + b_rect.get_height() / 2.0, f"≤ {cap_v:.1f}%", va="center", fontsize=7.2, color="#222222")
+    ax2.set_yticks(y2); ax2.set_yticklabels(lbls2, fontsize=7.5); ax2.set_ylim(len(adj) - 0.5, -0.5)
+    ax2.set_xlim(0, 25.5); ax2.set_xlabel("Max uniform unrecorded share M/C (%)", fontsize=8.2)
+    ax2.set_title("(b) Completeness thresholds vs. current NORS", fontsize=8.5, pad=5)
+    ax2.grid(axis="x", alpha=0.35); ax2.grid(axis="y", visible=False)
+
     handles = [
-        Patch(facecolor="#A8BCD9", label="Worst-case bounds [L, U]"),
-        Patch(facecolor="#0F4D92", label="$\\delta = 5$ pp scenario interval"),
-        Line2D([], [], color="#0F4D92", marker="o", mfc="white", ls="none", ms=6, label="$\\delta = 0$ MAR"),
-        Line2D([], [], color="#555", marker="|", ls="-", ms=6, label="2,000-rep bootstrap 2.5th–97.5th"),
-        Line2D([], [], color="#C44E52", marker="s", ls="none", ms=5, label="Crude H/C"),
-        Line2D([], [], color="#2CA02C", marker="^", ls="none", ms=5, label="Crude δ = 0"),
+        Patch(facecolor="#A8BCD9", label="Worst-case [L, U]"),
+        Patch(facecolor="#F4A582", alpha=0.45, edgecolor="#CA0020", ls="--", label="Adjacent-step overlap (0/5 separated)"),
+        Patch(facecolor="#0F4D92", label="$\\delta = 5$ pp interval"),
+        Line2D([], [], color="#0F4D92", marker="o", mfc="white", ls="none", ms=5.5, label="$\\delta = 0$ MAR"),
+        Line2D([], [], color="#C44E52", marker="s", ls="none", ms=4.5, label="Crude H/C"),
+        Line2D([], [], color="#2CA02C", marker="^", ls="none", ms=4.8, label="Crude δ = 0"),
+        Patch(facecolor="#E0E0E0", label="Observed NORS M/C (12.7%–22.2%)"),
     ]
-    fig.legend(handles=handles, loc="outside lower center", ncol=3, frameon=False, fontsize=7.6)
-    _save(fig, fdir, "fig_03_bound_intervals", man, "Standardized bounds overlaid with crude H/C and crude δ = 0.", "results")
+    fig.legend(handles=handles, loc="outside lower center", ncol=4, frameon=False, fontsize=7.0)
+    _save(fig, fdir, "fig_03_bound_intervals", man, "Standardized bounds with 0/5 adjacent-step overlaps and unrecorded-share thresholds required for assumption-free separation.", "results")
 
 
 def fig_calibrated_2d(r, fdir, man):

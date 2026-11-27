@@ -12,7 +12,7 @@
   "id": "fig_03_bound_intervals",
   "path_pdf": "fig_03_bound_intervals.pdf",
   "path_png": "fig_03_bound_intervals.png",
-  "caption": "Standardized bounds overlaid with crude H/C and crude δ = 0.",
+  "caption": "Standardized bounds with 0/5 adjacent-step overlaps and unrecorded-share thresholds required for assumption-free separation.",
   "section": "results",
   "generator": "code/make_outputs.py",
   "data_source": "analysis/results.json"

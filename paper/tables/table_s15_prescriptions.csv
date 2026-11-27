@@ -1,0 +1,10 @@
+Target / Comparison,Target regime,Current metric,Prescription for separation / 80% power
+Adjacent: STEC > SAL,Worst-case point separation,Overlap +6.97 pp (M/C 12.7% | 18.1%),Reduce uniform M/C <= 9.8% (completeness >= 90.2%; prop. scale 0.61x)
+Adjacent: SAL > CAMP,Worst-case point separation,Overlap +4.75 pp (M/C 18.1% | 14.5%),Reduce uniform M/C <= 8.4% (completeness >= 91.6%; prop. scale 0.66x)
+Adjacent: CAMP > NoV GII,Worst-case point separation,Overlap +9.72 pp (M/C 14.5% | 16.5%),Reduce uniform M/C <= 6.5% (completeness >= 93.5%; prop. scale 0.42x)
+Adjacent: NoV GII > CPERF,Worst-case point separation,Overlap +18.36 pp (M/C 16.5% | 22.2%),Reduce uniform M/C <= 1.0% (completeness >= 99.0%; prop. scale 0.05x)
+Adjacent: CPERF > NoV GI,Worst-case point separation,Overlap +18.29 pp (M/C 22.2% | 16.2%),Reduce uniform M/C <= 0.1% (completeness >= 99.9%; prop. scale 0.00x)
+Cross-tier: STEC > NoV GII,Worst-case FWER test (80% power),Lower diff. = 7.55 pp (SE 2.64 HC1 / 4.11 CV3),"3.4x CV3 (~10,860 ob) | 3.5x Boot-t (~11,143 ob) | 1.5x HC1"
+Cross-tier: STEC > NoV GI,Worst-case FWER test (80% power),Lower diff. = 6.05 pp (SE 4.28 HC1 / 4.70 CV3),"7.0x CV3 (~22,159 ob) | 14.4x Boot-t (~45,763 ob) | 6.0x HC1"
+Cross-tier: STEC > CAMP,Worst-case FWER test (80% power),Lower diff. = 5.46 pp (SE 3.21 HC1 / 4.22 CV3),"6.9x CV3 (~21,864 ob) | 9.9x Boot-t (~31,488 ob) | 4.1x HC1"
+Cross-tier: STEC > CPERF,Worst-case FWER test (80% power),Lower diff. = 5.05 pp (SE 4.62 HC1 / 8.25 CV3),"30.8x CV3 (~97,971 ob) | 24.0x Boot-t (~76,364 ob) | 10.0x HC1"
