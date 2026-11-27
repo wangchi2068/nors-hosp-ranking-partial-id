@@ -3,28 +3,28 @@
 \scriptsize
 \setlength{\tabcolsep}{1.8pt}
 \renewcommand{\arraystretch}{1.12}
-\caption{Pairwise ordering stability, simultaneous 30-hypothesis FWER p-values (studentized bootstrap-t and CV3 jackknife), additive/OR breakdown thresholds, and implied unrecorded-case hospitalization rates at 95\% thresholds.}
+\caption{Pairwise ordering stability, simultaneous 30-hypothesis stepdown FWER p-values (studentized bootstrap-t and CV3 jackknife), additive/OR breakdown thresholds, and implied unrecorded-case hospitalization rates at 95\% thresholds.}
 \label{tab:pairwise_inference}
 \begin{tabular}{>{\raggedright\arraybackslash}p{2.1cm}>{\raggedleft\arraybackslash}p{1.85cm}>{\raggedleft\arraybackslash}p{1.85cm}>{\raggedleft\arraybackslash}p{1.8cm}>{\raggedleft\arraybackslash}p{0.95cm}>{\raggedleft\arraybackslash}p{1.8cm}>{\raggedleft\arraybackslash}p{1.85cm}>{\raggedleft\arraybackslash}p{1.65cm}}
 \toprule
-Ordering ($\delta$ = 0) & Bootstrap disjoint w/$\delta$=5 (\%) & Boot-t p (w/$\delta$=5) & CV3 p (w/$\delta$=5) & Sample $\delta^{*}$ & 95\% $\delta^{*}$ (Bt / CV3, ss) & Implied q at Bt $\delta^{*}$ (H/L \%) & OR 95\% $\Gamma^{*}$ (Bt / CV3) \\
+Ordering ($\delta$ = 0) & Boot disjoint (WC | $\delta$=5 \%) & Boot-t p (WC | $\delta$=5) & CV3 p (WC | $\delta$=5) & Sample $\delta^{*}$ & 95\% ss $\delta^{*}$ (Bt | CV3) & Implied q at Bt $\delta^{*}$ (H | L \%) & OR 95\% $\Gamma^{*}$ (Bt | CV3) \\
 \midrule
-STEC $>$ CAMP & 97.0 / 100.0 & 0.642 / $<$0.001 & 0.517 / $<$0.001 & $\infty$ & 47.0 / 57.0 & 0.0 / 55.6 & 7.0 / 17.6 \\
-STEC $>$ CPERF & 91.6 / 100.0 & 0.861 / $<$0.001 & 0.851 / $<$0.001 & $\infty$ & 56.3 / 55.2 & 0.0 / 57.4 & 31.3 / $>$50 \\
-STEC $>$ NoV GI & 93.6 / 100.0 & 0.752 / $<$0.001 & 0.517 / $<$0.001 & $\infty$ & 60.4 / 77.6 & 0.0 / 61.1 & 40.3 / $>$50 \\
-STEC $>$ NoV GII & 100.0 / 100.0 & 0.249 / $<$0.001 & 0.239 / $<$0.001 & $\infty$ & 79.2 / 83.5 & 0.0 / 80.9 & 34.9 / $>$50 \\
-SAL $>$ NoV GII & 14.2 / 100.0 & 1.000 / $<$0.001 & 1.000 / $<$0.001 & 81.6 & 46.8 / 47.7 & 0.0 / 48.5 & 22.6 / $>$50 \\
-SAL $>$ NoV GI & 14.5 / 100.0 & 1.000 / $<$0.001 & 1.000 / $<$0.001 & 76.5 & 37.0 / 43.6 & 0.0 / 37.8 & 25.7 / $>$50 \\
-SAL $>$ CPERF & 24.8 / 100.0 & 1.000 / $<$0.001 & 1.000 / $<$0.001 & 72.1 & 34.5 / 31.3 & 0.0 / 35.6 & 20.9 / 41.6 \\
-SAL $>$ CAMP & 4.2 / 100.0 & 1.000 / $<$0.001 & 1.000 / 0.039 & 51.1 & 13.7 / 4.5 & 5.5 / 22.4 & 3.2 / 1.8 \\
-STEC $>$ SAL & 0.6 / 100.0 & 1.000 / 0.002 & 1.000 / $<$0.001 & 41.3 & 11.5 / 19.1 & 20.4 / 29.6 & 2.3 / 2.7 \\
-CAMP $>$ NoV GI & 0.1 / 98.4 & 1.000 / $<$0.001 & 1.000 / $<$0.001 & 37.8 & 14.6 / 17.1 & 0.0 / 15.3 & 8.2 / 23.9 \\
-CAMP $>$ NoV GII & 0.0 / 100.0 & 1.000 / $<$0.001 & 1.000 / $<$0.001 & 37.1 & 13.9 / 15.9 & 0.0 / 15.6 & 6.0 / 12.4 \\
-CAMP $>$ CPERF & 1.8 / 100.0 & 1.000 / $<$0.001 & 1.000 / $<$0.001 & 35.5 & 13.5 / 12.3 & 0.0 / 14.6 & 6.8 / 11.2 \\
-NoV GII $>$ NoV GI & 0.0 / 35.2 & 1.000 / 1.000 & 1.000 / 0.999 & 4.2 & 1.0 / 0.67 & 0.6 / 1.7 & 1.9 / 1.6 \\
-NoV GII $>$ CPERF & 0.0 / 33.1 & 1.000 / 1.000 & 1.000 / 0.999 & 3.7 & 0.65 / 0.35 & 1.0 / 1.8 & 1.4 / 1.2 \\
-CPERF $>$ NoV GI & 0.0 / 0.0 & 1.000 / 1.000 & 1.000 / 1.000 & 0.19 & 0.00 / 0.00 & -- & 1.0 / 1.0 \\
+STEC $>$ CAMP & 97.0 | 100.0 & 0.642 | $<$0.001 & 0.517 | $<$0.001 & $\infty$ & 47.0 | 57.0 & 0.0 / 55.6 & 7.0 | 17.6 \\
+STEC $>$ CPERF & 91.6 | 100.0 & 0.861 | $<$0.001 & 0.851 | $<$0.001 & $\infty$ & 56.3 | 55.2 & 0.0 / 57.4 & 31.3 | $>$50 \\
+STEC $>$ NoV GI & 93.6 | 100.0 & 0.752 | $<$0.001 & 0.517 | $<$0.001 & $\infty$ & 60.4 | 77.6 & 0.0 / 61.1 & 40.3 | $>$50 \\
+STEC $>$ NoV GII & 100.0 | 100.0 & 0.249 | $<$0.001 & 0.239 | $<$0.001 & $\infty$ & 79.2 | 83.5 & 0.0 / 80.9 & 34.9 | $>$50 \\
+SAL $>$ NoV GII & 14.2 | 100.0 & 1.000 | $<$0.001 & 1.000 | $<$0.001 & 81.6 & 46.8 | 47.7 & 0.0 / 48.5 & 22.6 | $>$50 \\
+SAL $>$ NoV GI & 14.5 | 100.0 & 1.000 | $<$0.001 & 1.000 | $<$0.001 & 76.5 & 37.0 | 43.6 & 0.0 / 37.8 & 25.7 | $>$50 \\
+SAL $>$ CPERF & 24.8 | 100.0 & 1.000 | $<$0.001 & 1.000 | $<$0.001 & 72.1 & 34.5 | 31.3 & 0.0 / 35.6 & 20.9 | 41.6 \\
+SAL $>$ CAMP & 4.2 | 100.0 & 1.000 | $<$0.001 & 1.000 | 0.039 & 51.1 & 13.7 | 4.5 & 5.5 / 22.4 & 3.2 | 1.8 \\
+STEC $>$ SAL & 0.6 | 100.0 & 1.000 | 0.002 & 1.000 | $<$0.001 & 41.3 & 11.5 | 19.1 & 20.4 / 29.6 & 2.3 | 2.7 \\
+CAMP $>$ NoV GI & 0.1 | 98.4 & 1.000 | $<$0.001 & 1.000 | $<$0.001 & 37.8 & 14.6 | 17.1 & 0.0 / 15.3 & 8.2 | 23.9 \\
+CAMP $>$ NoV GII & 0.0 | 100.0 & 1.000 | $<$0.001 & 1.000 | $<$0.001 & 37.1 & 13.9 | 15.9 & 0.0 / 15.6 & 6.0 | 12.4 \\
+CAMP $>$ CPERF & 1.8 | 100.0 & 1.000 | $<$0.001 & 1.000 | $<$0.001 & 35.5 & 13.5 | 12.3 & 0.0 / 14.6 & 6.8 | 11.2 \\
+NoV GII $>$ NoV GI & 0.0 | 35.2 & 1.000 | 1.000 & 1.000 | 0.999 & 4.2 & 1.0 | 0.67 & 0.6 / 1.7 & 1.9 | 1.6 \\
+NoV GII $>$ CPERF & 0.0 | 33.1 & 1.000 | 1.000 & 1.000 | 0.999 & 3.7 & 0.65 | 0.35 & 1.0 / 1.8 & 1.4 | 1.2 \\
+CPERF $>$ NoV GI & 0.0 | 0.0 & 1.000 | 1.000 & 1.000 | 1.000 & 0.19 & 0.00 | 0.00 & -- & 1.0 | 1.0 \\
 \bottomrule
 \end{tabular}
-\par\smallskip\parbox{0.97\linewidth}{\footnotesize Abbreviations: ss = single-step; w = worst case. Bootstrap disjoint w/$\delta$=5 (\%) reports sample share of 2,000 resamples with disjoint bounds ($L_h$ $>$ $U_l$). Unified conservative joint rule (requiring both studentized bootstrap-t and CV3 jackknife p $\leq$ 0.05) rejects 0/30 at worst case and 12/30 at $\delta$ = 5 pp. Primary studentized bootstrap-t uses $\delta$-specific $c_{\mathrm{bt}}$($\delta$) (4.52 worst / 3.37 $\delta$=5; 15-hyp. $c_{\mathrm{bt}}$ = 4.44 / 3.21); CV3 leaves out 53 states (53/53 valid; $t_{52}$ c = 2.63, 0/30 worst, 12/30 $\delta$=5). Implied q at Bt $\delta^{*}$ (H/L \%) evaluates unrecorded hospitalization at ss 95\% Bt $\delta^{*}$ (STEC$>$SAL: 20.4\% vs 29.6\%; CAMP$>$CPERF: 0.0\% vs 14.6\%). Within-upper ss 95\% $\delta^{*}$: 11.5 pp (Bt, STEC$>$SAL) vs 4.5 pp (CV3, SAL$>$CAMP, 78.5\% from pooled Multistate variance vs 10.3 pp in R11; stepdown CV3 6.6 pp, p = 0.039 at $\delta$ = 5). OR 95\% $\Gamma^{*}$ (0.1\% floor; $>$50 capped where near-zero cells exceed 50) is ss (NoV GII$>$GI: 1.94 Bt, 1.63 CV3; sample $\Gamma^{*}$ under 0/0.1\%/1\% floors: 7.75/7.60/4.95).}
+\par\smallskip\parbox{0.97\linewidth}{\footnotesize Abbreviations: ss = single-step; WC = worst case; H | L = higher | lower group. Boot disjoint (WC | $\delta$=5 \%) reports sample share of 2,000 resamples with disjoint bounds ($L_h$ $>$ $U_l$). Dual-criterion rule (requiring both studentized bootstrap-t and CV3 jackknife p $\leq$ 0.05) rejects 0/30 at worst case, 12/30 at $\delta$ = 5 pp (stepdown; 11/30 single-step), and 14/30 at $\delta$ = 0. Primary studentized bootstrap-t uses $\delta$-specific $c_{\mathrm{bt}}$($\delta$) (4.52 WC | 3.37 $\delta$=5 | 3.05 $\delta$=0; 15-hyp. $c_{\mathrm{bt}}$ = 4.44 | 3.21); CV3 leaves out 53 states (53/53 valid; $t_{52}$ c = 2.63, 0/30 WC, 12/30 $\delta$=5). Implied q at Bt $\delta^{*}$ (H | L \%) evaluates unrecorded hospitalization at ss 95\% Bt $\delta^{*}$ (STEC$>$SAL: 20.4\% | 29.6\%; CAMP$>$CPERF: 0.0\% | 14.6\%). Within-upper ss 95\% $\delta^{*}$: 11.5 pp (Bt, STEC$>$SAL) vs 4.5 pp (CV3, SAL$>$CAMP, 78.5\% from pooled Multistate variance vs 10.3 pp in R11; stepdown CV3 6.6 pp, p = 0.039 at $\delta$ = 5 vs ss p = 0.054). OR 95\% $\Gamma^{*}$ (0.1\% floor; $>$50 capped) is ss (NoV GII$>$GI: 1.94 Bt | 1.63 CV3; sample $\Gamma^{*}$ under 0/0.1\%/1\% floors: 7.75/7.60/4.95).}
 \end{table}

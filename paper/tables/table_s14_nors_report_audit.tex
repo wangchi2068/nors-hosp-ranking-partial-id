@@ -1,0 +1,19 @@
+\begin{table}[!tbp]
+\centering
+\tiny
+\setlength{\tabcolsep}{1.7pt}
+\renewcommand{\arraystretch}{1.12}
+\caption{Structured methodological audit of the four published CDC NORS surveillance summaries motivated in Section 1 and Section 4.1.}
+\label{tab:nors_audit}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.4cm}>{\raggedright\arraybackslash}p{2.15cm}>{\raggedleft\arraybackslash}p{1.3cm}>{\raggedright\arraybackslash}p{2.2cm}>{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{4.2cm}}
+\toprule
+Report & Venue / Year & NORS years & Reported location & Hospitalization denominator & Missing-status assumption \\
+\midrule
+Dewey-Mattia et al. (2018) & MMWR Surveill Summ, 2018 & 2009--2015 & Results text \& Table 2 (pp. 4--11) & Total ill (H / C); K not tabulated & Implicitly equates all unrecorded outcomes $M_i$ = $C_i$ $-$ $K_i$ to non-hospitalized (recovers worst-case L); notes general NORS underreporting without paired bounds. \\
+Tack et al. (2021) & Microorganisms, 2021 & 2010--2017 (STEC) & Table 1 \& Section 3 (pp. 4--7) & Total ill (H / C); K not tabulated & Standardizes on H / C (recovers lower bound L); Limitations (p. 11) note missing hospitalization data may underestimate severity without quantifying [L, U] or $\delta^{*}$. \\
+CDC Annual Report (2019) & CDC NORS Portal, pub. 2026 & 2019 & Pathogen summary tables & Total ill (H / C); K not tabulated & Reports aggregate hospitalizations alongside total outbreak cases (recovers lower bound L) without paired H / K or unrecorded shares M / C. \\
+Wikswo et al. (2022) & Clin Infect Dis, 2022 & 2009--2019 & Table 1 \& Results (pp. 1908--1910) & Known status (H / K); M omitted & Divides by known hospitalization status (approximates pooled MAR anchor $\delta$ = 0) without paired H / C, worst-case upper bounds U, or breakdown points. \\
+\bottomrule
+\end{tabular}
+\par\smallskip\parbox{0.97\linewidth}{\footnotesize None of the four audited summaries was designed as a formal multiplicity-adjusted ranking study; Table 5 provides a drop-in extension adding paired H / K (or H / C), unrecorded shares M / C, standardized bounds, and breakdown points.}
+\end{table}

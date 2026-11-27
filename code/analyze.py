@@ -507,10 +507,13 @@ TEXT = OrderedDict(
 def summary_block(main_res) -> OrderedDict:
     out = OrderedDict()
     for g, pg in main_res["per_group"].items():
-        m = lambda v: OrderedDict(mean=v, std=None, n_seeds=1)
         out[pg["label"]] = OrderedDict(
-            L_worst_case=m(pg["L_worst"]), U_worst_case=m(pg["U_worst"]), theta_delta0=m(pg["theta_delta0"]),
-            L_delta5=m(pg["bounds_by_delta_pp"]["5"]["L"]), U_delta5=m(pg["bounds_by_delta_pp"]["5"]["U"]))
+            L_worst_case=float(pg["L_worst"]),
+            U_worst_case=float(pg["U_worst"]),
+            theta_delta0=float(pg["theta_delta0"]),
+            L_delta5=float(pg["bounds_by_delta_pp"]["5"]["L"]),
+            U_delta5=float(pg["bounds_by_delta_pp"]["5"]["U"]),
+        )
     return out
 
 
@@ -572,7 +575,7 @@ def main(argv=None):
     print(f"main: {main_res['n_cells']} cells, determined {dict(main_res['n_determined'])}", flush=True)
 
     res = OrderedDict()
-    res.update((k, TEXT[k]) for k in ("task", "task_slug", "dataset", "metrics", "metric_definitions"))
+    res.update((k, TEXT[k]) for k in ("task", "dataset", "metrics", "metric_definitions"))
     res["seeds"] = [SEED]
     res["statistics"] = TEXT["statistics"]
     res["simulated"] = False
@@ -588,7 +591,7 @@ def main(argv=None):
             (Path(__file__).parent / f).read_text(encoding="utf-8")
             for f in ("analyze.py", "bounds.py", "strata.py", "nors_rules.py", "bootstrap.py", "inference.py")
             if (Path(__file__).parent / f).exists()).encode()).hexdigest()[:16],
-        analysis_version="9.0", hardware="CPU only", wall_clock_seconds=None,
+        analysis_version="10.0", hardware="CPU only", wall_clock_seconds=None,
     )
     res["summary"] = summary_block(main_res)
     res["groups"] = OrderedDict((g, R.GROUP_LABELS[g]) for g in R.GROUPS)
@@ -659,14 +662,13 @@ def main(argv=None):
     res["cluster_double_bootstrap"] = up["cluster_double_bootstrap"]
     res["cluster_double_bootstrap_by_def"] = up["cluster_double_bootstrap_by_def"]
     res["parametric_calibration"] = up["parametric_calibration"]
+    res["stepdown_and_power_calibration"] = up["stepdown_and_power_calibration"]
+    res["conventional_ranking_benchmark"] = up["conventional_ranking_benchmark"]
     res["plausible_scenarios"] = up["plausible_scenarios"]
     res["empirical_calibration"] = up["empirical_calibration"]
     res["supplementary_audits"] = up["supplementary_audits"]
     print("stacked inference, plausible scenarios & calibrations done", flush=True)
     res["notes"] = TEXT["notes"]
-    res["estimates"] = []
-    res["estimates_note"] = ("Point-wise identification bounds appear in `main`; simultaneous 30-hypothesis inference "
-                             "and rank confidence sets appear in `stacked_inference`.")
     res["provenance"]["wall_clock_seconds"] = round(time.time() - t0, 1)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     with open(args.out, "w", encoding="utf-8", newline="\n") as fh:

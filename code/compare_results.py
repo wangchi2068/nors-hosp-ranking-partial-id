@@ -25,13 +25,15 @@ from pathlib import Path
 sys.dont_write_bytecode = True
 
 RUN_METADATA = {"timestamp", "spec_hash", "wall_clock_seconds", "analysis_version", "hardware", "cohort_sha256"}
-ADDED_OK = {"estimates", "estimates_note"}
+ADDED_OK = set()
 NUM_SECTIONS = {
     "stacked_inference",
     "small_sample_calibration",
     "cluster_double_bootstrap",
     "cluster_double_bootstrap_by_def",
     "parametric_calibration",
+    "stepdown_and_power_calibration",
+    "conventional_ranking_benchmark",
     "plausible_scenarios",
     "cluster_diagnostics",
     "empirical_calibration",

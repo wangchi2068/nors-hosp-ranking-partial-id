@@ -1,7 +1,7 @@
 {
  "source": "analysis/results.json",
- "spec_hash": "d236c54fb98585d1",
- "analysis_version": "9.0",
+ "spec_hash": "5d35e5f2a72b06e6",
+ "analysis_version": "10.0",
  "n_pairs": 15,
  "n_common_support_cells": 12,
  "determined_pairs": {
@@ -122,7 +122,7 @@
     "joint_upper_tier_min": 11.459435614780599,
     "joint_upper_tier_binding_pair": "SAL|STEC"
    },
-   "conservative_joint": {
+   "dual_criterion": {
     "within_upper_tier_min": 4.52785902425806,
     "within_upper_tier_binding_pair": "SAL|CAMP",
     "upper_vs_lower_tier_min": 12.336767868314602,
@@ -138,7 +138,7 @@
    "wcb": 0.4066666666666667,
    "cluster_boot_t": 0.33666666666666667,
    "bootstrap_t": 0.25,
-   "conservative_joint": 0.13
+   "dual_criterion": 0.13
   },
   "singleton_271": {
    "cv1_state": 0.2633333333333333,
@@ -146,7 +146,7 @@
    "cv3_t_df": 0.11,
    "wcb": 0.31,
    "bootstrap_t": 0.13,
-   "conservative_joint": 0.08
+   "dual_criterion": 0.08
   },
   "r11_52": {
    "cv1_state": 0.2833333333333333,
@@ -154,7 +154,7 @@
    "cv3_t_df": 0.10666666666666667,
    "wcb": 0.2833333333333333,
    "bootstrap_t": 0.15333333333333332,
-   "conservative_joint": 0.08333333333333333
+   "dual_criterion": 0.08333333333333333
   }
  },
  "plausible_scenarios": {
@@ -167,6 +167,16 @@
    "sample": 12,
    "boot_t": 12,
    "cv3": 12
+  },
+  "P_ext_external_surveillance": {
+   "sample": 14,
+   "boot_t": 14,
+   "cv3": 13
+  },
+  "P_ext_2x_lower": {
+   "sample": 14,
+   "boot_t": 13,
+   "cv3": 11
   }
  },
  "note": "Canonical summary across sample bounds, 30-hypothesis simultaneous inference, and 23 variants."

@@ -1,0 +1,10 @@
+World,Procedure,Partial-null δ=5 FWER (sd | ss %),Partial-null SAL>CAMP | 11-all (%),WC power: STEC>GII | any4 (%),δ=5 power: SAL>CAMP | mean/12
+Outbreak (400×499),HC1 Gaussian,16.0 | 12.8,0.2 | 97.0,75.2 | 87.0,98.5% | 11.96/12
+Outbreak (400×499),53-state CV1,6.5 | 5.0,0.0 | 95.5,48.0 | 74.0,83.2% | 11.77/12
+Outbreak (400×499),CV3 cluster jackknife,0.8 | 0.5,0.0 | 21.0,11.8 | 19.8,37.5% | 9.64/12
+Outbreak (400×499),Studentized bootstrap-t,8.5 | 6.0,0.0 | 93.5,26.0 | 38.2,97.2% | 11.91/12
+Outbreak (400×499),Dual-criterion (Boot-t & CV3),0.5 | 0.5,0.0 | 20.8,9.2 | 14.8,37.5% | 9.64/12
+53-state RE (300×399),CV1 cluster Gaussian,33.3 | 31.3,0.0 | 80.0,21.0 | 34.7,81.0% | 11.57/12
+53-state RE (300×399),CV3 cluster jackknife,12.3 | 11.0,0.0 | 38.7,8.7 | 13.3,53.7% | 10.30/12
+53-state RE (300×399),Studentized bootstrap-t,17.0 | 16.3,2.7 | 43.7,21.7 | 28.0,61.0% | 10.31/12
+53-state RE (300×399),Dual-criterion (Boot-t & CV3),6.0 | 5.0,0.0 | 29.7,6.7 | 10.7,44.7% | 9.62/12

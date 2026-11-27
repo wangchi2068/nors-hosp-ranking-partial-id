@@ -1,4 +1,4 @@
-"""Tables, figures, and statistical summary for the NORS hospitalization-ranking analysis (v9.0).
+"""Tables, figures, and statistical summary for the NORS hospitalization-ranking analysis (v10.0).
 
 Reads ONLY analysis/results.json (plus data/derived/etiology_mapping.csv for Supp. Table S4)
 so every table, figure, and text value shares one canonical source. Writes LF-normalized files.
@@ -194,7 +194,12 @@ def statistical_summary(base_dir: Path) -> None:
 
 
 def _fmt_ranks(rc: dict, order: list[str]) -> dict[str, str]:
-    return {NAME[g]: f"[{rc[g]['rank_lower']}, {rc[g]['rank_upper']}]" for g in order}
+    out = {}
+    for g in order:
+        v = rc[g]
+        lo, hi = (v[0], v[1]) if isinstance(v, (list, tuple)) else (v["rank_lower"], v["rank_upper"])
+        out[NAME[g]] = f"[{lo}, {hi}]"
+    return out
 
 
 def make_tables(r: dict, tdir: Path, write_tex: bool = True) -> None:
@@ -277,63 +282,70 @@ def make_tables(r: dict, tdir: Path, write_tex: bool = True) -> None:
         imp_str = "–" if imp_bt is None else f"{imp_bt['implied_unrec_high_pct']:.1f} / {imp_bt['implied_unrec_low_pct']:.1f}"
         rows.append({
             "Ordering (δ = 0)": pair_label(p, SHORT),
-            "Bootstrap disjoint w/δ=5 (%)": f"{pnum(b['share_holds_without_assumption'], 1)} / {pnum(1.0 - b['share_delta5_undetermined'], 1)}",
-            "Boot-t p (w/δ=5)": f"{fmt_p(sp['p_fwer_boot_t_worst'])} / {fmt_p(sp['p_fwer_boot_t_delta5'])}",
-            "CV3 p (w/δ=5)": f"{fmt_p(sp['p_fwer_cv3_worst'])} / {fmt_p(sp['p_fwer_cv3_delta5'])}",
+            "Boot disjoint (WC | δ=5 %)": f"{pnum(b['share_holds_without_assumption'], 1)} | {pnum(1.0 - b['share_delta5_undetermined'], 1)}",
+            "Boot-t p (WC | δ=5)": f"{fmt_p(sp['p_fwer_boot_t_worst'])} | {fmt_p(sp['p_fwer_boot_t_delta5'])}",
+            "CV3 p (WC | δ=5)": f"{fmt_p(sp['p_fwer_cv3_worst'])} | {fmt_p(sp['p_fwer_cv3_delta5'])}",
             "Sample δ*": fmt_ds_s(sp["delta_star_pt_pp"]),
-            "95% δ* (Bt / CV3, ss)": f"{fmt_ds_s(sp['delta_star_95_bt_pp'])} / {fmt_ds_s(sp['delta_star_95_cv3_pp'])}",
-            "Implied q at Bt δ* (H/L %)": imp_str,
-            "OR 95% Γ* (Bt / CV3)": f"{fmt_or_s(og['gamma_star_95_bt'])} / {fmt_or_s(og['gamma_star_95_cv3'])}",
+            "95% ss δ* (Bt | CV3)": f"{fmt_ds_s(sp['delta_star_95_bt_pp'])} | {fmt_ds_s(sp['delta_star_95_cv3_pp'])}",
+            "Implied q at Bt δ* (H | L %)": imp_str,
+            "OR 95% Γ* (Bt | CV3)": f"{fmt_or_s(og['gamma_star_95_bt'])} | {fmt_or_s(og['gamma_star_95_cv3'])}",
         })
     rb_bt = si["rank_breakdown_points_pp"]["bootstrap_t"]
     rb_c3 = si["rank_breakdown_points_pp"]["cv3"]
     sc = r["small_sample_calibration"]
     cc53 = r["cluster_double_bootstrap"]
     _emit("tab:pairwise_inference", "table_3_pairwise_inference", pd.DataFrame(rows),
-          "Pairwise ordering stability, simultaneous 30-hypothesis FWER p-values (studentized bootstrap-t and CV3 jackknife), "
+          "Pairwise ordering stability, simultaneous 30-hypothesis stepdown FWER p-values (studentized bootstrap-t and CV3 jackknife), "
           "additive/OR breakdown thresholds, and implied unrecorded-case hospitalization rates at 95% thresholds.",
           "".join([Lc(2.1), R(1.85), R(1.85), R(1.80), R(0.95), R(1.8), R(1.85), R(1.65)]),
-          notes=f"Abbreviations: ss = single-step; w = worst case. Bootstrap disjoint w/δ=5 (%) reports sample share of {bt['B']:,} resamples with disjoint bounds (L_h > U_l). "
-                f"Unified conservative joint rule (requiring both studentized bootstrap-t and CV3 jackknife p <= 0.05) rejects {si['n_fwer_cons_worst_sig']}/30 at worst case and {si['n_fwer_cons_delta5_sig']}/30 at δ = 5 pp. "
-                f"Primary studentized bootstrap-t uses δ-specific c_bt(δ) ({si['c_bt_worst']:.2f} worst / {si['c_bt_delta5']:.2f} δ=5; 15-hyp. c_bt = {si['c_bt_15_worst']:.2f} / {si['c_bt_15_delta5']:.2f}); "
-                f"CV3 leaves out 53 states ({si['cv3_n_valid_worst']}/53 valid; t_52 c = {si['c_sim_cv3_t_worst']:.2f}, 0/30 worst, 12/30 δ=5). "
-                f"Implied q at Bt δ* (H/L %) evaluates unrecorded hospitalization at ss 95% Bt δ* "
-                f"(STEC>SAL: {si['pairs']['SAL|STEC']['implied_at_delta_star_95']['boot_t']['implied_unrec_high_pct']:.1f}% vs {si['pairs']['SAL|STEC']['implied_at_delta_star_95']['boot_t']['implied_unrec_low_pct']:.1f}%; "
-                f"CAMP>CPERF: {si['pairs']['CAMP|CPERF']['implied_at_delta_star_95']['boot_t']['implied_unrec_high_pct']:.1f}% vs {si['pairs']['CAMP|CPERF']['implied_at_delta_star_95']['boot_t']['implied_unrec_low_pct']:.1f}%). "
-                f"Within-upper ss 95% δ*: {rb_bt['within_upper_tier_min']:.1f} pp (Bt, STEC>SAL) vs {rb_c3['within_upper_tier_min']:.1f} pp (CV3, SAL>CAMP, {100*si['rank_breakdown_points_pp']['cv3_sal_camp_multistate_var_share_root']:.1f}% from pooled Multistate variance vs {r['cluster_diagnostics']['multistate_sensitivity']['r11_full']['pair_breakdown_pp']['SAL|CAMP']['cv3']:.1f} pp in R11; stepdown CV3 {si['rank_breakdown_points_pp']['cv3_sal_camp_stepdown_pp']:.1f} pp, p = {si['pairs']['SAL|CAMP']['p_fwer_cv3_delta5']:.3f} at δ = 5). "
-                f"OR 95% Γ* (0.1% floor; >50 capped where near-zero cells exceed 50) is ss (NoV GII>GI: {oi['NOV_GI|NOV_GII']['gamma_star_95_bt']:.2f} Bt, {oi['NOV_GI|NOV_GII']['gamma_star_95_cv3']:.2f} CV3; sample Γ* under 0/0.1%/1% floors: 7.75/7.60/4.95).",
+          notes=f"Abbreviations: ss = single-step; WC = worst case; H | L = higher | lower group. Boot disjoint (WC | δ=5 %) reports sample share of {bt['B']:,} resamples with disjoint bounds (L_h > U_l). "
+                f"Dual-criterion rule (requiring both studentized bootstrap-t and CV3 jackknife p <= 0.05) rejects {si['n_fwer_dual_worst_sig']}/30 at worst case, {si['n_fwer_dual_delta5_sig']}/30 at δ = 5 pp (stepdown; {si['n_fwer_ss_dual_delta5_sig']}/30 single-step), and {si['n_fwer_dual_delta0_sig']}/30 at δ = 0. "
+                f"Primary studentized bootstrap-t uses δ-specific c_bt(δ) ({si['c_bt_worst']:.2f} WC | {si['c_bt_delta5']:.2f} δ=5 | {si['c_bt_delta0']:.2f} δ=0; 15-hyp. c_bt = {si['c_bt_15_worst']:.2f} | {si['c_bt_15_delta5']:.2f}); "
+                f"CV3 leaves out 53 states ({si['cv3_n_valid_worst']}/53 valid; t_52 c = {si['c_sim_cv3_t_worst']:.2f}, 0/30 WC, 12/30 δ=5). "
+                f"Implied q at Bt δ* (H | L %) evaluates unrecorded hospitalization at ss 95% Bt δ* "
+                f"(STEC>SAL: {si['pairs']['SAL|STEC']['implied_at_delta_star_95']['boot_t']['implied_unrec_high_pct']:.1f}% | {si['pairs']['SAL|STEC']['implied_at_delta_star_95']['boot_t']['implied_unrec_low_pct']:.1f}%; "
+                f"CAMP>CPERF: {si['pairs']['CAMP|CPERF']['implied_at_delta_star_95']['boot_t']['implied_unrec_high_pct']:.1f}% | {si['pairs']['CAMP|CPERF']['implied_at_delta_star_95']['boot_t']['implied_unrec_low_pct']:.1f}%). "
+                f"Within-upper ss 95% δ*: {rb_bt['within_upper_tier_min']:.1f} pp (Bt, STEC>SAL) vs {rb_c3['within_upper_tier_min']:.1f} pp (CV3, SAL>CAMP, {100*si['rank_breakdown_points_pp']['cv3_sal_camp_multistate_var_share_root']:.1f}% from pooled Multistate variance vs {r['cluster_diagnostics']['multistate_sensitivity']['r11_full']['pair_breakdown_pp']['SAL|CAMP']['cv3']:.1f} pp in R11; stepdown CV3 {si['rank_breakdown_points_pp']['cv3_sal_camp_stepdown_pp']:.1f} pp, p = {si['pairs']['SAL|CAMP']['p_fwer_cv3_delta5']:.3f} at δ = 5 vs ss p = {si['pairs']['SAL|CAMP']['p_ss_cv3_delta5']:.3f}). "
+                f"OR 95% Γ* (0.1% floor; >50 capped) is ss (NoV GII>GI: {oi['NOV_GI|NOV_GII']['gamma_star_95_bt']:.2f} Bt | {oi['NOV_GI|NOV_GII']['gamma_star_95_cv3']:.2f} CV3; sample Γ* under 0/0.1%/1% floors: 7.75/7.60/4.95).",
           sep="1.8pt")
 
-    # MAIN TABLE 4: Conditional nominal 95% rank confidence sets across specifications, plausibility regimes & scales
+    # MAIN TABLE 4: Conventional baselines vs approximate conditioned 95% rank sets across specifications, plausibility regimes & scales
     rcs = si["rank_confidence_sets"]
     cwi = si["coarser_and_weighting_inference"]
-    r11 = r["cluster_diagnostics"]["multistate_sensitivity"]["r11_full"]
     pl = r["plausible_scenarios"]
+    cb = r["conventional_ranking_benchmark"]
     oi_bg = si["or_inference"]["by_gamma"]
     rank_scenarios = [
-        ("Worst case: Case-weighted (Joint Boot-t & CV3)", rcs["worst_cons"]),
+        ("Baseline: Marginal Wilson 95% CI (pooled H_rec/K_rec)", cb["marginal_wilson_hk"]["ranks"]),
+        ("Baseline: Marginal 2,000-rep bootstrap (std. δ = 0)", cb["marginal_bootstrap_delta0"]["ranks"]),
+        ("Baseline: EB Beta-Binomial across outbreaks (Laird–Louis)", cb["eb_betabinom_outbreak"]["ranks"]),
+        ("Baseline: EB Beta-Binomial across 53 states (Laird–Louis)", cb["eb_betabinom_state"]["ranks"]),
+        ("Baseline: Simultaneous δ = 0 MAR (Dual-criterion)", rcs["delta0_dual"]),
+        ("Worst case: Case-weighted (Dual Boot-t & CV3)", rcs["worst_dual"]),
         ("Worst case: Case-weighted (HC1 / CV1)", rcs["worst_hc1"]),
-        ("Worst case: R10 Equal outbreak wt. (Joint / Boot-t)", cwi["R10_outbreak_weighted"]["ranks"]["worst_boot_t"]),
-        ("Worst case: R2 Period-only / R11 Single-state (Joint)", cwi["R2_period_only"]["ranks"]["worst_cv3"]),
-        ("Plausibility P1 (Lower <=5%, Upper p_js ±50%) (Joint)", pl["P1_lower5_upper50pct"]["ranks_cv3"]),
-        ("Plausibility P2 (Lower <=10%, Upper p_js ±50%) (Joint)", pl["P2_lower10_upper50pct"]["ranks_cv3"]),
-        ("Additive δ = 5 pp (Joint Boot-t & CV3)", rcs["delta5_cons"]),
-        ("Diagnostic asymmetric (-10/+5 SAL, -7/+5 CAMP) (Joint)", rcs["diag_asym_cv3"]),
+        ("Worst case: R10 Equal outbreak wt. (Dual / Boot-t)", cwi["R10_outbreak_weighted"]["ranks"]["worst_boot_t"]),
+        ("Worst case: R2 Period-only / R11 Single-state (Dual)", cwi["R2_period_only"]["ranks"]["worst_cv3"]),
+        ("External anchors P_ext (FoodNet/Scallan; Dual)", pl["P_ext_external_surveillance"]["ranks_dual"]),
+        ("External anchors P_ext_2x ([0, 2%] lower tier; Dual)", pl["P_ext_2x_lower"]["ranks_dual"]),
+        ("Plausibility P1/P2 (Lower <=5%/<=10%, Upper p_js ±50%; Dual)", pl["P1_lower5_upper50pct"]["ranks_dual"]),
+        ("Additive δ = 5 pp (Single-step Dual & CV3)", rcs["delta5_dual_ss"]),
+        ("Additive δ = 5 pp (Stepdown Dual & CV3)", rcs["delta5_dual"]),
+        ("Diagnostic asym. (-10/+5 SAL, -7/+5 CAMP; Dual)", rcs["diag_asym_cv3"]),
         ("OR scale Γ = 2.0 (0.1% floor, Stepdown Boot-t)", oi_bg["2.0"]["ranks"]["boot_t"]),
-        ("OR scale Γ = 2.0 (0.1% floor, Joint / Stepdown CV3)", oi_bg["2.0"]["ranks"]["cv3"]),
-        ("OR scale Γ = 3.0 (0.1% floor, Joint / Stepdown CV3)", oi_bg["3.0"]["ranks"]["cv3"]),
+        ("OR scale Γ = 2.0 (0.1% floor, Dual / Stepdown CV3)", oi_bg["2.0"]["ranks"]["cv3"]),
+        ("OR scale Γ = 3.0 (0.1% floor, Dual / Stepdown CV3)", oi_bg["3.0"]["ranks"]["cv3"]),
     ]
     rows = []
     for lbl, rmap in rank_scenarios:
         rows.append({"Scenario / Procedure": lbl, **_fmt_ranks(rmap, order)})
     _emit("tab:rank_sets", "table_4_rank_sets_summary", pd.DataFrame(rows),
-          "Conditioned nominal simultaneous 95% rank confidence sets [1 = highest, 6 = lowest] across weighting specifications, "
-          "plausibility intervals (P1–P2), additive departures, and odds-ratio (OR) scaling.",
-          "".join([Lc(4.15)] + [R(1.74)] * 6),
-          notes=f"Rank sets are conditioned on each stated missingness assumption and use the conservative joint rule (both Boot-t and CV3 reject; Table S10 empirical FWER 3.0%/1.0% outbreak, 4.7%/2.0% LogNormal, 13.0%/7.3% 53-cluster RE, 8.0%/3.0% 271-cluster, 8.3%/4.7% 52-state R11). "
-                f"R10 targets an equal-outbreak-average estimand (fixing w_s), rejecting {cwi['R10_outbreak_weighted']['n_sig_worst']['boot_t']}/30 (Boot-t p = {cwi['R10_outbreak_weighted']['stec_nov_gii_p_worst']['boot_t']:.3f}) and {cwi['R10_outbreak_weighted']['n_sig_worst']['cv3']}/30 (CV3) at worst case, whereas case-weighted R2 and R11 yield [1, 6] (R2 δ=5: {cwi['R2_period_only']['n_sig_delta5']['cv3']}/30 CV3 vs 12/30 Boot-t). "
-                f"OR Γ = 2.0 rejects {oi_bg['2.0']['n_sig']['boot_t']}/30 under stepdown Boot-t (separating NoV GII [4, 5] > GI [5, 6]; ss Γ* = {oi['NOV_GI|NOV_GII']['gamma_star_95_bt']:.2f}) but {oi_bg['2.0']['n_sig']['cv3']}/30 under CV3 and conservative joint (both [4, 6]; ss CV3 Γ* = {oi['NOV_GI|NOV_GII']['gamma_star_95_cv3']:.2f}).",
-          sep="2.0pt")
+          "Conventional ranking baselines and approximate conditioned simultaneous 95% rank confidence sets [1 = highest, 6 = lowest] across weighting specifications, external/internal plausibility intervals, additive departures, and OR scaling.",
+          "".join([Lc(4.45)] + [R(1.65)] * 6),
+          notes=f"Rows 1–4 summarize conventional marginal/hierarchical baselines (details in Table S13); rows 5–18 summarize simultaneous rank sets conditioned on each missingness assumption under the dual-criterion (Boot-t & CV3) rule. Because realized FWER is 7.3%–13.0% under 53-cluster random effects (3.0%/1.0% outbreak, 4.7%/2.0% LogNormal, 8.0%/3.0% 271-cluster, 8.3%/4.7% R11; Tables S10–S11), rank sets carry an approximate rather than exact 95% guarantee. "
+                f"Under δ = 5 pp, single-step Dual/CV3 yields [2, 3] for SAL/CAMP (11/30; CV3 ss p = {si['pairs']['SAL|CAMP']['p_ss_cv3_delta5']:.3f}) whereas stepdown yields [2, 2]/[3, 3] (12/30; p = {si['pairs']['SAL|CAMP']['p_fwer_cv3_delta5']:.3f}). "
+                f"R10 targets an equal-outbreak-average estimand (fixing w_s), rejecting {cwi['R10_outbreak_weighted']['n_sig_worst']['boot_t']}/30 (Boot-t p = {cwi['R10_outbreak_weighted']['stec_nov_gii_p_worst']['boot_t']:.3f}) and {cwi['R10_outbreak_weighted']['n_sig_worst']['cv3']}/30 (CV3) at worst case. "
+                f"OR Γ = 2.0 rejects {oi_bg['2.0']['n_sig']['boot_t']}/30 under stepdown Boot-t (separating NoV GII [4, 5] > GI [5, 6]; ss Γ* = {oi['NOV_GI|NOV_GII']['gamma_star_95_bt']:.2f}) but {oi_bg['2.0']['n_sig']['cv3']}/30 under CV3/Dual (both [4, 6]; ss Γ* = {oi['NOV_GI|NOV_GII']['gamma_star_95_cv3']:.2f}).",
+          size="tiny", sep="1.9pt")
 
     # SUPP TABLE S1: Audit
     a = r["audit"]["record_audit_summary"]
@@ -544,59 +556,146 @@ def make_tables(r: dict, tdir: Path, write_tex: bool = True) -> None:
                 f"WCB {si['pairs']['STEC|NOV_GII']['p_fwer_wcb_worst']:.3f}/{si['wild_cluster_bootstrap']['worst']['c_wcb_sim']:.2f}/1; "
                 f"CV3 {si['pairs']['STEC|NOV_GII']['p_fwer_cv3_worst']:.3f}/{si['c_sim_cv3_worst']:.2f}/0 (t_52 crit {si['c_sim_cv3_t_worst']:.2f}, p={si['stec_nov_gii_p_cv3_t_worst']:.3f}); "
                 f"cluster boot-t {si['pairs']['STEC|NOV_GII']['p_fwer_cluster_bt_worst']:.3f}/{si['c_cbt_worst']:.2f}/0; "
-                f"boot-t {si['pairs']['STEC|NOV_GII']['p_fwer_boot_t_worst']:.3f}/{si['c_bt_worst']:.2f}/0 (15-hyp. c = {si['c_bt_15_worst']:.2f}); conservative joint {si['n_fwer_cons_worst_sig']}/30. At δ = 5 pp, all 6 reject 12 (15-hyp. Boot-t c = {si['c_bt_15_delta5']:.2f}). "
+                f"boot-t {si['pairs']['STEC|NOV_GII']['p_fwer_boot_t_worst']:.3f}/{si['c_bt_worst']:.2f}/0 (15-hyp. c = {si['c_bt_15_worst']:.2f}); dual-criterion {si['n_fwer_dual_worst_sig']}/30. At δ = 5 pp, all 6 reject 12 stepdown (15-hyp. Boot-t c = {si['c_bt_15_delta5']:.2f}; CV3 SAL>CAMP p = {si['pairs']['SAL|CAMP']['p_fwer_cv3_delta5']:.3f} stepdown vs {si['pairs']['SAL|CAMP']['p_ss_cv3_delta5']:.3f} ss). "
                 f"Multistate score variance share: {100*cw_w['max_variance_share']:.1f}% worst (plug-in G_eff = {cw_w['effective_clusters_g_eff']:.2f}) and {100*cw_5['max_variance_share']:.1f}% δ = 5 (G_eff = {cw_5['effective_clusters_g_eff']:.2f}); "
-                f"271-singleton yields {ms['n_sig_singleton_worst']}/30 CV1 (STEC>NoV GII p = {ms['stec_nov_gii_p_singleton_cv1_worst']:.3f}) and {ms['n_sig_singleton_cv3_worst']}/30 CV3 (p = {ms['stec_nov_gii_p_singleton_cv3_worst']:.3f}) at worst case (both 12/30 at δ = 5), while 52-state R11 yields 0/30 worst case and 12/30 δ = 5 across all 5 methods. Across {loo['n_outbreaks_checked']:,} LOO (and 6-group LLO) deletions, sample worst-case determination stays {loo['wc_determined_range'][0]}–{loo['wc_determined_range'][1]} ({llo['wc_determined']} LLO; min worst-case margin {loo['most_influential_single_outbreak']['min_margin_pp']:.2f} pp on {loo['most_influential_single_outbreak']['pair']} after removing Ohio {int(loo['most_influential_single_outbreak']['cases'])}-case CPERF outbreak).",
+                f"271-singleton yields {ms['n_sig_singleton_worst']}/30 CV1 (STEC>NoV GII p = {ms['stec_nov_gii_p_singleton_cv1_worst']:.3f}) and {ms['n_sig_singleton_cv3_worst']}/30 CV3 (p = {ms['stec_nov_gii_p_singleton_cv3_worst']:.3f}) at worst case (both 12/30 at δ = 5), while 52-state R11 yields 0/30 worst case and 12/30 δ = 5 across all 5 methods. Across {loo['n_outbreaks_checked']:,} LOO (and 6-group LLO) deletions, sample worst-case determination stays {loo['wc_determined_range'][0]}–{loo['wc_determined_range'][1]} ({llo['wc_determined']} LLO; min worst-case margin {loo['most_influential_single_outbreak']['min_margin_pp']:.2f} pp on {loo['most_influential_single_outbreak']['pair']} after removing Ohio {int(loo['most_influential_single_outbreak']['cases'])}-case CPERF outbreak); across top-10 largest outbreaks, HC1/CV3 rejection counts remain invariant (1/30 HC1, 0/30 CV3 at WC; 12/30 at δ = 5).",
           sep="2.1pt")
 
-    # SUPP TABLE S10: Complete Double-Bootstrap & Parametric Heavy-Tail Calibration Matrix (M3, M4, m2)
+    # SUPP TABLE S10: Complete Double-Bootstrap, Partial-Null Stepdown vs Single-Step, and Empirical Power Matrix (M1, M7, M8)
     cc_def = r["cluster_double_bootstrap_by_def"]
     pc = r["parametric_calibration"]
+    spc = r["stepdown_and_power_calibration"]
     rows = []
     for k_m, lbl_m in [("hc0", "HC0 Gaussian (df-uncorrected)"), ("hc1", "HC1 Gaussian"),
                        ("fixed_scale_boot", "Fixed-scale std. bootstrap"), ("state", "53-state CV1 Gaussian"),
                        ("wcb", "Unrestricted Rademacher WCB"), ("cv3_jackknife", "CV3 cluster jackknife"),
-                       ("bootstrap_t", "Studentized bootstrap-t"), ("conservative_joint", "Conservative joint (Boot-t & CV3)")]:
+                       ("bootstrap_t", "Studentized bootstrap-t"), ("dual_criterion", "Dual-criterion (Boot-t & CV3)")]:
         rows.append({
-            "Calibration world": f"Outbreak ({sc['n_mc']}×{sc['B_inner']})",
+            "Calibration world": f"Global null: Outbreak ({sc['n_mc']}×{sc['B_inner']})",
             "Procedure": lbl_m,
-            "Worst FWER ± SE (%)": f"{100*sc['fwer_worst'][k_m]:.1f} ± {100*sc['fwer_worst_mc_se'][k_m]:.1f}",
-            "δ=5 FWER ± SE (%)": f"{100*sc['fwer_delta5'][k_m]:.1f} ± {100*sc['fwer_delta5_mc_se'][k_m]:.1f}",
-            "World note": f"Boot-t inner c: {sc['inner_c_bt_worst_summary']['p5']:.2f}–{sc['inner_c_bt_worst_summary']['p95']:.2f}" if k_m == "bootstrap_t" else "No state correlation simulated",
+            "Worst / Primary (%)": f"{100*sc['fwer_worst'][k_m]:.1f} ± {100*sc['fwer_worst_mc_se'][k_m]:.1f}",
+            "δ=5 / Sec. (%)": f"{100*sc['fwer_delta5'][k_m]:.1f} ± {100*sc['fwer_delta5_mc_se'][k_m]:.1f}",
+            "World note": f"Boot-t inner c: {sc['inner_c_bt_worst_summary']['p5']:.2f}–{sc['inner_c_bt_worst_summary']['p95']:.2f}" if k_m == "bootstrap_t" else "No state correlation; global null (sd = ss)",
         })
-    for c_key, c_lbl in [("state_53", "Cluster 53-state"), ("singleton_271", "Cluster 271-singleton"), ("r11_52", "Cluster 52-state R11")]:
+    for c_key, c_lbl in [("state_53", "Global null: 53-state RE"), ("singleton_271", "Global null: 271-singleton RE"), ("r11_52", "Global null: 52-state R11 RE")]:
         cd_b = cc_def[c_key]
         for k_c, lbl_c in [("cv1_state", "CV1 cluster Gaussian"), ("wcb", "Unrestricted Rademacher WCB"),
                            ("cluster_boot_t", "Bayesian cluster boot-t"), ("bootstrap_t", "Studentized bootstrap-t"),
                            ("cv3_jackknife", "CV3 cluster jackknife"), ("cv3_t_df", "CV3 jackknife (t_{G-1})"),
-                           ("conservative_joint", "Conservative joint (Boot-t & CV3)")]:
+                           ("dual_criterion", "Dual-criterion (Boot-t & CV3)")]:
             if k_c not in cd_b["fwer_worst"]:
                 continue
             rows.append({
                 "Calibration world": f"{c_lbl} ({cd_b['n_mc']}×{cd_b['B_inner']})",
                 "Procedure": lbl_c,
-                "Worst FWER ± SE (%)": f"{100*cd_b['fwer_worst'][k_c]:.1f} ± {100*cd_b['fwer_worst_mc_se'][k_c]:.1f}",
-                "δ=5 FWER ± SE (%)": f"{100*cd_b['fwer_delta5'][k_c]:.1f} ± {100*cd_b['fwer_delta5_mc_se'][k_c]:.1f}",
-                "World note": f"Random-size Cluster RE + Beta-Binom (SE/SD: CV1 {cd_b['median_se_ratio_cv1']:.2f}, CV3 {cd_b['median_se_ratio_cv3']:.2f})",
+                "Worst / Primary (%)": f"{100*cd_b['fwer_worst'][k_c]:.1f} ± {100*cd_b['fwer_worst_mc_se'][k_c]:.1f}",
+                "δ=5 / Sec. (%)": f"{100*cd_b['fwer_delta5'][k_c]:.1f} ± {100*cd_b['fwer_delta5_mc_se'][k_c]:.1f}",
+                "World note": f"Random-size RE + Beta-Binom (SE/SD: CV1 {cd_b['median_se_ratio_cv1']:.2f}, CV3 {cd_b['median_se_ratio_cv3']:.2f})",
             })
     for k_p, lbl_p in [("hc1", "HC1 Gaussian"), ("cv3_jackknife", "CV3 cluster jackknife"),
-                       ("bootstrap_t", "Studentized bootstrap-t"), ("conservative_joint", "Conservative joint (Boot-t & CV3)")]:
+                       ("bootstrap_t", "Studentized bootstrap-t"), ("dual_criterion", "Dual-criterion (Boot-t & CV3)")]:
         rows.append({
-            "Calibration world": f"Parametric LogNorm ({pc['n_mc']}×{pc['B_inner']})",
+            "Calibration world": f"Global null: LogNorm ({pc['n_mc']}×{pc['B_inner']})",
             "Procedure": lbl_p,
-            "Worst FWER ± SE (%)": f"{100*pc['fwer_worst'][k_p]:.1f} ± {100*pc['fwer_worst_mc_se'][k_p]:.1f}",
-            "δ=5 FWER ± SE (%)": f"{100*pc['fwer_delta5'][k_p]:.1f} ± {100*pc['fwer_delta5_mc_se'][k_p]:.1f}",
+            "Worst / Primary (%)": f"{100*pc['fwer_worst'][k_p]:.1f} ± {100*pc['fwer_worst_mc_se'][k_p]:.1f}",
+            "δ=5 / Sec. (%)": f"{100*pc['fwer_delta5'][k_p]:.1f} ± {100*pc['fwer_delta5_mc_se'][k_p]:.1f}",
             "World note": f"LogNorm + Beta-Binom (HC1 SE/obs {pc['median_synthetic_vs_observed_hc1_se_ratio']:.2f})",
         })
+    # Partial-null Stepdown vs Single-step FWER & Empirical Power rows go in dedicated Table S11
     pg_L = [sc["per_group"][g]["ratio_hc1_to_mc_L"] for g in order]
     pg_U = [sc["per_group"][g]["ratio_hc1_to_mc_U"] for g in order]
     _emit("tab:small_cal", "table_s10_calibration", pd.DataFrame(rows),
-          "Empirical 30-hypothesis FWER (%) under least-favourable boundary nulls (nominal 5.0%) across outbreak, three cluster definitions (53/271/52), and parametric heavy-tail worlds.",
-          "".join([Lc(3.35), Lc(3.45), R(2.35), R(2.35), Lc(3.1)]),
-          notes=f"Pointwise Imbens-Manski 95% boundary coverage (15 primary pairs, outbreak world): {100*sc['im95_min_endpoint_cov_hc1']:.1f}% min to {100*sc['im95_median_endpoint_cov_hc1']:.1f}% median (HC1). "
-                f"Per-group HC1 SE / MC SD ratios: {min(pg_L):.3f}–{max(pg_L):.3f} (L_j) and {min(pg_U):.3f}–{max(pg_U):.3f} (U_j). "
-                f"Conservative joint (requiring both Boot-t and CV3 p <= 0.05) achieves <=5.0% FWER in outbreak (3.0%/1.0%) and LogNormal (4.7%/2.0%) worlds and strictly improves on all single procedures under random-size cluster RE (13.0%/7.3% 53-cluster; 8.0%–8.3% worst and 3.0%–4.7% at δ = 5 across 271/52 clusters).",
-          size="tiny", sep="2.0pt")
+          "Empirical 30-hypothesis global-null FWER (%) under least-favourable boundary nulls (nominal 5.0%) across outbreak, three cluster definitions (53/271/52), and parametric heavy-tail worlds.",
+          "".join([Lc(3.3), Lc(3.05), R(2.2), R(2.6), Lc(3.35)]),
+          notes=f"Under global nulls, stepdown equals single-step FWER identically; dual-criterion achieves <=5.0% FWER in outbreak (3.0%/1.0%) and LogNormal (4.7%/2.0%) worlds and lowers cluster-RE over-rejection to 13.0%/7.3% (53-cluster) and 8.0%–8.3% / 3.0%–4.7% (271/52-cluster). "
+                f"Pointwise Imbens-Manski 95% boundary coverage (outbreak world): {100*sc['im95_min_endpoint_cov_hc1']:.1f}% min to {100*sc['im95_median_endpoint_cov_hc1']:.1f}% median (HC1); per-group HC1 SE / MC SD ratios {min(pg_L):.3f}–{max(pg_L):.3f} (L_j) and {min(pg_U):.3f}–{max(pg_U):.3f} (U_j).",
+          size="tiny", sep="1.7pt")
+
+    # SUPP TABLE S11: Partial-Null Stepdown vs Single-Step FWER and Empirical-Alternative Power (M7, M8)
+    rows_sp = []
+    for w_key, w_lbl, k_map, pw_key in [
+        ("outbreak_partial_null_d5", "Outbreak (400×499)", [("hc1", "HC1 Gaussian"), ("state", "53-state CV1"), ("cv3_jackknife", "CV3 cluster jackknife"), ("bootstrap_t", "Studentized bootstrap-t"), ("dual_criterion", "Dual-criterion (Boot-t & CV3)")], "outbreak_empirical_power"),
+        ("cluster_53_partial_null_d5", "53-state RE (300×399)", [("cv1_state", "CV1 cluster Gaussian"), ("cv3_jackknife", "CV3 cluster jackknife"), ("bootstrap_t", "Studentized bootstrap-t"), ("dual_criterion", "Dual-criterion (Boot-t & CV3)")], "cluster_53_empirical_power"),
+    ]:
+        pn = spc[w_key]; ep = spc[pw_key]
+        for kp, lp in k_map:
+            rows_sp.append({
+                "World": w_lbl,
+                "Procedure": lp,
+                "Partial-null δ=5 FWER (sd | ss %)": f"{100*pn['fwer_stepdown'][kp]:.1f} | {100*pn['fwer_single_step'][kp]:.1f}",
+                "Partial-null SAL>CAMP | 11-all (%)": f"{100*pn['sal_camp_false_rej_stepdown'][kp]:.1f} | {100*pn['strong11_all_power'][kp]:.1f}",
+                "WC power: STEC>GII | any4 (%)": f"{100*ep['wc_stec_nov_gii_power'][kp]:.1f} | {100*ep['wc_any4_power'][kp]:.1f}",
+                "δ=5 power: SAL>CAMP | mean/12": f"{100*ep['d5_sal_camp_power'][kp]:.1f}% | {ep['d5_mean12_rejected'][kp]:.2f}/12",
+            })
+    _emit("tab:stepdown_power", "table_s11_stepdown_power", pd.DataFrame(rows_sp),
+          "Partial-null δ = 5 pp stepdown vs. single-step FWER (%) and empirical-alternative power across outbreak and 53-cluster random-effects worlds.",
+          "".join([Lc(2.4), Lc(3.15), R(2.3), R(2.25), R(2.2), R(2.25)]),
+          notes="Partial-null δ = 5 pp retains empirical true margins on the 11 strongly separated pairs while centering SAL|CAMP, 3 lower-tier pairs, and 15 reversed pairs at zero (19 nulls). Empirical-alternative power evaluates uncentered empirical worlds (4 separated pairs at worst case; 12 upper-tier pairs at δ = 5 pp).",
+          size="tiny", sep="1.7pt")
+
+    # SUPP TABLE S12: Full 15-Pair Decomposition Across δ = 0, δ = 5 pp, and Worst Case (Separating Sampling vs Missingness Uncertainty) (M5)
+    rows = []
+    for k, p in sorted_pairs(m):
+        sp = si["pairs"][k]
+        rows.append({
+            "Ordering (δ = 0)": pair_label(p, SHORT),
+            "Lower diff. pp (δ=0 | δ=5 | WC)": f"{100*sp['dL_delta0']:.1f} | {100*sp['dL_delta5']:.1f} | {100*sp['dL_worst']:.1f}",
+            "z HC1 (δ=0 | δ=5 | WC)": f"{sp['z_dL_hc1_delta0']:.2f} | {sp['z_dL_hc1_delta5']:.2f} | {sp['z_dL_hc1']:.2f}",
+            "z CV3 (δ=0 | δ=5 | WC)": f"{sp['z_dL_cv3_delta0']:.2f} | {sp['z_dL_cv3_delta5']:.2f} | {sp['z_dL_cv3']:.2f}",
+            "HC1 p (δ=0 | δ=5 | WC)": f"{fmt_p(sp['p_fwer_hc1_delta0'])} | {fmt_p(sp['p_fwer_delta5'])} | {fmt_p(sp['p_fwer_worst'])}",
+            "Boot-t p (δ=0 | δ=5 | WC)": f"{fmt_p(sp['p_fwer_boot_t_delta0'])} | {fmt_p(sp['p_fwer_boot_t_delta5'])} | {fmt_p(sp['p_fwer_boot_t_worst'])}",
+            "CV3 p (δ=0 | δ=5 | WC)": f"{fmt_p(sp['p_fwer_cv3_delta0'])} | {fmt_p(sp['p_fwer_cv3_delta5'])} | {fmt_p(sp['p_fwer_cv3_worst'])}",
+        })
+    _emit("tab:pair_delta_decomp", "table_s12_pair_delta_comparison", pd.DataFrame(rows),
+          "Per-pair decomposition separating sampling uncertainty (δ = 0 MAR) from identification uncertainty (δ = 5 pp and worst case) across all 15 primary comparisons.",
+          "".join([Lc(2.1), R(2.2), R(2.05), R(2.05), R(2.0), R(2.0), R(2.0)]),
+          notes=f"Max-T critical values (30 hypotheses): HC1 {si['c_sim_delta0']:.2f} (δ=0) | {si['c_sim_delta5']:.2f} (δ=5) | {si['c_sim_worst']:.2f} (WC); "
+                f"CV3 {si['c_sim_cv3_delta0']:.2f} | {si['c_sim_cv3_delta5']:.2f} | {si['c_sim_cv3_worst']:.2f}; "
+                f"Boot-t {si['c_bt_delta0']:.2f} | {si['c_bt_delta5']:.2f} | {si['c_bt_worst']:.2f}. "
+                f"Under δ = 0 MAR, 14/30 hypotheses reject across all procedures (leaving only CPERF vs NoV GI tied); at δ = 5 pp, single-step Dual/CV3 rejects {si['n_fwer_ss_dual_delta5_sig']}/30 (SAL>CAMP ss p = {si['pairs']['SAL|CAMP']['p_ss_cv3_delta5']:.3f}) while stepdown rejects 12/30; at worst case, HC1/CV1 reject 1/30 while CV3, Boot-t, and Dual reject 0/30.",
+          size="tiny", sep="1.6pt")
+
+    # SUPP TABLE S13: Detailed Conventional vs Hierarchical EB Beta-Binomial vs Partial-ID Benchmark (M13)
+    wil = cb["marginal_wilson_hk"]["per_group"]
+    mb0 = cb["marginal_bootstrap_delta0"]["per_group"]
+    ebo = cb["eb_betabinom_outbreak"]["per_group"]
+    ebs = cb["eb_betabinom_state"]["per_group"]
+    rows = []
+    for g in order:
+        rows.append({
+            "Pathogen": NAME[g],
+            "Wilson H/K % [95% CI]": f"{100*wil[g]['est']:.2f} [{100*wil[g]['ci_lo']:.2f}, {100*wil[g]['ci_hi']:.2f}]",
+            "Marg. Boot δ=0 % [CI]": f"{100*mb0[g]['est']:.2f} [{100*mb0[g]['ci_lo']:.2f}, {100*mb0[g]['ci_hi']:.2f}]",
+            "EB Outbreak % [CrI] (Rk)": f"{100*ebo[g]['post_mean']:.2f} [{100*ebo[g]['ci_lo']:.2f}, {100*ebo[g]['ci_hi']:.2f}] ({ebo[g]['post_mean_rank']:.2f})",
+            "EB 53-State % [CrI] (Rk)": f"{100*ebs[g]['post_mean']:.2f} [{100*ebs[g]['ci_lo']:.2f}, {100*ebs[g]['ci_hi']:.2f}] ({ebs[g]['post_mean_rank']:.2f})",
+            "Dual Rk δ=0 / δ=5 / WC": f"[{rcs['delta0_dual'][g]['rank_lower']},{rcs['delta0_dual'][g]['rank_upper']}] / [{rcs['delta5_dual'][g]['rank_lower']},{rcs['delta5_dual'][g]['rank_upper']}] / [{rcs['worst_dual'][g]['rank_lower']},{rcs['worst_dual'][g]['rank_upper']}]",
+        })
+    _emit("tab:conv_benchmark", "table_s13_conventional_benchmark", pd.DataFrame(rows),
+          "Detailed comparison of conventional marginal and Laird–Louis (1989) Empirical Bayes (EB) Beta-Binomial rankings against partial-identification simultaneous rank confidence sets.",
+          "".join([Lc(1.85), R(2.6), R(2.55), R(2.9), R(2.85), R(2.0)]),
+          notes="EB Outbreak fits Kleinman (1973) Beta-Binomial priors per pathogen across retained outbreaks and draws 10,000 posterior standardized proportions across the 12 cells (imputed from prior when K_rec = 0); EB 53-State fits Beta-Binomial priors across exposure states. All conventional/EB baselines and δ = 0 simultaneous inference yield identical strict separation above the lower tier ([1,1]/[2,2]/[3,3]/[4,4]/[5,6]/[5,6]), whereas explicit missingness widening drives rank overlap at δ = 5 pp ([4,6] lower tier; [2,3] single-step SAL/CAMP) and worst case ([1,6]).",
+          size="tiny", sep="1.6pt")
+
+    # SUPP TABLE S14: Structured Audit of the Four Published CDC NORS Summaries (m25)
+    audit_reports = [
+        {"Report": "Dewey-Mattia et al. (2018)", "Venue / Year": "MMWR Surveill Summ, 2018", "NORS years": "2009–2015",
+         "Reported location": "Results text & Table 2 (pp. 4–11)", "Hospitalization denominator": "Total ill (H / C); K not tabulated",
+         "Missing-status assumption": "Implicitly equates all unrecorded outcomes M_i = C_i − K_i to non-hospitalized (recovers worst-case L); notes general NORS underreporting without paired bounds."},
+        {"Report": "Tack et al. (2021)", "Venue / Year": "Microorganisms, 2021", "NORS years": "2010–2017 (STEC)",
+         "Reported location": "Table 1 & Section 3 (pp. 4–7)", "Hospitalization denominator": "Total ill (H / C); K not tabulated",
+         "Missing-status assumption": "Standardizes on H / C (recovers lower bound L); Limitations (p. 11) note missing hospitalization data may underestimate severity without quantifying [L, U] or δ*."},
+        {"Report": "CDC Annual Report (2019)", "Venue / Year": "CDC NORS Portal, pub. 2026", "NORS years": "2019",
+         "Reported location": "Pathogen summary tables", "Hospitalization denominator": "Total ill (H / C); K not tabulated",
+         "Missing-status assumption": "Reports aggregate hospitalizations alongside total outbreak cases (recovers lower bound L) without paired H / K or unrecorded shares M / C."},
+        {"Report": "Wikswo et al. (2022)", "Venue / Year": "Clin Infect Dis, 2022", "NORS years": "2009–2019",
+         "Reported location": "Table 1 & Results (pp. 1908–1910)", "Hospitalization denominator": "Known status (H / K); M omitted",
+         "Missing-status assumption": "Divides by known hospitalization status (approximates pooled MAR anchor δ = 0) without paired H / C, worst-case upper bounds U, or breakdown points."},
+    ]
+    _emit("tab:nors_audit", "table_s14_nors_report_audit", pd.DataFrame(audit_reports),
+          "Structured methodological audit of the four published CDC NORS surveillance summaries motivated in Section 1 and Section 4.1.",
+          "".join([Lc(2.4), Lc(2.15), R(1.3), Lc(2.2), Lc(2.0), Lc(4.2)]),
+          notes="None of the four audited summaries was designed as a formal multiplicity-adjusted ranking study; Table 5 provides a drop-in extension adding paired H / K (or H / C), unrecorded shares M / C, standardized bounds, and breakdown points.",
+          size="tiny", sep="1.7pt")
 
     if write_tex:
         with open(tdir / "manifest.json", "w", encoding="utf-8", newline="\n") as fh:
@@ -713,7 +812,8 @@ def fig_calibrated_2d(r, fdir, man):
         ax.fill_between(x[mask], 0, y[mask], color=CAT_COLORS[category(p)], alpha=0.85, lw=0)
         ax.add_patch(Rectangle((0.0, 0.0), 5.0, 5.0, facecolor="none", edgecolor="#272727", lw=1.0, ls=":", zorder=4))
         if k == "CPERF|NOV_GI":
-            ax.annotate("$\\delta^{*} = 0.19$ pp", xy=(0.19, 0.19), xytext=(2.1, 6.2),
+            ds_c = p["delta_star_pp"]
+            ax.annotate(f"$\\delta^{{*}} = {ds_c:.2f}$ pp", xy=(ds_c, ds_c), xytext=(2.1, 6.2),
                         arrowprops=dict(arrowstyle="->", color="#444444", lw=0.8), fontsize=7.2, color="#333333")
         else:
             ax.text(5.8, 7.6, f"$\\delta^{{*}} = {p['delta_star_pp']:.1f}$ pp", fontsize=7.2, color="#272727")
@@ -737,10 +837,11 @@ def fig_calibrated_2d(r, fdir, man):
         ax.set_xticks(ticks); ax.set_yticks(ticks)
         ax.grid(alpha=0.3); ax.set_title(pair_label(p, SHORT), fontsize=8.3, pad=4); ax.tick_params(labelsize=7.2)
 
+    min_up_ds = min(m["pairs"][k]["delta_star_pp"] for k in upper_keys)
     fig.text(0.54, 0.105, "Downward deviation allowed for higher group, $\\delta_{h,\\mathrm{down}}$ (pp)", ha="center", va="center", fontsize=8.8)
     fig.text(0.024, 0.56, "Upward deviation allowed for lower group, $\\delta_{l,\\mathrm{up}}$ (pp)", ha="center", va="center", rotation="vertical", fontsize=8.8)
     handles = [
-        Patch(facecolor=CAT_COLORS["B"], alpha=0.85, label="Upper tier ($\\delta^{*} \\geq 35.5$ pp)"),
+        Patch(facecolor=CAT_COLORS["B"], alpha=0.85, label=f"Upper tier ($\\delta^{{*}} \\geq {min_up_ds:.1f}$ pp)"),
         Patch(facecolor=CAT_COLORS["C"], alpha=0.85, label="Lower tier ($\\delta^{*} < 5$ pp)"),
         Rectangle((0, 0), 1, 1, facecolor="none", edgecolor="#272727", lw=1.0, ls=":", label="Symmetric $5 \\times 5$ pp box"),
         Rectangle((0, 0), 1, 1, facecolor="none", edgecolor="#D95F02", lw=1.25, ls="--", label="Asymmetric $-15 / +5$ pp stress test"),

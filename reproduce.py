@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Cross-platform one-command reproduction of the NORS partial-identification study (v9.0).
+"""Cross-platform one-command reproduction of the NORS partial-identification study (v10.0).
 
 Runs from the repository root:
     python reproduce.py [--B 2000] [--workers 2] [--render-outputs]
@@ -69,23 +69,25 @@ def main():
         det_failed = [k for k, v in chk["sections"].items()
                       if k not in ("bootstrap", "stacked_inference", "small_sample_calibration",
                                    "cluster_double_bootstrap", "cluster_double_bootstrap_by_def",
-                                   "parametric_calibration", "plausible_scenarios",
+                                   "parametric_calibration", "stepdown_and_power_calibration",
+                                   "conventional_ranking_benchmark", "plausible_scenarios",
                                    "cluster_diagnostics", "empirical_calibration", "supplementary_audits")
                       and v["status"] == "not_matched"]
         assert not det_failed, f"Deterministic section mismatch: {det_failed}"
         mc_ok = (chk.get("bootstrap_monte_carlo_check") or {}).get("within_monte_carlo_tolerance", False)
         assert chk["bootstrap_matched"] or mc_ok, "Bootstrap mismatch!"
 
-        # Decision-level consistency assertion across all 30 hypotheses (m14)
+        # Decision-level consistency assertion across all 30 hypotheses at WC, delta=5, and delta=0 (m14)
         pres = json.loads((root / "analysis" / "results.json").read_text(encoding="utf-8"))
         reb = json.loads(rebuilt_json.read_text(encoding="utf-8"))
         psi = pres["stacked_inference"]; rsi = reb["stacked_inference"]
-        for key_sig in ("n_fwer_boot_t_worst_sig", "n_fwer_boot_t_delta5_sig",
-                        "n_fwer_cv3_worst_sig", "n_fwer_cv3_delta5_sig",
-                        "n_fwer_cons_worst_sig", "n_fwer_cons_delta5_sig"):
+        for key_sig in ("n_fwer_boot_t_worst_sig", "n_fwer_boot_t_delta5_sig", "n_fwer_boot_t_delta0_sig",
+                        "n_fwer_cv3_worst_sig", "n_fwer_cv3_delta5_sig", "n_fwer_cv3_delta0_sig",
+                        "n_fwer_dual_worst_sig", "n_fwer_dual_delta5_sig", "n_fwer_dual_delta0_sig"):
             assert psi[key_sig] == rsi[key_sig], f"Decision count mismatch for {key_sig}: {psi[key_sig]} vs {rsi[key_sig]}"
         for pk in psi["pairs"]:
-            for mk in ("p_fwer_boot_t_worst", "p_fwer_boot_t_delta5", "p_fwer_cv3_worst", "p_fwer_cv3_delta5"):
+            for mk in ("p_fwer_boot_t_worst", "p_fwer_boot_t_delta5", "p_fwer_boot_t_delta0",
+                       "p_fwer_cv3_worst", "p_fwer_cv3_delta5", "p_fwer_cv3_delta0"):
                 assert (psi["pairs"][pk][mk] <= 0.05) == (rsi["pairs"][pk][mk] <= 0.05), f"Decision mismatch on {pk} {mk}"
 
         table_json = out / "rebuild_check" / "table_check.json"
@@ -115,6 +117,9 @@ def main():
         r = json.loads(rebuilt_json.read_text(encoding="utf-8"))
         mo.make_tables(r, out / "paper" / "tables")
         mo.make_figures(r, out / "paper" / "figures")
+
+    if (code / "verify_text_numbers.py").exists():
+        run([py, str(code / "verify_text_numbers.py")], cwd=root, env=env)
 
     print("\nReproduction passed: deterministic results and all CSV tables verified in", out)
 

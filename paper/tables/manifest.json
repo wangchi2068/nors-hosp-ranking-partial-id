@@ -52,21 +52,21 @@
    "label": "tab:pairwise_inference",
    "path_tex": "table_3_pairwise_inference.tex",
    "path_csv": "table_3_pairwise_inference.csv",
-   "sha256_csv": "fcbe87d28d723c5774cac7c6eba76de6e2aa4050e9aec00c354d46e27c12a55f",
-   "caption": "Pairwise ordering stability, simultaneous 30-hypothesis FWER p-values (studentized bootstrap-t and CV3 jackknife), additive/OR breakdown thresholds, and implied unrecorded-case hospitalization rates at 95% thresholds.",
+   "sha256_csv": "48cc12e49be81b00104922a26e53c4c72c7c1193f21a329ed64b68b0455d5437",
+   "caption": "Pairwise ordering stability, simultaneous 30-hypothesis stepdown FWER p-values (studentized bootstrap-t and CV3 jackknife), additive/OR breakdown thresholds, and implied unrecorded-case hospitalization rates at 95% thresholds.",
    "shape": [
     15,
     8
    ],
    "columns": [
     "Ordering (δ = 0)",
-    "Bootstrap disjoint w/δ=5 (%)",
-    "Boot-t p (w/δ=5)",
-    "CV3 p (w/δ=5)",
+    "Boot disjoint (WC | δ=5 %)",
+    "Boot-t p (WC | δ=5)",
+    "CV3 p (WC | δ=5)",
     "Sample δ*",
-    "95% δ* (Bt / CV3, ss)",
-    "Implied q at Bt δ* (H/L %)",
-    "OR 95% Γ* (Bt / CV3)"
+    "95% ss δ* (Bt | CV3)",
+    "Implied q at Bt δ* (H | L %)",
+    "OR 95% Γ* (Bt | CV3)"
    ]
   },
   {
@@ -74,10 +74,10 @@
    "label": "tab:rank_sets",
    "path_tex": "table_4_rank_sets_summary.tex",
    "path_csv": "table_4_rank_sets_summary.csv",
-   "sha256_csv": "adb5d6cab9614fea5680881c57244d3f192f12bb6f19266eb7291ab46959f434",
-   "caption": "Conditioned nominal simultaneous 95% rank confidence sets [1 = highest, 6 = lowest] across weighting specifications, plausibility intervals (P1–P2), additive departures, and odds-ratio (OR) scaling.",
+   "sha256_csv": "ffbd6fef5d314483d3865a3b0441cfdd82468b36e79e8aad5d7aab110084bb99",
+   "caption": "Conventional ranking baselines and approximate conditioned simultaneous 95% rank confidence sets [1 = highest, 6 = lowest] across weighting specifications, external/internal plausibility intervals, additive departures, and OR scaling.",
    "shape": [
-    11,
+    18,
     7
    ],
    "columns": [
@@ -285,8 +285,8 @@
    "label": "tab:small_cal",
    "path_tex": "table_s10_calibration.tex",
    "path_csv": "table_s10_calibration.csv",
-   "sha256_csv": "209d11dc36bf35354014328b9852d9f9c61fa9c1e2d7618a0cf869302d4392d9",
-   "caption": "Empirical 30-hypothesis FWER (%) under least-favourable boundary nulls (nominal 5.0%) across outbreak, three cluster definitions (53/271/52), and parametric heavy-tail worlds.",
+   "sha256_csv": "18c18a0e0404574f9861d2077e8e147068486963e484c8e61846e609538dbfcd",
+   "caption": "Empirical 30-hypothesis global-null FWER (%) under least-favourable boundary nulls (nominal 5.0%) across outbreak, three cluster definitions (53/271/52), and parametric heavy-tail worlds.",
    "shape": [
     31,
     5
@@ -294,9 +294,90 @@
    "columns": [
     "Calibration world",
     "Procedure",
-    "Worst FWER ± SE (%)",
-    "δ=5 FWER ± SE (%)",
+    "Worst / Primary (%)",
+    "δ=5 / Sec. (%)",
     "World note"
+   ]
+  },
+  {
+   "id": "table_s11_stepdown_power",
+   "label": "tab:stepdown_power",
+   "path_tex": "table_s11_stepdown_power.tex",
+   "path_csv": "table_s11_stepdown_power.csv",
+   "sha256_csv": "714a1831703f28b7ded0ea3fbbdd7c0f610bd1e40ba5a5cd65f12edb4d47c3d9",
+   "caption": "Partial-null δ = 5 pp stepdown vs. single-step FWER (%) and empirical-alternative power across outbreak and 53-cluster random-effects worlds.",
+   "shape": [
+    9,
+    6
+   ],
+   "columns": [
+    "World",
+    "Procedure",
+    "Partial-null δ=5 FWER (sd | ss %)",
+    "Partial-null SAL>CAMP | 11-all (%)",
+    "WC power: STEC>GII | any4 (%)",
+    "δ=5 power: SAL>CAMP | mean/12"
+   ]
+  },
+  {
+   "id": "table_s12_pair_delta_comparison",
+   "label": "tab:pair_delta_decomp",
+   "path_tex": "table_s12_pair_delta_comparison.tex",
+   "path_csv": "table_s12_pair_delta_comparison.csv",
+   "sha256_csv": "a219fd3e462614f4b3eb22f973230d04173a55bd0c8051a26e7c1de997c2f39e",
+   "caption": "Per-pair decomposition separating sampling uncertainty (δ = 0 MAR) from identification uncertainty (δ = 5 pp and worst case) across all 15 primary comparisons.",
+   "shape": [
+    15,
+    7
+   ],
+   "columns": [
+    "Ordering (δ = 0)",
+    "Lower diff. pp (δ=0 | δ=5 | WC)",
+    "z HC1 (δ=0 | δ=5 | WC)",
+    "z CV3 (δ=0 | δ=5 | WC)",
+    "HC1 p (δ=0 | δ=5 | WC)",
+    "Boot-t p (δ=0 | δ=5 | WC)",
+    "CV3 p (δ=0 | δ=5 | WC)"
+   ]
+  },
+  {
+   "id": "table_s13_conventional_benchmark",
+   "label": "tab:conv_benchmark",
+   "path_tex": "table_s13_conventional_benchmark.tex",
+   "path_csv": "table_s13_conventional_benchmark.csv",
+   "sha256_csv": "2f59a818fc9742eb0c58eb5267630ac7b9d90073411d94e6db974aebd6ceba38",
+   "caption": "Detailed comparison of conventional marginal and Laird–Louis (1989) Empirical Bayes (EB) Beta-Binomial rankings against partial-identification simultaneous rank confidence sets.",
+   "shape": [
+    6,
+    6
+   ],
+   "columns": [
+    "Pathogen",
+    "Wilson H/K % [95% CI]",
+    "Marg. Boot δ=0 % [CI]",
+    "EB Outbreak % [CrI] (Rk)",
+    "EB 53-State % [CrI] (Rk)",
+    "Dual Rk δ=0 / δ=5 / WC"
+   ]
+  },
+  {
+   "id": "table_s14_nors_report_audit",
+   "label": "tab:nors_audit",
+   "path_tex": "table_s14_nors_report_audit.tex",
+   "path_csv": "table_s14_nors_report_audit.csv",
+   "sha256_csv": "8a4688952279be1d77394e3c078d33502a9fc2cd9d1753b4299c46f4e9dff5e8",
+   "caption": "Structured methodological audit of the four published CDC NORS surveillance summaries motivated in Section 1 and Section 4.1.",
+   "shape": [
+    4,
+    6
+   ],
+   "columns": [
+    "Report",
+    "Venue / Year",
+    "NORS years",
+    "Reported location",
+    "Hospitalization denominator",
+    "Missing-status assumption"
    ]
   }
  ]
