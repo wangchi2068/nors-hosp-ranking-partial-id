@@ -31,11 +31,11 @@
     "raw_snapshot_sha256": "6005ac026ef124a5a1e5b9bd1f5aafc791184976f4518368bb5cd5aa059e82e9",
     "cohort_file": "data/derived/cohort_outbreaks.csv",
     "cohort_sha256": "87d511d1eea5c51f8241d81ee547dd641fd8cde6155412e6c58856a840207154",
-    "timestamp": "2026-11-27T03:13:22Z",
-    "spec_hash": "e17955a01b0ee705",
+    "timestamp": "2026-11-27T03:58:55Z",
+    "spec_hash": "fba56202ed21edb6",
     "analysis_version": "8.0",
     "hardware": "CPU only",
-    "wall_clock_seconds": 611.3
+    "wall_clock_seconds": 829.8
   },
   "summary": {
     "Salmonella": {
@@ -31829,6 +31829,8 @@
         "joint_upper_tier_binding_pair": "SAL|CAMP"
       },
       "cv3_sal_camp_stepdown_pp": 6.551818181818181,
+      "cv3_sal_camp_multistate_var_share_root": 0.7849078511428199,
+      "cv3_sal_camp_multistate_var_share_d5": 0.7810363681385389,
       "bootstrap_t": {
         "STEC_1_1": 11.459435614780599,
         "STEC_1_1_binding_pair": "SAL|STEC",
@@ -35500,6 +35502,13 @@
       "c_sim_singleton_delta5": 2.7219848588604183,
       "n_sig_singleton_worst": 1,
       "n_sig_singleton_delta5": 12,
+      "stec_nov_gii_p_singleton_cv1_worst": 0.04786,
+      "n_singleton_cv3_valid": 271,
+      "c_sim_singleton_cv3_worst": 2.59961113501876,
+      "c_sim_singleton_cv3_delta5": 2.7275853843582643,
+      "n_sig_singleton_cv3_worst": 0,
+      "n_sig_singleton_cv3_delta5": 12,
+      "stec_nov_gii_p_singleton_cv3_worst": 0.166185,
       "n_r11_state_clusters": 52,
       "c_sim_r11_state_worst": 2.605178250413185,
       "c_sim_r11_state_delta5": 2.713620065666413,
@@ -36802,7 +36811,7 @@
     "n_hypotheses": 30,
     "seed": 20261142,
     "nominal_alpha": 0.05,
-    "design": "double bootstrap (400 outer worlds x 499 inner resamples preserving n_js; all 6 procedures re-estimate critical values in every outer world; no state dependence simulated)",
+    "design": "double bootstrap (400 outer worlds x 499 inner resamples preserving n_js; all 7 procedures re-estimate critical values in every outer world; no state dependence simulated)",
     "im95_min_endpoint_cov_hc1": 0.7525,
     "im95_median_endpoint_cov_hc1": 0.8675,
     "im95_mean_endpoint_cov_hc1": 0.84,
@@ -36830,36 +36839,36 @@
       "hc1": 0.305,
       "fixed_scale_boot": 0.2525,
       "bootstrap_t": 0.0725,
-      "state": 0.205,
+      "state": 0.1825,
       "cv3_jackknife": 0.04,
-      "wcb": 0.21
+      "wcb": 0.195
     },
     "fwer_worst_mc_se": {
       "hc0": 0.023599523300270285,
       "hc1": 0.023020371413163602,
       "fixed_scale_boot": 0.02172232434616517,
       "bootstrap_t": 0.012965699942540702,
-      "state": 0.020185081124434453,
+      "state": 0.019312803395675107,
       "cv3_jackknife": 0.009797958971132711,
-      "wcb": 0.0203654118544163
+      "wcb": 0.01981003533565753
     },
     "fwer_delta5": {
       "hc0": 0.1975,
       "hc1": 0.1625,
       "fixed_scale_boot": 0.105,
       "bootstrap_t": 0.0775,
-      "state": 0.0975,
+      "state": 0.0775,
       "cv3_jackknife": 0.01,
-      "wcb": 0.11
+      "wcb": 0.09
     },
     "fwer_delta5_mc_se": {
       "hc0": 0.019905636764494625,
       "hc1": 0.018445443204217135,
       "fixed_scale_boot": 0.015327671055969333,
       "bootstrap_t": 0.013369157602481915,
-      "state": 0.014831870246196196,
+      "state": 0.013369157602481915,
       "cv3_jackknife": 0.0049749371855331,
-      "wcb": 0.015644487847162016
+      "wcb": 0.014309088021254185
     },
     "inner_c_bt_worst_summary": {
       "mean": 4.27209115217988,

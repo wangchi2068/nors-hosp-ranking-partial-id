@@ -1,13 +1,13 @@
 \begin{table}[!tbp]
 \centering
 \scriptsize
-\setlength{\tabcolsep}{1.6pt}
+\setlength{\tabcolsep}{1.8pt}
 \renewcommand{\arraystretch}{1.12}
 \caption{Pairwise ordering stability, simultaneous 30-hypothesis FWER p-values (studentized bootstrap-t and CV3 jackknife), additive/OR breakdown thresholds, and implied unrecorded-case hospitalization rates at 95\% thresholds.}
 \label{tab:pairwise_inference}
-\begin{tabular}{>{\raggedright\arraybackslash}p{2.1cm}>{\raggedleft\arraybackslash}p{1.75cm}>{\raggedleft\arraybackslash}p{2.0cm}>{\raggedleft\arraybackslash}p{1.85cm}>{\raggedleft\arraybackslash}p{0.95cm}>{\raggedleft\arraybackslash}p{1.8cm}>{\raggedleft\arraybackslash}p{1.85cm}>{\raggedleft\arraybackslash}p{1.65cm}}
+\begin{tabular}{>{\raggedright\arraybackslash}p{2.1cm}>{\raggedleft\arraybackslash}p{1.85cm}>{\raggedleft\arraybackslash}p{1.85cm}>{\raggedleft\arraybackslash}p{1.8cm}>{\raggedleft\arraybackslash}p{0.95cm}>{\raggedleft\arraybackslash}p{1.8cm}>{\raggedleft\arraybackslash}p{1.85cm}>{\raggedleft\arraybackslash}p{1.65cm}}
 \toprule
-Ordering ($\delta$ = 0) & Bootstrap disjoint w/$\delta$=5 (\%) & Boot-t p (w / $\delta$=5) & CV3 p (w / $\delta$=5) & Sample $\delta^{*}$ & 95\% $\delta^{*}$ (Bt / CV3, ss) & Implied q at Bt $\delta^{*}$ (H/L \%) & OR 95\% $\Gamma^{*}$ (Bt / CV3) \\
+Ordering ($\delta$ = 0) & Bootstrap disjoint w/$\delta$=5 (\%) & Boot-t p (w/$\delta$=5) & CV3 p (w/$\delta$=5) & Sample $\delta^{*}$ & 95\% $\delta^{*}$ (Bt / CV3, ss) & Implied q at Bt $\delta^{*}$ (H/L \%) & OR 95\% $\Gamma^{*}$ (Bt / CV3) \\
 \midrule
 STEC $>$ CAMP & 97.0 / 100.0 & 0.642 / $<$0.001 & 0.517 / $<$0.001 & $\infty$ & 47.0 / 57.0 & 0.0 / 55.6 & 7.0 / 17.6 \\
 STEC $>$ CPERF & 91.6 / 100.0 & 0.861 / $<$0.001 & 0.851 / $<$0.001 & $\infty$ & 56.3 / 55.2 & 0.0 / 57.4 & 31.3 / 201.4 \\
@@ -26,5 +26,5 @@ NoV GII $>$ CPERF & 0.0 / 33.1 & 1.000 / 1.000 & 1.000 / 0.999 & 3.7 & 0.65 / 0.
 CPERF $>$ NoV GI & 0.0 / 0.0 & 1.000 / 1.000 & 1.000 / 1.000 & 0.19 & 0.00 / 0.00 & -- & 1.0 / 1.0 \\
 \bottomrule
 \end{tabular}
-\par\smallskip\parbox{0.97\linewidth}{\footnotesize Bootstrap disjoint w/$\delta$=5 (\%) reports sample share of 2,000 resamples with disjoint bounds ($L_h$ $>$ $U_l$) at worst case and $\delta$ = 5 pp. Primary studentized bootstrap-t uses $\delta$-specific $c_{\mathrm{bt}}$($\delta$) ($c_{\mathrm{bt}}$ = 4.52 worst / 3.37 at $\delta$ = 5; empirical 400$\times$499 FWER 7.2\% / 7.8\%). CV3 leaves out each of 53 states (53/53 valid; cluster RE FWER 18.7\% / 11.7\%; t\_52 reference c = 2.63, 0/30 sig worst, 12/30 at $\delta$ = 5). Implied q at Bt $\delta^{*}$ (H/L \%) lists weighted unrecorded hospitalization rates evaluated at the single-step 95\% Bt statistical breakdown threshold, where simultaneous FWER significance fails (STEC$>$SAL: 20.4\% vs 29.6\%; CAMP$>$CPERF: 0.0\% vs 14.6\%). Within-upper single-step min 95\% $\delta^{*}$: 11.5 pp (STEC$>$SAL, Bt) vs 4.5 pp (SAL$>$CAMP, CV3 single-step, 80\% driven by pooled Multistate variance vs 10.3 pp in R11; stepdown CV3 holds to 6.6 pp, p = 0.039 at $\delta$ = 5); upper-vs-lower (CAMP$>$CPERF): 13.5 pp (Bt) and 12.3 pp (CV3). OR 95\% $\Gamma^{*}$ is likewise single-step (NoV GII$>$GI: 1.94 Bt, 1.63 CV3).}
+\par\smallskip\parbox{0.97\linewidth}{\footnotesize Bootstrap disjoint w/$\delta$=5 (\%) reports sample share of 2,000 resamples with disjoint bounds ($L_h$ $>$ $U_l$) at worst case and $\delta$ = 5 pp. Primary studentized bootstrap-t uses $\delta$-specific $c_{\mathrm{bt}}$($\delta$) ($c_{\mathrm{bt}}$ = 4.52 worst / 3.37 at $\delta$ = 5; empirical 400$\times$499 FWER 7.2\% / 7.8\%). CV3 leaves out each of 53 states (53/53 valid; cluster RE FWER 18.7\% / 11.7\%; $t_{52}$ reference c = 2.63, 0/30 sig worst, 12/30 at $\delta$ = 5). Implied q at Bt $\delta^{*}$ (H/L \%) lists weighted unrecorded hospitalization rates evaluated at the single-step 95\% Bt statistical breakdown threshold, where simultaneous FWER significance fails (STEC$>$SAL: 20.4\% vs 29.6\%; CAMP$>$CPERF: 0.0\% vs 14.6\%). Within-upper single-step min 95\% $\delta^{*}$: 11.5 pp (STEC$>$SAL, Bt) vs 4.5 pp (SAL$>$CAMP, CV3 single-step, 78.5\% driven by pooled Multistate variance vs 10.3 pp in R11; stepdown CV3 holds to 6.6 pp, p = 0.039 at $\delta$ = 5); upper-vs-lower (CAMP$>$CPERF): 13.5 pp (Bt) and 12.3 pp (CV3). OR 95\% $\Gamma^{*}$ is likewise single-step (NoV GII$>$GI: 1.94 Bt, 1.63 CV3).}
 \end{table}

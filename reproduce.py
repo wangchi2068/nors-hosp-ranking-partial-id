@@ -65,7 +65,7 @@ def main():
              "--rebuilt-jsonl", str(out / "logs" / "bootstrap_replicates.jsonl"),
              "--out-json", str(check_json), "--out-md", str(check_md)], cwd=root, env=env)
         chk = json.loads(check_json.read_text(encoding="utf-8"))
-        # Strict equality on deterministic sections; cross-platform MC/BLAS drift <= 0.02 emits a warning
+        # Strict equality on deterministic sections; cross-platform MC/BLAS drift <= 0.025 emits a warning
         det_failed = [k for k, v in chk["sections"].items()
                       if k not in ("bootstrap", "stacked_inference", "small_sample_calibration",
                                    "cluster_double_bootstrap", "cluster_double_bootstrap_by_def",

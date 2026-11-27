@@ -52,7 +52,7 @@
    "label": "tab:pairwise_inference",
    "path_tex": "table_3_pairwise_inference.tex",
    "path_csv": "table_3_pairwise_inference.csv",
-   "sha256_csv": "92b900acdd19505b5f52b6d5c60bd2e0225526ef6fe4ca86cb4e4068c949d847",
+   "sha256_csv": "cf24b0617dc1ca003455d707a5be56be8bfedafe73c01c08aaec7de6d49f0391",
    "caption": "Pairwise ordering stability, simultaneous 30-hypothesis FWER p-values (studentized bootstrap-t and CV3 jackknife), additive/OR breakdown thresholds, and implied unrecorded-case hospitalization rates at 95% thresholds.",
    "shape": [
     15,
@@ -61,8 +61,8 @@
    "columns": [
     "Ordering (δ = 0)",
     "Bootstrap disjoint w/δ=5 (%)",
-    "Boot-t p (w / δ=5)",
-    "CV3 p (w / δ=5)",
+    "Boot-t p (w/δ=5)",
+    "CV3 p (w/δ=5)",
     "Sample δ*",
     "95% δ* (Bt / CV3, ss)",
     "Implied q at Bt δ* (H/L %)",
@@ -285,7 +285,7 @@
    "label": "tab:small_cal",
    "path_tex": "table_s10_calibration.tex",
    "path_csv": "table_s10_calibration.csv",
-   "sha256_csv": "294517679ccaa7c4642a4306f293a49cc9afb1bc53e4054288de52d0cbf29408",
+   "sha256_csv": "e422bcf093d35db236d9de7868bdacab7f64962338ced4822cc67f53733eaca3",
    "caption": "Empirical 30-hypothesis FWER (%) under least-favourable boundary nulls (nominal 5.0%) across outbreak, three cluster definitions (53/271/52), and parametric heavy-tail worlds.",
    "shape": [
     22,

@@ -2,8 +2,8 @@ Calibration world,Procedure,Worst FWER ± SE (%),δ=5 FWER ± SE (%),World note
 Outbreak (400×499),HC0 Gaussian (df-uncorrected),33.5 ± 2.4,19.8 ± 2.0,No state correlation simulated
 Outbreak (400×499),HC1 Gaussian,30.5 ± 2.3,16.2 ± 1.8,No state correlation simulated
 Outbreak (400×499),Fixed-scale std. bootstrap,25.2 ± 2.2,10.5 ± 1.5,No state correlation simulated
-Outbreak (400×499),53-state CV1 Gaussian,20.5 ± 2.0,9.8 ± 1.5,No state correlation simulated
-Outbreak (400×499),Unrestricted Rademacher WCB,21.0 ± 2.0,11.0 ± 1.6,No state correlation simulated
+Outbreak (400×499),53-state CV1 Gaussian,18.2 ± 1.9,7.8 ± 1.3,No state correlation simulated
+Outbreak (400×499),Unrestricted Rademacher WCB,19.5 ± 2.0,9.0 ± 1.4,No state correlation simulated
 Outbreak (400×499),CV3 cluster jackknife,4.0 ± 1.0,1.0 ± 0.5,No state correlation simulated
 Outbreak (400×499),Studentized bootstrap-t,7.2 ± 1.3,7.8 ± 1.3,Boot-t inner c: 3.53–5.33
 Cluster 53-state (300×399),CV1 cluster Gaussian,41.3 ± 2.8,41.0 ± 2.8,"Fixed-size Cluster RE + Beta-Binom (SE/SD: CV1 0.82, CV3 1.06)"

@@ -25,6 +25,7 @@
 \urlstyle{same}
 \usepackage{caption}
 \usepackage{placeins}
+\usepackage{flafter}
 \captionsetup{
   font=small,
   labelfont=bf,
@@ -92,7 +93,7 @@ Let $C_{\cdot} = \sum_{k=1}^{G}\sum_{t=1}^{K} C_{kt}$ ($w_t = C_{\cdot t}/C_{\cd
   + \mathbf{1}\{k = j\}\, \frac{w_s}{C_{js}} \left[\tilde{H}_i + q^L_{js}\tilde{M}_i + d^L_{js}M_{js}\tilde{p}_i - r^L_{js}\tilde{C}_i\right],
   \label{eq:s-if}
 \end{equation}
-with $\psi^U_{j,i}$ replacing $(q^L, d^L, r^L, \bar{L})$ by $(q^U, d^U, r^U, \bar{U})$. Outbreak-HC1 covariances matched central-difference sandwich covariances to $\le 1.64 \times 10^{-12}$ (worst case), $2.92 \times 10^{-13}$ ($\delta = 5\text{ pp}$), $4.00 \times 10^{-13}$ ($-15/+5\text{ pp}$), $2.74 \times 10^{-13}$ (diagnostic group-asymmetric), $6.06 \times 10^{-13}$ (OR $\Gamma$), and $4.00 \times 10^{-13}$ (plausibility $P_1/P_2$); uncentered cluster Gateaux derivatives matched central-difference cluster-weight perturbations to $\le 1.08 \times 10^{-10}$ (worst case) and $9.73 \times 10^{-11}$ ($\delta = 5\text{ pp}$); vectorized bootstrap-$t$ expansions matched analytic $\Delta^L$ to $\le 5.6 \times 10^{-17}$, and dynamic 21-point $c(\delta)$ grids matched exact Max-$T$ quantiles within $\le 0.0023$ (HC1) and $\le 0.0015$ (CV3). At $\delta = 5\text{ pp}$, $0/72$ cells lay within $10^{-6}$ of kinks, and all finite 95\% roots lay $\ge 0.0041\text{ pp}$ from kinks with unique zero-crossings verified across all 201 scan points (minor local kink steps in SE$(\delta)$ produce non-monotonicity away from the unique root in 9/15 pairs).
+with $\psi^U_{j,i}$ replacing $(q^L, d^L, r^L, \bar{L})$ by $(q^U, d^U, r^U, \bar{U})$. Outbreak-HC1 covariances matched central-difference sandwich covariances to $\le 1.64 \times 10^{-12}$ (worst case), $2.92 \times 10^{-13}$ ($\delta = 5\text{ pp}$), $4.00 \times 10^{-13}$ ($-15/+5\text{ pp}$), $2.74 \times 10^{-13}$ (diagnostic group-asymmetric), $6.06 \times 10^{-13}$ (OR $\Gamma$), and $4.00 \times 10^{-13}$ (plausibility $P_1/P_2$); uncentered cluster Gateaux derivatives matched central-difference cluster-weight perturbations to $\le 1.08 \times 10^{-10}$ (worst case) and $9.73 \times 10^{-11}$ ($\delta = 5\text{ pp}$); vectorized bootstrap-$t$ expansions matched analytic $\Delta^L$ to $\le 5.6 \times 10^{-17}$, and dynamic 21-point $c(\delta)$ grids matched exact Max-$T$ quantiles within $\le 0.0023$ (HC1) and $\le 0.0015$ (CV3). At $\delta = 5\text{ pp}$, $0/72$ cells lay within $10^{-6}$ of kinks, and all finite 95\% roots lay $\ge 0.0041\text{ pp}$ from kinks with unique zero-crossings verified across all 201 scan points (minor local kink steps in SE$(\delta)$ produce non-monotonicity away from the unique root in 10/15 pairs).
 
 Across $B = 2,000$ bootstrap draws, $0$ SE entries were degenerate; $88/2,000$ draws lacked $K_{\text{rec}}$ in $\ge 1$ stratum, and conditioning on the remaining $1,912$ draws gave virtually identical studentized critical values ($c_{\text{bt}} = 4.456$ vs.\ $4.519$ worst case; $3.370$ vs.\ $3.369$ at $\delta = 5\text{ pp}$; Supplementary Table~\ref{tab:bootstrap}). Five FWER calibration worlds are summarized in Supplementary Table~\ref{tab:small_cal}: outbreak-stratified ($400 \times 499$ including CV3), fixed-size cluster random-effects plus Beta-Binomial preserving observed outbreak sizes ($300 \times 399$ across 53 exposure states, 271 singletons, and 52 single states R11, evaluating both Gaussian CV3 and CV3-$t_{G-1}$), and overdispersed Beta-Binomial plus cell-matched $\text{LogNormal}(\mu_{js}, \sigma_{js})$ heavy-tail ($300 \times 399$, evaluating HC1 and studentized bootstrap-$t$). Full comparator critical-value curves and common-mechanism scaling ($q_{js} = \min(1, \alpha p_{js})$) appear in Supplementary Fig.~\ref{fig:s-supp3}.
 
@@ -151,30 +152,30 @@ Across $B = 2,000$ bootstrap draws, $0$ SE entries were degenerate; $88/2,000$ d
 Section / Item & Item No. & Exact manuscript / supplement location \\
 \midrule
 Title and abstract & 1a--b / R1.1--1.3 & MS Title \& Structured Abstract (p.\ 1): specifies NORS, reported outbreak cases, US 2009--2023 (90.4\% weight 2009--2018), cross-sectional design, and key findings. \\
-Background / Objectives & 2--3 & MS §1 (p.\ 1): surveillance decision context, dual-denominator precedent (CDC COVID-19 Response Team, 2020), bounds/breakdown/rank-set audit objectives. \\
+Background / Objectives & 2--3 & MS §1 (pp.\ 1--2): surveillance decision context, dual-denominator precedent (CDC COVID-19 Response Team, 2020), bounds/breakdown/rank-set audit objectives. \\
 Study design & 4 & MS Abstract (p.\ 1) \& §2.1 (p.\ 2): cross-sectional outbreak-level surveillance analysis. \\
 Setting & 5 & MS §2.1 (pp.\ 2--3) \& Supp.\ §S1 (p.\ 1): CDC NORS snapshot downloaded 25 Nov 2026 (updated 20 Dec 2024), 2009--2023 foodborne restriction, 7 settings. \\
 Participants & 6 / R6.1--6.3 & MS §2.1 (pp.\ 2--3) \& Supp.\ Table S4 (p.\ 4): complete string-to-group etiology mapping, locked inclusion rules, $\ge 3$ common-support restriction. \\
 Data linkage & R7.1 & Not applicable (single public CDC NORS table without linkage). \\
 Variables & 7 & MS §2.1--2.2 (pp.\ 2--4): $C_i, H_i, K_i, M_i, H_{\text{rec},js}, K_{\text{rec},js}$, weights $w_s$, Unknown-setting retention, additive/OR/plausibility ($P_1/P_2$) scales. \\
 Data sources / measurement & 8 & MS §2.1 (p.\ 2) \& Supp.\ Table S1 (p.\ 3): NORS form consistency across 2009--2023; audit categories and logical bounds. \\
-Bias & 9 & MS §2.2, §3.3, §4.2 (pp.\ 3--4, 8, 10--11, 13) \& Table S6 (p.\ 6), Table S2 (p.\ 3): shared-cell partial-vs-full CIs, excluded profiles, PulseNet vs.\ complaint detection. \\
-Study size & 10 & MS §3.1 (p.\ 5), Fig.\ 1 (p.\ 6) \& Table S3 (p.\ 3): 66,713 raw $\rightarrow$ 11,358 foodborne $\rightarrow$ 4,133 eligible $\rightarrow$ 3,176 common-support outbreaks. \\
+Bias & 9 & MS §2.2, §3.3, §4.2 (pp.\ 3--4, 8--9, 11, 13--14) \& Table S6 (p.\ 6), Table S2 (p.\ 3): shared-cell partial-vs-full CIs, excluded profiles, PulseNet vs.\ complaint detection. \\
+Study size & 10 & MS §3.1 (p.\ 5), Fig.\ 1 (p.\ 6) \& Table S3 (p.\ 4): 66,713 raw $\rightarrow$ 11,358 foodborne $\rightarrow$ 4,133 eligible $\rightarrow$ 3,176 common-support outbreaks. \\
 Quantitative variables & 11 & MS §2.1--2.2 (pp.\ 2--4): 5-year periods, 7 settings, continuous pp, OR $\Gamma$, implied unrecorded rates $q$, and explicit intervals $P_1/P_2$. \\
 Statistical methods & 12a & MS §2.3 (pp.\ 4--5) \& Supp.\ §S2 (pp.\ 1--2), Table S9 (p.\ 8): Cholesky Max-$T$, primary studentized bootstrap-$t$ + CV3 jackknife, comparators, rank sets. \\
-Subgroups & 12b & MS §3.3 (pp.\ 8, 10--11) \& Table S7 (p.\ 6): O157 STEC (R12), non-typhoidal \textit{Salmonella} (R12b), single-state (R11), healthcare (R9), norovirus (R7/R7b). \\
-Missing data & 12c & MS §2.1--2.2, §4.2 (pp.\ 2--4, 13) \& Table S1 (p.\ 3): logical bound retention of 157 incomplete records; R14a--b checks; Unknown setting rationale (§2.1). \\
+Subgroups & 12b & MS §3.3 (pp.\ 8--9, 11) \& Table S7 (p.\ 6): O157 STEC (R12), non-typhoidal \textit{Salmonella} (R12b), single-state (R11), healthcare (R9), norovirus (R7/R7b). \\
+Missing data & 12c & MS §2.1--2.2, §4.2 (pp.\ 2--4, 13--14) \& Table S1 (p.\ 3): logical bound retention of 157 incomplete records; R14a--b checks; Unknown setting rationale (§2.1). \\
 Sampling / sensitivity & 12d--e & MS §2.3 (pp.\ 4--5), Table S7 (p.\ 6) \& Table S10 (p.\ 9): superpopulation model, 23 variants, outbreak, cluster (53/271/52), and parametric LogNormal calibrations. \\
 Data cleaning & R12.1--12.2 & MS §2.1 (p.\ 2) \& Declarations (p.\ 15): deterministic SHA-256 pipeline (\texttt{prepare\_data.py} $\rightarrow$ \texttt{analyze.py} $\rightarrow$ \texttt{reproduce.py}). \\
-Participants & 13a--c & MS §3.1 (p.\ 5), Fig.\ 1 (p.\ 6), Tables S1--S3 (p.\ 3): exact counts at every eligibility, audit, exclusion, and support stage. \\
-Descriptive data & 14a--b & MS Table 1 (p.\ 6, STROBE 14a) \& Supp.\ Tables S3, S5, S6 (pp.\ 3, 5, 6): per-pathogen distributions and all 72 strata ($n_{js}, N_{\text{eff}}$). \\
+Participants & 13a--c & MS §3.1 (p.\ 5), Fig.\ 1 (p.\ 6), Tables S1--S3 (pp.\ 3--4): exact counts at every eligibility, audit, exclusion, and support stage. \\
+Descriptive data & 14a--b & MS Table 1 (p.\ 6, STROBE 14a) \& Supp.\ Tables S3, S5, S6 (pp.\ 4--6): per-pathogen distributions and all 72 strata ($n_{js}, N_{\text{eff}}$). \\
 Outcome data & 15 & MS Table 2 (p.\ 6): crude $H/C$ \& $\delta = 0$, worst-case and $\delta = 5\text{ pp}$ intervals, $\delta = 0$ MAR values, bootstrap bound percentiles. \\
-Main results & 16a--c & MS Tables 3--4 (p.\ 9), Figs.\ 2--5 (pp.\ 7, 10--11): sample/boot-$t$/CV3 breakdown frontiers, implied unrecorded rates, OR $\Gamma^{*}_{0.95}$, rank sets. \\
-Other analyses & 17 & MS §3.2--3.3 (pp.\ 5, 7--11), Supp.\ §S2 (pp.\ 1--2), Tables S5--S10 (pp.\ 5--9), Figs.\ S2--S3 (p.\ 7): 23 variants, conditional $K_{\text{rec}}$, LOO/LLO. \\
+Main results & 16a--c & MS Tables 3--4 (pp.\ 9--10), Figs.\ 2--5 (pp.\ 7, 10--11): sample/boot-$t$/CV3 breakdown frontiers, implied unrecorded rates, OR $\Gamma^{*}_{0.95}$, rank sets. \\
+Other analyses & 17 & MS §3.2--3.3 (pp.\ 5, 7--9, 11), Supp.\ §S2 (pp.\ 1--2), Tables S5--S10 (pp.\ 5--9), Figs.\ S2--S3 (p.\ 7): 23 variants, conditional $K_{\text{rec}}$, LOO/LLO. \\
 Key results & 18 & MS §4--4.1 (pp.\ 11--13) \& Table 5 (p.\ 13): worst-case weighting dependence, published NORS audit \& recommended surveillance table, upper-vs-lower separation vs.\ fragile within-upper ordering. \\
-Limitations & 19 & MS §4.2 (p.\ 13): reporting heterogeneity, 2023 closeout lag, PulseNet vs.\ complaint ascertainment, genus/serovar mix, post-hoc primary choice, FWER $>5\%$. \\
+Limitations & 19 & MS §4.2 (pp.\ 13--14): reporting heterogeneity, 2023 closeout lag, PulseNet vs.\ complaint ascertainment, genus/serovar mix, post-hoc primary choice, FWER $>5\%$. \\
 Interpretation & 20 & MS §4--4.3 (pp.\ 11--14) \& Table 5 (p.\ 13): cautious methodological conclusions and actionable dual-denominator surveillance reporting recommendation. \\
-Generalizability & 21 & MS §4.2 (p.\ 13): applies strictly to reported foodborne outbreak cases, distinct from sporadic community virulence. \\
+Generalizability & 21 & MS §4.2 (pp.\ 13--14): applies strictly to reported foodborne outbreak cases, distinct from sporadic community virulence. \\
 Funding & 22 & MS Declarations (p.\ 15): no specific funding; COI, AI-assistance, and ethics statements included. \\
 Data \& code availability & R22.1 & MS Declarations (p.\ 15): raw CDC NORS extract, SHA-256 manifest, LF JSON/CSV tables, and cross-platform replication scripts archived. \\
 \bottomrule

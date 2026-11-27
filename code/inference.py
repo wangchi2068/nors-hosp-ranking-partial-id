@@ -743,7 +743,9 @@ def _eval_resampled_table(inf: StackedInference, res_arrays: dict, delta_val: fl
             V_hc0 += gram
             V_hc1 += ((m / (m - 1.0)) if m > 1 else 1.0) * gram
             if res_states is not None:
-                np.add.at(state_scores, res_states[(ki, ci)], psi_dL)
+                dC = Z[:, 0] - Cc
+                psi_cl_dL = psi_dL + dC[:, None] * (w_L_coeff[pair_h, ci] - w_U_coeff[pair_l, ci])[None, :]
+                np.add.at(state_scores, res_states[(ki, ci)], psi_cl_dL)
 
     if res_states is not None:
         st_scale = (inf.n_states / (inf.n_states - 1.0)) if inf.n_states > 1 else 1.0
@@ -1320,7 +1322,7 @@ def run_small_sample_calibration(inf: StackedInference,
         seed=int(seed + 17),
         nominal_alpha=0.05,
         design=(f"double bootstrap ({n_mc} outer worlds x {B_inner} inner resamples preserving n_js; "
-                "all 6 procedures re-estimate critical values in every outer world; no state dependence simulated)"),
+                "all 7 procedures re-estimate critical values in every outer world; no state dependence simulated)"),
         im95_min_endpoint_cov_hc1=float(cov_worst_hc1.min()),
         im95_median_endpoint_cov_hc1=float(np.median(cov_worst_hc1)),
         im95_mean_endpoint_cov_hc1=float(cov_worst_hc1.mean()),
@@ -2357,6 +2359,16 @@ def run_all(main_df: pd.DataFrame, t_main: S.Table, main_res: dict, seed: int = 
     se_sg_d5 = np.sqrt(np.maximum(np.diag(V_sg_d5), 1e-20))
     p30_sg_d5, _, c30_sg_d5 = max_t_stepdown(dL_d5 / se_sg_d5, V_sg_d5, 0.05, Z_std=Z_std_30)
 
+    # 271-singleton clustering (splitting 219 Multistate outbreaks): compute both CV1 (above) and CV3 jackknife
+    df_271 = main_df.copy()
+    is_ms_271 = df_271["state"].astype(str) == "Multistate"
+    df_271.loc[is_ms_271, "state"] = "Multi_" + df_271.loc[is_ms_271, "outbreak_id"].astype(str)
+    inf_271 = StackedInference(df_271, t_main, ordered_30)
+    V_271_cv3_wc, cv3_271_nval, _ = inf_271.cv3_cluster_jackknife_cov(1.0)
+    V_271_cv3_d5, _, _ = inf_271.cv3_cluster_jackknife_cov(0.05)
+    p30_271_cv3_wc, _, c30_271_cv3_wc = max_t_stepdown(dL_wc / np.sqrt(np.maximum(np.diag(V_271_cv3_wc), 1e-20)), V_271_cv3_wc, 0.05, Z_std=Z_std_30)
+    p30_271_cv3_d5, _, c30_271_cv3_d5 = max_t_stepdown(dL_d5 / np.sqrt(np.maximum(np.diag(V_271_cv3_d5), 1e-20)), V_271_cv3_d5, 0.05, Z_std=Z_std_30)
+
     # Single-state-only (R11) full 52-state inference (HC1, CV1, CV3, WCB, boot-t, breakdown)
     r11_df = main_df[main_df["state"].astype(str) != "Multistate"].copy()
     t_r11 = S.build(r11_df, R.GROUPS, "setting_period", threshold=3)
@@ -2959,11 +2971,33 @@ def run_all(main_df: pd.DataFrame, t_main: S.Table, main_res: dict, seed: int = 
             sal_camp_cv3_stepdown_pp = 100.0 * float(brentq(_sd_margin, float(cv3_sd_scan[ks]), float(cv3_sd_scan[ks + 1]), xtol=1e-4))
             break
 
+    def sal_camp_ms_var_share(dv_m: float) -> float:
+        tot_m = np.sum(inf.state_cell_sums, axis=0)
+        h_sc, l_sc = ordered_30[idx_sal_camp]
+        loo_sc = []; is_ms_list = []
+        for g_m in range(inf.n_states):
+            sg_m = tot_m - inf.state_cell_sums[g_m]
+            if np.any(sg_m[:, :, 0] <= 0.0):
+                continue
+            tb_m = inf.table_from_mu(sg_m / inf.n[:, :, None])
+            Lh_m, _ = B.group_bounds(tb_m, h_sc, dv_m)
+            _, Ul_m = B.group_bounds(tb_m, l_sc, dv_m)
+            loo_sc.append(Lh_m - Ul_m)
+            is_ms_list.append(inf.unique_states[g_m] == "Multistate")
+        arr_sc = np.asarray(loo_sc, dtype=float)
+        cent_sc = arr_sc - arr_sc.mean()
+        ms_pos = is_ms_list.index(True)
+        return float((cent_sc[ms_pos] ** 2) / np.sum(cent_sc ** 2))
+
+    rb_cv3 = summarize_rank_bp(pairs, lambda x: x["delta_star_95_cv3_pp"])
+    sc_root_dv = float(pairs["SAL|CAMP"]["delta_star_95_cv3_pp"]) / 100.0
     rank_breakdown = OrderedDict(
         hc1=summarize_rank_bp(pairs, lambda x: x["delta_star_95_sim_pp"]),
         state=summarize_rank_bp(pairs, lambda x: x["delta_star_95_sim_state_pp"]),
-        cv3=summarize_rank_bp(pairs, lambda x: x["delta_star_95_cv3_pp"]),
+        cv3=rb_cv3,
         cv3_sal_camp_stepdown_pp=sal_camp_cv3_stepdown_pp,
+        cv3_sal_camp_multistate_var_share_root=sal_camp_ms_var_share(sc_root_dv),
+        cv3_sal_camp_multistate_var_share_d5=sal_camp_ms_var_share(0.05),
         bootstrap_t=summarize_rank_bp(pairs, lambda x: x["delta_star_95_bt_pp"]),
     )
 
@@ -3006,6 +3040,7 @@ def run_all(main_df: pd.DataFrame, t_main: S.Table, main_res: dict, seed: int = 
         r4a_r4b=r4_rank_sets,
     )
 
+    idx_stec_gii = [k for k, _ in sorted_p].index("STEC|NOV_GII")
     clust = cluster_diagnostics(main_df, t_main)
     clust["cluster_variance_share"] = OrderedDict(worst=cvs_wc, delta5=cvs_d5)
     clust["multistate_sensitivity"] = OrderedDict(
@@ -3014,6 +3049,13 @@ def run_all(main_df: pd.DataFrame, t_main: S.Table, main_res: dict, seed: int = 
         c_sim_singleton_delta5=float(c30_sg_d5),
         n_sig_singleton_worst=int(sum(x <= 0.05 for x in p30_sg_wc)),
         n_sig_singleton_delta5=int(sum(x <= 0.05 for x in p30_sg_d5)),
+        stec_nov_gii_p_singleton_cv1_worst=float(p30_sg_wc[idx_stec_gii]),
+        n_singleton_cv3_valid=int(cv3_271_nval),
+        c_sim_singleton_cv3_worst=float(c30_271_cv3_wc),
+        c_sim_singleton_cv3_delta5=float(c30_271_cv3_d5),
+        n_sig_singleton_cv3_worst=int(sum(x <= 0.05 for x in p30_271_cv3_wc)),
+        n_sig_singleton_cv3_delta5=int(sum(x <= 0.05 for x in p30_271_cv3_d5)),
+        stec_nov_gii_p_singleton_cv3_worst=float(p30_271_cv3_wc[idx_stec_gii]),
         n_r11_state_clusters=int(inf_r11.n_states),
         c_sim_r11_state_worst=float(c30_r11_wc),
         c_sim_r11_state_delta5=float(c30_r11_d5),
@@ -3023,11 +3065,7 @@ def run_all(main_df: pd.DataFrame, t_main: S.Table, main_res: dict, seed: int = 
     )
     small_cal = run_small_sample_calibration(inf, n_mc=400, B_inner=499, seed=seed)
     clust_cal_53 = run_cluster_double_bootstrap(inf, n_mc=300, B_inner=399, seed=seed, include_cbt=True)
-    # 271-singleton clustering (M4): treat each of the 219 Multistate outbreaks as its own singleton cluster
-    df_271 = main_df.copy()
-    is_ms = df_271["state"].astype(str) == "Multistate"
-    df_271.loc[is_ms, "state"] = "Multi_" + df_271.loc[is_ms, "outbreak_id"].astype(str)
-    inf_271 = StackedInference(df_271, t_main, ordered_30)
+    # Reuse inf_271 (271-singleton clustering) built above for double-bootstrap calibration
     clust_cal_271 = run_cluster_double_bootstrap(inf_271, n_mc=300, B_inner=399, seed=seed + 201, include_cbt=False)
     clust_cal_r11 = run_cluster_double_bootstrap(inf_r11, n_mc=300, B_inner=399, seed=seed + 202, include_cbt=False)
     clust_cal_by_def = OrderedDict(state_53=clust_cal_53, singleton_271=clust_cal_271, r11_52=clust_cal_r11)

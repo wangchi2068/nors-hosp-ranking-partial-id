@@ -1,6 +1,6 @@
 {
  "source": "analysis/results.json",
- "spec_hash": "e17955a01b0ee705",
+ "spec_hash": "fba56202ed21edb6",
  "analysis_version": "8.0",
  "n_pairs": 15,
  "n_common_support_cells": 12,
@@ -106,6 +106,8 @@
     "joint_upper_tier_binding_pair": "SAL|CAMP"
    },
    "cv3_sal_camp_stepdown_pp": 6.551818181818181,
+   "cv3_sal_camp_multistate_var_share_root": 0.7849078511428199,
+   "cv3_sal_camp_multistate_var_share_d5": 0.7810363681385389,
    "bootstrap_t": {
     "STEC_1_1": 11.459435614780599,
     "STEC_1_1_binding_pair": "SAL|STEC",
