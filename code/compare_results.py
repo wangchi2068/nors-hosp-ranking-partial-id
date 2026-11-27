@@ -35,6 +35,7 @@ NUM_SECTIONS = {
     "plausible_scenarios",
     "cluster_diagnostics",
     "empirical_calibration",
+    "supplementary_audits",
 }
 TOL = 1e-9
 NUM_TOL = 1e-3

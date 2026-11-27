@@ -269,6 +269,7 @@ def make_tables(r: dict, tdir: Path, write_tex: bool = True) -> None:
     oi = si["or_inference"]["gamma_star_95"]
     fmt_p = lambda pv: "<0.001" if pv < 0.001 else f"{pv:.3f}"
     fmt_ds_s = lambda v: "∞" if v is None else (f"{v:.2f}" if v < 1 else f"{v:.1f}")
+    fmt_or_s = lambda v: "∞" if v is None else (">50" if v > 50.0 else (f"{v:.2f}" if v < 1 else f"{v:.1f}"))
     rows = []
     for k, p in sorted_pairs(m):
         sp = si["pairs"][k]; b = bt["pairs"][k]; og = oi[k]
@@ -282,7 +283,7 @@ def make_tables(r: dict, tdir: Path, write_tex: bool = True) -> None:
             "Sample δ*": fmt_ds_s(sp["delta_star_pt_pp"]),
             "95% δ* (Bt / CV3, ss)": f"{fmt_ds_s(sp['delta_star_95_bt_pp'])} / {fmt_ds_s(sp['delta_star_95_cv3_pp'])}",
             "Implied q at Bt δ* (H/L %)": imp_str,
-            "OR 95% Γ* (Bt / CV3)": f"{fmt_ds_s(og['gamma_star_95_bt'])} / {fmt_ds_s(og['gamma_star_95_cv3'])}",
+            "OR 95% Γ* (Bt / CV3)": f"{fmt_or_s(og['gamma_star_95_bt'])} / {fmt_or_s(og['gamma_star_95_cv3'])}",
         })
     rb_bt = si["rank_breakdown_points_pp"]["bootstrap_t"]
     rb_c3 = si["rank_breakdown_points_pp"]["cv3"]
@@ -292,47 +293,46 @@ def make_tables(r: dict, tdir: Path, write_tex: bool = True) -> None:
           "Pairwise ordering stability, simultaneous 30-hypothesis FWER p-values (studentized bootstrap-t and CV3 jackknife), "
           "additive/OR breakdown thresholds, and implied unrecorded-case hospitalization rates at 95% thresholds.",
           "".join([Lc(2.1), R(1.85), R(1.85), R(1.80), R(0.95), R(1.8), R(1.85), R(1.65)]),
-          notes=f"Bootstrap disjoint w/δ=5 (%) reports sample share of {bt['B']:,} resamples with disjoint bounds (L_h > U_l) at worst case and δ = 5 pp. "
-                f"Primary studentized bootstrap-t uses δ-specific c_bt(δ) (c_bt = {si['c_bt_worst']:.2f} worst / {si['c_bt_delta5']:.2f} at δ = 5; "
-                f"empirical 400×499 FWER {100*sc['fwer_worst']['bootstrap_t']:.1f}% / {100*sc['fwer_delta5']['bootstrap_t']:.1f}%). "
-                f"CV3 leaves out each of 53 states ({si['cv3_n_valid_worst']}/53 valid; cluster RE FWER {100*cc53['fwer_worst']['cv3_jackknife']:.1f}% / {100*cc53['fwer_delta5']['cv3_jackknife']:.1f}%; t_52 reference c = {si['c_sim_cv3_t_worst']:.2f}, 0/30 sig worst, 12/30 at δ = 5). "
-                f"Implied q at Bt δ* (H/L %) lists weighted unrecorded hospitalization rates evaluated at the single-step 95% Bt statistical breakdown threshold, where simultaneous FWER significance fails "
+          notes=f"Abbreviations: ss = single-step; w = worst case. Bootstrap disjoint w/δ=5 (%) reports sample share of {bt['B']:,} resamples with disjoint bounds (L_h > U_l). "
+                f"Unified conservative joint rule (requiring both studentized bootstrap-t and CV3 jackknife p <= 0.05) rejects {si['n_fwer_cons_worst_sig']}/30 at worst case and {si['n_fwer_cons_delta5_sig']}/30 at δ = 5 pp. "
+                f"Primary studentized bootstrap-t uses δ-specific c_bt(δ) ({si['c_bt_worst']:.2f} worst / {si['c_bt_delta5']:.2f} δ=5; 15-hyp. c_bt = {si['c_bt_15_worst']:.2f} / {si['c_bt_15_delta5']:.2f}); "
+                f"CV3 leaves out 53 states ({si['cv3_n_valid_worst']}/53 valid; t_52 c = {si['c_sim_cv3_t_worst']:.2f}, 0/30 worst, 12/30 δ=5). "
+                f"Implied q at Bt δ* (H/L %) evaluates unrecorded hospitalization at ss 95% Bt δ* "
                 f"(STEC>SAL: {si['pairs']['SAL|STEC']['implied_at_delta_star_95']['boot_t']['implied_unrec_high_pct']:.1f}% vs {si['pairs']['SAL|STEC']['implied_at_delta_star_95']['boot_t']['implied_unrec_low_pct']:.1f}%; "
                 f"CAMP>CPERF: {si['pairs']['CAMP|CPERF']['implied_at_delta_star_95']['boot_t']['implied_unrec_high_pct']:.1f}% vs {si['pairs']['CAMP|CPERF']['implied_at_delta_star_95']['boot_t']['implied_unrec_low_pct']:.1f}%). "
-                f"Within-upper single-step min 95% δ*: {rb_bt['within_upper_tier_min']:.1f} pp (STEC>SAL, Bt) vs {rb_c3['within_upper_tier_min']:.1f} pp (SAL>CAMP, CV3 single-step, {100*si['rank_breakdown_points_pp']['cv3_sal_camp_multistate_var_share_root']:.1f}% driven by pooled Multistate variance vs {r['cluster_diagnostics']['multistate_sensitivity']['r11_full']['pair_breakdown_pp']['SAL|CAMP']['cv3']:.1f} pp in R11; stepdown CV3 holds to {si['rank_breakdown_points_pp']['cv3_sal_camp_stepdown_pp']:.1f} pp, p = {si['pairs']['SAL|CAMP']['p_fwer_cv3_delta5']:.3f} at δ = 5); "
-                f"upper-vs-lower (CAMP>CPERF): {rb_bt['upper_vs_lower_tier_min']:.1f} pp (Bt) and {rb_c3['upper_vs_lower_tier_min']:.1f} pp (CV3). OR 95% Γ* is likewise single-step (NoV GII>GI: {oi['NOV_GI|NOV_GII']['gamma_star_95_bt']:.2f} Bt, {oi['NOV_GI|NOV_GII']['gamma_star_95_cv3']:.2f} CV3).",
+                f"Within-upper ss 95% δ*: {rb_bt['within_upper_tier_min']:.1f} pp (Bt, STEC>SAL) vs {rb_c3['within_upper_tier_min']:.1f} pp (CV3, SAL>CAMP, {100*si['rank_breakdown_points_pp']['cv3_sal_camp_multistate_var_share_root']:.1f}% from pooled Multistate variance vs {r['cluster_diagnostics']['multistate_sensitivity']['r11_full']['pair_breakdown_pp']['SAL|CAMP']['cv3']:.1f} pp in R11; stepdown CV3 {si['rank_breakdown_points_pp']['cv3_sal_camp_stepdown_pp']:.1f} pp, p = {si['pairs']['SAL|CAMP']['p_fwer_cv3_delta5']:.3f} at δ = 5). "
+                f"OR 95% Γ* (0.1% floor; >50 capped where near-zero cells exceed 50) is ss (NoV GII>GI: {oi['NOV_GI|NOV_GII']['gamma_star_95_bt']:.2f} Bt, {oi['NOV_GI|NOV_GII']['gamma_star_95_cv3']:.2f} CV3; sample Γ* under 0/0.1%/1% floors: 7.75/7.60/4.95).",
           sep="1.8pt")
 
-    # MAIN TABLE 4: Simultaneous 95% rank confidence sets across specifications, plausibility regimes & scales
+    # MAIN TABLE 4: Conditional nominal 95% rank confidence sets across specifications, plausibility regimes & scales
     rcs = si["rank_confidence_sets"]
     cwi = si["coarser_and_weighting_inference"]
     r11 = r["cluster_diagnostics"]["multistate_sensitivity"]["r11_full"]
     pl = r["plausible_scenarios"]
     oi_bg = si["or_inference"]["by_gamma"]
     rank_scenarios = [
-        ("Worst case: Case-weighted (Boot-t)", rcs["worst_boot_t"]),
+        ("Worst case: Case-weighted (Joint Boot-t & CV3)", rcs["worst_cons"]),
         ("Worst case: Case-weighted (HC1 / CV1)", rcs["worst_hc1"]),
-        ("Worst case: R10 Equal outbreak wt. (Boot-t)", cwi["R10_outbreak_weighted"]["ranks"]["worst_boot_t"]),
-        ("Worst case: R2 Period-only / R11 Single-state (Boot-t)", cwi["R2_period_only"]["ranks"]["worst_boot_t"]),
-        ("Plausibility P1 (Lower <=5%, Upper p_js ±50%) (Boot-t)", pl["P1_lower5_upper50pct"]["ranks_boot_t"]),
-        ("Plausibility P2 (Lower <=10%, Upper p_js ±50%) (Boot-t)", pl["P2_lower10_upper50pct"]["ranks_boot_t"]),
-        ("Additive δ = 5 pp (Boot-t / CV3 / Cluster boot-t)", rcs["delta5_boot_t"]),
-        ("Diagnostic asymmetric (-10/+5 SAL, -7/+5 CAMP) (Boot-t)", rcs["diag_asym_boot_t"]),
-        ("OR scale Γ = 2.0 (0.1% floor, Boot-t)", oi_bg["2.0"]["ranks"]["boot_t"]),
-        ("OR scale Γ = 3.0 (0.1% floor, Boot-t)", oi_bg["3.0"]["ranks"]["boot_t"]),
+        ("Worst case: R10 Equal outbreak wt. (Boot-t / CV3)", cwi["R10_outbreak_weighted"]["ranks"]["worst_boot_t"]),
+        ("Worst case: R2 Period-only / R11 Single-state (Joint)", cwi["R2_period_only"]["ranks"]["worst_cv3"]),
+        ("Plausibility P1 (Lower <=5%, Upper p_js ±50%) (Joint)", pl["P1_lower5_upper50pct"]["ranks_cv3"]),
+        ("Plausibility P2 (Lower <=10%, Upper p_js ±50%) (Joint)", pl["P2_lower10_upper50pct"]["ranks_cv3"]),
+        ("Additive δ = 5 pp (Joint Boot-t & CV3)", rcs["delta5_cons"]),
+        ("Diagnostic asymmetric (-10/+5 SAL, -7/+5 CAMP) (Joint)", rcs["diag_asym_cv3"]),
+        ("OR scale Γ = 2.0 (0.1% floor, Stepdown Boot-t)", oi_bg["2.0"]["ranks"]["boot_t"]),
+        ("OR scale Γ = 2.0 (0.1% floor, Joint / Stepdown CV3)", oi_bg["2.0"]["ranks"]["cv3"]),
+        ("OR scale Γ = 3.0 (0.1% floor, Joint / Boot-t)", oi_bg["3.0"]["ranks"]["cv3"]),
     ]
     rows = []
     for lbl, rmap in rank_scenarios:
         rows.append({"Scenario / Procedure": lbl, **_fmt_ranks(rmap, order)})
     _emit("tab:rank_sets", "table_4_rank_sets_summary", pd.DataFrame(rows),
-          "Nominal simultaneous 95% rank confidence sets [1 = highest, 6 = lowest] across weighting specifications, "
-          "explicit plausibility intervals (P1–P2), additive departures, and odds-ratio (OR) scaling.",
+          "Conditioned nominal simultaneous 95% rank confidence sets [1 = highest, 6 = lowest] across weighting specifications, "
+          "plausibility intervals (P1–P2), additive departures, and odds-ratio (OR) scaling.",
           "".join([Lc(4.15)] + [R(1.74)] * 6),
-          notes=f"Sets are nominal 95% (see Table S10 for empirical FWER: 7.2%–7.8% Boot-t in outbreak resampling; 18.7%/11.7% CV3 and 15.7%/10.7% CV3-t_52 under 53-cluster RE). "
-                f"R10 rejects {cwi['R10_outbreak_weighted']['n_sig_worst']['boot_t']}/30 hypotheses under Boot-t (p = {cwi['R10_outbreak_weighted']['stec_nov_gii_p_worst']['boot_t']:.3f}) and {cwi['R10_outbreak_weighted']['n_sig_worst']['cv3']}/30 under CV3 at worst case, "
-                f"whereas case-weighted R2 (p = {cwi['R2_period_only']['stec_nov_gii_p_worst']['boot_t']:.3f} Boot-t, {cwi['R2_period_only']['stec_nov_gii_p_worst']['cv3']:.3f} CV3; {cwi['R2_period_only']['n_sig_delta5']['cv3']}/30 CV3 vs 12/30 Boot-t at δ = 5) and R11 (0/30 sig across all 5 methods) yield [1, 6] for all six groups. "
-                f"Both P1 and P2 determine {pl['P1_lower5_upper50pct']['sample_determined']}/15 pairs in sample and reject 12/30 under Boot-t and CV3. "
-                f"OR scale Γ = 2.0 rejects {oi_bg['2.0']['n_sig']['boot_t']}/30 hypotheses under stepdown Boot-t (separating Norovirus GII above GI; single-step Γ* = {oi['NOV_GI|NOV_GII']['gamma_star_95_bt']:.2f}).",
+          notes=f"Rank sets are conditioned on each stated missingness assumption and use the conservative joint rule (both Boot-t and CV3 reject; Table S10 empirical FWER 3.0%/1.0% outbreak, 4.7%/2.0% LogNormal, 13.0%/7.3% 53-cluster RE, 8.0%/3.0% 271-cluster). "
+                f"R10 targets an equal-outbreak-average estimand (fixing w_s), rejecting {cwi['R10_outbreak_weighted']['n_sig_worst']['boot_t']}/30 (Boot-t p = {cwi['R10_outbreak_weighted']['stec_nov_gii_p_worst']['boot_t']:.3f}) and {cwi['R10_outbreak_weighted']['n_sig_worst']['cv3']}/30 (CV3) at worst case, whereas case-weighted R2 and R11 yield [1, 6] (R2 δ=5: {cwi['R2_period_only']['n_sig_delta5']['cv3']}/30 CV3 vs 12/30 Boot-t). "
+                f"OR Γ = 2.0 rejects {oi_bg['2.0']['n_sig']['boot_t']}/30 under stepdown Boot-t (separating NoV GII [4, 5] > GI [5, 6]; ss Γ* = {oi['NOV_GI|NOV_GII']['gamma_star_95_bt']:.2f}) but {oi_bg['2.0']['n_sig']['cv3']}/30 under CV3 and conservative joint (both [4, 6]; ss CV3 Γ* = {oi['NOV_GI|NOV_GII']['gamma_star_95_cv3']:.2f}).",
           sep="2.0pt")
 
     # SUPP TABLE S1: Audit
@@ -544,9 +544,9 @@ def make_tables(r: dict, tdir: Path, write_tex: bool = True) -> None:
                 f"WCB {si['pairs']['STEC|NOV_GII']['p_fwer_wcb_worst']:.3f}/{si['wild_cluster_bootstrap']['worst']['c_wcb_sim']:.2f}/1; "
                 f"CV3 {si['pairs']['STEC|NOV_GII']['p_fwer_cv3_worst']:.3f}/{si['c_sim_cv3_worst']:.2f}/0 (t_52 crit {si['c_sim_cv3_t_worst']:.2f}, p={si['stec_nov_gii_p_cv3_t_worst']:.3f}); "
                 f"cluster boot-t {si['pairs']['STEC|NOV_GII']['p_fwer_cluster_bt_worst']:.3f}/{si['c_cbt_worst']:.2f}/0; "
-                f"boot-t {si['pairs']['STEC|NOV_GII']['p_fwer_boot_t_worst']:.3f}/{si['c_bt_worst']:.2f}/0. At δ = 5 pp, all reject 12. "
+                f"boot-t {si['pairs']['STEC|NOV_GII']['p_fwer_boot_t_worst']:.3f}/{si['c_bt_worst']:.2f}/0 (15-hyp. c = {si['c_bt_15_worst']:.2f}); conservative joint {si['n_fwer_cons_worst_sig']}/30. At δ = 5 pp, all 6 reject 12 (15-hyp. Boot-t c = {si['c_bt_15_delta5']:.2f}). "
                 f"Multistate score variance share: {100*cw_w['max_variance_share']:.1f}% worst (plug-in G_eff = {cw_w['effective_clusters_g_eff']:.2f}) and {100*cw_5['max_variance_share']:.1f}% δ = 5 (G_eff = {cw_5['effective_clusters_g_eff']:.2f}); "
-                f"271-singleton yields {ms['n_sig_singleton_worst']}/30 CV1 (STEC>NoV GII p = {ms['stec_nov_gii_p_singleton_cv1_worst']:.3f}) and {ms['n_sig_singleton_cv3_worst']}/30 CV3 (p = {ms['stec_nov_gii_p_singleton_cv3_worst']:.3f}) at worst case (both 12/30 at δ = 5), while 52-state R11 yields 0/30 worst case and 12/30 δ = 5 across all 5 methods. Across {loo['n_outbreaks_checked']:,} LOO (and 6-group LLO) deletions, worst-case determined stays {loo['wc_determined_range'][0]}–{loo['wc_determined_range'][1]} ({llo['wc_determined']} LLO).",
+                f"271-singleton yields {ms['n_sig_singleton_worst']}/30 CV1 (STEC>NoV GII p = {ms['stec_nov_gii_p_singleton_cv1_worst']:.3f}) and {ms['n_sig_singleton_cv3_worst']}/30 CV3 (p = {ms['stec_nov_gii_p_singleton_cv3_worst']:.3f}) at worst case (both 12/30 at δ = 5), while 52-state R11 yields 0/30 worst case and 12/30 δ = 5 across all 5 methods. Across {loo['n_outbreaks_checked']:,} LOO (and 6-group LLO) deletions, sample worst-case determination stays {loo['wc_determined_range'][0]}–{loo['wc_determined_range'][1]} ({llo['wc_determined']} LLO; min worst-case margin {loo['most_influential_single_outbreak']['min_margin_pp']:.2f} pp on {loo['most_influential_single_outbreak']['pair']} after removing Ohio {int(loo['most_influential_single_outbreak']['cases'])}-case CPERF outbreak).",
           sep="2.1pt")
 
     # SUPP TABLE S10: Complete Double-Bootstrap & Parametric Heavy-Tail Calibration Matrix (M3, M4, m2)
@@ -556,7 +556,7 @@ def make_tables(r: dict, tdir: Path, write_tex: bool = True) -> None:
     for k_m, lbl_m in [("hc0", "HC0 Gaussian (df-uncorrected)"), ("hc1", "HC1 Gaussian"),
                        ("fixed_scale_boot", "Fixed-scale std. bootstrap"), ("state", "53-state CV1 Gaussian"),
                        ("wcb", "Unrestricted Rademacher WCB"), ("cv3_jackknife", "CV3 cluster jackknife"),
-                       ("bootstrap_t", "Studentized bootstrap-t")]:
+                       ("bootstrap_t", "Studentized bootstrap-t"), ("conservative_joint", "Conservative joint (Boot-t & CV3)")]:
         rows.append({
             "Calibration world": f"Outbreak ({sc['n_mc']}×{sc['B_inner']})",
             "Procedure": lbl_m,
@@ -567,8 +567,9 @@ def make_tables(r: dict, tdir: Path, write_tex: bool = True) -> None:
     for c_key, c_lbl in [("state_53", "Cluster 53-state"), ("singleton_271", "Cluster 271-singleton"), ("r11_52", "Cluster 52-state R11")]:
         cd_b = cc_def[c_key]
         for k_c, lbl_c in [("cv1_state", "CV1 cluster Gaussian"), ("wcb", "Unrestricted Rademacher WCB"),
-                           ("cluster_boot_t", "Bayesian cluster boot-t"), ("cv3_jackknife", "CV3 cluster jackknife"),
-                           ("cv3_t_df", "CV3 jackknife (t_{G-1})")]:
+                           ("cluster_boot_t", "Bayesian cluster boot-t"), ("bootstrap_t", "Studentized bootstrap-t"),
+                           ("cv3_jackknife", "CV3 cluster jackknife"), ("cv3_t_df", "CV3 jackknife (t_{G-1})"),
+                           ("conservative_joint", "Conservative joint (Boot-t & CV3)")]:
             if k_c not in cd_b["fwer_worst"]:
                 continue
             rows.append({
@@ -576,9 +577,10 @@ def make_tables(r: dict, tdir: Path, write_tex: bool = True) -> None:
                 "Procedure": lbl_c,
                 "Worst FWER ± SE (%)": f"{100*cd_b['fwer_worst'][k_c]:.1f} ± {100*cd_b['fwer_worst_mc_se'][k_c]:.1f}",
                 "δ=5 FWER ± SE (%)": f"{100*cd_b['fwer_delta5'][k_c]:.1f} ± {100*cd_b['fwer_delta5_mc_se'][k_c]:.1f}",
-                "World note": f"Fixed-size Cluster RE + Beta-Binom (SE/SD: CV1 {cd_b['median_se_ratio_cv1']:.2f}, CV3 {cd_b['median_se_ratio_cv3']:.2f})",
+                "World note": f"Random-size Cluster RE + Beta-Binom (SE/SD: CV1 {cd_b['median_se_ratio_cv1']:.2f}, CV3 {cd_b['median_se_ratio_cv3']:.2f})",
             })
-    for k_p, lbl_p in [("hc1", "HC1 Gaussian"), ("bootstrap_t", "Studentized bootstrap-t")]:
+    for k_p, lbl_p in [("hc1", "HC1 Gaussian"), ("cv3_jackknife", "CV3 cluster jackknife"),
+                       ("bootstrap_t", "Studentized bootstrap-t"), ("conservative_joint", "Conservative joint (Boot-t & CV3)")]:
         rows.append({
             "Calibration world": f"Parametric LogNorm ({pc['n_mc']}×{pc['B_inner']})",
             "Procedure": lbl_p,
@@ -593,7 +595,7 @@ def make_tables(r: dict, tdir: Path, write_tex: bool = True) -> None:
           "".join([Lc(3.35), Lc(3.45), R(2.35), R(2.35), Lc(3.1)]),
           notes=f"Pointwise Imbens-Manski 95% boundary coverage (15 primary pairs, outbreak world): {100*sc['im95_min_endpoint_cov_hc1']:.1f}% min to {100*sc['im95_median_endpoint_cov_hc1']:.1f}% median (HC1). "
                 f"Per-group HC1 SE / MC SD ratios: {min(pg_L):.3f}–{max(pg_L):.3f} (L_j) and {min(pg_U):.3f}–{max(pg_U):.3f} (U_j). "
-                f"While CV3 achieves <=5.0% FWER under independent outbreak resampling (4.0% worst, 1.0% at δ = 5) and studentized bootstrap-t achieves 2.7% at δ = 5 in overdispersed LogNormal worlds, neither primary procedure guarantees <=5.0% worst-case FWER across all five calibration worlds.",
+                f"Conservative joint (requiring both Boot-t and CV3 p <= 0.05) achieves <=5.0% FWER in outbreak (3.0%/1.0%) and LogNormal (4.7%/2.0%) worlds and strictly improves on all single procedures under random-size cluster RE (13.0%/7.3% 53-cluster; 8.0%–8.3% worst and 3.0%–4.7% at δ = 5 across 271/52 clusters).",
           size="tiny", sep="2.0pt")
 
     if write_tex:

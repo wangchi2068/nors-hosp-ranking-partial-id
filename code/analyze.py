@@ -588,7 +588,7 @@ def main(argv=None):
             (Path(__file__).parent / f).read_text(encoding="utf-8")
             for f in ("analyze.py", "bounds.py", "strata.py", "nors_rules.py", "bootstrap.py", "inference.py")
             if (Path(__file__).parent / f).exists()).encode()).hexdigest()[:16],
-        analysis_version="8.0", hardware="CPU only", wall_clock_seconds=None,
+        analysis_version="9.0", hardware="CPU only", wall_clock_seconds=None,
     )
     res["summary"] = summary_block(main_res)
     res["groups"] = OrderedDict((g, R.GROUP_LABELS[g]) for g in R.GROUPS)
@@ -661,6 +661,7 @@ def main(argv=None):
     res["parametric_calibration"] = up["parametric_calibration"]
     res["plausible_scenarios"] = up["plausible_scenarios"]
     res["empirical_calibration"] = up["empirical_calibration"]
+    res["supplementary_audits"] = up["supplementary_audits"]
     print("stacked inference, plausible scenarios & calibrations done", flush=True)
     res["notes"] = TEXT["notes"]
     res["estimates"] = []

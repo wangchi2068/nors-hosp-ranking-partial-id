@@ -1,5 +1,5 @@
 % =================================================================
-% SUPPLEMENTARY MATERIAL (STANDALONE DOCUMENT, v8.0 clean-slate refactor)
+% SUPPLEMENTARY MATERIAL (STANDALONE DOCUMENT, v9.0)
 % =================================================================
 \documentclass[11pt,a4paper]{article}
 \usepackage{iftex}
@@ -15,6 +15,7 @@
 \setstretch{1.12}
 \usepackage{booktabs}
 \usepackage{microtype}
+\setlength{\emergencystretch}{2em}
 \usepackage{xcolor}
 \usepackage{array}
 \usepackage{tabularx}
@@ -86,16 +87,16 @@ For a pair ordered at $\delta = 0$ as $\theta_h(0) > \theta_l(0)$,
 \end{equation}
 is continuous and non-increasing on $[0, 1]$, with breakpoints at $\{p_{hs}\}_s \cup \{1 - p_{ls}\}_s$ (agreeing with 200-step bisection to $< 2 \times 10^{-14}\text{ pp}$).
 
-\subsection*{Closed-Form Influence Functions, Numerical Verification and Calibration Designs}
-Let $C_{\cdot} = \sum_{k=1}^{G}\sum_{t=1}^{K} C_{kt}$ ($w_t = C_{\cdot t}/C_{\cdot}$). Given unrecorded-rate bounds $(q^L_{js}, q^U_{js})$ and recorded-rate derivatives $(d^L_{js}, d^U_{js})$ (additive, OR $\Gamma \ge 1$ with 0.1\% continuity floor, group-asymmetric, or plausibility intervals $P_1/P_2$), define $r^L_{js} = (H_{js} + M_{js}q^L_{js})/C_{js}$ and $\bar{L}_j = \sum_t w_t r^L_{jt}$. Perturbing stratum $(k, s)$ by centered outbreak counts $(\tilde{C}_i, \tilde{H}_i, \tilde{M}_i, \tilde{H}_{\text{rec},i}, \tilde{K}_{\text{rec},i})$ with $\tilde{p}_i = (\tilde{H}_{\text{rec},i} - p_{ks}\tilde{K}_{\text{rec},i})/K_{\text{rec},ks}$ yields:
+\subsection*{Closed-Form Influence Functions, Regularity Scope and Calibration Designs}
+Let $S = 12$ denote the number of common-support strata, $C_{\cdot} = \sum_{j=1}^{G}\sum_{s=1}^{S} C_{js}$ ($w_s = C_{\cdot s}/C_{\cdot}$), and fix bounded-variation derivatives $(q^L_{js}, d^L_{js})$ away from kinks (additive $\delta$, continuous-floor OR $\Gamma \ge 1$, group-asymmetric, or $P_1/P_2$). Applying the Gateaux derivative $\mathrm{D}\bar{L}_j$ at a single outbreak perturbation $\delta_{Z_i}$ in stratum $(k, s)$ decomposes $\bar{L}_j = \sum_{t=1}^{S} w_t r^L_{jt}$ via the product rule into the weight shift $\sum_t (\mathrm{D}w_t) r^L_{jt} = (r^L_{js} - \bar{L}_j)\tilde{C}_i/C_{\cdot}$ plus the own-group ratio shift $\mathbf{1}\{k=j\}\, w_s\,\mathrm{D}r^L_{js}$, where $\mathrm{D}r^L_{js} = [\tilde{H}_i + q^L_{js}\tilde{M}_i + d^L_{js}M_{js}\tilde{p}_i - r^L_{js}\tilde{C}_i]/C_{js}$ with $\tilde{p}_i = (\tilde{H}_{\text{rec},i} - p_{ks}\tilde{K}_{\text{rec},i})/K_{\text{rec},ks}$ and centered counts $(\tilde{C}_i, \tilde{H}_i, \tilde{M}_i, \tilde{H}_{\text{rec},i}, \tilde{K}_{\text{rec},i})$. Combining both terms yields:
 \begin{equation}
   \psi^L_{j,i} = \frac{r^L_{js} - \bar{L}_j}{C_{\cdot}}\tilde{C}_i
   + \mathbf{1}\{k = j\}\, \frac{w_s}{C_{js}} \left[\tilde{H}_i + q^L_{js}\tilde{M}_i + d^L_{js}M_{js}\tilde{p}_i - r^L_{js}\tilde{C}_i\right],
   \label{eq:s-if}
 \end{equation}
-with $\psi^U_{j,i}$ replacing $(q^L, d^L, r^L, \bar{L})$ by $(q^U, d^U, r^U, \bar{U})$. Outbreak-HC1 covariances matched central-difference sandwich covariances to $\le 1.64 \times 10^{-12}$ (worst case), $2.92 \times 10^{-13}$ ($\delta = 5\text{ pp}$), $4.00 \times 10^{-13}$ ($-15/+5\text{ pp}$), $2.74 \times 10^{-13}$ (diagnostic group-asymmetric), $6.06 \times 10^{-13}$ (OR $\Gamma$), and $4.00 \times 10^{-13}$ (plausibility $P_1/P_2$); uncentered cluster Gateaux derivatives matched central-difference cluster-weight perturbations to $\le 1.08 \times 10^{-10}$ (worst case) and $9.73 \times 10^{-11}$ ($\delta = 5\text{ pp}$); vectorized bootstrap-$t$ expansions matched analytic $\Delta^L$ to $\le 5.6 \times 10^{-17}$, and dynamic 21-point $c(\delta)$ grids matched exact Max-$T$ quantiles within $\le 0.0023$ (HC1) and $\le 0.0015$ (CV3). At $\delta = 5\text{ pp}$, $0/72$ cells lay within $10^{-6}$ of kinks, and all finite 95\% roots lay $\ge 0.0041\text{ pp}$ from kinks with unique zero-crossings verified across all 201 scan points (minor local kink steps in SE$(\delta)$ produce non-monotonicity away from the unique root in 10/15 pairs).
+with $\psi^U_{j,i}$ replacing $(q^L, d^L, r^L, \bar{L})$ by $(q^U, d^U, r^U, \bar{U})$; replacing $\tilde{C}_i$ by uncentered outbreak/cluster totals yields exact cluster-level Gateaux scores. Outbreak-HC1 covariances matched central-difference sandwich covariances to $\le 1.64 \times 10^{-12}$ (worst case), $2.92 \times 10^{-13}$ ($\delta = 5\text{ pp}$), $4.00 \times 10^{-13}$ ($-15/+5\text{ pp}$), $2.74 \times 10^{-13}$ (diagnostic group-asymmetric), $6.06 \times 10^{-13}$ (OR $\Gamma$), and $4.00 \times 10^{-13}$ (plausibility $P_1/P_2$); uncentered cluster Gateaux derivatives matched central-difference cluster-weight perturbations to $\le 1.08 \times 10^{-10}$ (worst case) and $9.73 \times 10^{-11}$ ($\delta = 5\text{ pp}$); vectorized bootstrap-$t$ expansions matched analytic $\Delta^L$ to $\le 5.6 \times 10^{-17}$, and dynamic 21-point $c(\delta)$ grids matched exact Max-$T$ quantiles within $\le 0.0023$ (HC1) and $\le 0.0015$ (CV3).
 
-Across $B = 2,000$ bootstrap draws, $0$ SE entries were degenerate; $88/2,000$ draws lacked $K_{\text{rec}}$ in $\ge 1$ stratum, and conditioning on the remaining $1,912$ draws gave virtually identical studentized critical values ($c_{\text{bt}} = 4.456$ vs.\ $4.519$ worst case; $3.370$ vs.\ $3.369$ at $\delta = 5\text{ pp}$; Supplementary Table~\ref{tab:bootstrap}). Five FWER calibration worlds are summarized in Supplementary Table~\ref{tab:small_cal}: outbreak-stratified ($400 \times 499$ including CV3), fixed-size cluster random-effects plus Beta-Binomial preserving observed outbreak sizes ($300 \times 399$ across 53 exposure states, 271 singletons, and 52 single states R11, evaluating both Gaussian CV3 and CV3-$t_{G-1}$), and overdispersed Beta-Binomial plus cell-matched $\text{LogNormal}(\mu_{js}, \sigma_{js})$ heavy-tail ($300 \times 399$, evaluating HC1 and studentized bootstrap-$t$). Full comparator critical-value curves and common-mechanism scaling ($q_{js} = \min(1, \alpha p_{js})$) appear in Supplementary Fig.~\ref{fig:s-supp3}.
+\emph{Regularity conditions and known failure regimes.} Standard Wald/bootstrap-$t$ validity requires bounded second moments, non-zero recorded counts $K_{\text{rec},js} > 0$, interior points away from kinks ($p_{js} \notin \{0, \delta, 1 - \delta, 1\}$), and effective sample/cluster sizes $N_{\text{eff}}, G_{\text{eff}} \gg 1$. Conversely, four known structural features can degrade nominal asymptotic size: (i) local-to-kink non-regularity (Fang \& Santos, 2019) when $\sqrt{n_{js}}(p_{js} - \delta) = O(1)$ in sparse strata ($n_{js} = 3$--$4$; $0/72$ cells lay within $10^{-6}$ of kinks at $\delta = 5\text{ pp}$ and finite 95\% roots lay $\ge 0.0041\text{ pp}$ away with unique crossings, though minor SE$(\delta)$ kink jumps create local non-monotonicity away from the root in 10/15 pairs); (ii) near-ties among lower-tier groups causing non-regular rank projections (Hall \& Miller, 2009; Xie et al., 2009); (iii) severe concentration in small strata ($N_{\text{eff}} \approx 2$); and (iv) single-cluster dominance when 219 Multistate outbreaks are pooled ($G_{\text{eff}} = 1.88$--$3.54$), explaining why random-size cluster RE calibration remains elevated at $13.0\%$ worst case even under the conservative joint rule. Across $B = 2,000$ bootstrap draws, $0$ SE entries were degenerate and $88/2,000$ ($4.4\%$) lacked $K_{\text{rec}}$ in $\ge 1$ stratum (conditional $c_{\text{bt}} = 4.456$ vs.\ $4.519$). Five FWER calibration worlds evaluate all comparators jointly in Supplementary Table~\ref{tab:small_cal}; annual counts, period-specific analyses (2009--2013 vs.\ 2014--2018), continuous 0\%--50\% non-case curves, OR floor ($0, 0.1\%, 1\%$) sensitivity, and high-completeness threshold checks are archived under \texttt{supplementary\_audits} in \texttt{results.json}.
 
 \FloatBarrier
 \clearpage
@@ -159,25 +160,25 @@ Participants & 6 / R6.1--6.3 & MS §2.1 (pp.\ 2--3) \& Supp.\ Table S4 (p.\ 4): 
 Data linkage & R7.1 & Not applicable (single public CDC NORS table without linkage). \\
 Variables & 7 & MS §2.1--2.2 (pp.\ 2--4): $C_i, H_i, K_i, M_i, H_{\text{rec},js}, K_{\text{rec},js}$, weights $w_s$, Unknown-setting retention, additive/OR/plausibility ($P_1/P_2$) scales. \\
 Data sources / measurement & 8 & MS §2.1 (p.\ 2) \& Supp.\ Table S1 (p.\ 3): NORS form consistency across 2009--2023; audit categories and logical bounds. \\
-Bias & 9 & MS §2.2, §3.3, §4.2 (pp.\ 3--4, 8--9, 11, 13--14) \& Table S6 (p.\ 6), Table S2 (p.\ 3): shared-cell partial-vs-full CIs, excluded profiles, PulseNet vs.\ complaint detection. \\
+Bias & 9 & MS §2.2, §3.3, §4.2 (pp.\ 3--4, 9--10, 14--15) \& Table S6 (p.\ 6), Table S2 (p.\ 3): shared-cell partial-vs-full CIs, excluded profiles, PulseNet vs.\ complaint detection. \\
 Study size & 10 & MS §3.1 (p.\ 5), Fig.\ 1 (p.\ 6) \& Table S3 (p.\ 4): 66,713 raw $\rightarrow$ 11,358 foodborne $\rightarrow$ 4,133 eligible $\rightarrow$ 3,176 common-support outbreaks. \\
 Quantitative variables & 11 & MS §2.1--2.2 (pp.\ 2--4): 5-year periods, 7 settings, continuous pp, OR $\Gamma$, implied unrecorded rates $q$, and explicit intervals $P_1/P_2$. \\
-Statistical methods & 12a & MS §2.3 (pp.\ 4--5) \& Supp.\ §S2 (pp.\ 1--2), Table S9 (p.\ 8): Cholesky Max-$T$, primary studentized bootstrap-$t$ + CV3 jackknife, comparators, rank sets. \\
-Subgroups & 12b & MS §3.3 (pp.\ 8--9, 11) \& Table S7 (p.\ 6): O157 STEC (R12), non-typhoidal \textit{Salmonella} (R12b), single-state (R11), healthcare (R9), norovirus (R7/R7b). \\
-Missing data & 12c & MS §2.1--2.2, §4.2 (pp.\ 2--4, 13--14) \& Table S1 (p.\ 3): logical bound retention of 157 incomplete records; R14a--b checks; Unknown setting rationale (§2.1). \\
-Sampling / sensitivity & 12d--e & MS §2.3 (pp.\ 4--5), Table S7 (p.\ 6) \& Table S10 (p.\ 9): superpopulation model, 23 variants, outbreak, cluster (53/271/52), and parametric LogNormal calibrations. \\
-Data cleaning & R12.1--12.2 & MS §2.1 (p.\ 2) \& Declarations (p.\ 15): deterministic SHA-256 pipeline (\texttt{prepare\_data.py} $\rightarrow$ \texttt{analyze.py} $\rightarrow$ \texttt{reproduce.py}). \\
+Statistical methods & 12a & MS §2.3 (pp.\ 4--5) \& Supp.\ §S2 (pp.\ 1--2), Table S9 (p.\ 8): unified conservative rule (boot-$t$ \& CV3), Cholesky Max-$T$, comparators, rank sets. \\
+Subgroups & 12b & MS §3.3 (pp.\ 9--10) \& Table S7 (p.\ 6): O157 STEC (R12), non-typhoidal \textit{Salmonella} (R12b), single-state (R11), healthcare (R9), norovirus (R7/R7b). \\
+Missing data & 12c & MS §2.1--2.2, §4.2 (pp.\ 2--4, 14--15) \& Table S1 (p.\ 3): logical bound retention of 157 incomplete records; R14a 0\%--50\% non-case curve; Unknown setting (§2.1). \\
+Sampling / sensitivity & 12d--e & MS §2.3 (pp.\ 4--5), Table S7 (p.\ 6) \& Table S10 (p.\ 9): superpopulation model, 23 variants, period splits, and 5-world FWER calibrations. \\
+Data cleaning & R12.1--12.2 & MS §2.1 (p.\ 2) \& Declarations (p.\ 16): deterministic SHA-256 pipeline (\texttt{prepare\_data.py} $\rightarrow$ \texttt{analyze.py} $\rightarrow$ \texttt{reproduce.py}). \\
 Participants & 13a--c & MS §3.1 (p.\ 5), Fig.\ 1 (p.\ 6), Tables S1--S3 (pp.\ 3--4): exact counts at every eligibility, audit, exclusion, and support stage. \\
 Descriptive data & 14a--b & MS Table 1 (p.\ 6, STROBE 14a) \& Supp.\ Tables S3, S5, S6 (pp.\ 4--6): per-pathogen distributions and all 72 strata ($n_{js}, N_{\text{eff}}$). \\
-Outcome data & 15 & MS Table 2 (p.\ 6): crude $H/C$ \& $\delta = 0$, worst-case and $\delta = 5\text{ pp}$ intervals, $\delta = 0$ MAR values, bootstrap bound percentiles. \\
-Main results & 16a--c & MS Tables 3--4 (pp.\ 9--10), Figs.\ 2--5 (pp.\ 7, 10--11): sample/boot-$t$/CV3 breakdown frontiers, implied unrecorded rates, OR $\Gamma^{*}_{0.95}$, rank sets. \\
-Other analyses & 17 & MS §3.2--3.3 (pp.\ 5, 7--9, 11), Supp.\ §S2 (pp.\ 1--2), Tables S5--S10 (pp.\ 5--9), Figs.\ S2--S3 (p.\ 7): 23 variants, conditional $K_{\text{rec}}$, LOO/LLO. \\
+Outcome data & 15 & MS Table 2 (p.\ 8): crude $H/C$ \& $\delta = 0$, worst-case and $\delta = 5\text{ pp}$ intervals, $\delta = 0$ MAR values, bootstrap bound percentiles. \\
+Main results & 16a--c & MS Tables 3--4 (pp.\ 9--10), Figs.\ 2--5 (pp.\ 7, 11): sample/boot-$t$/CV3 breakdown frontiers, implied unrecorded rates, OR $\Gamma^{*}_{0.95}$, rank sets. \\
+Other analyses & 17 & MS §3.2--3.3 (pp.\ 5, 8--10), Supp.\ §S2 (pp.\ 1--2), Tables S5--S10 (pp.\ 5--9), Figs.\ S2--S3 (p.\ 7): 23 variants, period splits, non-case curve, OR floor check. \\
 Key results & 18 & MS §4--4.1 (pp.\ 11--13) \& Table 5 (p.\ 13): worst-case weighting dependence, published NORS audit \& recommended surveillance table, upper-vs-lower separation vs.\ fragile within-upper ordering. \\
-Limitations & 19 & MS §4.2 (pp.\ 13--14): reporting heterogeneity, 2023 closeout lag, PulseNet vs.\ complaint ascertainment, genus/serovar mix, post-hoc primary choice, FWER $>5\%$. \\
-Interpretation & 20 & MS §4--4.3 (pp.\ 11--14) \& Table 5 (p.\ 13): cautious methodological conclusions and actionable dual-denominator surveillance reporting recommendation. \\
-Generalizability & 21 & MS §4.2 (pp.\ 13--14): applies strictly to reported foodborne outbreak cases, distinct from sporadic community virulence. \\
-Funding & 22 & MS Declarations (p.\ 15): no specific funding; COI, AI-assistance, and ethics statements included. \\
-Data \& code availability & R22.1 & MS Declarations (p.\ 15): raw CDC NORS extract, SHA-256 manifest, LF JSON/CSV tables, and cross-platform replication scripts archived. \\
+Limitations & 19 & MS §4.2 (pp.\ 14--15): reporting heterogeneity, 2023 closeout lag, PulseNet vs.\ complaint ascertainment, genus/serovar mix, post-hoc primary choice, FWER $>5\%$. \\
+Interpretation & 20 & MS §4--4.3 (pp.\ 11--15) \& Table 5 (p.\ 13): cautious methodological conclusions and actionable dual-denominator surveillance reporting recommendation. \\
+Generalizability & 21 & MS §4.2 (pp.\ 14--15): applies strictly to reported foodborne outbreak cases, distinct from sporadic community virulence. \\
+Funding & 22 & MS Declarations (p.\ 16): no specific funding; COI, AI-assistance, and ethics statements included. \\
+Data \& code availability & R22.1 & MS Declarations (p.\ 16): raw CDC NORS extract, SHA-256 manifest, LF JSON/CSV tables, and cross-platform replication scripts archived. \\
 \bottomrule
 \end{tabular}
 \end{table}

@@ -31,11 +31,11 @@
     "raw_snapshot_sha256": "6005ac026ef124a5a1e5b9bd1f5aafc791184976f4518368bb5cd5aa059e82e9",
     "cohort_file": "data/derived/cohort_outbreaks.csv",
     "cohort_sha256": "87d511d1eea5c51f8241d81ee547dd641fd8cde6155412e6c58856a840207154",
-    "timestamp": "2026-11-27T03:58:55Z",
-    "spec_hash": "fba56202ed21edb6",
-    "analysis_version": "8.0",
+    "timestamp": "2026-11-27T05:47:12Z",
+    "spec_hash": "d236c54fb98585d1",
+    "analysis_version": "9.0",
     "hardware": "CPU only",
-    "wall_clock_seconds": 829.8
+    "wall_clock_seconds": 734.8
   },
   "summary": {
     "Salmonella": {
@@ -27737,6 +27737,8 @@
     "c_boot_std_delta5": 2.8990316382101406,
     "c_bt_worst": 4.519158609896356,
     "c_bt_delta5": 3.3688244616842944,
+    "c_bt_15_worst": 4.443489474310648,
+    "c_bt_15_delta5": 3.2053947316421394,
     "c_cbt_worst": 3.146827540956293,
     "c_cbt_delta5": 3.169072400821774,
     "c_bonferroni_two_sided_30": 2.935199468866699,
@@ -27762,12 +27764,16 @@
     "n_fwer_boot_std_delta5_sig": 12,
     "n_fwer_boot_t_worst_sig": 0,
     "n_fwer_boot_t_delta5_sig": 12,
+    "n_fwer_cons_worst_sig": 0,
+    "n_fwer_cons_delta5_sig": 12,
+    "or_gamma2_cons_n_sig": 12,
     "studentized_bootstrap_t": {
       "B_bt": 2000,
       "n_replicates_undef_krec": 88,
       "cond_valid_B": 1912,
       "worst": {
         "c_bt": 4.519158609896356,
+        "c_bt_15": 4.443489474310648,
         "p_fwer": [
           0.6421789105447276,
           0.8610694652673663,
@@ -27875,6 +27881,7 @@
       },
       "delta5": {
         "c_bt": 3.3688244616842944,
+        "c_bt_15": 3.2053947316421394,
         "p_fwer": [
           0.0004997501249375312,
           0.0004997501249375312,
@@ -27982,6 +27989,7 @@
       },
       "cond_worst": {
         "c_bt": 4.455904526856536,
+        "c_bt_15": 4.406765613169944,
         "p_fwer": [
           0.6424464192368008,
           0.8614741244119185,
@@ -28088,6 +28096,7 @@
       },
       "cond_delta5": {
         "c_bt": 3.370223537117676,
+        "c_bt_15": 3.2105367476147135,
         "p_fwer": [
           0.0005227391531625719,
           0.0005227391531625719,
@@ -30572,6 +30581,44 @@
           "n_significantly_lower": 0
         }
       },
+      "worst_cons": {
+        "SAL": {
+          "rank_lower": 1,
+          "rank_upper": 6,
+          "n_significantly_higher": 0,
+          "n_significantly_lower": 0
+        },
+        "STEC": {
+          "rank_lower": 1,
+          "rank_upper": 6,
+          "n_significantly_higher": 0,
+          "n_significantly_lower": 0
+        },
+        "CAMP": {
+          "rank_lower": 1,
+          "rank_upper": 6,
+          "n_significantly_higher": 0,
+          "n_significantly_lower": 0
+        },
+        "CPERF": {
+          "rank_lower": 1,
+          "rank_upper": 6,
+          "n_significantly_higher": 0,
+          "n_significantly_lower": 0
+        },
+        "NOV_GI": {
+          "rank_lower": 1,
+          "rank_upper": 6,
+          "n_significantly_higher": 0,
+          "n_significantly_lower": 0
+        },
+        "NOV_GII": {
+          "rank_lower": 1,
+          "rank_upper": 6,
+          "n_significantly_higher": 0,
+          "n_significantly_lower": 0
+        }
+      },
       "delta5_hc1": {
         "SAL": {
           "rank_lower": 2,
@@ -30789,6 +30836,44 @@
         }
       },
       "delta5_boot_t": {
+        "SAL": {
+          "rank_lower": 2,
+          "rank_upper": 2,
+          "n_significantly_higher": 1,
+          "n_significantly_lower": 4
+        },
+        "STEC": {
+          "rank_lower": 1,
+          "rank_upper": 1,
+          "n_significantly_higher": 0,
+          "n_significantly_lower": 5
+        },
+        "CAMP": {
+          "rank_lower": 3,
+          "rank_upper": 3,
+          "n_significantly_higher": 2,
+          "n_significantly_lower": 3
+        },
+        "CPERF": {
+          "rank_lower": 4,
+          "rank_upper": 6,
+          "n_significantly_higher": 3,
+          "n_significantly_lower": 0
+        },
+        "NOV_GI": {
+          "rank_lower": 4,
+          "rank_upper": 6,
+          "n_significantly_higher": 3,
+          "n_significantly_lower": 0
+        },
+        "NOV_GII": {
+          "rank_lower": 4,
+          "rank_upper": 6,
+          "n_significantly_higher": 3,
+          "n_significantly_lower": 0
+        }
+      },
+      "delta5_cons": {
         "SAL": {
           "rank_lower": 2,
           "rank_upper": 2,
@@ -31844,6 +31929,12 @@
         "upper_vs_lower_tier_binding_pair": "CAMP|CPERF",
         "joint_upper_tier_min": 11.459435614780599,
         "joint_upper_tier_binding_pair": "SAL|STEC"
+      },
+      "conservative_joint": {
+        "within_upper_tier_min": 4.52785902425806,
+        "within_upper_tier_binding_pair": "SAL|CAMP",
+        "upper_vs_lower_tier_min": 12.336767868314602,
+        "upper_vs_lower_tier_binding_pair": "CAMP|CPERF"
       }
     },
     "coarser_and_weighting_inference": {
@@ -36811,7 +36902,7 @@
     "n_hypotheses": 30,
     "seed": 20261142,
     "nominal_alpha": 0.05,
-    "design": "double bootstrap (400 outer worlds x 499 inner resamples preserving n_js; all 7 procedures re-estimate critical values in every outer world; no state dependence simulated)",
+    "design": "double bootstrap (400 outer worlds x 499 inner resamples preserving n_js; all 8 procedures re-estimate critical values in every outer world, including conservative joint boot-t & CV3; no state dependence simulated)",
     "im95_min_endpoint_cov_hc1": 0.7525,
     "im95_median_endpoint_cov_hc1": 0.8675,
     "im95_mean_endpoint_cov_hc1": 0.84,
@@ -36841,7 +36932,8 @@
       "bootstrap_t": 0.0725,
       "state": 0.1825,
       "cv3_jackknife": 0.04,
-      "wcb": 0.195
+      "wcb": 0.195,
+      "conservative_joint": 0.03
     },
     "fwer_worst_mc_se": {
       "hc0": 0.023599523300270285,
@@ -36850,7 +36942,8 @@
       "bootstrap_t": 0.012965699942540702,
       "state": 0.019312803395675107,
       "cv3_jackknife": 0.009797958971132711,
-      "wcb": 0.01981003533565753
+      "wcb": 0.01981003533565753,
+      "conservative_joint": 0.00852936105461599
     },
     "fwer_delta5": {
       "hc0": 0.1975,
@@ -36859,7 +36952,8 @@
       "bootstrap_t": 0.0775,
       "state": 0.0775,
       "cv3_jackknife": 0.01,
-      "wcb": 0.09
+      "wcb": 0.09,
+      "conservative_joint": 0.01
     },
     "fwer_delta5_mc_se": {
       "hc0": 0.019905636764494625,
@@ -36868,7 +36962,8 @@
       "bootstrap_t": 0.013369157602481915,
       "state": 0.013369157602481915,
       "cv3_jackknife": 0.0049749371855331,
-      "wcb": 0.014309088021254185
+      "wcb": 0.014309088021254185,
+      "conservative_joint": 0.0049749371855331
     },
     "inner_c_bt_worst_summary": {
       "mean": 4.27209115217988,
@@ -36982,48 +37077,56 @@
     "B_inner": 399,
     "n_clusters": 53,
     "seed": 20261226,
-    "design": "Fixed-size cluster random-effects + Beta-Binomial DGP (300 outer worlds x 399 inner draws preserving 53 clusters and observed outbreak sizes C_s)",
-    "median_se_ratio_cv1": 0.8215121307179911,
-    "median_se_ratio_cv3": 1.060643657009361,
+    "design": "Random-size cluster random-effects + Beta-Binomial DGP (300 outer worlds x 399 inner / 199 boot-t draws preserving 53 clusters and Multistate dominance while inducing random w_s)",
+    "median_se_ratio_cv1": 0.7896239446439439,
+    "median_se_ratio_cv3": 1.0386009119669422,
     "fwer_worst": {
-      "cv1_state": 0.41333333333333333,
-      "cv3_jackknife": 0.18666666666666668,
-      "cv3_t_df": 0.15666666666666668,
-      "wcb": 0.42,
-      "cluster_boot_t": 0.37333333333333335
+      "cv1_state": 0.3933333333333333,
+      "cv3_jackknife": 0.17333333333333334,
+      "cv3_t_df": 0.14666666666666667,
+      "wcb": 0.4066666666666667,
+      "cluster_boot_t": 0.33666666666666667,
+      "bootstrap_t": 0.25,
+      "conservative_joint": 0.13
     },
     "fwer_worst_mc_se": {
-      "cv1_state": 0.028430552163056847,
-      "cv3_jackknife": 0.0224960901952778,
-      "cv3_t_df": 0.020985885909520413,
-      "wcb": 0.028495613697550014,
-      "cluster_boot_t": 0.027925827684275574
+      "cv1_state": 0.028202968060248683,
+      "cv3_jackknife": 0.02185473929447866,
+      "cv3_t_df": 0.02042511163213521,
+      "wcb": 0.028360118058574725,
+      "cluster_boot_t": 0.02728383051199753,
+      "bootstrap_t": 0.025,
+      "conservative_joint": 0.0194164878389476
     },
     "fwer_delta5": {
-      "cv1_state": 0.41,
-      "cv3_jackknife": 0.11666666666666667,
-      "cv3_t_df": 0.10666666666666667,
-      "wcb": 0.45,
-      "cluster_boot_t": 0.35
+      "cv1_state": 0.3566666666666667,
+      "cv3_jackknife": 0.11333333333333333,
+      "cv3_t_df": 0.11,
+      "wcb": 0.38,
+      "cluster_boot_t": 0.2866666666666667,
+      "bootstrap_t": 0.24,
+      "conservative_joint": 0.07333333333333333
     },
     "fwer_delta5_mc_se": {
-      "cv1_state": 0.02839600910926276,
-      "cv3_jackknife": 0.01853425257512475,
-      "cv3_t_df": 0.01782216680512304,
-      "wcb": 0.028722813232690145,
-      "cluster_boot_t": 0.02753785273643051
+      "cv1_state": 0.027655955088404592,
+      "cv3_jackknife": 0.018301993415007094,
+      "cv3_t_df": 0.018064698539785637,
+      "wcb": 0.0280237994093116,
+      "cluster_boot_t": 0.02610803764417444,
+      "bootstrap_t": 0.024657656011875907,
+      "conservative_joint": 0.015050532167286263
     },
     "inner_c_cbt_worst_summary": {
-      "mean": 2.8111516663241645,
-      "p5": 2.570377666056546,
-      "p50": 2.782193301498496,
-      "p95": 3.1357800679657153
+      "mean": 2.836147939697275,
+      "p5": 2.5708170091023224,
+      "p50": 2.8191952047534494,
+      "p95": 3.1352140914394493
     },
     "inner_c_cbt_delta5_summary": {
-      "mean": 2.9359713588091836,
-      "p5": 2.6421572525151,
-      "p50": 2.9042997590506987,
-      "p95": 3.3187629541073123
+      "mean": 2.951941457792441,
+      "p5": 2.659963674336703,
+      "p50": 2.9254302086262056,
+      "p95": 3.2954390922052563
     }
   },
   "cluster_double_bootstrap_by_def": {
@@ -37032,48 +37135,56 @@
       "B_inner": 399,
       "n_clusters": 53,
       "seed": 20261226,
-      "design": "Fixed-size cluster random-effects + Beta-Binomial DGP (300 outer worlds x 399 inner draws preserving 53 clusters and observed outbreak sizes C_s)",
-      "median_se_ratio_cv1": 0.8215121307179911,
-      "median_se_ratio_cv3": 1.060643657009361,
+      "design": "Random-size cluster random-effects + Beta-Binomial DGP (300 outer worlds x 399 inner / 199 boot-t draws preserving 53 clusters and Multistate dominance while inducing random w_s)",
+      "median_se_ratio_cv1": 0.7896239446439439,
+      "median_se_ratio_cv3": 1.0386009119669422,
       "fwer_worst": {
-        "cv1_state": 0.41333333333333333,
-        "cv3_jackknife": 0.18666666666666668,
-        "cv3_t_df": 0.15666666666666668,
-        "wcb": 0.42,
-        "cluster_boot_t": 0.37333333333333335
+        "cv1_state": 0.3933333333333333,
+        "cv3_jackknife": 0.17333333333333334,
+        "cv3_t_df": 0.14666666666666667,
+        "wcb": 0.4066666666666667,
+        "cluster_boot_t": 0.33666666666666667,
+        "bootstrap_t": 0.25,
+        "conservative_joint": 0.13
       },
       "fwer_worst_mc_se": {
-        "cv1_state": 0.028430552163056847,
-        "cv3_jackknife": 0.0224960901952778,
-        "cv3_t_df": 0.020985885909520413,
-        "wcb": 0.028495613697550014,
-        "cluster_boot_t": 0.027925827684275574
+        "cv1_state": 0.028202968060248683,
+        "cv3_jackknife": 0.02185473929447866,
+        "cv3_t_df": 0.02042511163213521,
+        "wcb": 0.028360118058574725,
+        "cluster_boot_t": 0.02728383051199753,
+        "bootstrap_t": 0.025,
+        "conservative_joint": 0.0194164878389476
       },
       "fwer_delta5": {
-        "cv1_state": 0.41,
-        "cv3_jackknife": 0.11666666666666667,
-        "cv3_t_df": 0.10666666666666667,
-        "wcb": 0.45,
-        "cluster_boot_t": 0.35
+        "cv1_state": 0.3566666666666667,
+        "cv3_jackknife": 0.11333333333333333,
+        "cv3_t_df": 0.11,
+        "wcb": 0.38,
+        "cluster_boot_t": 0.2866666666666667,
+        "bootstrap_t": 0.24,
+        "conservative_joint": 0.07333333333333333
       },
       "fwer_delta5_mc_se": {
-        "cv1_state": 0.02839600910926276,
-        "cv3_jackknife": 0.01853425257512475,
-        "cv3_t_df": 0.01782216680512304,
-        "wcb": 0.028722813232690145,
-        "cluster_boot_t": 0.02753785273643051
+        "cv1_state": 0.027655955088404592,
+        "cv3_jackknife": 0.018301993415007094,
+        "cv3_t_df": 0.018064698539785637,
+        "wcb": 0.0280237994093116,
+        "cluster_boot_t": 0.02610803764417444,
+        "bootstrap_t": 0.024657656011875907,
+        "conservative_joint": 0.015050532167286263
       },
       "inner_c_cbt_worst_summary": {
-        "mean": 2.8111516663241645,
-        "p5": 2.570377666056546,
-        "p50": 2.782193301498496,
-        "p95": 3.1357800679657153
+        "mean": 2.836147939697275,
+        "p5": 2.5708170091023224,
+        "p50": 2.8191952047534494,
+        "p95": 3.1352140914394493
       },
       "inner_c_cbt_delta5_summary": {
-        "mean": 2.9359713588091836,
-        "p5": 2.6421572525151,
-        "p50": 2.9042997590506987,
-        "p95": 3.3187629541073123
+        "mean": 2.951941457792441,
+        "p5": 2.659963674336703,
+        "p50": 2.9254302086262056,
+        "p95": 3.2954390922052563
       }
     },
     "singleton_271": {
@@ -37081,32 +37192,40 @@
       "B_inner": 399,
       "n_clusters": 271,
       "seed": 20261427,
-      "design": "Fixed-size cluster random-effects + Beta-Binomial DGP (300 outer worlds x 399 inner draws preserving 271 clusters and observed outbreak sizes C_s)",
-      "median_se_ratio_cv1": 0.8240343970177582,
-      "median_se_ratio_cv3": 1.02717004158262,
+      "design": "Random-size cluster random-effects + Beta-Binomial DGP (300 outer worlds x 399 inner / 199 boot-t draws preserving 271 clusters and Multistate dominance while inducing random w_s)",
+      "median_se_ratio_cv1": 0.8451289702950519,
+      "median_se_ratio_cv3": 1.0707125119398246,
       "fwer_worst": {
-        "cv1_state": 0.25333333333333335,
-        "cv3_jackknife": 0.09666666666666666,
-        "cv3_t_df": 0.09333333333333334,
-        "wcb": 0.28
+        "cv1_state": 0.2633333333333333,
+        "cv3_jackknife": 0.11333333333333333,
+        "cv3_t_df": 0.11,
+        "wcb": 0.31,
+        "bootstrap_t": 0.13,
+        "conservative_joint": 0.08
       },
       "fwer_worst_mc_se": {
-        "cv1_state": 0.025110127807689838,
-        "cv3_jackknife": 0.017060893120645064,
-        "cv3_t_df": 0.016795061002392163,
-        "wcb": 0.02592296279363144
+        "cv1_state": 0.025428913260885325,
+        "cv3_jackknife": 0.018301993415007094,
+        "cv3_t_df": 0.018064698539785637,
+        "wcb": 0.026702059845637376,
+        "bootstrap_t": 0.0194164878389476,
+        "conservative_joint": 0.015663120165960973
       },
       "fwer_delta5": {
-        "cv1_state": 0.23666666666666666,
-        "cv3_jackknife": 0.09333333333333334,
-        "cv3_t_df": 0.09333333333333334,
-        "wcb": 0.29
+        "cv1_state": 0.27666666666666667,
+        "cv3_jackknife": 0.07333333333333333,
+        "cv3_t_df": 0.06666666666666667,
+        "wcb": 0.31666666666666665,
+        "bootstrap_t": 0.05333333333333334,
+        "conservative_joint": 0.03
       },
       "fwer_delta5_mc_se": {
-        "cv1_state": 0.024539461794937253,
-        "cv3_jackknife": 0.016795061002392163,
-        "cv3_t_df": 0.016795061002392163,
-        "wcb": 0.026197964297504744
+        "cv1_state": 0.02582777718027771,
+        "cv3_jackknife": 0.015050532167286263,
+        "cv3_t_df": 0.01440164599646191,
+        "wcb": 0.026856959922826266,
+        "bootstrap_t": 0.012972906239401265,
+        "conservative_joint": 0.009848857801796104
       }
     },
     "r11_52": {
@@ -37114,32 +37233,40 @@
       "B_inner": 399,
       "n_clusters": 52,
       "seed": 20261428,
-      "design": "Fixed-size cluster random-effects + Beta-Binomial DGP (300 outer worlds x 399 inner draws preserving 52 clusters and observed outbreak sizes C_s)",
-      "median_se_ratio_cv1": 0.8409791875938613,
-      "median_se_ratio_cv3": 1.0557133760739466,
+      "design": "Random-size cluster random-effects + Beta-Binomial DGP (300 outer worlds x 399 inner / 199 boot-t draws preserving 52 clusters and Multistate dominance while inducing random w_s)",
+      "median_se_ratio_cv1": 0.8589252742765459,
+      "median_se_ratio_cv3": 1.056342587498786,
       "fwer_worst": {
-        "cv1_state": 0.3,
-        "cv3_jackknife": 0.13333333333333333,
-        "cv3_t_df": 0.12666666666666668,
-        "wcb": 0.29
+        "cv1_state": 0.2833333333333333,
+        "cv3_jackknife": 0.11,
+        "cv3_t_df": 0.10666666666666667,
+        "wcb": 0.2833333333333333,
+        "bootstrap_t": 0.15333333333333332,
+        "conservative_joint": 0.08333333333333333
       },
       "fwer_worst_mc_se": {
-        "cv1_state": 0.026457513110645904,
-        "cv3_jackknife": 0.019626135258506327,
-        "cv3_t_df": 0.019202623277582175,
-        "wcb": 0.026197964297504744
+        "cv1_state": 0.02601637660881799,
+        "cv3_jackknife": 0.018064698539785637,
+        "cv3_t_df": 0.01782216680512304,
+        "wcb": 0.02601637660881799,
+        "bootstrap_t": 0.020802421511466898,
+        "conservative_joint": 0.015957118462605634
       },
       "fwer_delta5": {
-        "cv1_state": 0.2633333333333333,
-        "cv3_jackknife": 0.09666666666666666,
-        "cv3_t_df": 0.08666666666666667,
-        "wcb": 0.27666666666666667
+        "cv1_state": 0.30666666666666664,
+        "cv3_jackknife": 0.07666666666666666,
+        "cv3_t_df": 0.06666666666666667,
+        "wcb": 0.3,
+        "bootstrap_t": 0.09333333333333334,
+        "conservative_joint": 0.04666666666666667
       },
       "fwer_delta5_mc_se": {
-        "cv1_state": 0.025428913260885325,
-        "cv3_jackknife": 0.017060893120645064,
-        "cv3_t_df": 0.01624351722539955,
-        "wcb": 0.02582777718027771
+        "cv1_state": 0.02662218512332789,
+        "cv3_jackknife": 0.015361085995559135,
+        "cv3_t_df": 0.01440164599646191,
+        "wcb": 0.026457513110645904,
+        "bootstrap_t": 0.016795061002392163,
+        "conservative_joint": 0.012177696674506895
       }
     }
   },
@@ -37147,25 +37274,33 @@
     "n_mc": 300,
     "B_inner": 399,
     "seed": 20261436,
-    "design": "Overdispersed parametric heavy-tail calibration (300 LogNormal + Beta-Binomial worlds with 399 inner bootstrap-t resamples preserving n_js; no cluster correlation simulated)",
+    "design": "Overdispersed parametric heavy-tail calibration (300 LogNormal + Beta-Binomial worlds with 399 inner bootstrap-t resamples preserving n_js; evaluates HC1, CV3, bootstrap-t, and conservative joint; no cluster correlation simulated)",
     "median_synthetic_vs_observed_hc1_se_ratio": 0.7824682999356787,
     "median_se_hc1_to_mc_sd": 0.895495732107654,
     "max_null_bias_in_sd": 0.12388203929390387,
     "fwer_worst": {
       "hc1": 0.17333333333333334,
-      "bootstrap_t": 0.06333333333333334
+      "cv3_jackknife": 0.10666666666666667,
+      "bootstrap_t": 0.06333333333333334,
+      "conservative_joint": 0.04666666666666667
     },
     "fwer_worst_mc_se": {
       "hc1": 0.02185473929447866,
-      "bootstrap_t": 0.014062031885212775
+      "cv3_jackknife": 0.01782216680512304,
+      "bootstrap_t": 0.014062031885212775,
+      "conservative_joint": 0.012177696674506895
     },
     "fwer_delta5": {
       "hc1": 0.14666666666666667,
-      "bootstrap_t": 0.02666666666666667
+      "cv3_jackknife": 0.07333333333333333,
+      "bootstrap_t": 0.02666666666666667,
+      "conservative_joint": 0.02
     },
     "fwer_delta5_mc_se": {
       "hc1": 0.02042511163213521,
-      "bootstrap_t": 0.009301533127313934
+      "cv3_jackknife": 0.015050532167286263,
+      "bootstrap_t": 0.009301533127313934,
+      "conservative_joint": 0.00808290376865476
     }
   },
   "plausible_scenarios": {
@@ -38195,6 +38330,413 @@
     },
     "stec_o157_case_share": 0.7801166624397666,
     "scallan_walter_2025_stec_weighted_rate": 0.3718513821962972
+  },
+  "supplementary_audits": {
+    "annual_eligible_outbreaks": {
+      "2009": 265,
+      "2010": 359,
+      "2011": 281,
+      "2012": 327,
+      "2013": 339,
+      "2014": 326,
+      "2015": 351,
+      "2016": 323,
+      "2017": 281,
+      "2018": 319,
+      "2019": 274,
+      "2020": 115,
+      "2021": 163,
+      "2022": 199,
+      "2023": 211
+    },
+    "annual_non_restaurant_2015_2023": {
+      "2015": 187,
+      "2016": 167,
+      "2017": 146,
+      "2018": 167,
+      "2019": 134,
+      "2020": 70,
+      "2021": 99,
+      "2022": 111,
+      "2023": 132
+    },
+    "period_specific": {
+      "2009-2013": {
+        "n_cells": 5,
+        "n_outbreaks": 1297,
+        "cases": 29222.0,
+        "wc_sample_det": 2,
+        "d5_sample_det": 12,
+        "delta0_pct": {
+          "SAL": 18.31410528117922,
+          "STEC": 31.728955075778632,
+          "CAMP": 6.685562373832912,
+          "CPERF": 0.7984716725330278,
+          "NOV_GI": 0.6295025823509689,
+          "NOV_GII": 1.301201576095054
+        },
+        "n_sig_worst": {
+          "boot_t": 0,
+          "cv3": 0,
+          "cons": 0
+        },
+        "n_sig_delta5": {
+          "boot_t": 8,
+          "cv3": 9,
+          "cons": 8
+        },
+        "ranks_d5_boot_t": {
+          "SAL": {
+            "rank_lower": 1,
+            "rank_upper": 2,
+            "n_significantly_higher": 0,
+            "n_significantly_lower": 4
+          },
+          "STEC": {
+            "rank_lower": 1,
+            "rank_upper": 2,
+            "n_significantly_higher": 0,
+            "n_significantly_lower": 4
+          },
+          "CAMP": {
+            "rank_lower": 3,
+            "rank_upper": 6,
+            "n_significantly_higher": 2,
+            "n_significantly_lower": 0
+          },
+          "CPERF": {
+            "rank_lower": 3,
+            "rank_upper": 6,
+            "n_significantly_higher": 2,
+            "n_significantly_lower": 0
+          },
+          "NOV_GI": {
+            "rank_lower": 3,
+            "rank_upper": 6,
+            "n_significantly_higher": 2,
+            "n_significantly_lower": 0
+          },
+          "NOV_GII": {
+            "rank_lower": 3,
+            "rank_upper": 6,
+            "n_significantly_higher": 2,
+            "n_significantly_lower": 0
+          }
+        },
+        "ranks_d5_cv3": {
+          "SAL": {
+            "rank_lower": 2,
+            "rank_upper": 2,
+            "n_significantly_higher": 1,
+            "n_significantly_lower": 4
+          },
+          "STEC": {
+            "rank_lower": 1,
+            "rank_upper": 1,
+            "n_significantly_higher": 0,
+            "n_significantly_lower": 5
+          },
+          "CAMP": {
+            "rank_lower": 3,
+            "rank_upper": 6,
+            "n_significantly_higher": 2,
+            "n_significantly_lower": 0
+          },
+          "CPERF": {
+            "rank_lower": 3,
+            "rank_upper": 6,
+            "n_significantly_higher": 2,
+            "n_significantly_lower": 0
+          },
+          "NOV_GI": {
+            "rank_lower": 3,
+            "rank_upper": 6,
+            "n_significantly_higher": 2,
+            "n_significantly_lower": 0
+          },
+          "NOV_GII": {
+            "rank_lower": 3,
+            "rank_upper": 6,
+            "n_significantly_higher": 2,
+            "n_significantly_lower": 0
+          }
+        }
+      },
+      "2014-2018": {
+        "n_cells": 6,
+        "n_outbreaks": 1463,
+        "cases": 36017.0,
+        "wc_sample_det": 6,
+        "d5_sample_det": 14,
+        "delta0_pct": {
+          "SAL": 17.133687717534514,
+          "STEC": 25.012927643987425,
+          "CAMP": 9.469658819236514,
+          "CPERF": 0.5465606956351586,
+          "NOV_GI": 0.5366082464079583,
+          "NOV_GII": 1.8343534311095118
+        },
+        "n_sig_worst": {
+          "boot_t": 0,
+          "cv3": 0,
+          "cons": 0
+        },
+        "n_sig_delta5": {
+          "boot_t": 11,
+          "cv3": 9,
+          "cons": 9
+        },
+        "ranks_d5_boot_t": {
+          "SAL": {
+            "rank_lower": 1,
+            "rank_upper": 2,
+            "n_significantly_higher": 0,
+            "n_significantly_lower": 4
+          },
+          "STEC": {
+            "rank_lower": 1,
+            "rank_upper": 2,
+            "n_significantly_higher": 0,
+            "n_significantly_lower": 4
+          },
+          "CAMP": {
+            "rank_lower": 3,
+            "rank_upper": 3,
+            "n_significantly_higher": 2,
+            "n_significantly_lower": 3
+          },
+          "CPERF": {
+            "rank_lower": 4,
+            "rank_upper": 6,
+            "n_significantly_higher": 3,
+            "n_significantly_lower": 0
+          },
+          "NOV_GI": {
+            "rank_lower": 4,
+            "rank_upper": 6,
+            "n_significantly_higher": 3,
+            "n_significantly_lower": 0
+          },
+          "NOV_GII": {
+            "rank_lower": 4,
+            "rank_upper": 6,
+            "n_significantly_higher": 3,
+            "n_significantly_lower": 0
+          }
+        },
+        "ranks_d5_cv3": {
+          "SAL": {
+            "rank_lower": 1,
+            "rank_upper": 3,
+            "n_significantly_higher": 0,
+            "n_significantly_lower": 3
+          },
+          "STEC": {
+            "rank_lower": 1,
+            "rank_upper": 3,
+            "n_significantly_higher": 0,
+            "n_significantly_lower": 3
+          },
+          "CAMP": {
+            "rank_lower": 1,
+            "rank_upper": 3,
+            "n_significantly_higher": 0,
+            "n_significantly_lower": 3
+          },
+          "CPERF": {
+            "rank_lower": 4,
+            "rank_upper": 6,
+            "n_significantly_higher": 3,
+            "n_significantly_lower": 0
+          },
+          "NOV_GI": {
+            "rank_lower": 4,
+            "rank_upper": 6,
+            "n_significantly_higher": 3,
+            "n_significantly_lower": 0
+          },
+          "NOV_GII": {
+            "rank_lower": 4,
+            "rank_upper": 6,
+            "n_significantly_higher": 3,
+            "n_significantly_lower": 0
+          }
+        }
+      }
+    },
+    "unrecorded_concentration": {
+      "n_eligible": 4133,
+      "total_cases": 103040.0,
+      "total_unrecorded": 20028.0,
+      "n_complete_kc": 3005,
+      "n_complete_partial_k": 868,
+      "n_complete_k0": 103,
+      "k0_share_of_unrecorded_pct": 13.156580786898342,
+      "n_positive_u": 1128,
+      "median_cases_u_pos": 20.0,
+      "median_cases_u_zero": 9.0,
+      "top10_pct_outbreaks_share_of_u_pct": 88.59596564809267,
+      "blank_k_share_of_cases_pct": 2.268051242236025,
+      "blank_h_kpos_share_of_cases_pct": 0.3115295031055901
+    },
+    "noncase_curve": {
+      "0": {
+        "noncase_pct": 0,
+        "wc_det": 4,
+        "d5_det": 12
+      },
+      "10": {
+        "noncase_pct": 10,
+        "wc_det": 4,
+        "d5_det": 12
+      },
+      "25": {
+        "noncase_pct": 25,
+        "wc_det": 6,
+        "d5_det": 13
+      },
+      "40": {
+        "noncase_pct": 40,
+        "wc_det": 8,
+        "d5_det": 14
+      },
+      "50": {
+        "noncase_pct": 50,
+        "wc_det": 9,
+        "d5_det": 14
+      }
+    },
+    "or_floor_sensitivity_sample": {
+      "0.0": {
+        "STEC>SAL": 8.405085293696002,
+        "SAL>CAMP": 17.530925292470172,
+        "CAMP>CPERF": 120.58077443584308,
+        "NOV_GII>NOV_GI": 7.753871023779603
+      },
+      "0.001": {
+        "STEC>SAL": 8.405085293696002,
+        "SAL>CAMP": 17.530925292470172,
+        "CAMP>CPERF": 95.67766784618742,
+        "NOV_GII>NOV_GI": 7.600761772478314
+      },
+      "0.01": {
+        "STEC>SAL": 8.405085293696002,
+        "SAL>CAMP": 17.530925292470172,
+        "CAMP>CPERF": 39.28242429789036,
+        "NOV_GII>NOV_GI": 4.953682605848368
+      }
+    },
+    "high_completeness_threshold_sensitivity": {
+      "u5_c200": {
+        "n_states": 11,
+        "rates_pct": {
+          "SAL": 13.034278459585273,
+          "STEC": 26.23574144486692,
+          "CAMP": 8.762886597938145,
+          "CPERF": 0.0,
+          "NOV_GI": 0.2840909090909091,
+          "NOV_GII": 1.2638717632552405
+        }
+      },
+      "u5_c100": {
+        "n_states": 11,
+        "rates_pct": {
+          "SAL": 13.034278459585273,
+          "STEC": 26.23574144486692,
+          "CAMP": 8.762886597938145,
+          "CPERF": 0.0,
+          "NOV_GI": 0.2840909090909091,
+          "NOV_GII": 1.2638717632552405
+        }
+      },
+      "u10_c200": {
+        "n_states": 21,
+        "rates_pct": {
+          "SAL": 13.995232085261534,
+          "STEC": 23.099415204678362,
+          "CAMP": 8.179012345679013,
+          "CPERF": 0.34919249236141425,
+          "NOV_GI": 0.22851919561243145,
+          "NOV_GII": 1.3369261063322624
+        }
+      }
+    },
+    "table5_std_decomposition": {
+      "STEC": {
+        "net_shift_pp": -2.0365283919178983,
+        "top_negative": [
+          {
+            "cell": "Multiple | 2014-2018",
+            "weight_diff_pp": -11.474754718499499,
+            "cell_rate_pct": 34.575260804769,
+            "contrib_pp": -3.967426370628739
+          },
+          {
+            "cell": "Other | 2014-2018",
+            "weight_diff_pp": -8.281062803126776,
+            "cell_rate_pct": 21.401515151515152,
+            "contrib_pp": -1.7722729105176624
+          },
+          {
+            "cell": "Private home | 2009-2013",
+            "weight_diff_pp": -3.152504428048676,
+            "cell_rate_pct": 40.22505486295933,
+            "contrib_pp": -1.2680966357398022
+          }
+        ],
+        "top_positive": [
+          {
+            "cell": "Restaurant | 2009-2013",
+            "weight_diff_pp": 3.3258231495702812,
+            "cell_rate_pct": 31.73913043478261,
+            "contrib_pp": 1.0555873474723068
+          },
+          {
+            "cell": "Restaurant | 2014-2018",
+            "weight_diff_pp": 9.847572965498665,
+            "cell_rate_pct": 30.514705882352942,
+            "contrib_pp": 3.0049579269720197
+          }
+        ]
+      },
+      "SAL": {
+        "net_shift_pp": -1.2000036486628434,
+        "top_negative": [
+          {
+            "cell": "Unknown | 2009-2013",
+            "weight_diff_pp": -3.908618962955643,
+            "cell_rate_pct": 22.093487814622453,
+            "contrib_pp": -0.8635502543006275
+          },
+          {
+            "cell": "Private home | 2014-2018",
+            "weight_diff_pp": -2.688296959559139,
+            "cell_rate_pct": 27.509978911737992,
+            "contrib_pp": -0.7395499266596127
+          },
+          {
+            "cell": "Private home | 2009-2013",
+            "weight_diff_pp": -2.544779130385871,
+            "cell_rate_pct": 24.423022095509626,
+            "contrib_pp": -0.621511969296059
+          }
+        ],
+        "top_positive": [
+          {
+            "cell": "Restaurant | 2009-2013",
+            "weight_diff_pp": 1.9403586934753025,
+            "cell_rate_pct": 18.04521755479046,
+            "contrib_pp": 0.35014194758090816
+          },
+          {
+            "cell": "Restaurant | 2014-2018",
+            "weight_diff_pp": 4.408543172548382,
+            "cell_rate_pct": 19.69179115565297,
+            "contrib_pp": 0.8681211145450252
+          }
+        ]
+      }
+    }
   },
   "notes": "All numbers are recomputed from the 2026-11-25 snapshot. 'undetermined' means the recorded data do not fix the direction; it does not mean equal. delta is a scenario parameter, not an estimate.",
   "estimates": [],

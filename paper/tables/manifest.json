@@ -52,7 +52,7 @@
    "label": "tab:pairwise_inference",
    "path_tex": "table_3_pairwise_inference.tex",
    "path_csv": "table_3_pairwise_inference.csv",
-   "sha256_csv": "cf24b0617dc1ca003455d707a5be56be8bfedafe73c01c08aaec7de6d49f0391",
+   "sha256_csv": "fcbe87d28d723c5774cac7c6eba76de6e2aa4050e9aec00c354d46e27c12a55f",
    "caption": "Pairwise ordering stability, simultaneous 30-hypothesis FWER p-values (studentized bootstrap-t and CV3 jackknife), additive/OR breakdown thresholds, and implied unrecorded-case hospitalization rates at 95% thresholds.",
    "shape": [
     15,
@@ -74,10 +74,10 @@
    "label": "tab:rank_sets",
    "path_tex": "table_4_rank_sets_summary.tex",
    "path_csv": "table_4_rank_sets_summary.csv",
-   "sha256_csv": "29f8377df31a089d922e840e81bede1e334bc37ee86339efbe25b222607521fe",
-   "caption": "Nominal simultaneous 95% rank confidence sets [1 = highest, 6 = lowest] across weighting specifications, explicit plausibility intervals (P1–P2), additive departures, and odds-ratio (OR) scaling.",
+   "sha256_csv": "25bdbc7f4f81b86b2b30e90f4c8381b884918710ef10127ff94c3f93125ad559",
+   "caption": "Conditioned nominal simultaneous 95% rank confidence sets [1 = highest, 6 = lowest] across weighting specifications, plausibility intervals (P1–P2), additive departures, and odds-ratio (OR) scaling.",
    "shape": [
-    10,
+    11,
     7
    ],
    "columns": [
@@ -285,10 +285,10 @@
    "label": "tab:small_cal",
    "path_tex": "table_s10_calibration.tex",
    "path_csv": "table_s10_calibration.csv",
-   "sha256_csv": "e422bcf093d35db236d9de7868bdacab7f64962338ced4822cc67f53733eaca3",
+   "sha256_csv": "209d11dc36bf35354014328b9852d9f9c61fa9c1e2d7618a0cf869302d4392d9",
    "caption": "Empirical 30-hypothesis FWER (%) under least-favourable boundary nulls (nominal 5.0%) across outbreak, three cluster definitions (53/271/52), and parametric heavy-tail worlds.",
    "shape": [
-    22,
+    31,
     5
    ],
    "columns": [
