@@ -484,7 +484,6 @@ PILOT_TARGETS = OrderedDict(eligible=3799, analysed=3703, excluded=96, common_ce
 TEXT = OrderedDict(
     task="Partial-identification ranking of six foodborne pathogen groups by the standardized hospitalization "
          "proportion among reported outbreak cases (CDC NORS 2009-2023)",
-    task_slug="nors-hosp-ranking-partial-id",
     dataset="CDC National Outbreak Reporting System (NORS) public dataset, data.cdc.gov id 5xkq-dg7x, snapshot "
             "2026-11-25 (portal rows updated 2024-12-20)",
     metrics=["L_worst_case", "U_worst_case", "theta_delta0", "L_delta5", "U_delta5"],

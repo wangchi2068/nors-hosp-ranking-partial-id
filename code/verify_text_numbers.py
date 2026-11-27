@@ -19,6 +19,7 @@ def main() -> None:
     sc = r["small_sample_calibration"]
     cc53 = r["cluster_double_bootstrap"]
     pc = r["parametric_calibration"]
+    spc = r["stepdown_and_power_calibration"]
     sa = r["supplementary_audits"]
     uc = sa["unrecorded_concentration"]
 
@@ -74,6 +75,18 @@ def main() -> None:
             f"{100 * cc53['fwer_worst']['dual_criterion']:.1f}%"
             in corpus.replace("\\%", "%"),
             f"{100 * cc53['fwer_worst']['dual_criterion']:.1f}%",
+        ),
+        (
+            "Outbreak WC empirical power dual 9.2%",
+            f"{100 * spc['outbreak_empirical_power']['wc_stec_nov_gii_power']['dual_criterion']:.1f}%"
+            in corpus.replace("\\%", "%"),
+            f"{100 * spc['outbreak_empirical_power']['wc_stec_nov_gii_power']['dual_criterion']:.1f}%",
+        ),
+        (
+            "Outbreak WC empirical power HC1 75.2%",
+            f"{100 * spc['outbreak_empirical_power']['wc_stec_nov_gii_power']['hc1']:.1f}%"
+            in corpus.replace("\\%", "%"),
+            f"{100 * spc['outbreak_empirical_power']['wc_stec_nov_gii_power']['hc1']:.1f}%",
         ),
         (
             "Zero markdown ** remaining in .tex",
