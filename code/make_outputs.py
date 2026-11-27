@@ -1,4 +1,4 @@
-"""Tables, figures, and statistical summary for the NORS hospitalization-ranking analysis (v8.0).
+"""Tables, figures, and statistical summary for the NORS hospitalization-ranking analysis (v9.0).
 
 Reads ONLY analysis/results.json (plus data/derived/etiology_mapping.csv for Supp. Table S4)
 so every table, figure, and text value shares one canonical source. Writes LF-normalized files.
@@ -313,7 +313,7 @@ def make_tables(r: dict, tdir: Path, write_tex: bool = True) -> None:
     rank_scenarios = [
         ("Worst case: Case-weighted (Joint Boot-t & CV3)", rcs["worst_cons"]),
         ("Worst case: Case-weighted (HC1 / CV1)", rcs["worst_hc1"]),
-        ("Worst case: R10 Equal outbreak wt. (Boot-t / CV3)", cwi["R10_outbreak_weighted"]["ranks"]["worst_boot_t"]),
+        ("Worst case: R10 Equal outbreak wt. (Joint / Boot-t)", cwi["R10_outbreak_weighted"]["ranks"]["worst_boot_t"]),
         ("Worst case: R2 Period-only / R11 Single-state (Joint)", cwi["R2_period_only"]["ranks"]["worst_cv3"]),
         ("Plausibility P1 (Lower <=5%, Upper p_js ±50%) (Joint)", pl["P1_lower5_upper50pct"]["ranks_cv3"]),
         ("Plausibility P2 (Lower <=10%, Upper p_js ±50%) (Joint)", pl["P2_lower10_upper50pct"]["ranks_cv3"]),
@@ -321,7 +321,7 @@ def make_tables(r: dict, tdir: Path, write_tex: bool = True) -> None:
         ("Diagnostic asymmetric (-10/+5 SAL, -7/+5 CAMP) (Joint)", rcs["diag_asym_cv3"]),
         ("OR scale Γ = 2.0 (0.1% floor, Stepdown Boot-t)", oi_bg["2.0"]["ranks"]["boot_t"]),
         ("OR scale Γ = 2.0 (0.1% floor, Joint / Stepdown CV3)", oi_bg["2.0"]["ranks"]["cv3"]),
-        ("OR scale Γ = 3.0 (0.1% floor, Joint / Boot-t)", oi_bg["3.0"]["ranks"]["cv3"]),
+        ("OR scale Γ = 3.0 (0.1% floor, Joint / Stepdown CV3)", oi_bg["3.0"]["ranks"]["cv3"]),
     ]
     rows = []
     for lbl, rmap in rank_scenarios:
@@ -330,7 +330,7 @@ def make_tables(r: dict, tdir: Path, write_tex: bool = True) -> None:
           "Conditioned nominal simultaneous 95% rank confidence sets [1 = highest, 6 = lowest] across weighting specifications, "
           "plausibility intervals (P1–P2), additive departures, and odds-ratio (OR) scaling.",
           "".join([Lc(4.15)] + [R(1.74)] * 6),
-          notes=f"Rank sets are conditioned on each stated missingness assumption and use the conservative joint rule (both Boot-t and CV3 reject; Table S10 empirical FWER 3.0%/1.0% outbreak, 4.7%/2.0% LogNormal, 13.0%/7.3% 53-cluster RE, 8.0%/3.0% 271-cluster). "
+          notes=f"Rank sets are conditioned on each stated missingness assumption and use the conservative joint rule (both Boot-t and CV3 reject; Table S10 empirical FWER 3.0%/1.0% outbreak, 4.7%/2.0% LogNormal, 13.0%/7.3% 53-cluster RE, 8.0%/3.0% 271-cluster, 8.3%/4.7% 52-state R11). "
                 f"R10 targets an equal-outbreak-average estimand (fixing w_s), rejecting {cwi['R10_outbreak_weighted']['n_sig_worst']['boot_t']}/30 (Boot-t p = {cwi['R10_outbreak_weighted']['stec_nov_gii_p_worst']['boot_t']:.3f}) and {cwi['R10_outbreak_weighted']['n_sig_worst']['cv3']}/30 (CV3) at worst case, whereas case-weighted R2 and R11 yield [1, 6] (R2 δ=5: {cwi['R2_period_only']['n_sig_delta5']['cv3']}/30 CV3 vs 12/30 Boot-t). "
                 f"OR Γ = 2.0 rejects {oi_bg['2.0']['n_sig']['boot_t']}/30 under stepdown Boot-t (separating NoV GII [4, 5] > GI [5, 6]; ss Γ* = {oi['NOV_GI|NOV_GII']['gamma_star_95_bt']:.2f}) but {oi_bg['2.0']['n_sig']['cv3']}/30 under CV3 and conservative joint (both [4, 6]; ss CV3 Γ* = {oi['NOV_GI|NOV_GII']['gamma_star_95_cv3']:.2f}).",
           sep="2.0pt")

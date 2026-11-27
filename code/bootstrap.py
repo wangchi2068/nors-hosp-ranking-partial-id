@@ -166,7 +166,7 @@ def run(main_df, t_main, main_res, B: int = 2000, seed: int = 20261125, workers:
     if workers and workers > 1:
         method = "fork" if "fork" in get_all_start_methods() else "spawn"
         ctx = get_context(method)
-        pool = ctx.Pool(min(workers, 2), initializer=_init, initargs=init)
+        pool = ctx.Pool(workers, initializer=_init, initargs=init)
         it = pool.imap(_replicate, range(B), chunksize=50)
     else:
         _init(*init)

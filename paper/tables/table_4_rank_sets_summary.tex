@@ -11,7 +11,7 @@ Scenario / Procedure & STEC & Salmonella & Campylobacter & Norovirus GII & C. pe
 \midrule
 Worst case: Case-weighted (Joint Boot-t \& CV3) & [1, 6] & [1, 6] & [1, 6] & [1, 6] & [1, 6] & [1, 6] \\
 Worst case: Case-weighted (HC1 / CV1) & [1, 5] & [1, 6] & [1, 6] & [2, 6] & [1, 6] & [1, 6] \\
-Worst case: R10 Equal outbreak wt. (Boot-t / CV3) & [1, 2] & [1, 5] & [2, 6] & [3, 6] & [2, 6] & [2, 6] \\
+Worst case: R10 Equal outbreak wt. (Joint / Boot-t) & [1, 2] & [1, 5] & [2, 6] & [3, 6] & [2, 6] & [2, 6] \\
 Worst case: R2 Period-only / R11 Single-state (Joint) & [1, 6] & [1, 6] & [1, 6] & [1, 6] & [1, 6] & [1, 6] \\
 Plausibility P1 (Lower $\leq$5\%, Upper $p_{js}$ $\pm$50\%) (Joint) & [1, 1] & [2, 2] & [3, 3] & [4, 6] & [4, 6] & [4, 6] \\
 Plausibility P2 (Lower $\leq$10\%, Upper $p_{js}$ $\pm$50\%) (Joint) & [1, 1] & [2, 2] & [3, 3] & [4, 6] & [4, 6] & [4, 6] \\
@@ -19,8 +19,8 @@ Additive $\delta$ = 5 pp (Joint Boot-t \& CV3) & [1, 1] & [2, 2] & [3, 3] & [4, 
 Diagnostic asymmetric (-10/+5 SAL, -7/+5 CAMP) (Joint) & [1, 1] & [2, 2] & [3, 3] & [4, 6] & [4, 6] & [4, 6] \\
 OR scale $\Gamma$ = 2.0 (0.1\% floor, Stepdown Boot-t) & [1, 1] & [2, 2] & [3, 3] & [4, 5] & [4, 6] & [5, 6] \\
 OR scale $\Gamma$ = 2.0 (0.1\% floor, Joint / Stepdown CV3) & [1, 1] & [2, 2] & [3, 3] & [4, 6] & [4, 6] & [4, 6] \\
-OR scale $\Gamma$ = 3.0 (0.1\% floor, Joint / Boot-t) & [1, 2] & [1, 3] & [2, 3] & [4, 6] & [4, 6] & [4, 6] \\
+OR scale $\Gamma$ = 3.0 (0.1\% floor, Joint / Stepdown CV3) & [1, 2] & [1, 3] & [2, 3] & [4, 6] & [4, 6] & [4, 6] \\
 \bottomrule
 \end{tabular}
-\par\smallskip\parbox{0.97\linewidth}{\footnotesize Rank sets are conditioned on each stated missingness assumption and use the conservative joint rule (both Boot-t and CV3 reject; Table S10 empirical FWER 3.0\%/1.0\% outbreak, 4.7\%/2.0\% LogNormal, 13.0\%/7.3\% 53-cluster RE, 8.0\%/3.0\% 271-cluster). R10 targets an equal-outbreak-average estimand (fixing $w_s$), rejecting 5/30 (Boot-t p = 0.001) and 6/30 (CV3) at worst case, whereas case-weighted R2 and R11 yield [1, 6] (R2 $\delta$=5: 11/30 CV3 vs 12/30 Boot-t). OR $\Gamma$ = 2.0 rejects 13/30 under stepdown Boot-t (separating NoV GII [4, 5] $>$ GI [5, 6]; ss $\Gamma^{*}$ = 1.94) but 12/30 under CV3 and conservative joint (both [4, 6]; ss CV3 $\Gamma^{*}$ = 1.63).}
+\par\smallskip\parbox{0.97\linewidth}{\footnotesize Rank sets are conditioned on each stated missingness assumption and use the conservative joint rule (both Boot-t and CV3 reject; Table S10 empirical FWER 3.0\%/1.0\% outbreak, 4.7\%/2.0\% LogNormal, 13.0\%/7.3\% 53-cluster RE, 8.0\%/3.0\% 271-cluster, 8.3\%/4.7\% 52-state R11). R10 targets an equal-outbreak-average estimand (fixing $w_s$), rejecting 5/30 (Boot-t p = 0.001) and 6/30 (CV3) at worst case, whereas case-weighted R2 and R11 yield [1, 6] (R2 $\delta$=5: 11/30 CV3 vs 12/30 Boot-t). OR $\Gamma$ = 2.0 rejects 13/30 under stepdown Boot-t (separating NoV GII [4, 5] $>$ GI [5, 6]; ss $\Gamma^{*}$ = 1.94) but 12/30 under CV3 and conservative joint (both [4, 6]; ss CV3 $\Gamma^{*}$ = 1.63).}
 \end{table}

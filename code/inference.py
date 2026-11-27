@@ -1,6 +1,6 @@
-"""Stacked M-estimation, 30-hypothesis one-sided inference, cluster jackknife/bootstrap, and sensitivity suite (v8.0).
+"""Stacked M-estimation, 30-hypothesis one-sided inference, cluster jackknife/bootstrap, and sensitivity suite (v9.0).
 
-Implements the v8.0 methodological suite:
+Implements the v9.0 methodological suite:
 1. Closed-form outbreak-level influence functions for arbitrary symmetric, asymmetric, OR (Gamma >= 1),
    and explicit plausibility-interval (P1/P2) bands, verified against central-difference Jacobians.
 2. Cross-platform deterministic Cholesky Max-T stepdown (30 hypotheses), outbreak-HC1, 53-state CV1,
@@ -601,7 +601,7 @@ def confidence_tipping_point_dynamic(inf: StackedInference, pair_idx: int, cov_k
 
 def rank_confidence_sets(groups: list[str], ordered_pairs: list[tuple[int, int]],
                          p_fwer: np.ndarray | list[float], alpha: float = 0.05) -> OrderedDict:
-    """Simultaneous (1 - alpha) confidence set for each pathogen's rank via joint one-sided tests."""
+    """Conditioned nominal simultaneous (1 - alpha) rank confidence set for each pathogen via joint one-sided tests."""
     G = len(groups)
     out = OrderedDict()
     for j, g in enumerate(groups):
@@ -2309,17 +2309,22 @@ def build_supplementary_audits(main_df: pd.DataFrame, t_main: S.Table,
         grp_r = OrderedDict((g, float(100.0 * sub_h.loc[sub_h["group"] == g, "H_rec"].sum() / sub_h.loc[sub_h["group"] == g, "K_rec"].sum())) for g in t_main.groups)
         hi_sens[lbl] = OrderedDict(n_states=int(len(sts)), rates_pct=grp_r)
 
-    # 7. Exact Table 5 crude vs standardized delta=0 decomposition for STEC and SAL (m8)
+    # 7. Exact centered Kitagawa decomposition of Table 5 standardized delta=0 vs cell-stratified own-case MAR (m8)
     std_decomp = OrderedDict()
     for g in ("STEC", "SAL"):
         gi = t_main.groups.index(g)
         w_own = t_main.C[gi] / t_main.C[gi].sum()
         r_d0 = (t_main.H[gi] + t_main.U[gi] * t_main.p_obs[gi]) / t_main.C[gi]
+        r_own_mean = float(np.sum(w_own * r_d0))
+        r_std = float(np.sum(t_main.w * r_d0))
         dw = t_main.w - w_own
         contribs = sorted([OrderedDict(cell=t_main.cells[s], weight_diff_pp=float(100.0 * dw[s]),
-                                       cell_rate_pct=float(100.0 * r_d0[s]), contrib_pp=float(100.0 * dw[s] * r_d0[s]))
+                                       cell_rate_pct=float(100.0 * r_d0[s]),
+                                       contrib_pp=float(100.0 * dw[s] * (r_d0[s] - r_own_mean)))
                            for s in range(len(t_main.cells))], key=lambda x: x["contrib_pp"])
-        std_decomp[g] = OrderedDict(net_shift_pp=float(100.0 * np.sum(dw * r_d0)), top_negative=contribs[:3], top_positive=contribs[-2:])
+        std_decomp[g] = OrderedDict(own_mar_pct=float(100.0 * r_own_mean), std_delta0_pct=float(100.0 * r_std),
+                                    net_shift_pp=float(100.0 * (r_std - r_own_mean)),
+                                    top_negative=contribs[:4], top_positive=contribs[-2:])
 
     return OrderedDict(
         annual_eligible_outbreaks=ann_all, annual_non_restaurant_2015_2023=ann_nr,

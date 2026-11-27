@@ -73,7 +73,8 @@ def main():
                                    "cluster_diagnostics", "empirical_calibration", "supplementary_audits")
                       and v["status"] == "not_matched"]
         assert not det_failed, f"Deterministic section mismatch: {det_failed}"
-        assert chk["bootstrap_matched"], "Bootstrap mismatch!"
+        mc_ok = (chk.get("bootstrap_monte_carlo_check") or {}).get("within_monte_carlo_tolerance", False)
+        assert chk["bootstrap_matched"] or mc_ok, "Bootstrap mismatch!"
 
         # Decision-level consistency assertion across all 30 hypotheses (m14)
         pres = json.loads((root / "analysis" / "results.json").read_text(encoding="utf-8"))

@@ -38663,76 +38663,92 @@
     },
     "table5_std_decomposition": {
       "STEC": {
-        "net_shift_pp": -2.0365283919178983,
+        "own_mar_pct": 30.578931514723735,
+        "std_delta0_pct": 28.542403122805837,
+        "net_shift_pp": -2.036528391917897,
         "top_negative": [
+          {
+            "cell": "Catering/banquet | 2014-2018",
+            "weight_diff_pp": 6.321145052089036,
+            "cell_rate_pct": 11.11111111111111,
+            "contrib_pp": -1.230589166192539
+          },
+          {
+            "cell": "Institution | 2014-2018",
+            "weight_diff_pp": 5.212289108033249,
+            "cell_rate_pct": 13.461538461538462,
+            "contrib_pp": -0.892208013690416
+          },
           {
             "cell": "Multiple | 2014-2018",
             "weight_diff_pp": -11.474754718499499,
             "cell_rate_pct": 34.575260804769,
-            "contrib_pp": -3.967426370628739
-          },
-          {
-            "cell": "Other | 2014-2018",
-            "weight_diff_pp": -8.281062803126776,
-            "cell_rate_pct": 21.401515151515152,
-            "contrib_pp": -1.7722729105176624
+            "contrib_pp": -0.4585689837762471
           },
           {
             "cell": "Private home | 2009-2013",
             "weight_diff_pp": -3.152504428048676,
             "cell_rate_pct": 40.22505486295933,
-            "contrib_pp": -1.2680966357398022
+            "contrib_pp": -0.3040944656881644
           }
         ],
         "top_positive": [
           {
-            "cell": "Restaurant | 2009-2013",
-            "weight_diff_pp": 3.3258231495702812,
-            "cell_rate_pct": 31.73913043478261,
-            "contrib_pp": 1.0555873474723068
+            "cell": "Institution | 2009-2013",
+            "weight_diff_pp": -0.9107647476793858,
+            "cell_rate_pct": 11.312217194570136,
+            "contrib_pp": 0.17547444206405502
           },
           {
-            "cell": "Restaurant | 2014-2018",
-            "weight_diff_pp": 9.847572965498665,
-            "cell_rate_pct": 30.514705882352942,
-            "contrib_pp": 3.0049579269720197
+            "cell": "Other | 2014-2018",
+            "weight_diff_pp": -8.281062803126776,
+            "cell_rate_pct": 21.401515151515152,
+            "contrib_pp": 0.759987612741736
           }
         ]
       },
       "SAL": {
-        "net_shift_pp": -1.2000036486628434,
+        "own_mar_pct": 18.82104603688957,
+        "std_delta0_pct": 17.621042388226726,
+        "net_shift_pp": -1.2000036486628423,
         "top_negative": [
           {
-            "cell": "Unknown | 2009-2013",
-            "weight_diff_pp": -3.908618962955643,
-            "cell_rate_pct": 22.093487814622453,
-            "contrib_pp": -0.8635502543006275
+            "cell": "Catering/banquet | 2014-2018",
+            "weight_diff_pp": 2.816562543527551,
+            "cell_rate_pct": 7.647996141983062,
+            "contrib_pp": -0.3146959383095811
+          },
+          {
+            "cell": "Institution | 2014-2018",
+            "weight_diff_pp": 2.2842293102874343,
+            "cell_rate_pct": 6.9075451647183845,
+            "contrib_pp": -0.2721316788034833
           },
           {
             "cell": "Private home | 2014-2018",
             "weight_diff_pp": -2.688296959559139,
             "cell_rate_pct": 27.509978911737992,
-            "contrib_pp": -0.7395499266596127
+            "contrib_pp": -0.23358431829268467
           },
           {
             "cell": "Private home | 2009-2013",
             "weight_diff_pp": -2.544779130385871,
             "cell_rate_pct": 24.423022095509626,
-            "contrib_pp": -0.621511969296059
+            "contrib_pp": -0.14255791762897616
           }
         ],
         "top_positive": [
           {
-            "cell": "Restaurant | 2009-2013",
-            "weight_diff_pp": 1.9403586934753025,
-            "cell_rate_pct": 18.04521755479046,
-            "contrib_pp": 0.35014194758090816
+            "cell": "Institution | 2009-2013",
+            "weight_diff_pp": -0.10698471849554941,
+            "cell_rate_pct": 3.9371384362180453,
+            "contrib_pp": 0.01592350664771611
           },
           {
             "cell": "Restaurant | 2014-2018",
             "weight_diff_pp": 4.408543172548382,
             "cell_rate_pct": 19.69179115565297,
-            "contrib_pp": 0.8681211145450252
+            "contrib_pp": 0.03838717448354228
           }
         ]
       }

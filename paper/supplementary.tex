@@ -160,25 +160,25 @@ Participants & 6 / R6.1--6.3 & MS §2.1 (pp.\ 2--3) \& Supp.\ Table S4 (p.\ 4): 
 Data linkage & R7.1 & Not applicable (single public CDC NORS table without linkage). \\
 Variables & 7 & MS §2.1--2.2 (pp.\ 2--4): $C_i, H_i, K_i, M_i, H_{\text{rec},js}, K_{\text{rec},js}$, weights $w_s$, Unknown-setting retention, additive/OR/plausibility ($P_1/P_2$) scales. \\
 Data sources / measurement & 8 & MS §2.1 (p.\ 2) \& Supp.\ Table S1 (p.\ 3): NORS form consistency across 2009--2023; audit categories and logical bounds. \\
-Bias & 9 & MS §2.2, §3.3, §4.2 (pp.\ 3--4, 9--10, 14--15) \& Table S6 (p.\ 6), Table S2 (p.\ 3): shared-cell partial-vs-full CIs, excluded profiles, PulseNet vs.\ complaint detection. \\
+Bias & 9 & MS §2.2, §3.3, §4.2 (pp.\ 3--4, 8--11, 13--14) \& Table S6 (p.\ 6), Table S2 (p.\ 3): shared-cell partial-vs-full CIs, excluded profiles, PulseNet vs.\ complaint detection. \\
 Study size & 10 & MS §3.1 (p.\ 5), Fig.\ 1 (p.\ 6) \& Table S3 (p.\ 4): 66,713 raw $\rightarrow$ 11,358 foodborne $\rightarrow$ 4,133 eligible $\rightarrow$ 3,176 common-support outbreaks. \\
 Quantitative variables & 11 & MS §2.1--2.2 (pp.\ 2--4): 5-year periods, 7 settings, continuous pp, OR $\Gamma$, implied unrecorded rates $q$, and explicit intervals $P_1/P_2$. \\
 Statistical methods & 12a & MS §2.3 (pp.\ 4--5) \& Supp.\ §S2 (pp.\ 1--2), Table S9 (p.\ 8): unified conservative rule (boot-$t$ \& CV3), Cholesky Max-$T$, comparators, rank sets. \\
-Subgroups & 12b & MS §3.3 (pp.\ 9--10) \& Table S7 (p.\ 6): O157 STEC (R12), non-typhoidal \textit{Salmonella} (R12b), single-state (R11), healthcare (R9), norovirus (R7/R7b). \\
-Missing data & 12c & MS §2.1--2.2, §4.2 (pp.\ 2--4, 14--15) \& Table S1 (p.\ 3): logical bound retention of 157 incomplete records; R14a 0\%--50\% non-case curve; Unknown setting (§2.1). \\
+Subgroups & 12b & MS §3.3 (pp.\ 8--11) \& Table S7 (p.\ 6): O157 STEC (R12), non-typhoidal \textit{Salmonella} (R12b), single-state (R11), healthcare (R9), norovirus (R7/R7b). \\
+Missing data & 12c & MS §2.1--2.2, §4.2 (pp.\ 2--4, 13--14) \& Table S1 (p.\ 3): logical bound retention of 157 incomplete records; R14a 0\%--50\% non-case curve; Unknown setting (§2.1). \\
 Sampling / sensitivity & 12d--e & MS §2.3 (pp.\ 4--5), Table S7 (p.\ 6) \& Table S10 (p.\ 9): superpopulation model, 23 variants, period splits, and 5-world FWER calibrations. \\
-Data cleaning & R12.1--12.2 & MS §2.1 (p.\ 2) \& Declarations (p.\ 16): deterministic SHA-256 pipeline (\texttt{prepare\_data.py} $\rightarrow$ \texttt{analyze.py} $\rightarrow$ \texttt{reproduce.py}). \\
+Data cleaning & R12.1--12.2 & MS §2.1 (p.\ 2) \& Declarations (p.\ 15): deterministic SHA-256 pipeline (\texttt{prepare\_data.py} $\rightarrow$ \texttt{analyze.py} $\rightarrow$ \texttt{reproduce.py}). \\
 Participants & 13a--c & MS §3.1 (p.\ 5), Fig.\ 1 (p.\ 6), Tables S1--S3 (pp.\ 3--4): exact counts at every eligibility, audit, exclusion, and support stage. \\
 Descriptive data & 14a--b & MS Table 1 (p.\ 6, STROBE 14a) \& Supp.\ Tables S3, S5, S6 (pp.\ 4--6): per-pathogen distributions and all 72 strata ($n_{js}, N_{\text{eff}}$). \\
-Outcome data & 15 & MS Table 2 (p.\ 8): crude $H/C$ \& $\delta = 0$, worst-case and $\delta = 5\text{ pp}$ intervals, $\delta = 0$ MAR values, bootstrap bound percentiles. \\
-Main results & 16a--c & MS Tables 3--4 (pp.\ 9--10), Figs.\ 2--5 (pp.\ 7, 11): sample/boot-$t$/CV3 breakdown frontiers, implied unrecorded rates, OR $\Gamma^{*}_{0.95}$, rank sets. \\
-Other analyses & 17 & MS §3.2--3.3 (pp.\ 5, 8--10), Supp.\ §S2 (pp.\ 1--2), Tables S5--S10 (pp.\ 5--9), Figs.\ S2--S3 (p.\ 7): 23 variants, period splits, non-case curve, OR floor check. \\
+Outcome data & 15 & MS Table 2 (p.\ 6): crude $H/C$ \& $\delta = 0$, worst-case and $\delta = 5\text{ pp}$ intervals, $\delta = 0$ MAR values, bootstrap bound percentiles. \\
+Main results & 16a--c & MS Tables 3--4 (pp.\ 9--10), Figs.\ 2--5 (pp.\ 7--8, 10--11): sample/boot-$t$/CV3 breakdown frontiers, implied unrecorded rates, OR $\Gamma^{*}_{0.95}$, rank sets. \\
+Other analyses & 17 & MS §3.2--3.3 (pp.\ 7--11), Supp.\ §S2 (pp.\ 1--2), Tables S5--S10 (pp.\ 5--9), Figs.\ S2--S3 (p.\ 7): 23 variants, period splits, non-case curve, OR floor check. \\
 Key results & 18 & MS §4--4.1 (pp.\ 11--13) \& Table 5 (p.\ 13): worst-case weighting dependence, published NORS audit \& recommended surveillance table, upper-vs-lower separation vs.\ fragile within-upper ordering. \\
-Limitations & 19 & MS §4.2 (pp.\ 14--15): reporting heterogeneity, 2023 closeout lag, PulseNet vs.\ complaint ascertainment, genus/serovar mix, post-hoc primary choice, FWER $>5\%$. \\
-Interpretation & 20 & MS §4--4.3 (pp.\ 11--15) \& Table 5 (p.\ 13): cautious methodological conclusions and actionable dual-denominator surveillance reporting recommendation. \\
-Generalizability & 21 & MS §4.2 (pp.\ 14--15): applies strictly to reported foodborne outbreak cases, distinct from sporadic community virulence. \\
-Funding & 22 & MS Declarations (p.\ 16): no specific funding; COI, AI-assistance, and ethics statements included. \\
-Data \& code availability & R22.1 & MS Declarations (p.\ 16): raw CDC NORS extract, SHA-256 manifest, LF JSON/CSV tables, and cross-platform replication scripts archived. \\
+Limitations & 19 & MS §4.2 (pp.\ 13--14): reporting heterogeneity, 2023 closeout lag, PulseNet vs.\ complaint ascertainment, genus/serovar mix, post-hoc primary choice, FWER $>5\%$. \\
+Interpretation & 20 & MS §4--4.3 (pp.\ 11--14) \& Table 5 (p.\ 13): cautious methodological conclusions and actionable dual-denominator surveillance reporting recommendation. \\
+Generalizability & 21 & MS §4.2 (pp.\ 13--14): applies strictly to reported foodborne outbreak cases, distinct from sporadic community virulence. \\
+Funding & 22 & MS Declarations (p.\ 15): no specific funding; COI, AI-assistance, and ethics statements included. \\
+Data \& code availability & R22.1 & MS Declarations (p.\ 15): raw CDC NORS extract, SHA-256 manifest, LF JSON/CSV tables, and cross-platform replication scripts archived. \\
 \bottomrule
 \end{tabular}
 \end{table}

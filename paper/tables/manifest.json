@@ -74,7 +74,7 @@
    "label": "tab:rank_sets",
    "path_tex": "table_4_rank_sets_summary.tex",
    "path_csv": "table_4_rank_sets_summary.csv",
-   "sha256_csv": "25bdbc7f4f81b86b2b30e90f4c8381b884918710ef10127ff94c3f93125ad559",
+   "sha256_csv": "adb5d6cab9614fea5680881c57244d3f192f12bb6f19266eb7291ab46959f434",
    "caption": "Conditioned nominal simultaneous 95% rank confidence sets [1 = highest, 6 = lowest] across weighting specifications, plausibility intervals (P1–P2), additive departures, and odds-ratio (OR) scaling.",
    "shape": [
     11,

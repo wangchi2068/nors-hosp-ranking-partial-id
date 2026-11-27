@@ -23,6 +23,6 @@ Full end-to-end execution takes approximately **12–16 minutes** on CPU (2 work
 
 - `code/`: `nors_rules.py`, `prepare_data.py`, `strata.py`, `bounds.py`, `bootstrap.py`, `inference.py`, `analyze.py`, `make_outputs.py`, `compare_results.py`, `check_tables.py`
 - `data/raw/` & `data/derived/`: Pinned CDC NORS snapshot, audited cohorts, `etiology_mapping.csv`, `data_manifest.json`
-- `analysis/`: Canonical `results.json` (`analysis_version: 8.0`), `statistical_summary.json`, and 14 CSV tables (`analysis/tables/`)
+- `analysis/`: Canonical `results.json` (`analysis_version: 9.0`), `statistical_summary.json`, and 14 CSV tables (`analysis/tables/`)
 - `paper/`: Standalone `main.tex` (`paper.pdf`) & `supplementary.tex` (`supplementary.pdf`), sections, tables, figures, and `bibliography.bib`
 - `reproduce.py`: One-command end-to-end verification runner
